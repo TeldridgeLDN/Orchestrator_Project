@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-11-12T18:00:00.000Z",
+  "epics": [
+    {
+      "id": "orchestrator-core",
+      "name": "Orchestrator Core",
+      "description": "Core orchestration system implementation",
+      "color": "#3498db",
+      "taskRange": [21, 44],
+      "tags": ["core", "orchestration"],
+      "priority": "high"
+    },
+    {
+      "id": "scenario-workflow",
+      "name": "Scenario & Workflow",
+      "description": "Scenario and workflow management system",
+      "color": "#2ecc71",
+      "taskRange": [45, 81],
+      "tags": ["scenarios", "workflow"],
+      "priority": "high"
+    },
+    {
+      "id": "orchestrator-improvements",
+      "name": "Orchestrator Improvements",
+      "description": "Enhancements and optimizations for the orchestrator",
+      "color": "#e67e22",
+      "taskRange": [82, 90],
+      "tags": ["improvements", "optimization"],
+      "priority": "medium"
+    },
+    {
+      "id": "dashboard-ui",
+      "name": "Dashboard & UI",
+      "description": "User interface and dashboard components",
+      "color": "#9b59b6",
+      "taskRange": [91, 110],
+      "tags": ["ui", "dashboard"],
+      "priority": "medium"
+    },
+    {
+      "id": "documentation",
+      "name": "Documentation",
+      "description": "Documentation, guides, and examples",
+      "color": "#95a5a6",
+      "taskRange": [],
+      "taskIds": [],
+      "tags": ["documentation", "guides"],
+      "priority": "low"
+    },
+    {
+      "id": "testing-validation",
+      "name": "Testing & Validation",
+      "description": "Test suites, validation, and quality assurance",
+      "color": "#e74c3c",
+      "taskRange": [],
+      "taskIds": [],
+      "tags": ["testing", "validation", "qa"],
+      "priority": "high"
+    }
+  ]
+}
+

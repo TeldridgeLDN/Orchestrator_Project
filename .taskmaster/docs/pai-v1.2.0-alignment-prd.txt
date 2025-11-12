@@ -1,0 +1,399 @@
+# PAI v1.2.0 Alignment & Critical Improvements PRD
+
+## Project: Orchestrator PAI v1.2.0 Compliance & User Experience Enhancement
+**Version:** 1.0
+**Priority:** High
+**Estimated Timeline:** 2-3 days
+
+---
+
+## Executive Summary
+
+Align the Project Orchestrator implementation with PAI v1.2.0 architecture (Skills-as-Containers migration) and implement critical PRD requirements that were missed in the initial implementation.
+
+**Key Objectives:**
+1. Migrate commands to skill workflows (PAI v1.2.0 compliance)
+2. Implement inline validation during project creation (PRD requirement)
+3. Enhance documentation with context awareness
+4. Add health-check capabilities
+5. Document CLI naming conflict resolution
+
+---
+
+## Phase 1: Critical PAI v1.2.0 Alignment
+
+### Task 1: Migrate Commands to Skill Workflows
+**Priority:** CRITICAL
+**Effort:** 2-3 hours
+**Reference:** PAI v1.2.0 Skills-as-Containers migration
+
+**Requirements:**
+- Move all commands from `~/.claude/commands/` to `~/.claude/skills/<skill>/workflows/`
+- Group related commands under appropriate skills
+- Update project_orchestrator skill structure
+- Create deprecation notice in commands directory
+- Update CLAUDE.md to reference new workflow locations
+
+**Current Structure:**
+```
+~/.claude/
+├── commands/
+│   ├── build-and-fix.md
+│   ├── check.md
+│   ├── code-review.md
+│   └── [6 more commands]
+└── skills/
+    └── project_orchestrator/
+```
+
+**Target Structure:**
+```
+~/.claude/
+├── commands/
+│   └── README.md (deprecation notice)
+└── skills/
+    ├── project_orchestrator/
+    │   └── workflows/
+    │       ├── create.md
+    │       ├── switch.md
+    │       ├── list.md
+    │       └── validate.md
+    └── development/
+        └── workflows/
+            ├── build-and-fix.md
+            ├── code-review.md
+            └── check.md
+```
+
+**Testing:**
+- Verify all commands accessible via natural language
+- Test slash command invocation still works
+- Validate no broken references in documentation
+
+---
+
+### Task 2: Implement Inline Validation in Project Creation
+**Priority:** CRITICAL (PRD Requirement)
+**Effort:** 3-4 hours
+**Reference:** PRD Section 5.1, Lines 679-691
+
+**Requirements:**
+- Add validation BEFORE project directory creation
+- Implement auto-validation after template copy
+- Add auto-fix for common issues (like skill-rules.json format)
+- Provide clear feedback during creation process
+- Handle validation failures gracefully
+
+**Implementation Location:** `~/.claude/lib/commands/create.js`
+
+**Validation Steps:**
+1. Pre-creation validation:
+   - Project name format (alphanumeric, hyphens, underscores)
+   - Check for duplicates in registry
+   - Validate template exists
+   - Check target path permissions
+
+2. Post-creation validation:
+   - Directory structure complete
+   - All required files present
+   - JSON files valid (metadata.json, skill-rules.json)
+   - skill-rules.json uses correct field names
+
+3. Auto-fix capabilities:
+   - Convert "triggers" to "trigger_phrases" in skill-rules.json
+   - Add missing metadata.json files for skills
+   - Create placeholder files for missing directories
+
+**Success Criteria:**
+- New projects pass validation automatically
+- Clear error messages for failures
+- Auto-fix resolves 90% of common issues
+- Creation time remains <2 seconds
+
+---
+
+## Phase 2: Documentation Enhancement
+
+### Task 3: Add Context Awareness Documentation
+**Priority:** HIGH
+**Effort:** 1-2 hours
+**Reference:** PRD Section 3.2
+
+**Requirements:**
+- Add "Understanding Context Layers" section to README.md
+- Update GETTING_STARTED.md with context explanation
+- Create visual diagram showing layer separation
+- Add troubleshooting section for context confusion
+- Include examples of when each layer applies
+
+**Documentation Sections to Add:**
+
+1. **README.md Enhancement:**
+   - Add context layers diagram after "How It Works"
+   - Explain Global vs Project layer clearly
+   - Show token cost breakdown
+   - Provide context verification commands
+
+2. **GETTING_STARTED.md Enhancement:**
+   - Add "Understanding Your Environment" section
+   - Include context awareness verification steps
+   - Add troubleshooting for context mismatches
+   - Provide examples of common scenarios
+
+3. **Visual Diagram:**
+   ```
+   ┌─────────────────────────────┐
+   │   Global Layer (~/.claude/) │  ~500 tokens
+   │   • Project orchestration   │
+   │   • CLI operations          │
+   └──────────┬──────────────────┘
+              │
+              ▼
+   ┌─────────────────────────────┐
+   │ Project Layer (<proj>/.c...) │  ~1300+ tokens
+   │ • Project-specific behavior │
+   │ • Current directory ops     │
+   └─────────────────────────────┘
+   ```
+
+**Success Criteria:**
+- New users understand context layers within 5 minutes
+- Troubleshooting reduces context confusion issues by 80%
+- Documentation clarity score >90%
+
+---
+
+### Task 4: Document CLI Naming Conflict Resolution
+**Priority:** MEDIUM
+**Effort:** 30 minutes
+**Reference:** Real-world implementation issue
+
+**Requirements:**
+- Add "CLI Name Conflict" section to TROUBLESHOOTING.md
+- Explain Anthropic CLI vs Orchestrator CLI
+- Provide workaround solutions
+- Add alias recommendations
+- Document full path usage
+
+**Content to Add:**
+
+```markdown
+## CLI Name Conflict with Anthropic's Claude CLI
+
+### The Issue
+Both the Project Orchestrator and Anthropic's official Claude CLI use the command name `claude`.
+
+### Detection
+```bash
+which claude
+# If returns /usr/local/bin/claude → Anthropic's CLI
+# If returns ~/.claude/bin/claude → Orchestrator CLI
+```
+
+### Solutions
+
+**Option 1: Use Full Paths**
+```bash
+~/.claude/bin/claude project list      # Orchestrator
+/usr/local/bin/claude api call         # Anthropic
+```
+
+**Option 2: Create Aliases**
+```bash
+alias po='~/.claude/bin/claude project'
+alias claude-ai='claude'  # Anthropic's CLI
+```
+
+**Option 3: Adjust PATH Priority**
+```bash
+export PATH="$HOME/.claude/bin:$PATH"  # Orchestrator first
+```
+```
+
+**Success Criteria:**
+- Clear explanation of conflict
+- Multiple resolution options
+- Easy copy-paste solutions
+
+---
+
+## Phase 3: Enhanced Capabilities
+
+### Task 5: Extend Validate with Health-Check Mode
+**Priority:** MEDIUM
+**Effort:** 2-3 hours
+**Reference:** PRD Section 5.3 (extending existing validate)
+
+**Requirements:**
+- Add `--health` flag to validate command
+- Check global config integrity
+- Verify context directory structure
+- Report cache status
+- Check for stale cache entries
+- Validate all registered projects
+- Provide actionable recommendations
+
+**Implementation Location:** `~/.claude/lib/commands/validate.js`
+
+**Health Check Components:**
+
+1. **Global Layer Health:**
+   - config.json structure valid
+   - context/ directories present
+   - cache/ directory accessible
+   - templates/ directory complete
+
+2. **Active Project Health:**
+   - Project path exists
+   - .claude/ structure valid
+   - metadata.json correct
+   - skill-rules.json valid
+
+3. **Cache Health:**
+   - Number of cached projects
+   - Stale cache entries (>30 days)
+   - Cache size
+   - Recommend cleanup if needed
+
+4. **Registry Health:**
+   - All registered projects exist
+   - No orphaned entries
+   - Consistent metadata
+   - Proper timestamps
+
+**Output Format:**
+```
+Global Configuration Health Check
+==================================
+
+✓ Global config (~/.claude/config.json)
+✓ Context directory (~/.claude/context/)
+✓ Cache directory (3 projects, 45.2 MB)
+⚠ Warning: 2 stale cache entries (>30 days)
+
+Active Project: portfolio-redesign
+==================================
+
+✓ Project path exists
+✓ .claude/ structure valid
+✓ metadata.json correct
+✓ skill-rules.json valid (7 rules)
+✓ Skills: 2 found
+
+Registry Health
+==================================
+
+✓ 4 projects registered
+✓ All paths exist
+⚠ Warning: 1 project not accessed in 45 days (test-syntax-check)
+
+Recommendations:
+- Run 'claude project cache --clean' to remove stale entries
+- Consider removing unused project: test-syntax-check
+```
+
+**Success Criteria:**
+- Health check completes in <2 seconds
+- Identifies 95% of common issues
+- Provides actionable recommendations
+- Clear visual feedback (✓, ⚠, ✗)
+
+---
+
+## Success Metrics
+
+**Overall Goals:**
+- 100% PAI v1.2.0 compliance
+- 100% PRD requirement coverage
+- <5% increase in token usage
+- Zero breaking changes to existing functionality
+- User satisfaction score >85%
+
+**Specific Metrics:**
+- Command migration: 100% commands moved to workflows
+- Validation: 90% of common issues auto-fixed
+- Documentation: Context confusion reduced by 80%
+- Health checks: 95% issue detection accuracy
+
+---
+
+## Testing Requirements
+
+### Unit Tests
+- Command location resolution (old vs new paths)
+- Validation auto-fix functionality
+- Health check component accuracy
+
+### Integration Tests
+- End-to-end project creation with validation
+- Command invocation from new workflow locations
+- Health check with various failure scenarios
+
+### User Acceptance Tests
+- New user can understand context layers in <5 minutes
+- CLI conflict resolution works for 100% of cases
+- Health check provides useful recommendations
+
+---
+
+## Rollout Plan
+
+**Phase 1: Implementation (Days 1-2)**
+1. Migrate commands to workflows
+2. Implement inline validation
+3. Test thoroughly
+
+**Phase 2: Documentation (Day 2)**
+4. Add context awareness docs
+5. Document CLI conflict resolution
+
+**Phase 3: Enhancement (Day 3)**
+6. Implement health-check mode
+7. Final testing and validation
+
+**Phase 4: Release (Day 3)**
+8. Update changelog
+9. Tag release v1.3.0
+10. Update documentation
+
+---
+
+## Risk Mitigation
+
+**Risk: Breaking existing command references**
+- Mitigation: Keep backward compatibility, add deprecation warnings
+
+**Risk: Validation slows down project creation**
+- Mitigation: Target <2s total time, optimize validation checks
+
+**Risk: Documentation becomes too technical**
+- Mitigation: User test with 3-5 new users, iterate based on feedback
+
+---
+
+## Dependencies
+
+- PAI v1.2.0 reference: https://github.com/danielmiessler/Personal_AI_Infrastructure
+- Orchestrator PRD v1.0
+- Current implementation (v1.0.0)
+- Task Master AI for project tracking
+
+---
+
+## Deliverables
+
+1. ✅ Commands migrated to skill workflows
+2. ✅ Inline validation implemented
+3. ✅ Context awareness documentation added
+4. ✅ CLI conflict documented
+5. ✅ Health-check mode implemented
+6. ✅ All tests passing
+7. ✅ Changelog updated
+8. ✅ Release tagged
+
+---
+
+**Document Version:** 1.0
+**Created:** 2025-11-09
+**Status:** Ready for Implementation
+

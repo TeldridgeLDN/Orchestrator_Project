@@ -1,0 +1,156 @@
+{
+  "$schema": "https://claude.ai/schemas/file-manifest-v1.json",
+  "version": "1.0",
+  "project": "Orchestrator_Project",
+  "initialized": "2025-11-10T10:17:46.089Z",
+  "last_updated": "2025-11-10T10:17:46.098Z",
+  "statistics": {
+    "total_files": 13,
+    "by_tier": {
+      "CRITICAL": 7,
+      "PERMANENT": 5,
+      "EPHEMERAL": 1,
+      "ARCHIVED": 0
+    },
+    "pending_archive": 0,
+    "misplaced": 0
+  },
+  "files": {
+    ".context-state.json": {
+      "tier": "EPHEMERAL",
+      "status": "active",
+      "created": "2025-11-09T20:58:34.571Z",
+      "modified": "2025-11-09T21:04:08.015Z",
+      "added_to_manifest": "2025-11-10T10:17:46.092Z",
+      "protected": false,
+      "size_bytes": 116,
+      "notes": "Auto-classified on initialization"
+    },
+    ".env": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-05T18:44:53.512Z",
+      "modified": "2025-11-05T18:56:49.954Z",
+      "added_to_manifest": "2025-11-10T10:17:46.092Z",
+      "protected": true,
+      "size_bytes": 306,
+      "notes": "Auto-classified on initialization"
+    },
+    ".mcp.json": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-07T21:19:11.877Z",
+      "modified": "2025-11-07T21:19:11.877Z",
+      "added_to_manifest": "2025-11-10T10:17:46.094Z",
+      "protected": true,
+      "size_bytes": 377,
+      "notes": "Auto-classified on initialization"
+    },
+    ".taskmaster/config.json": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-05T18:41:55.173Z",
+      "modified": "2025-11-07T16:49:50.724Z",
+      "added_to_manifest": "2025-11-10T10:17:46.094Z",
+      "protected": true,
+      "size_bytes": 1084,
+      "notes": "Auto-classified on initialization"
+    },
+    ".taskmaster/state.json": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-05T18:41:55.172Z",
+      "modified": "2025-11-10T10:02:57.511Z",
+      "added_to_manifest": "2025-11-10T10:17:46.095Z",
+      "protected": true,
+      "size_bytes": 132,
+      "notes": "Auto-classified on initialization"
+    },
+    "AGENT.md": {
+      "tier": "PERMANENT",
+      "status": "active",
+      "created": "2025-11-05T18:41:55.217Z",
+      "modified": "2025-11-05T18:41:55.217Z",
+      "added_to_manifest": "2025-11-10T10:17:46.095Z",
+      "protected": false,
+      "size_bytes": 195,
+      "notes": "Auto-classified on initialization"
+    },
+    "CLAUDE.md": {
+      "tier": "PERMANENT",
+      "status": "active",
+      "created": "2025-11-05T18:41:55.219Z",
+      "modified": "2025-11-05T18:41:55.219Z",
+      "added_to_manifest": "2025-11-10T10:17:46.095Z",
+      "protected": false,
+      "size_bytes": 205,
+      "notes": "Auto-classified on initialization"
+    },
+    "SESSION_SUMMARY_2025-11-10.md": {
+      "tier": "PERMANENT",
+      "status": "active",
+      "created": "2025-11-10T10:08:43.369Z",
+      "modified": "2025-11-10T10:16:47.080Z",
+      "added_to_manifest": "2025-11-10T10:17:46.096Z",
+      "protected": false,
+      "size_bytes": 18338,
+      "notes": "Auto-classified on initialization"
+    },
+    "TASK_19_COMPLETION_SUMMARY.md": {
+      "tier": "PERMANENT",
+      "status": "active",
+      "created": "2025-11-10T09:25:36.438Z",
+      "modified": "2025-11-10T10:16:47.092Z",
+      "added_to_manifest": "2025-11-10T10:17:46.096Z",
+      "protected": false,
+      "size_bytes": 12453,
+      "notes": "Auto-classified on initialization"
+    },
+    "TASK_24_COMPLETION_SUMMARY.md": {
+      "tier": "PERMANENT",
+      "status": "active",
+      "created": "2025-11-10T09:50:40.087Z",
+      "modified": "2025-11-10T10:16:47.040Z",
+      "added_to_manifest": "2025-11-10T10:17:46.096Z",
+      "protected": false,
+      "size_bytes": 14994,
+      "notes": "Auto-classified on initialization"
+    },
+    "lib/schemas/scenario-schema.json": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-10T09:37:46.860Z",
+      "modified": "2025-11-10T10:16:47.041Z",
+      "added_to_manifest": "2025-11-10T10:17:46.097Z",
+      "protected": true,
+      "size_bytes": 25851,
+      "notes": "Auto-classified on initialization"
+    },
+    "package.json": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-10T07:11:20.865Z",
+      "modified": "2025-11-10T10:17:40.710Z",
+      "added_to_manifest": "2025-11-10T10:17:46.097Z",
+      "protected": true,
+      "size_bytes": 789,
+      "notes": "Auto-classified on initialization"
+    },
+    "requirements-scenario.txt": {
+      "tier": "CRITICAL",
+      "status": "active",
+      "created": "2025-11-10T10:01:58.969Z",
+      "modified": "2025-11-10T10:16:47.073Z",
+      "added_to_manifest": "2025-11-10T10:17:46.097Z",
+      "protected": true,
+      "size_bytes": 418,
+      "notes": "Auto-classified on initialization"
+    }
+  },
+  "settings": {
+    "ephemeral_expiration_days": 60,
+    "archive_retention_days": 90,
+    "auto_organize": false,
+    "confidence_threshold": 0.8
+  }
+}

@@ -1,0 +1,961 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://claude.ai/schemas/scenario-v1.json",
+  "title": "Claude Scenario Definition Schema",
+  "description": "JSON Schema for validating Claude scenario YAML files",
+  "type": "object",
+  "required": [
+    "name",
+    "domain",
+    "complexity",
+    "version",
+    "status",
+    "executive_summary",
+    "scenario_overview",
+    "workflow_composition",
+    "scenario_flow"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Scenario name",
+      "minLength": 3,
+      "maxLength": 100
+    },
+    "domain": {
+      "type": "string",
+      "description": "Business domain",
+      "enum": [
+        "E-commerce",
+        "SaaS",
+        "Agency",
+        "Consulting",
+        "Internal Tools",
+        "Other"
+      ]
+    },
+    "complexity": {
+      "type": "string",
+      "description": "Complexity level",
+      "enum": ["Beginner", "Intermediate", "Advanced", "Expert"]
+    },
+    "business_model": {
+      "type": "string",
+      "description": "Description of business context",
+      "minLength": 10
+    },
+    "version": {
+      "type": "string",
+      "description": "Scenario version (semver)",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+    },
+    "date": {
+      "type": "string",
+      "description": "Last update date",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "description": "Development status",
+      "enum": ["Template", "Draft", "Production Ready", "Deprecated"]
+    },
+    "executive_summary": {
+      "type": "object",
+      "required": ["business_context", "key_stakeholders", "success_metrics"],
+      "properties": {
+        "business_context": {
+          "type": "string",
+          "description": "High-level business problem description",
+          "minLength": 50
+        },
+        "key_stakeholders": {
+          "type": "array",
+          "description": "List of stakeholder roles",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["role", "responsibilities", "interaction_points"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 2
+              },
+              "responsibilities": {
+                "type": "string",
+                "minLength": 5
+              },
+              "interaction_points": {
+                "type": "string",
+                "minLength": 5
+              }
+            }
+          }
+        },
+        "success_metrics": {
+          "type": "array",
+          "description": "Measurable success criteria",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["metric", "target", "measurement_method"],
+            "properties": {
+              "metric": {
+                "type": "string",
+                "minLength": 3
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "measurement_method": {
+                "type": "string",
+                "minLength": 5
+              }
+            }
+          }
+        },
+        "roi_analysis": {
+          "type": "object",
+          "properties": {
+            "time_savings": {
+              "type": "object",
+              "properties": {
+                "manual_hours": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "automated_hours": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "savings_percent": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            },
+            "quality_improvements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "cost_reduction": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "area": {
+                    "type": "string"
+                  },
+                  "reduction": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "scenario_overview": {
+      "type": "object",
+      "required": ["problem", "solution", "expected_outcomes"],
+      "properties": {
+        "problem": {
+          "type": "object",
+          "required": ["current_state", "pain_points", "impact"],
+          "properties": {
+            "current_state": {
+              "type": "string",
+              "description": "Description of current manual/inefficient process",
+              "minLength": 20
+            },
+            "pain_points": {
+              "type": "array",
+              "description": "List of pain points",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 5
+              }
+            },
+            "impact": {
+              "type": "object",
+              "properties": {
+                "business": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                },
+                "team": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "solution": {
+          "type": "object",
+          "required": ["target_state", "key_improvements"],
+          "properties": {
+            "target_state": {
+              "type": "string",
+              "description": "How scenario solves the problem",
+              "minLength": 20
+            },
+            "key_improvements": {
+              "type": "array",
+              "description": "Specific improvements",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["area", "improvement"],
+                "properties": {
+                  "area": {
+                    "type": "string"
+                  },
+                  "improvement": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "expected_outcomes": {
+          "type": "object",
+          "properties": {
+            "business": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "technical": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "workflow_composition": {
+      "type": "object",
+      "required": ["workflows", "dependencies"],
+      "properties": {
+        "workflows": {
+          "type": "array",
+          "description": "List of workflows used in scenario",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "purpose", "phase", "critical"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 3
+              },
+              "purpose": {
+                "type": "string",
+                "description": "Why this workflow is used",
+                "minLength": 10
+              },
+              "phase": {
+                "type": "string",
+                "description": "When workflow is used (e.g., 'Phase 1', 'Phase 2-3')"
+              },
+              "critical": {
+                "type": "boolean",
+                "description": "Whether workflow is on critical path"
+              },
+              "reference": {
+                "type": "string",
+                "description": "Path to workflow documentation"
+              }
+            }
+          }
+        },
+        "dependencies": {
+          "type": "string",
+          "description": "ASCII diagram or description of workflow dependencies"
+        }
+      }
+    },
+    "scenario_flow": {
+      "type": "object",
+      "required": ["phases"],
+      "properties": {
+        "phases": {
+          "type": "array",
+          "description": "Sequential or branching phases",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "trigger",
+              "duration",
+              "workflows_used",
+              "success_criteria"
+            ],
+            "properties": {
+              "id": {
+                "type": ["string", "number"],
+                "description": "Phase identifier (e.g., '1', '2A', '2B')"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 3
+              },
+              "trigger": {
+                "type": "string",
+                "description": "What starts this phase",
+                "minLength": 5
+              },
+              "duration": {
+                "type": "string",
+                "description": "Expected time to complete"
+              },
+              "workflows_used": {
+                "type": "array",
+                "description": "Workflows executed in this phase",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "inputs": {
+                "type": "array",
+                "description": "Phase inputs",
+                "items": {
+                  "type": "object",
+                  "required": ["name", "source", "format", "required"],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "format": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "outputs": {
+                "type": "array",
+                "description": "Phase outputs",
+                "items": {
+                  "type": "object",
+                  "required": ["name", "destination", "format"],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "destination": {
+                      "type": "string"
+                    },
+                    "format": {
+                      "type": "string"
+                    },
+                    "used_in": {
+                      "type": "string",
+                      "description": "Which phase uses this output"
+                    }
+                  }
+                }
+              },
+              "decision_points": {
+                "type": "array",
+                "description": "Branching logic in this phase",
+                "items": {
+                  "type": "object",
+                  "required": ["condition", "action"],
+                  "properties": {
+                    "condition": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "reasoning": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "success_criteria": {
+                "type": "array",
+                "description": "Criteria to mark phase complete",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 5
+                }
+              },
+              "error_handling": {
+                "type": "array",
+                "description": "Error recovery strategies",
+                "items": {
+                  "type": "object",
+                  "required": ["error", "recovery_action"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "recovery_action": {
+                      "type": "string"
+                    },
+                    "fallback": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "decision_tree": {
+          "type": "object",
+          "properties": {
+            "visual": {
+              "type": "string",
+              "description": "ASCII or markdown diagram"
+            },
+            "logic": {
+              "type": "array",
+              "description": "Decision point logic",
+              "items": {
+                "type": "object",
+                "required": ["name", "rules"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["condition", "action", "reasoning"],
+                      "properties": {
+                        "condition": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "type": "string"
+                        },
+                        "reasoning": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "example_execution": {
+      "type": "object",
+      "description": "Complete walkthrough example",
+      "properties": {
+        "profile": {
+          "type": "object",
+          "description": "Example business/client profile",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "industry": {
+              "type": "string"
+            },
+            "size": {
+              "type": "string"
+            },
+            "tier": {
+              "type": "string"
+            },
+            "requirements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "steps": {
+          "type": "array",
+          "description": "Step-by-step execution",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "output": {
+                "type": "string"
+              },
+              "data_created": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "data_structures": {
+      "type": "object",
+      "description": "Schema definitions for scenario data",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "description": "JSON schema for data structure"
+        }
+      }
+    },
+    "customization_points": {
+      "type": "object",
+      "description": "Areas where scenario can be customized",
+      "properties": {
+        "branching_logic": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "workflow_substitution": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase": {
+                "type": "string"
+              },
+              "default_workflow": {
+                "type": "string"
+              },
+              "alternatives": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "when_to_use": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "custom_fields": {
+          "type": "object",
+          "description": "Additional custom field schemas"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "External requirements",
+      "properties": {
+        "external_services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "purpose"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "pricing": {
+                "type": "string"
+              },
+              "setup_guide": {
+                "type": "string",
+                "format": "uri"
+              },
+              "api_docs": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "api_keys": {
+          "type": "array",
+          "description": "Required API keys",
+          "items": {
+            "type": "object",
+            "required": ["service", "env_var"],
+            "properties": {
+              "service": {
+                "type": "string"
+              },
+              "env_var": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "software": {
+          "type": "array",
+          "description": "Software dependencies",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "install_command": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "description": "Monitoring and analytics setup",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "measurement", "target"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "measurement": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              },
+              "alert_threshold": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "logging": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "rotation": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "troubleshooting": {
+      "type": "array",
+      "description": "Common issues and solutions",
+      "items": {
+        "type": "object",
+        "required": ["issue", "symptoms", "diagnosis", "solutions"],
+        "properties": {
+          "issue": {
+            "type": "string"
+          },
+          "symptoms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "diagnosis": {
+            "type": "string"
+          },
+          "solutions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "testing": {
+      "type": "object",
+      "description": "Test scenarios and sample data",
+      "properties": {
+        "test_scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description", "expected_outcome"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "command": {
+                "type": "string"
+              },
+              "expected_outcome": {
+                "type": "string"
+              },
+              "duration": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "sample_data_location": {
+          "type": "string"
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "How to extend scenario",
+      "properties": {
+        "adding_phases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "integrating_services": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "description": "Performance targets and scaling",
+      "properties": {
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "load_level": {
+                "type": "string"
+              },
+              "concurrent_clients": {
+                "type": "string"
+              },
+              "response_time": {
+                "type": "string"
+              },
+              "success_rate": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "bottlenecks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "area": {
+                "type": "string"
+              },
+              "impact": {
+                "type": "string"
+              },
+              "mitigation": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "scaling_recommendations": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "related_scenarios": {
+      "type": "object",
+      "properties": {
+        "similar": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "next_steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "changelog": {
+      "type": "array",
+      "description": "Version history",
+      "items": {
+        "type": "object",
+        "required": ["version", "date", "changes"],
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "maintainer": {
+          "type": "string"
+        },
+        "issues_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "documentation_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "community_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "license": {
+          "type": "string"
+        }
+      }
+    },
+    "design_decisions": {
+      "type": "array",
+      "description": "Key architectural and design decisions",
+      "items": {
+        "type": "object",
+        "required": ["decision", "rationale", "alternatives_considered"],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "description": "The decision made"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this decision was made"
+          },
+          "alternatives_considered": {
+            "type": "array",
+            "description": "Other options that were evaluated",
+            "items": {
+              "type": "string"
+            }
+          },
+          "trade_offs": {
+            "type": "string",
+            "description": "Trade-offs of this decision"
+          }
+        }
+      }
+    },
+    "potential_improvements": {
+      "type": "array",
+      "description": "Future enhancements and known limitations",
+      "items": {
+        "type": "object",
+        "required": ["area", "description", "priority"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "What area this improvement relates to"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the improvement"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Priority level"
+          },
+          "effort": {
+            "type": "string",
+            "enum": ["small", "medium", "large"],
+            "description": "Estimated effort"
+          },
+          "impact": {
+            "type": "string",
+            "description": "Expected impact of improvement"
+          }
+        }
+      }
+    }
+  }
+}
+

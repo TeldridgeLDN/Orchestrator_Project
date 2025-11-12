@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orchestrator Project - Epic Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h1::before {
+      content: "🎯";
+      font-size: 2rem;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      border-radius: 12px;
+      color: white;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .epic-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .epic-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .epic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .epic-header {
+      padding: 25px;
+      color: white;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .epic-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .epic-description {
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+
+    .epic-body {
+      padding: 25px;
+    }
+
+    .epic-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .epic-stat {
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .epic-stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .epic-stat-label {
+      font-size: 0.85rem;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
+
+    .progress-section {
+      margin-top: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #ecf0f1;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.5s ease;
+      border-radius: 10px;
+    }
+
+    .task-range {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #7f8c8d;
+      text-align: center;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error {
+      background: #e74c3c;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .epic-container {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .refresh-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .refresh-button:hover {
+      transform: scale(1.05);
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-actions">
+        <h1>Orchestrator Epic Dashboard</h1>
+        <button class="refresh-button" onclick="loadDashboard()">
+          <span>🔄</span>
+          Refresh
+        </button>
+      </div>
+      
+      <div class="summary-stats">
+        <div class="stat">
+          <div class="stat-label">Total Tasks</div>
+          <div class="stat-value" id="total-tasks">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Completed</div>
+          <div class="stat-value" id="completed-tasks">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value" id="in-progress-tasks">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Completion Rate</div>
+          <div class="stat-value" id="completion-rate">0%</div>
+        </div>
+      </div>
+    </header>
+
+    <div id="loading" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <div>Loading epic data...</div>
+    </div>
+
+    <div id="error-container"></div>
+
+    <div class="epic-container" id="epic-container">
+      <!-- Epic cards will be generated here -->
+    </div>
+  </div>
+
+  <script>
+    // Epic definitions
+    let epicsConfig = null;
+    let tasksData = null;
+
+    // Load dashboard on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboard();
+    });
+
+    async function loadDashboard() {
+      const loading = document.getElementById('loading');
+      const errorContainer = document.getElementById('error-container');
+      
+      loading.style.display = 'block';
+      errorContainer.innerHTML = '';
+
+      try {
+        // Load epics configuration
+        const epicsResponse = await fetch('../.taskmaster/epics.json');
+        epicsConfig = await epicsResponse.json();
+
+        // Load tasks data from TaskMaster
+        const tasksResponse = await fetch('../.taskmaster/tasks/tasks.json');
+        const tasksFile = await tasksResponse.json();
+        
+        // Extract tasks from the master tag
+        tasksData = tasksFile.tags?.master?.tasks || [];
+
+        // Render the dashboard
+        renderDashboard();
+        
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        errorContainer.innerHTML = `
+          <div class="error">
+            <strong>Error loading dashboard:</strong> ${error.message}
+          </div>
+        `;
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    function renderDashboard() {
+      // Calculate summary statistics
+      const totalTasks = tasksData.length;
+      const completedTasks = tasksData.filter(t => t.status === 'done').length;
+      const inProgressTasks = tasksData.filter(t => t.status === 'in-progress').length;
+      const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      // Update summary stats
+      document.getElementById('total-tasks').textContent = totalTasks;
+      document.getElementById('completed-tasks').textContent = completedTasks;
+      document.getElementById('in-progress-tasks').textContent = inProgressTasks;
+      document.getElementById('completion-rate').textContent = `${completionRate}%`;
+
+      // Render epic cards
+      const epicContainer = document.getElementById('epic-container');
+      epicContainer.innerHTML = '';
+
+      epicsConfig.epics.forEach(epic => {
+        const epicTasks = getEpicTasks(epic);
+        const epicCard = createEpicCard(epic, epicTasks);
+        epicContainer.appendChild(epicCard);
+      });
+    }
+
+    function getEpicTasks(epic) {
+      // Filter tasks based on epic's task range
+      if (epic.taskRange && epic.taskRange.length === 2) {
+        const [start, end] = epic.taskRange;
+        return tasksData.filter(task => task.id >= start && task.id <= end);
+      }
+      
+      // Or specific task IDs
+      if (epic.taskIds && epic.taskIds.length > 0) {
+        return tasksData.filter(task => epic.taskIds.includes(task.id));
+      }
+
+      return [];
+    }
+
+    function createEpicCard(epic, tasks) {
+      const card = document.createElement('div');
+      card.className = 'epic-card';
+
+      const totalTasks = tasks.length;
+      const completedTasks = tasks.filter(t => t.status === 'done').length;
+      const inProgressTasks = tasks.filter(t => t.status === 'in-progress').length;
+      const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      card.innerHTML = `
+        <div class="epic-header" style="background: ${epic.color};">
+          <div class="epic-title">${epic.name}</div>
+          <div class="epic-description">${epic.description}</div>
+        </div>
+        <div class="epic-body">
+          <div class="epic-stats">
+            <div class="epic-stat">
+              <div class="epic-stat-value">${totalTasks}</div>
+              <div class="epic-stat-label">Total Tasks</div>
+            </div>
+            <div class="epic-stat">
+              <div class="epic-stat-value">${completedTasks}</div>
+              <div class="epic-stat-label">Completed</div>
+            </div>
+          </div>
+          
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span><strong>${completionPercentage}%</strong></span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${completionPercentage}%; background: ${epic.color};"></div>
+            </div>
+          </div>
+
+          ${epic.taskRange && epic.taskRange.length === 2 ? `
+            <div class="task-range">
+              📋 Tasks ${epic.taskRange[0]}-${epic.taskRange[1]}
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      // Optional: Add click handler to show task details
+      card.addEventListener('click', () => {
+        console.log(`Epic: ${epic.name}`, tasks);
+        // Could expand to show detailed task list
+      });
+
+      return card;
+    }
+  </script>
+</body>
+</html>
+

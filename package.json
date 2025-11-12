@@ -1,0 +1,31 @@
+{
+  "name": "orchestrator-project",
+  "version": "1.0.0",
+  "description": "Multi-project AI orchestration system combining PAI global layer with diet103 local layer",
+  "type": "module",
+  "bin": {
+    "diet103": "./bin/diet103.js"
+  },
+  "scripts": {
+    "postinstall": "node lib/init/startup_hooks.js",
+    "init": "node lib/init/startup_hooks.js",
+    "init:silent": "node lib/init/startup_hooks.js --silent",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "js-yaml": "^4.1.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

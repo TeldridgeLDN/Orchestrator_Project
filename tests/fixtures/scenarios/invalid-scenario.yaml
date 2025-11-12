@@ -1,0 +1,36 @@
+# Invalid scenario - missing required fields and incorrect types
+name: "Test"
+domain: "InvalidDomain"  # Invalid enum value
+complexity: "Easy"  # Invalid enum value
+version: "invalid-version"  # Invalid semver format
+status: "Work in Progress"  # Invalid enum value
+
+executive_summary:
+  business_context: "Too short"  # Less than 50 characters required
+  key_stakeholders:
+    - role: "PM"
+      responsibilities: "Work"  # Too short
+      interaction_points: "Some"  # Too short
+  success_metrics: []  # Empty array not allowed (minItems: 1)
+
+scenario_overview:
+  problem:
+    current_state: "Short"  # Less than 20 characters
+    pain_points: []  # Empty array not allowed
+    impact: {}  # Missing required sub-fields
+  solution:
+    target_state: "Fix it"  # Too short
+    key_improvements: []  # Empty array not allowed
+  # missing expected_outcomes (required field)
+
+workflow_composition:
+  workflows: []  # Empty array not allowed
+  dependencies: "None"
+
+scenario_flow:
+  phases: []  # Empty array not allowed
+
+# Missing required fields:
+# - business_model
+# - date
+

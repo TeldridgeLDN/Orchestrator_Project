@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.taskmaster/.context-state.json
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Epic dashboard generated files
+dashboard-data.json
+epic-stats/

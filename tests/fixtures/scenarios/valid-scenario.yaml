@@ -1,0 +1,240 @@
+name: "E-Commerce Client Onboarding"
+domain: "E-commerce"
+complexity: "Intermediate"
+business_model: "B2B agency providing Shopify development services to small and medium businesses"
+version: "1.0.0"
+date: "2025-11-10"
+status: "Production Ready"
+
+executive_summary:
+  business_context: "Streamline the client onboarding process for a Shopify development agency, reducing manual work and improving client satisfaction through automated workflows and clear communication touchpoints."
+  
+  key_stakeholders:
+    - role: "Project Manager"
+      responsibilities: "Oversees client onboarding, coordinates team, manages timeline"
+      interaction_points: "Initial setup, milestone reviews, final delivery"
+    
+    - role: "Client"
+      responsibilities: "Provides requirements, reviews deliverables, approves milestones"
+      interaction_points: "Form submission, review phases, final approval"
+    
+    - role: "Development Team"
+      responsibilities: "Implements Shopify store, customizes theme, integrates apps"
+      interaction_points: "Requirement analysis, development phases, deployment"
+  
+  success_metrics:
+    - metric: "Onboarding Time"
+      target: "< 2 weeks from signup to delivery"
+      measurement_method: "Track time between client signup and final delivery"
+    
+    - metric: "Client Satisfaction"
+      target: "> 4.5/5 stars"
+      measurement_method: "Post-project survey"
+    
+    - metric: "Automation Rate"
+      target: "> 80% of tasks automated"
+      measurement_method: "Manual vs automated task ratio"
+  
+  roi_analysis:
+    time_savings:
+      manual_hours: 40
+      automated_hours: 8
+      savings_percent: 80
+    quality_improvements:
+      - "Consistent onboarding experience"
+      - "Fewer missed requirements"
+      - "Better client communication"
+    cost_reduction:
+      - area: "Administrative overhead"
+        reduction: "60% reduction in manual data entry"
+      - area: "Client support"
+        reduction: "40% fewer support tickets during onboarding"
+
+scenario_overview:
+  problem:
+    current_state: "Manual email chains, scattered requirements, inconsistent onboarding experience, delayed payments, and unclear project status lead to client frustration and team inefficiency."
+    pain_points:
+      - "Requirements gathering takes multiple email threads"
+      - "Payment collection is manual and delayed"
+      - "No automated status updates for clients"
+      - "Team spends time on administrative tasks"
+      - "Inconsistent documentation and handoff"
+    impact:
+      business: "Lost revenue from payment delays, reduced capacity due to admin overhead"
+      user: "Unclear process, delayed feedback, poor communication"
+      team: "Context switching, manual data entry, repetitive tasks"
+  
+  solution:
+    target_state: "Automated onboarding workflow that collects requirements, processes payments, generates deliverables, and keeps all stakeholders informed through every phase."
+    key_improvements:
+      - area: "Requirement Collection"
+        improvement: "Automated intake forms with validation and smart routing"
+      - area: "Payment Processing"
+        improvement: "Integrated payment collection at key milestones"
+      - area: "Status Updates"
+        improvement: "Automatic notifications and progress tracking"
+  
+  expected_outcomes:
+    business:
+      - "50% faster onboarding cycle"
+      - "90% payment collection rate"
+      - "Higher client retention"
+    user:
+      - "Clear visibility into project status"
+      - "Faster response times"
+      - "Professional experience"
+    technical:
+      - "Automated workflow execution"
+      - "Audit trail for compliance"
+      - "Scalable process"
+
+workflow_composition:
+  workflows:
+    - name: "Client Intake"
+      purpose: "Collect initial client information and requirements"
+      phase: "Phase 1"
+      critical: true
+      reference: "../../workflows/library/client-intake/WORKFLOW.md"
+    
+    - name: "Payment Processing"
+      purpose: "Handle upfront and milestone payments"
+      phase: "Phase 1, 3, 5"
+      critical: true
+      reference: "../../workflows/library/payment-processing/WORKFLOW.md"
+    
+    - name: "Requirement Analysis"
+      purpose: "Analyze client requirements and generate project plan"
+      phase: "Phase 2"
+      critical: true
+      reference: "../../workflows/library/requirement-analysis/WORKFLOW.md"
+  
+  dependencies: |
+    Phase 1: Client Intake → Payment Processing
+        ├─→ Phase 2: Requirement Analysis
+        └─→ Phase 3: Development (with Payment milestone)
+            └─→ Phase 4: Review
+                └─→ Phase 5: Delivery (with final Payment)
+
+scenario_flow:
+  phases:
+    - id: "1"
+      name: "Client Onboarding & Payment"
+      trigger: "New client signup via website form"
+      duration: "1-2 days"
+      workflows_used:
+        - "Client Intake Workflow"
+        - "Payment Processing Workflow"
+      inputs:
+        - name: "Client contact info"
+          source: "Website form"
+          format: "JSON"
+          required: true
+        - name: "Package selection"
+          source: "Website form"
+          format: "String (small/medium/large)"
+          required: true
+      outputs:
+        - name: "Client record"
+          destination: "Database"
+          format: "JSON"
+          used_in: "All phases"
+        - name: "Payment confirmation"
+          destination: "Accounting system"
+          format: "Transaction ID"
+          used_in: "Phase 3, 5"
+      decision_points:
+        - condition: "Package is 'small'"
+          action: "Use basic workflow template"
+          reasoning: "Simplified process for smaller projects"
+        - condition: "Package is 'large'"
+          action: "Assign senior PM and require kickoff call"
+          reasoning: "Large projects need additional oversight"
+      success_criteria:
+        - "Client record created in database"
+        - "30% payment received and confirmed"
+        - "Welcome email sent to client"
+      error_handling:
+        - error: "Payment failed"
+          recovery_action: "Send payment reminder with alternative methods"
+          fallback: "Manual invoice generation"
+        - error: "Invalid contact information"
+          recovery_action: "Request updated information via email"
+          fallback: "Phone call to client"
+    
+    - id: "2"
+      name: "Requirements Gathering"
+      trigger: "Payment confirmation received"
+      duration: "2-3 days"
+      workflows_used:
+        - "Requirement Analysis Workflow"
+      inputs:
+        - name: "Client record"
+          source: "Phase 1 output"
+          format: "JSON"
+          required: true
+        - name: "Intake form responses"
+          source: "Client submission"
+          format: "JSON"
+          required: true
+      outputs:
+        - name: "Project requirements document"
+          destination: "Project management system"
+          format: "Markdown"
+          used_in: "Phase 3"
+        - name: "Timeline estimate"
+          destination: "Client portal"
+          format: "Date range"
+          used_in: "Phase 3"
+      success_criteria:
+        - "Requirements document generated"
+        - "Client reviewed and approved requirements"
+        - "Timeline communicated to all stakeholders"
+
+design_decisions:
+  - decision: "Use milestone-based payments (30-40-30)"
+    rationale: "Reduces financial risk for both agency and client while maintaining cash flow"
+    alternatives_considered:
+      - "Full upfront payment (too risky for clients)"
+      - "Payment on completion (too risky for agency)"
+    trade_offs: "Requires payment processing at multiple touchpoints but provides better risk management"
+  
+  - decision: "Automated form generation based on package tier"
+    rationale: "Different package sizes require different levels of detail in requirements"
+    alternatives_considered:
+      - "Single universal form (too generic)"
+      - "Fully custom forms per client (too time-consuming)"
+    trade_offs: "Requires maintaining multiple form templates but provides better client experience"
+
+potential_improvements:
+  - area: "AI-powered requirement analysis"
+    description: "Use LLM to analyze client responses and suggest additional clarifying questions"
+    priority: "high"
+    effort: "medium"
+    impact: "Could reduce back-and-forth communication by 50%"
+  
+  - area: "Client portal integration"
+    description: "Build dedicated client portal instead of using email for all communication"
+    priority: "medium"
+    effort: "large"
+    impact: "Better client experience and reduced email volume"
+  
+  - area: "Analytics dashboard"
+    description: "Track scenario execution metrics and identify bottlenecks"
+    priority: "medium"
+    effort: "small"
+    impact: "Data-driven process improvements"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-10"
+    changes:
+      - "Initial scenario definition"
+      - "Core workflows integrated"
+      - "Payment processing implemented"
+      - "Sample data provided"
+
+metadata:
+  maintainer: "Development Team"
+  documentation_url: "https://docs.example.com/scenarios/client-onboarding"
+  license: "MIT"
+

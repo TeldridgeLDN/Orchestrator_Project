@@ -1,0 +1,534 @@
+<context>
+# Overview
+The diet103 Infrastructure Validation & Auto-Repair System is a critical component of the Orchestrator project that ensures all managed projects have complete, production-ready diet103 infrastructure. This system automatically detects, validates, and repairs missing or incomplete diet103 components when projects are registered, switched, or validated.
+
+The system solves the problem of inconsistent or incomplete diet103 infrastructure across multiple projects by providing automated detection, gap analysis, and repair capabilities. It's designed for developers using the Orchestrator to manage multiple Claude-enabled projects, ensuring every project meets the diet103 1.2.0 specification with 100% confidence.
+
+# Core Features
+
+## 1. Infrastructure Detection
+- Scans project directories for .claude/ and all diet103 components
+- Detects 12 core components: directory structure, critical files, hooks, and subdirectories
+- Identifies diet103 version from metadata.json
+- Returns comprehensive existence check object with boolean flags for each component
+
+## 2. Gap Analysis Engine
+- Categorizes missing components into Critical (7), Important (5), and Optional (3) tiers
+- Calculates weighted completeness score (0-100%): 70% weight on critical, 30% on important
+- Generates actionable gap reports with specific missing components listed
+- Determines if infrastructure is complete (100%) or requires repair
+
+## 3. Consistency Validation
+- Validates metadata.json structure and diet103_version field
+- Parses and validates skill-rules.json format
+- Checks hook file permissions (must be executable)
+- Validates skill directory structure (each skill must have skill.md or SKILL.md)
+- Verifies Claude.md has sufficient content (minimum 50 characters)
+
+## 4. Auto-Repair System
+- Installs missing components from templates (~/.claude/templates/base/)
+- Preserves existing customizations (never overwrites existing files)
+- Automatically makes hooks executable (chmod +x)
+- Replaces template variables ({{PROJECT_NAME}}, {{CREATED_DATE}})
+- Creates missing directories with appropriate README files
+
+## 5. Confidence Level System
+- 100% = Complete (all critical & important components present)
+- 85-99% = Good (all critical present, some important missing)
+- 70-84% = Incomplete (some critical missing, repair required)
+- <70% = Insufficient (major gaps, blocks project switching)
+
+# User Experience
+
+## User Personas
+1. **Developer using Orchestrator** - Registers existing projects and expects automatic validation
+2. **Project maintainer** - Needs to validate and repair infrastructure on demand
+3. **New project creator** - Expects newly created projects to have complete infrastructure
+
+## Key User Flows
+
+### Flow 1: Register Existing Project
+1. User runs: `claude project register /path/to/project`
+2. System automatically validates diet103 infrastructure
+3. If gaps detected, system auto-repairs (with user consent)
+4. Project registered with confirmed 100% infrastructure
+
+### Flow 2: Validate and Repair
+1. User runs: `claude project validate my-project`
+2. System displays completeness score and specific gaps
+3. User runs: `claude project validate my-project --repair`
+4. System installs missing components and re-validates
+
+### Flow 3: Project Switching with Validation
+1. User runs: `claude project switch my-project`
+2. System performs quick validation check
+3. If score <70%, switch is blocked with repair instructions
+4. If score 70-84%, warning displayed but switch allowed
+5. If score 85%+, switch proceeds without warnings
+
+## UI/UX Considerations
+- Clear, actionable error messages with specific component names
+- Progress indicators during auto-repair
+- Colored output: ✅ green for success, ⚠️ yellow for warnings, ❌ red for errors
+- Validation reports formatted as readable tables
+- Concise recommendations with exact commands to run
+</context>
+<PRD>
+# Technical Architecture
+
+## System Components
+
+### 1. Detection Module (diet103-validator.js)
+**Location:** `~/.claude/lib/utils/diet103-validator.js`
+
+**Functions:**
+- `detectDiet103Infrastructure(projectPath)` - Scans filesystem for diet103 components
+- `analyzeDiet103Gaps(checks)` - Calculates gaps and completeness score
+- `validateDiet103Consistency(projectPath)` - Deep validation of component structure
+
+**Data Structures:**
+```javascript
+checks = {
+  hasDotClaude: boolean,
+  hasClaudeMd: boolean,
+  hasMetadata: boolean,
+  hasSkillRules: boolean,
+  hasHooks: boolean,
+  hasUserPromptSubmit: boolean,
+  hasPostToolUse: boolean,
+  hasSkillsDir: boolean,
+  hasCommandsDir: boolean,
+  hasAgentsDir: boolean,
+  hasResourcesDir: boolean,
+  hasReadme: boolean,
+  diet103Version: string | null
+}
+
+gaps = {
+  critical: string[],
+  important: string[],
+  optional: string[],
+  score: number (0-100),
+  isComplete: boolean
+}
+```
+
+### 2. Repair Module (diet103-repair.js)
+**Location:** `~/.claude/lib/utils/diet103-repair.js`
+
+**Functions:**
+- `repairDiet103Infrastructure(projectPath, gaps, checks)` - Main repair orchestrator
+- `installCriticalComponents(projectPath)` - Installs critical files
+- `installImportantDirectories(projectPath)` - Creates directory structure
+- `replaceTemplateVariables(content, projectName)` - Template processing
+
+**Template Sources:**
+- Base template: `~/.claude/templates/base/.claude/`
+- All components copied from this canonical template
+- Template variables: {{PROJECT_NAME}}, {{CREATED_DATE}}, {{PROJECT_DESCRIPTION}}
+
+### 3. Command Integrations
+
+**validate.js** - Enhanced validation command
+- Runs 3-phase validation (detect, analyze, consistency)
+- Displays formatted validation report
+- Supports --repair flag for auto-repair
+- Supports --verbose flag for detailed output
+
+**register.js** - Auto-validation on project registration
+- Runs validation after registration
+- Auto-repairs if --auto-repair flag present (default: true)
+- Blocks registration if repair fails
+
+**switch.js** - Quick validation on project switching
+- Performs lightweight check (detection + analysis only)
+- Blocks switch if score <70%
+- Warns if score 70-84%
+- Allows switch silently if score 85%+
+- Supports --no-validate to bypass (not recommended)
+
+**create.js** - Validation of template installation
+- Runs validation after project creation from template
+- Ensures template was properly installed
+- Auto-repairs if template incomplete
+
+## Data Models
+
+### metadata.json Schema
+```json
+{
+  "project_id": "string (project name)",
+  "version": "string (semver)",
+  "description": "string",
+  "skills": "string[] (array of skill names)",
+  "created": "string (ISO8601 timestamp)",
+  "diet103_version": "string (must be '1.2.0')",
+  "tags": "string[] (optional tags)"
+}
+```
+
+### skill-rules.json Schema
+```json
+{
+  "rules": [
+    {
+      "trigger_phrases": "string[]",
+      "file_patterns": "string[] (optional)",
+      "context_patterns": "string[] (optional)",
+      "skill": "string (skill name)",
+      "auto_activate": "boolean"
+    }
+  ]
+}
+```
+
+### Validation Report Format
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+diet103 Infrastructure Validation Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Project: <project-name>
+Path: <project-path>
+Validated: <timestamp>
+
+COMPLETENESS SCORE: <score>%
+
+✅ Critical Components (X/7)
+  ✓/✗ Component list
+
+⚠️  Important Components (X/5)
+  ✓/✗ Component list
+
+CONSISTENCY CHECKS:
+  ✓/⚠️ Consistency validation results
+
+RECOMMENDATIONS:
+  1. Specific action items
+  2. Commands to run
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## APIs and Integrations
+
+### Internal APIs
+- Config Validator: `loadConfig()`, `saveConfig()`, `validateConfig()`
+- Logger: `logEvent(type, data)` for tracking validation events
+- Template Processor: `replaceTemplateVariables(content, variables)`
+
+### External Dependencies
+- Node.js fs module for filesystem operations
+- Node.js path module for path manipulation
+- Existing Orchestrator config system (~/.claude/config.json)
+
+## Infrastructure Requirements
+- Node.js 18+ (for fs.statSync mode checking)
+- Read/write access to project directories
+- Read access to template directory (~/.claude/templates/)
+- Executable permission setting capability (chmod)
+
+# Development Roadmap
+
+## Phase 1: Core Detection & Analysis (Foundation)
+**Goal:** Build the detection and analysis engine that can scan and evaluate diet103 infrastructure
+
+**Scope:**
+1. Create diet103-validator.js module
+2. Implement detectDiet103Infrastructure() function
+3. Implement analyzeDiet103Gaps() function with scoring algorithm
+4. Implement validateDiet103Consistency() function
+5. Write comprehensive unit tests for detection logic
+6. Test on multiple project scenarios (empty, partial, complete)
+
+**Deliverables:**
+- Fully functional detection system
+- Gap analysis with weighted scoring
+- Consistency validation
+- Test coverage >90%
+
+**Success Criteria:**
+- Can detect all 12 diet103 components
+- Accurately calculates completeness score
+- Identifies specific missing components
+- Validates JSON structure and permissions
+
+## Phase 2: Auto-Repair System
+**Goal:** Implement the repair mechanism that can install missing components from templates
+
+**Scope:**
+1. Create diet103-repair.js module
+2. Implement repairDiet103Infrastructure() orchestrator
+3. Implement component installation functions
+4. Implement template variable replacement
+5. Add chmod logic for hook executability
+6. Write unit tests for repair logic
+7. Test repair on projects with various gap scenarios
+
+**Deliverables:**
+- Fully functional repair system
+- Template-based component installation
+- Safe repair (never overwrites existing files)
+- Test coverage >85%
+
+**Success Criteria:**
+- Can install all missing components
+- Preserves existing customizations
+- Correctly sets file permissions
+- Handles edge cases (permission denied, disk full)
+
+## Phase 3: Command Integration
+**Goal:** Integrate validation and repair into existing Orchestrator commands
+
+**Scope:**
+1. Enhance validate.js command with --repair flag
+2. Update register.js to auto-validate on registration
+3. Update switch.js with quick validation check
+4. Update create.js to validate template installation
+5. Implement confidence level enforcement (block <70%)
+6. Add formatted validation report output
+7. Write integration tests for command flows
+
+**Deliverables:**
+- Enhanced validate command
+- Auto-validation in register/switch/create
+- Confidence level enforcement
+- Integration test suite
+
+**Success Criteria:**
+- `claude project validate --repair` works end-to-end
+- Registration auto-repairs projects
+- Project switching enforces 70% minimum
+- All commands properly integrated
+
+## Phase 4: Testing & Documentation
+**Goal:** Comprehensive testing and documentation for production readiness
+
+**Scope:**
+1. Write end-to-end tests for all user flows
+2. Test on real projects (orchestrator-project, test projects)
+3. Performance testing (validation speed <1s)
+4. Error handling and edge case testing
+5. Update CLI reference documentation
+6. Update Quick Implementation Reference
+7. Create user guide with examples
+
+**Deliverables:**
+- E2E test suite
+- Performance benchmarks
+- Comprehensive documentation
+- User guide with examples
+
+**Success Criteria:**
+- 100% of user flows tested
+- Validation completes in <1s
+- Documentation complete and accurate
+- Ready for production use
+
+## Phase 5: Advanced Features (Future)
+**Goal:** Optional enhancements for improved developer experience
+
+**Scope:**
+1. Add --dry-run mode to preview repairs
+2. Implement validation caching for faster checks
+3. Add --verbose mode with detailed diagnostics
+4. Create validation report export (JSON/HTML)
+5. Add skill structure validation (500-line rule checking)
+6. Implement auto-update for outdated diet103 versions
+
+**Deliverables:**
+- Dry-run mode
+- Validation caching
+- Report export
+- Advanced diagnostics
+
+**Success Criteria:**
+- Dry-run accurately predicts repairs
+- Caching reduces validation time by 50%
+- Reports are exportable and readable
+
+# Logical Dependency Chain
+
+## Foundation Layer (Must Build First)
+1. **detection logic** (detectDiet103Infrastructure) - Cannot analyze without detection
+2. **gap analysis** (analyzeDiet103Gaps) - Depends on detection output
+3. **consistency validation** (validateDiet103Consistency) - Depends on detection confirming files exist
+
+## Core Functionality Layer (Build Upon Foundation)
+4. **repair module** (repairDiet103Infrastructure) - Depends on gap analysis to know what to install
+5. **template system** - Repair depends on templates being available
+6. **unit tests** - Test each module as it's built
+
+## Integration Layer (Build Upon Core)
+7. **validate command** - Integrates detection + analysis + consistency + repair
+8. **register command integration** - Reuses validate command logic
+9. **switch command integration** - Reuses detection + analysis (lightweight)
+10. **create command integration** - Reuses validate command logic
+
+## Polish Layer (Final Phase)
+11. **integration tests** - Test complete user flows
+12. **documentation** - Document the complete system
+13. **performance optimization** - Optimize after functionality proven
+
+## Critical Path
+**Shortest path to usable system:**
+1. Detection → Gap Analysis → Validate Command (read-only validation works)
+2. Repair Module → Validate --repair (can fix projects)
+3. Register Integration (auto-repair on registration works)
+
+This gets us to a minimally viable system where users can validate and repair projects manually, then auto-repair on registration.
+
+# Risks and Mitigations
+
+## Technical Challenges
+
+### Risk: Template corruption or unavailability
+**Impact:** High - Repair cannot function without templates
+**Likelihood:** Low
+**Mitigation:**
+- Validate template existence before repair
+- Provide clear error if template missing
+- Include template validation in Orchestrator setup
+- Consider bundling fallback templates
+
+### Risk: Permission denied when creating files/directories
+**Impact:** Medium - Repair fails partway through
+**Likelihood:** Medium
+**Mitigation:**
+- Check write permissions before starting repair
+- Provide clear error messages with suggested fixes
+- Implement rollback on partial failure
+- Document permission requirements
+
+### Risk: Existing files conflict with repair
+**Impact:** Medium - User loses customizations
+**Likelihood:** Medium
+**Mitigation:**
+- **Never overwrite existing files** (critical safety rule)
+- Only create missing components
+- Warn if existing files don't match expected structure
+- Provide manual merge instructions if conflicts detected
+
+### Risk: Invalid JSON in existing metadata.json or skill-rules.json
+**Impact:** Medium - Consistency validation fails
+**Likelihood:** Medium
+**Mitigation:**
+- Catch JSON parse errors gracefully
+- Report specific parse errors to user
+- Offer to backup and replace with valid template
+- Provide JSON validation before replacement
+
+### Risk: Slow validation performance on large projects
+**Impact:** Low - Poor user experience
+**Likelihood:** Medium
+**Mitigation:**
+- Target <1s validation time
+- Implement caching for repeated validations
+- Use parallel checks where possible
+- Optimize filesystem operations
+
+## MVP Definition
+
+**Minimum Viable Product:**
+1. Detection system can identify all 12 components
+2. Gap analysis calculates accurate completeness score
+3. Repair system can install all missing components from templates
+4. `claude project validate --repair` command works end-to-end
+5. Basic tests covering critical paths
+
+**What's NOT in MVP:**
+- Advanced reporting (HTML export, etc.)
+- Caching/optimization
+- Dry-run mode
+- Verbose diagnostics
+- Skill structure deep validation (500-line rule checking)
+
+**MVP Success Criteria:**
+- Can repair a completely empty project to 100%
+- Can detect and fix partial installations
+- Safe (never corrupts existing projects)
+- Fast enough (<2s for full validation + repair)
+
+## Resource Constraints
+
+### Time
+- Estimated: ~13 hours total
+- Critical path: ~8 hours (detection + repair + validate command)
+- Buffer: +3 hours for unexpected issues
+
+### Dependencies
+- Requires existing Orchestrator CLI infrastructure
+- Requires template system to be in place (~/.claude/templates/base/)
+- Requires config validator module (already exists)
+
+### Testing Resources
+- Need test projects at various completion levels
+- Need access to orchestrator-project for real-world testing
+- Need CI/CD for automated testing (future)
+
+# Appendix
+
+## Research Findings
+
+### diet103 Specification
+- diet103 version 1.2.0 is the current standard
+- 7 critical components required for functionality
+- 5 important components for full experience
+- Hooks must be executable (chmod +x)
+- Skills require skill.md or SKILL.md file
+
+### Existing Implementation
+- Orchestrator project has complete diet103 structure (reference implementation)
+- Templates exist at ~/.claude/templates/base/
+- Config validator already implemented
+- Logger already implemented
+
+## Technical Specifications
+
+### File Sizes
+- diet103-validator.js: ~350 lines
+- diet103-repair.js: ~200 lines
+- validate.js updates: +150 lines
+- register.js updates: +30 lines
+- switch.js updates: +20 lines
+- create.js updates: +15 lines
+- Test files: ~700 lines total
+
+### Performance Targets
+- Detection: <200ms
+- Gap analysis: <50ms
+- Consistency validation: <500ms
+- Full repair: <2s
+- Total validation: <1s (without repair)
+
+### Error Codes
+- `VALIDATION_ERROR` - Validation failed
+- `REPAIR_ERROR` - Repair failed
+- `TEMPLATE_NOT_FOUND` - Template missing
+- `PERMISSION_DENIED` - Cannot write files
+- `INVALID_JSON` - JSON parse error
+- `LOW_CONFIDENCE` - Score <70%, blocking operation
+
+### Component Checklist Reference
+
+**Critical (7 components):**
+1. .claude/ directory
+2. Claude.md
+3. metadata.json
+4. skill-rules.json
+5. hooks/ directory
+6. hooks/UserPromptSubmit.js
+7. hooks/PostToolUse.js
+
+**Important (5 components):**
+8. skills/ directory
+9. commands/ directory
+10. agents/ directory
+11. resources/ directory
+12. README.md
+
+**Optional (3 components):**
+13. settings.local.json
+14. dev/ directory
+15. dev/active/ directory
+</PRD>
