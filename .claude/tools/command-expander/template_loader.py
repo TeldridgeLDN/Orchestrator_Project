@@ -280,18 +280,38 @@ def load_workflow(file_path: str) -> Workflow:
     if not data:
         raise ValueError("Empty YAML file")
     
-    # Extract workflow metadata
-    workflow_name = data.get('name', '')
+    # Extract workflow metadata - try 'name' first, fall back to 'workflow'
+    workflow_name = data.get('name', data.get('workflow', ''))
     workflow_desc = data.get('description', '')
     
-    # Parse templates
+    # Parse templates - handle both dict and list formats
     templates_list = []
-    templates_data = data.get('templates', [])
+    templates_data = data.get('templates', {})
     
-    for template_data in templates_data:
-        # Parse variables
+    # If templates is a dict, convert to list format
+    if isinstance(templates_data, dict):
+        templates_items = [
+            {'name': name, **template_data}
+            for name, template_data in templates_data.items()
+        ]
+    else:
+        templates_items = templates_data
+    
+    for template_data in templates_items:
+        # Parse variables - handle both dict and list formats
         variables = []
-        for var_data in template_data.get('variables', []):
+        variables_data = template_data.get('variables', {})
+        
+        # If variables is a dict, convert to list format
+        if isinstance(variables_data, dict):
+            variables_items = [
+                {'name': name, **var_data}
+                for name, var_data in variables_data.items()
+            ]
+        else:
+            variables_items = variables_data
+        
+        for var_data in variables_items:
             var_spec = VariableSpec(
                 name=var_data.get('name', ''),
                 description=var_data.get('description', ''),
@@ -307,10 +327,17 @@ def load_workflow(file_path: str) -> Workflow:
         
         # Parse safety flags
         safety_data = template_data.get('safety', {})
-        safety = {
-            'dangerous': safety_data.get('dangerous', False) if isinstance(safety_data, dict) else False,
-            'confirm': safety_data.get('confirm', False) if isinstance(safety_data, dict) else False
-        }
+        if isinstance(safety_data, dict):
+            safety = {
+                'dangerous': safety_data.get('dangerous', False),
+                'confirm': safety_data.get('confirm', False)
+            }
+        else:
+            # Safety might be a boolean flag for dangerous
+            safety = {
+                'dangerous': bool(template_data.get('dangerous', False)),
+                'confirm': bool(template_data.get('confirm', False))
+            }
         
         template = Template(
             name=template_data.get('name', ''),
