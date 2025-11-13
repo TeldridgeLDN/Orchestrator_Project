@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class VariableSpec:
     """Specification for a template variable."""
+    name: str
     description: str
     required: bool = False
     type: str = "string"
@@ -30,14 +31,13 @@ class VariableSpec:
 class Template:
     """Command template definition."""
     name: str
-    workflow: str
-    description: str
     command: str
-    variables: Dict[str, VariableSpec] = field(default_factory=dict)
+    description: str
+    workflow: str = ""
+    variables: List[VariableSpec] = field(default_factory=list)
     aliases: List[str] = field(default_factory=list)
     examples: List[str] = field(default_factory=list)
-    dangerous: bool = False
-    confirm: bool = False
+    safety: Dict[str, bool] = field(default_factory=lambda: {'dangerous': False, 'confirm': False})
 
 
 @dataclass
@@ -45,7 +45,7 @@ class Workflow:
     """Workflow category containing templates."""
     name: str
     description: str
-    templates: Dict[str, Template] = field(default_factory=dict)
+    templates: List[Template] = field(default_factory=list)
 
 
 class TemplateLoader:
@@ -252,4 +252,176 @@ class TemplateLoader:
                 errors.append(f"Invalid type '{var_spec.type}' for variable '{var_name}'")
         
         return errors
+
+
+# ===== Module-level convenience functions =====
+
+def load_workflow(file_path: str) -> Workflow:
+    """
+    Load a workflow from a YAML file.
+    
+    Args:
+        file_path: Path to YAML file
+    
+    Returns:
+        Workflow instance
+    
+    Raises:
+        FileNotFoundError: If file doesn't exist
+        yaml.YAMLError: If YAML is malformed
+    """
+    path = Path(file_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Template file not found: {file_path}")
+    
+    with open(path, 'r') as f:
+        data = yaml.safe_load(f)
+    
+    if not data:
+        raise ValueError("Empty YAML file")
+    
+    # Extract workflow metadata
+    workflow_name = data.get('name', '')
+    workflow_desc = data.get('description', '')
+    
+    # Parse templates
+    templates_list = []
+    templates_data = data.get('templates', [])
+    
+    for template_data in templates_data:
+        # Parse variables
+        variables = []
+        for var_data in template_data.get('variables', []):
+            var_spec = VariableSpec(
+                name=var_data.get('name', ''),
+                description=var_data.get('description', ''),
+                required=var_data.get('required', False),
+                type=var_data.get('type', 'string'),
+                default=var_data.get('default'),
+                pattern=var_data.get('pattern'),
+                options=var_data.get('options'),
+                min=var_data.get('min'),
+                max=var_data.get('max')
+            )
+            variables.append(var_spec)
+        
+        # Parse safety flags
+        safety_data = template_data.get('safety', {})
+        safety = {
+            'dangerous': safety_data.get('dangerous', False) if isinstance(safety_data, dict) else False,
+            'confirm': safety_data.get('confirm', False) if isinstance(safety_data, dict) else False
+        }
+        
+        template = Template(
+            name=template_data.get('name', ''),
+            command=template_data.get('command', ''),
+            description=template_data.get('description', ''),
+            workflow=workflow_name,
+            variables=variables,
+            aliases=template_data.get('aliases', []),
+            examples=template_data.get('examples', []),
+            safety=safety
+        )
+        templates_list.append(template)
+    
+    return Workflow(
+        name=workflow_name,
+        description=workflow_desc,
+        templates=templates_list
+    )
+
+
+def load_templates(directory: str) -> List[Workflow]:
+    """
+    Load all workflows from a directory.
+    
+    Args:
+        directory: Path to directory containing YAML files
+    
+    Returns:
+        List of Workflow instances
+    """
+    workflows = []
+    dir_path = Path(directory)
+    
+    if not dir_path.exists():
+        return workflows
+    
+    for yaml_file in dir_path.glob('*.yaml'):
+        try:
+            workflow = load_workflow(str(yaml_file))
+            workflows.append(workflow)
+        except Exception as e:
+            logger.error(f"Error loading {yaml_file}: {e}")
+    
+    return workflows
+
+
+def get_template_by_name(workflow: Workflow, name: str) -> Optional[Template]:
+    """
+    Get a template from a workflow by exact name.
+    
+    Args:
+        workflow: Workflow to search
+        name: Template name
+    
+    Returns:
+        Template instance or None
+    """
+    for template in workflow.templates:
+        if template.name == name:
+            return template
+    return None
+
+
+def get_template_by_alias(workflow: Workflow, alias: str) -> Optional[Template]:
+    """
+    Get a template from a workflow by alias.
+    
+    Args:
+        workflow: Workflow to search
+        alias: Template alias
+    
+    Returns:
+        Template instance or None
+    """
+    for template in workflow.templates:
+        if alias in template.aliases:
+            return template
+    return None
+
+
+def validate_template(template: Template) -> tuple[bool, List[str]]:
+    """
+    Validate a template definition.
+    
+    Args:
+        template: Template to validate
+    
+    Returns:
+        Tuple of (is_valid, error_messages)
+    """
+    errors = []
+    
+    # Check required fields
+    if not template.name:
+        errors.append("Template name is required")
+    
+    if not template.command:
+        errors.append("Template command is required")
+    
+    # Validate variable types
+    valid_types = ['string', 'integer', 'boolean', 'float']
+    for var in template.variables:
+        if var.type not in valid_types:
+            errors.append(f"Invalid type '{var.type}' for variable '{var.name}'")
+    
+    # Check required variables are used in command
+    for var in template.variables:
+        if var.required:
+            # Check for Jinja2-style variable reference
+            if f"{{{{ {var.name}" not in template.command and f"{{{{{var.name}" not in template.command:
+                errors.append(f"Required variable '{var.name}' not found in command")
+    
+    return (len(errors) == 0, errors)
 
