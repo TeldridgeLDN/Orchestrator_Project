@@ -1,0 +1,71 @@
+# Task ID: 6
+# Title: Implement Register Command Integration
+# Status: done
+# Dependencies: 5
+# Priority: medium
+# Description: Update register.js to perform automatic validation during project registration
+# Details:
+Modify register.js to:
+- Run validation automatically on project registration
+- Support --auto-repair flag (default: true)
+- Block registration if repair fails
+- Provide clear error messages
+
+Pseudo-code:
+```javascript
+function registerProject(projectPath, options) {
+  const validationResult = validateProject(projectPath, {
+    repair: options.autoRepair ?? true,
+    verbose: false
+  });
+  
+  if (validationResult.score < 70) {
+    throw new Error('Project does not meet diet103 infrastructure requirements');
+  }
+  
+  // Proceed with registration
+  return {
+    projectRegistered: true,
+    validationScore: validationResult.score
+  };
+}```
+
+# Test Strategy:
+Comprehensive test scenarios:
+1. Successful registration of complete project
+2. Registration with auto-repair
+3. Registration blocked for insufficient infrastructure
+4. Handling of different project states
+5. Verification of auto-repair behavior
+
+# Subtasks:
+## 1. Integrate Automatic Validation in register.js [done]
+### Dependencies: None
+### Description: Modify register.js to invoke project validation automatically during the registration process.
+### Details:
+Update the registerProject function to call validateProject with appropriate parameters whenever a registration is initiated, ensuring validation is always performed before proceeding.
+
+## 2. Implement --auto-repair Flag Support [done]
+### Dependencies: 6.1
+### Description: Add support for the --auto-repair flag in register.js, defaulting to true if not specified.
+### Details:
+Parse command-line options to detect the --auto-repair flag. Ensure the flag is passed to validateProject and defaults to true when not provided.
+
+## 3. Block Registration on Failed Repair [done]
+### Dependencies: 6.2
+### Description: Ensure registration is blocked if auto-repair fails to bring the project up to required standards.
+### Details:
+After validation, check the validationResult.score. If below threshold (e.g., 70), throw an error and prevent registration, regardless of repair attempts.
+
+## 4. Provide Clear Error Messaging [done]
+### Dependencies: 6.3
+### Description: Implement detailed and user-friendly error messages for failed validation and repair scenarios.
+### Details:
+Enhance error handling in register.js to output specific reasons for failure, including missing components and failed repairs, using information from validationResult.
+
+## 5. Comprehensive Registration Workflow Testing [done]
+### Dependencies: 6.4
+### Description: Develop and execute test scenarios covering all registration workflow cases, including successful registration, auto-repair, blocking, and error handling.
+### Details:
+Create automated tests for: successful registration, registration with auto-repair, registration blocked due to failed repair, handling of different project states, and verification of error messages.
+

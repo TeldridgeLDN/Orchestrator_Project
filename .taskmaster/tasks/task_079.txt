@@ -1,0 +1,11 @@
+# Task ID: 79
+# Title: Add Design Decisions and Potential Improvements Tracking to Scenario YAML
+# Status: pending
+# Dependencies: 78
+# Priority: medium
+# Description: Extend scenario YAML schema and workflows to capture design decisions, alternatives, trade-offs, and improvement suggestions.
+# Details:
+Update YAML schema validator and CLI to support design_decisions and potential_improvements sections. Ensure workflows prompt for and record this data. Provide templates and examples.
+
+# Test Strategy:
+Validate schema updates with new and existing YAMLs. Test CLI and workflow integration for adding and displaying decisions/improvements.

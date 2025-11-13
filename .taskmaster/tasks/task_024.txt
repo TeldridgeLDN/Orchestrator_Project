@@ -1,0 +1,91 @@
+# Task ID: 24
+# Title: Implement Project Orchestrator Meta-Skill
+# Status: done
+# Dependencies: 21, 23
+# Priority: high
+# Description: Create the project_orchestrator meta-skill that handles project management operations
+# Details:
+Develop the project orchestrator meta-skill following the PAI Skills-as-Containers pattern. This skill will handle all project management operations including creation, switching, listing, and removal.
+
+Implementation completed with the following structure:
+
+1. Created the skill structure:
+```bash
+mkdir -p ~/.claude/skills/project_orchestrator/workflows
+mkdir -p ~/.claude/skills/project_orchestrator/resources
+```
+
+2. Created the SKILL.md file (149 lines) with comprehensive documentation:
+```markdown
+# Project Orchestrator Meta-Skill
+
+This skill manages multiple Claude projects using a hybrid architecture that combines PAI global orchestration with diet103 local project patterns.
+
+## Capabilities
+
+- Create new projects from templates
+- Switch between registered projects
+- List all available projects
+- Remove (deregister) projects
+- Validate project structure
+
+## Workflows
+
+- [Create Project](workflows/create.md): Scaffold new projects from templates
+- [Switch Project](workflows/switch.md): Change active project context
+- [List Projects](workflows/list.md): View all registered projects
+- [Remove Project](workflows/remove.md): Deregister projects
+- [Validate Project](workflows/validate.md): Check project integrity
+
+## Resources
+
+- [Templates](resources/templates.md): Available project templates
+- [Troubleshooting](resources/troubleshooting.md): Common issues and solutions
+```
+
+3. Created the metadata.json file with skill manifest:
+```json
+{
+  "id": "project_orchestrator",
+  "name": "Project Orchestrator",
+  "type": "meta-skill",
+  "version": "1.0.0",
+  "description": "Global orchestrator for managing multiple Claude projects (PAI + diet103 hybrid)",
+  "architecture": {
+    "global_layer": "PAI Skills-as-Containers",
+    "project_layer": "diet103 auto-activation"
+  },
+  "workflows": [
+    "create",
+    "switch",
+    "list",
+    "remove",
+    "validate"
+  ],
+  "dependencies": [],
+  "token_footprint": "minimal (~500 tokens)",
+  "progressive_disclosure": true
+}
+```
+
+4. Created 5 workflow files (96-164 lines each) in the workflows directory:
+   - create.md
+   - switch.md
+   - list.md
+   - remove.md
+   - validate.md
+
+5. Created 2 resource files (243-276 lines) in the resources directory:
+   - templates.md
+   - troubleshooting.md
+
+All files meet diet103 guidelines (<500 lines) and follow PAI principles:
+- Progressive disclosure via workflow separation
+- Token-efficient design (~500 token footprint)
+- Clear documentation with examples
+- Natural language interface support
+
+The implementation is ready for CLI integration.
+
+# Test Strategy:
+Verify the skill structure is created correctly with all required files. Test that the skill can be loaded and accessed by Claude. Validate that each workflow file contains the correct content and is properly linked from the main SKILL.md file. Ensure the metadata.json file is valid according to the skill schema. Confirm that all files meet diet103 guidelines (<500 lines) and follow PAI principles including progressive disclosure, token efficiency, and natural language interface support.

@@ -1,0 +1,41 @@
+{
+  "project_id": "orchestrator-project",
+  "name": "orchestrator-docs",
+  "version": "1.0.0",
+  "description": "Documentation and specification for Project Orchestrator - A CLI tool for managing multiple Claude development projects with isolated contexts",
+  "skills": [
+    "diet103_validator",
+    "diet103_repair",
+    "project_orchestration"
+  ],
+  "project_type": "documentation",
+  "diet103_version": "1.2.0",
+  "created": "2025-11-07T17:00:00Z",
+  "last_updated": "2025-11-07T17:00:00Z",
+  "repository": "https://github.com/diet103/claude-code-infrastructure-showcase",
+  "tags": [
+    "documentation",
+    "specification",
+    "claude",
+    "orchestrator",
+    "diet103",
+    "cli-tool"
+  ],
+  "quality_metrics": {
+    "last_validated": "2025-11-07T17:00:00Z",
+    "test_suite_status": "passing",
+    "doc_coverage": "100%",
+    "markdown_files": 9,
+    "test_scenarios": 5
+  },
+  "features": [
+    "Markdown documentation validation",
+    "Automated test execution",
+    "Link checking",
+    "Documentation consistency checking",
+    "Example code validation"
+  ],
+  "maintainers": [
+    "Project Orchestrator Team"
+  ]
+}

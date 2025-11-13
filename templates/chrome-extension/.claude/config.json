@@ -1,0 +1,36 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "description": "Chrome Extension Development Environment",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "generate-content-script",
+      "path": ".claude/skills/generate-content-script.js",
+      "description": "Generate Chrome extension content scripts with DOM manipulation",
+      "enabled": true
+    },
+    {
+      "name": "generate-background-feature",
+      "path": ".claude/skills/generate-background-feature.js",
+      "description": "Generate background service worker features and message handlers",
+      "enabled": true
+    },
+    {
+      "name": "generate-popup-component",
+      "path": ".claude/skills/generate-popup-component.js",
+      "description": "Generate popup UI components with styling and functionality",
+      "enabled": true
+    }
+  ],
+  "hooks": {
+    "pre-commit": ".claude/hooks/pre-commit.js",
+    "pre-publish": ".claude/hooks/pre-publish.js"
+  },
+  "settings": {
+    "manifestVersion": 3,
+    "autoLint": true,
+    "validateManifest": true,
+    "checkPermissions": true
+  }
+}
+

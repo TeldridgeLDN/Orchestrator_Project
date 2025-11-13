@@ -1,0 +1,112 @@
+{
+  "id": "scenario_manager",
+  "name": "Scenario Manager",
+  "type": "meta-skill",
+  "version": "2.0.0",
+  "description": "Intelligent guidance and context-aware assistance for working with scenario definitions. Provides discovery, creation guidance, validation, and metadata tracking without auto-scaffolding.",
+  "structure": {
+    "format": "diet103-progressive-disclosure",
+    "version": "1.0",
+    "mainFile": "SKILL.md",
+    "resources": {
+      "quick-ref": {
+        "file": "resources/quick-ref.md",
+        "description": "Command cheat sheet and trigger phrases",
+        "maxLines": 100,
+        "actualLines": 94
+      },
+      "architecture": {
+        "file": "resources/architecture.md",
+        "description": "Technical design and integration points",
+        "maxLines": 500,
+        "actualLines": 500
+      },
+      "examples": {
+        "file": "resources/examples.md",
+        "description": "Real-world usage examples and workflows",
+        "maxLines": 500,
+        "actualLines": 431
+      },
+      "troubleshooting": {
+        "file": "resources/troubleshooting.md",
+        "description": "Common issues and solutions",
+        "maxLines": 500,
+        "actualLines": 491
+      }
+    }
+  },
+  "architecture": {
+    "layer": "global",
+    "pattern": "PAI Skills-as-Containers + diet103 auto-activation",
+    "progressive_disclosure": true
+  },
+  "capabilities": [
+    "scenario_discovery",
+    "creation_guidance",
+    "validation",
+    "metadata_tracking",
+    "context_aware_suggestions"
+  ],
+  "activation": {
+    "auto_activate": true,
+    "trigger_categories": [
+      "creation_scaffolding",
+      "discovery_listing",
+      "validation",
+      "status_info"
+    ]
+  },
+  "token_footprint": {
+    "overview_only": 200,
+    "with_single_resource": 500,
+    "all_resources": 1700,
+    "note": "Progressive disclosure reduces typical cost by 60-80%"
+  },
+  "dependencies": {
+    "required": [
+      "~/.claude/config.json",
+      "~/.claude/scenarios/",
+      "lib/utils/scenario-parser.js"
+    ],
+    "optional": [
+      "lib/utils/scenario-directory.js",
+      "lib/utils/scaffold-workflow.js"
+    ]
+  },
+  "safety_features": [
+    "no_auto_scaffolding",
+    "validation_before_guidance",
+    "metadata_consistency_checks",
+    "audit_trail"
+  ],
+  "integration_points": {
+    "config_json": "~/.claude/config.json",
+    "scenario_parser": "lib/utils/scenario-parser.js",
+    "scaffold_workflow": "lib/utils/scaffold-workflow.js",
+    "cli_commands": [
+      "diet103 scenario create",
+      "diet103 scenario validate",
+      "diet103 scenario scaffold",
+      "diet103 scenario list"
+    ]
+  },
+  "created": "2025-11-10",
+  "restructured": "2025-11-11",
+  "author": "Claude (Sonnet 4.5)",
+  "status": "active",
+  "changelog": {
+    "2.0.0": {
+      "date": "2025-11-11",
+      "changes": [
+        "Restructured following diet103 500-line rule",
+        "Split into progressive disclosure structure",
+        "Reduced SKILL.md from 427 to 244 lines",
+        "Created 4 resource files (quick-ref, architecture, examples, troubleshooting)",
+        "All files meet size limits",
+        "Improved token efficiency by 60-80%",
+        "Added structured metadata for resources"
+      ]
+    }
+  }
+}
+

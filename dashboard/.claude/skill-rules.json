@@ -1,0 +1,95 @@
+{
+  "$schema": "https://claude.ai/schemas/skill-rules-v1.json",
+  "version": "1.0.0",
+  "description": "Auto-activation rules for portfolio-redesign project. References global frontend_design_system skill.",
+  "rules": [
+    {
+      "id": "frontend_design_work",
+      "trigger_phrases": [
+        "design",
+        "style",
+        "styling",
+        "UI",
+        "component",
+        "icon",
+        "color",
+        "layout",
+        "typography",
+        "spacing",
+        "landing page",
+        "hero",
+        "section",
+        "card",
+        "button",
+        "visual",
+        "aesthetic",
+        "look",
+        "appearance"
+      ],
+      "file_patterns": [
+        "*.tsx",
+        "*.jsx",
+        "*.css",
+        "*.scss"
+      ],
+      "context_patterns": [
+        "dashboard/",
+        "src/components/",
+        "src/"
+      ],
+      "skill": "frontend_design_system",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates frontend_design_system skill when working on UI components, styling, or design-related tasks"
+    },
+    {
+      "id": "component_implementation",
+      "trigger_phrases": [
+        "create component",
+        "build component",
+        "new component",
+        "shadcn",
+        "lucide",
+        "icon component",
+        "button component",
+        "card component"
+      ],
+      "file_patterns": [
+        "src/components/*.tsx",
+        "src/components/*.jsx"
+      ],
+      "skill": "frontend_design_system",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when creating or modifying React components"
+    },
+    {
+      "id": "landing_page_sections",
+      "trigger_phrases": [
+        "discovery section",
+        "build section",
+        "launch section",
+        "grow section",
+        "prospecting page",
+        "landing page section"
+      ],
+      "skill": "frontend_design_system",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates for landing page section work"
+    }
+  ],
+  "global_settings": {
+    "case_sensitive": false,
+    "partial_match": true,
+    "require_exact_phrase": false
+  },
+  "notes": [
+    "Skill 'frontend_design_system' is a GLOBAL skill located at ~/.claude/skills/",
+    "It will be loaded from the global location when triggered",
+    "Project-specific design details are in Claude.md",
+    "Trigger phrases use case-insensitive matching",
+    "File patterns use glob syntax"
+  ]
+}
+

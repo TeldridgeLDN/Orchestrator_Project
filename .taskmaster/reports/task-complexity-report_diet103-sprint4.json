@@ -1,0 +1,37 @@
+{
+	"meta": {
+		"generatedAt": "2025-11-13T19:37:49.892Z",
+		"tasksAnalyzed": 3,
+		"totalTasks": 3,
+		"analysisCount": 3,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Implement Workflow Progress Tracker",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break down the Workflow Progress Tracker into subtasks covering: core engine implementation, UI/terminal integration with rich/tqdm, time estimation logic, history logging, bottleneck detection, API integration with workflows, and system resource monitoring. Include subtasks for unit, integration, and snapshot testing.",
+			"reasoning": "This task requires designing a modular, extensible tracking system with real-time UI, accurate time estimation, bottleneck analytics, and robust history management. It involves integrating with multiple workflows via APIs, supporting multi-level progress, and ensuring high performance and reliability. The need for modularity, real-time updates, and actionable feedback increases cyclomatic and cognitive complexity[1][2][4]. Testing requirements are extensive, including unit, integration, and performance tests. The use of multiple third-party libraries and the need for seamless integration with existing systems further elevate the implementation effort and risk."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Develop Centralized Alert Aggregator",
+			"complexityScore": 9,
+			"recommendedSubtasks": 9,
+			"expansionPrompt": "Decompose the Alert Aggregator into subtasks for: core engine, alert ingestion, deduplication (hash/fuzzy matching), severity-based routing, channel integrations (console, file, webhook, email), dashboard UI, RESTful API endpoints, alert history storage, and integration with all alert sources. Include subtasks for unit, integration, load, and UI testing.",
+			"reasoning": "This task is highly complex due to the need for real-time ingestion, deduplication (including fuzzy matching), priority routing, multi-channel delivery, and a unified dashboard UI. It must integrate with seven distinct sources, provide RESTful APIs, and guarantee high reliability and low latency. The deduplication and routing logic introduce significant algorithmic and testing complexity[2][4][6]. The dashboard and API add further layers of technical challenge, and the dependency on the workflow tracker increases integration risk. Comprehensive testing (unit, integration, load, UI) is required to meet performance and reliability standards."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Implement Context-Aware Documentation Assistant",
+			"complexityScore": 10,
+			"recommendedSubtasks": 11,
+			"expansionPrompt": "Expand the Documentation Assistant into subtasks for: core engine, context analyzer (file/task/error/git/command), suggestion engine (ML ranking), error parser, doc indexer, learning module, usage history storage, offline cache, CLI/hotkey integration, API integration with skills/hooks/agents, and performance optimization. Include subtasks for unit, integration, accuracy, learning, and offline tests.",
+			"reasoning": "This task is the most complex, requiring advanced NLP for context detection, ML-based ranking, full-text search, and adaptive learning. It must integrate with multiple development tools and workflows, support offline operation, and deliver sub-200ms responses with high relevance. The breadth of required technologies (NLP, ML, search, analytics), the need for seamless UX, and the integration with all skills, hooks, and agents drive up both cyclomatic and cognitive complexity[1][2][4]. Testing must cover accuracy, learning improvement, performance, and offline scenarios, making this a large, multi-disciplinary engineering effort."
+		}
+	]
+}

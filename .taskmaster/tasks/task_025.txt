@@ -1,0 +1,70 @@
+# Task ID: 25
+# Title: Develop Project Template Structure
+# Status: done
+# Dependencies: 21
+# Priority: medium
+# Description: Create the base, web-app, and shopify project templates for new project scaffolding
+# Details:
+Develop the template structures for new project creation. Each template should include the necessary files for a diet103-compatible project structure.
+
+1. Base Template (minimal setup):
+```bash
+# Create directory structure
+mkdir -p ~/.claude/templates/base/.claude/skills
+mkdir -p ~/.claude/templates/base/.claude/hooks
+mkdir -p ~/.claude/templates/base/.claude/agents
+mkdir -p ~/.claude/templates/base/.claude/commands
+mkdir -p ~/.claude/templates/base/.claude/resources
+
+# Create required files
+cat > ~/.claude/templates/base/.claude/Claude.md << 'EOF'
+# Project Context
+
+This is a Claude-enabled project created with the multi-project orchestration system.
+
+## Project Overview
+
+[Add your project description here]
+
+## Team Information
+
+[Add team information here]
+
+## Development Guidelines
+
+[Add development guidelines here]
+
+## Resources
+
+- [Add resources here]
+EOF
+
+cat > ~/.claude/templates/base/.claude/skill-rules.json << 'EOF'
+{
+  "rules": []
+}
+EOF
+
+cat > ~/.claude/templates/base/.claude/metadata.json << 'EOF'
+{
+  "project_id": "{{project_name}}",
+  "version": "0.1.0",
+  "description": "{{project_description}}",
+  "skills": [],
+  "created": "{{created_date}}",
+  "diet103_version": "1.2.0",
+  "tags": []
+}
+EOF
+```
+
+2. Create similar structures for web-app and shopify templates with appropriate skill directories and configuration files.
+
+3. For the web-app template, include a web_dev_assistant skill with appropriate SKILL.md and metadata.json files.
+
+4. For the shopify template, include shopify_skill and seo_optimizer skills with appropriate SKILL.md and metadata.json files.
+
+Each template should follow the diet103 structure with hooks for auto-activation and the 500-line progressive disclosure pattern.
+
+# Test Strategy:
+Verify each template is created with the correct structure and files. Test creating a new project from each template and validate that the resulting project structure matches the expected output. Ensure template variables ({{project_name}}, {{project_description}}, {{created_date}}) are properly replaced during project creation.

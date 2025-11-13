@@ -1,0 +1,88 @@
+# Advanced Scenario Template
+#
+# This template includes more features like AI analysis, webhooks,
+# design decisions, and potential improvements.
+
+scenario:
+  name: advanced-scenario
+  description: "Complex scenario with multiple integrations"
+  category: automation
+  version: "1.0.0"
+  
+  # Advanced trigger configuration
+  trigger:
+    type: hybrid  # Can be triggered multiple ways
+    command: /advanced-scenario
+    keywords: ["automation", "workflow"]
+    webhook:
+      path: /webhook/advanced-scenario
+      method: POST
+    schedule:
+      cron: "0 9 * * 1"  # Every Monday at 9am
+      
+  # Complex workflow with multiple steps
+  steps:
+    - id: receive_input
+      action: "Receive and validate input data"
+      type: webhook
+      validation:
+        required_fields: [client_name, project_type]
+        
+    - id: analyze_requirements
+      action: "AI-powered requirement analysis"
+      type: ai_analysis
+      dependencies: [receive_input]
+      mcp: perplexity-mcp
+      inputs: [client_data, project_type]
+      
+    - id: create_project
+      action: "Create project structure"
+      type: api_call
+      dependencies: [analyze_requirements]
+      mcp: github-mcp
+      
+    - id: notify_team
+      action: "Send notifications to team"
+      type: api_call
+      dependencies: [create_project]
+      mcp: slack-mcp
+      
+  # Required dependencies
+  dependencies:
+    mcps: [perplexity-mcp, github-mcp, slack-mcp]
+    skills: [project_manager]
+    
+  # Configuration for the scenario
+  config:
+    timeout: 3600  # 1 hour
+    retry_attempts: 3
+    notification_channels: [slack, email]
+    
+  # What this scenario generates
+  generates:
+    - global_skill: advanced_scenario
+    - slash_command: /advanced-scenario
+    - webhook_handler: /webhook/advanced-scenario
+    - hook_pattern: "automation|workflow"
+    
+  # Design decisions and rationale
+  design_decisions:
+    - decision: "Use AI analysis for requirements"
+      rationale: "Automated analysis provides faster turnaround"
+      alternatives_considered:
+        - "Manual review process"
+        - "Template-based requirements"
+      trade_offs:
+        pros:
+          - "Faster processing"
+          - "Consistent quality"
+        cons:
+          - "Requires AI API access"
+          - "May need human review"
+          
+  # Future improvements
+  potential_improvements:
+    - "Add parallel processing for multiple projects"
+    - "Implement caching for repeated analyses"
+    - "Add custom validation rules"
+

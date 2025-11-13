@@ -1,0 +1,181 @@
+# Task ID: 40
+# Title: Add Error Handling and Confirmations
+# Status: done
+# Dependencies: 39
+# Priority: medium
+# Description: Implement comprehensive error handling and confirmation flows for destructive operations, including an OrchestratorError class, suggestion system, and confirmation utility.
+# Details:
+Create robust error handling and confirmation systems for the orchestrator:
+
+1. Create an OrchestratorError class:
+   ```javascript
+   // utils/errors.js
+   class OrchestratorError extends Error {
+     constructor(code, message, suggestions = []) {
+       super(message);
+       this.name = 'OrchestratorError';
+       this.code = code;
+       this.suggestions = suggestions;
+     }
+     
+     static get ERROR_CODES() {
+       return {
+         PROJECT_NOT_FOUND: 'PROJECT_NOT_FOUND',
+         PROJECT_ALREADY_EXISTS: 'PROJECT_ALREADY_EXISTS',
+         TEMPLATE_NOT_FOUND: 'TEMPLATE_NOT_FOUND',
+         INVALID_PROJECT_STRUCTURE: 'INVALID_PROJECT_STRUCTURE',
+         PERMISSION_DENIED: 'PERMISSION_DENIED',
+         CONTEXT_LOAD_FAILED: 'CONTEXT_LOAD_FAILED',
+         CONTEXT_UNLOAD_FAILED: 'CONTEXT_UNLOAD_FAILED',
+         SKILL_ACTIVATION_FAILED: 'SKILL_ACTIVATION_FAILED',
+         INVALID_CONFIGURATION: 'INVALID_CONFIGURATION',
+         UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+       };
+     }
+     
+     getFormattedMessage() {
+       let output = `Error ${this.code}: ${this.message}`;
+       
+       if (this.suggestions.length > 0) {
+         output += '\n\nSuggestions:';
+         this.suggestions.forEach((suggestion, index) => {
+           output += `\n${index + 1}. ${suggestion}`;
+         });
+       }
+       
+       return output;
+     }
+   }
+   
+   module.exports = { OrchestratorError };
+   ```
+
+2. Create a confirmation utility:
+   ```javascript
+   // utils/confirmation.js
+   const readline = require('readline');
+   
+   async function confirmAction(message, defaultNo = true) {
+     const rl = readline.createInterface({
+       input: process.stdin,
+       output: process.stdout
+     });
+     
+     return new Promise((resolve) => {
+       const defaultText = defaultNo ? '[y/N]' : '[Y/n]';
+       const defaultValue = defaultNo ? false : true;
+       
+       rl.question(`${message} ${defaultText} `, (answer) => {
+         rl.close();
+         
+         if (!answer) return resolve(defaultValue);
+         
+         const normalized = answer.toLowerCase().trim();
+         if (['y', 'yes'].includes(normalized)) return resolve(true);
+         if (['n', 'no'].includes(normalized)) return resolve(false);
+         
+         return resolve(defaultValue);
+       });
+     });
+   }
+   
+   module.exports = { confirmAction };
+   ```
+
+3. Update action handlers to use the error class and confirmation utility:
+   ```javascript
+   // Example for remove-project.js
+   const { OrchestratorError } = require('../utils/errors');
+   const { confirmAction } = require('../utils/confirmation');
+   
+   async function removeProject(projectName, force = false) {
+     // Validate inputs
+     if (!projectName) {
+       throw new OrchestratorError(
+         OrchestratorError.ERROR_CODES.INVALID_CONFIGURATION,
+         'Project name is required'
+       );
+     }
+     
+     // Check if project exists
+     const projectPath = path.join(CONFIG.projectsPath, projectName);
+     try {
+       const stats = await fs.stat(projectPath);
+       if (!stats.isDirectory()) {
+         throw new OrchestratorError(
+           OrchestratorError.ERROR_CODES.PROJECT_NOT_FOUND,
+           `Project ${projectName} not found`,
+           ['Check the spelling of the project name', 'Use "claude project list" to see available projects']
+         );
+       }
+     } catch (error) {
+       throw new OrchestratorError(
+         OrchestratorError.ERROR_CODES.PROJECT_NOT_FOUND,
+         `Project ${projectName} not found: ${error.message}`,
+         ['Check the spelling of the project name', 'Use "claude project list" to see available projects']
+       );
+     }
+     
+     // Confirm deletion
+     if (!force) {
+       const confirmed = await confirmAction(`Are you sure you want to delete project ${projectName}?`, true);
+       if (!confirmed) {
+         return { success: false, cancelled: true };
+       }
+     }
+     
+     // Delete project
+     try {
+       await fs.rm(projectPath, { recursive: true, force: true });
+       return { success: true, projectName };
+     } catch (error) {
+       throw new OrchestratorError(
+         OrchestratorError.ERROR_CODES.PERMISSION_DENIED,
+         `Failed to delete project ${projectName}: ${error.message}`,
+         ['Check file permissions', 'Close any applications using project files']
+       );
+     }
+   }
+   ```
+
+4. Create a central error handler for CLI commands:
+   ```javascript
+   // cli/error-handler.js
+   const { OrchestratorError } = require('../utils/errors');
+   
+   function handleError(error) {
+     if (error instanceof OrchestratorError) {
+       console.error(error.getFormattedMessage());
+     } else {
+       console.error(`Unexpected error: ${error.message}`);
+       console.error(error.stack);
+     }
+     
+     process.exit(1);
+   }
+   
+   module.exports = { handleError };
+   ```
+
+5. Update CLI commands to use the error handler
+
+# Test Strategy:
+1. Unit tests for OrchestratorError:
+   - Test error creation with different codes
+   - Test formatted message output
+   - Test with and without suggestions
+
+2. Unit tests for confirmation utility:
+   - Test with yes/no inputs
+   - Test with empty input (default)
+   - Test with invalid input
+
+3. Integration tests:
+   - Test error handling in each action handler
+   - Test confirmation flow for destructive operations
+   - Test suggestion system for common errors
+
+4. User experience tests:
+   - Evaluate error message clarity
+   - Test suggestion helpfulness
+   - Verify confirmation prevents accidental deletions

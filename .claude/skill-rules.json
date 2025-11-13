@@ -1,0 +1,89 @@
+{
+  "$schema": "https://claude.ai/schemas/skill-rules-v1.json",
+  "version": "1.0.0",
+  "description": "Auto-activation rules for orchestrator skills (diet103 pattern)",
+  "rules": [
+    {
+      "id": "scenario_creation",
+      "trigger_phrases": [
+        "create scenario",
+        "new scenario",
+        "scaffold scenario",
+        "generate from scenario",
+        "make a scenario",
+        "build scenario"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when user wants to create or scaffold a scenario"
+    },
+    {
+      "id": "scenario_discovery",
+      "trigger_phrases": [
+        "list scenarios",
+        "show scenarios",
+        "what scenarios",
+        "available scenarios",
+        "my scenarios",
+        "view scenarios"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when user wants to discover or list scenarios"
+    },
+    {
+      "id": "scenario_validation",
+      "trigger_phrases": [
+        "validate scenario",
+        "check scenario",
+        "verify scenario",
+        "test scenario",
+        "scenario valid"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when user wants to validate a scenario"
+    },
+    {
+      "id": "scenario_status",
+      "trigger_phrases": [
+        "scenario status",
+        "scaffolded scenarios",
+        "scenario info",
+        "scenario details",
+        "which scenarios"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Activates when user wants scenario status information"
+    },
+    {
+      "id": "scenario_help",
+      "trigger_phrases": [
+        "how to create scenario",
+        "scenario help",
+        "scenario guide",
+        "scenario workflow"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Activates when user needs help with scenarios"
+    }
+  ],
+  "global_settings": {
+    "case_sensitive": false,
+    "partial_match": true,
+    "require_exact_phrase": false
+  },
+  "notes": [
+    "Trigger phrases use case-insensitive matching",
+    "Partial matches are allowed (e.g., 'create scenario' matches 'I want to create scenario')",
+    "Skills only activate if trigger phrases match, avoiding false positives",
+    "Priority determines activation order if multiple rules match"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "project_id": "portfolio-redesign",
+  "name": "Portfolio Redesign - Landing Page",
+  "version": "0.1.0",
+  "description": "Personal portfolio redesign with prospecting landing page. Focus on modern design, shadcn/ui components, and strategic icon usage.",
+  "parent_project": "orchestrator-project",
+  "skills": [
+    "frontend_design_system"
+  ],
+  "project_type": "frontend-application",
+  "diet103_version": "1.2.0",
+  "created": "2025-11-13T00:00:00Z",
+  "last_updated": "2025-11-13T00:00:00Z",
+  "tags": [
+    "portfolio",
+    "landing-page",
+    "design-system",
+    "shadcn-ui",
+    "react",
+    "frontend",
+    "prospecting"
+  ],
+  "tech_stack": {
+    "framework": "React + Vite",
+    "ui_library": "shadcn/ui",
+    "styling": "Tailwind CSS",
+    "icons": "Lucide React",
+    "language": "TypeScript"
+  },
+  "design_system": {
+    "component_library": "shadcn/ui",
+    "icon_library": "Lucide React",
+    "color_palette": "Custom (defined in project)",
+    "typography": "Inter + Custom heading font",
+    "spacing_scale": "Tailwind default (4px base)"
+  },
+  "landing_page_sections": [
+    "Discovery",
+    "Build",
+    "Launch",
+    "Grow"
+  ],
+  "current_focus": "Icon implementation and design consistency across landing page sections",
+  "maintainers": [
+    "Tom Eldridge"
+  ]
+}
+

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://claude.ai/schemas/orchestrator-config-v1.json",
+  "version": "1.0.0",
+  "description": "Orchestrator global configuration with scenario metadata tracking",
+  "created": "2025-11-10T11:45:00Z",
+  "last_modified": "2025-11-10T11:45:00Z",
+  "scenarios": {
+    "available": {},
+    "scaffolded": {},
+    "metadata_version": "1.0.0"
+  },
+  "settings": {
+    "auto_track_scenarios": true,
+    "validate_on_load": true,
+    "cache_validation_results": true,
+    "sync_with_filesystem": true
+  },
+  "paths": {
+    "scenarios_dir": "~/.claude/scenarios",
+    "skills_dir": "~/.claude/skills",
+    "commands_dir": "~/.claude/commands",
+    "hooks_dir": "~/.claude/hooks"
+  },
+  "statistics": {
+    "total_scenarios": 0,
+    "scaffolded_count": 0,
+    "available_count": 0,
+    "last_scaffolded": null
+  },
+  "notes": [
+    "This file tracks scenario metadata for the scenario_manager skill",
+    "Available scenarios: YAML files that exist but haven't been scaffolded yet",
+    "Scaffolded scenarios: Scenarios that have been compiled into orchestrator components",
+    "Metadata is automatically updated by the scaffold workflow",
+    "Manual editing is possible but not recommended - use CLI commands instead"
+  ]
+}
+

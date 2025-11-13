@@ -1,0 +1,43 @@
+# Task ID: 20
+# Title: PostToolUse Hook Integration
+# Status: done
+# Dependencies: 13, 15, 16, 17
+# Priority: high
+# Description: Integrate PostToolUse hook to trigger classification, manifest update, frontmatter sync, and organization suggestion on file changes.
+# Details:
+Implement onFileChanged(toolUse, context) in hooks/. Ensure async processing and confidence threshold logic. Suggest organization for misplaced files. Integrate with orchestrator event system.
+
+# Test Strategy:
+Integration tests for hook triggering. Performance and reliability tests. Misplaced file detection validation.
+
+# Subtasks:
+## 1. Implement onFileChanged Hook and Bind to PostToolUse Event [done]
+### Dependencies: None
+### Description: Develop the onFileChanged(toolUse, context) function in the hooks/ directory and ensure it is correctly registered to trigger on PostToolUse events for file changes.
+### Details:
+Create the onFileChanged function in hooks/. Configure the PostToolUse hook in the settings (e.g., .claude/settings.json) with the appropriate matcher (Edit|MultiEdit|Write) to ensure it triggers on relevant file operations. Validate hook registration and event binding using test file changes.
+
+## 2. Implement Asynchronous Processing and Robust Error Handling [done]
+### Dependencies: 20.1
+### Description: Ensure all processing within onFileChanged is asynchronous and implement comprehensive error handling to prevent race conditions and ensure reliability.
+### Details:
+Refactor onFileChanged to use async/await for all I/O and classification tasks. Wrap critical sections in try/catch blocks. Log errors and ensure failures in one operation do not block subsequent steps. Consider using a queue or debounce mechanism if multiple file changes occur rapidly.
+
+## 3. Integrate Confidence Threshold Logic for Classification Actions [done]
+### Dependencies: 20.2
+### Description: Add logic to only trigger classification, manifest updates, and frontmatter sync when classification confidence exceeds a configurable threshold.
+### Details:
+After classification, compare the confidence score to a configurable threshold (e.g., from settings or environment). Only proceed with manifest and frontmatter updates if the threshold is met. Log or report cases where confidence is too low.
+
+## 4. Develop Organization Suggestion Mechanism for Misplaced Files [done]
+### Dependencies: 20.3
+### Description: Implement logic to detect misplaced files and suggest or trigger organization actions when files are not in their expected locations.
+### Details:
+Analyze file paths and classification results to identify misplaced files. Suggest new locations or trigger automated moves if configured. Integrate with existing organization scoring or validation systems if available.
+
+## 5. Integrate Hook with Orchestrator Event System [done]
+### Dependencies: 20.4
+### Description: Connect the PostToolUse hook and its actions to the orchestrator event system to ensure all downstream processes are notified and can react accordingly.
+### Details:
+Emit appropriate events from onFileChanged after each major action (classification, manifest update, organization suggestion). Ensure event payloads contain sufficient context for downstream consumers. Test event propagation and consumption.
+

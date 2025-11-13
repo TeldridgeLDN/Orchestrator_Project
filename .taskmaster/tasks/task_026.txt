@@ -1,0 +1,157 @@
+# Task ID: 26
+# Title: Implement CLI Command Framework
+# Status: done
+# Dependencies: 21, 22
+# Priority: high
+# Description: Create the command-line interface framework for the claude project management tool
+# Details:
+Develop the CLI framework for the claude project management tool. This should include the main executable and command structure for all project operations.
+
+Successfully implemented the CLI Command Framework with the following components:
+
+1. **Main CLI Entrypoint** (~/.claude/bin/claude)
+   - Node.js executable using Commander.js framework
+   - Version management from package.json
+   - Command routing for all project operations
+   - Proper help text and options
+
+2. **Command Structure**
+   - claude project create <name> [options]
+   - claude project switch <name> [options]
+   - claude project list [options]
+   - claude project remove <name> [options]
+   - claude project validate [name] [options]
+   - claude project register <path> [options]
+
+3. **Command Implementations** (~/.claude/lib/commands/)
+   - create.js - Stub with validation logic outline
+   - switch.js - Stub with context switching outline
+   - list.js - FULLY IMPLEMENTED with empty state handling
+   - remove.js - Stub with safety measures outline
+   - validate.js - Stub with validation checks outline
+
+4. **Package Configuration**
+   - Added commander dependency (v14.0.2)
+   - Configured bin entry for npm installation
+   - Executable permissions set correctly
+
+5. **Documentation**
+   - Created INSTALLATION.md with setup instructions
+   - PATH and symlink options documented
+   - Usage examples and command reference
+
+Implementation code:
+
+```javascript
+#!/usr/bin/env node
+// bin/claude - Main CLI entrypoint
+
+const { program } = require('commander');
+const { version } = require('../package.json');
+const { createProject } = require('../lib/commands/create');
+const { switchProject } = require('../lib/commands/switch');
+const { listProjects } = require('../lib/commands/list');
+const { removeProject } = require('../lib/commands/remove');
+const { validateProject } = require('../lib/commands/validate');
+const { registerProject } = require('../lib/commands/register');
+
+program
+  .name('claude')
+  .description('Claude AI multi-project orchestration system')
+  .version(version);
+
+// Project commands
+const project = program.command('project')
+  .description('Manage Claude projects');
+
+project.command('create')
+  .description('Create a new Claude project')
+  .argument('<name>', 'Project name')
+  .option('-t, --template <template>', 'Template to use', 'base')
+  .option('-p, --path <path>', 'Project path')
+  .option('-d, --description <description>', 'Project description')
+  .action(createProject);
+
+project.command('switch')
+  .description('Switch to a different Claude project')
+  .argument('<name>', 'Project name')
+  .action(switchProject);
+
+project.command('list')
+  .description('List all Claude projects')
+  .option('-v, --verbose', 'Show detailed information')
+  .action(listProjects);
+
+project.command('remove')
+  .description('Remove a Claude project')
+  .argument('<name>', 'Project name')
+  .option('-f, --force', 'Skip confirmation')
+  .action(removeProject);
+
+project.command('validate')
+  .description('Validate a Claude project')
+  .argument('[name]', 'Project name (defaults to all)')
+  .option('-a, --all', 'Validate all projects')
+  .action(validateProject);
+
+project.command('register')
+  .description('Register an existing Claude project')
+  .argument('<path>', 'Path to project')
+  .option('-n, --name <name>', 'Project name (defaults to directory name)')
+  .action(registerProject);
+
+program.parse();
+```
+
+Make the CLI executable and available in the PATH:
+
+```bash
+chmod +x ~/.claude/bin/claude
+ln -s ~/.claude/bin/claude /usr/local/bin/claude
+```
+
+# Test Strategy:
+Test the CLI framework by running each command with --help to verify the command structure and options are correct. Test the executable permissions and symlink to ensure the command is available in the PATH. Verify that each command correctly delegates to the appropriate implementation function.
+
+Testing completed:
+- All commands show proper help text
+- List command works with empty and populated configs
+- Stub commands execute without errors
+- CLI properly handles options and arguments
+
+Additional tests to perform for remaining command implementations:
+- Verify the 'register' command correctly adds existing projects to the registry
+- Test error handling for invalid arguments and options
+- Ensure all commands provide appropriate feedback and exit codes
+
+# Subtasks:
+## 1. Implement main CLI entrypoint [done]
+### Dependencies: None
+### Description: Create the main executable file with Commander.js framework and command structure
+### Details:
+Implement the main CLI entrypoint file at ~/.claude/bin/claude using Node.js and Commander.js. Set up the command structure for all project operations including create, switch, list, remove, validate, and register commands.
+
+## 2. Implement command stubs [done]
+### Dependencies: 26.1
+### Description: Create stub implementation files for each command in the lib/commands directory
+### Details:
+Create stub implementation files for create.js, switch.js, list.js, remove.js, validate.js, and register.js in the lib/commands directory. Each stub should export the appropriate function and include basic structure for the command implementation.
+
+## 3. Implement list command [done]
+### Dependencies: 26.2
+### Description: Fully implement the list command to display all registered Claude projects
+### Details:
+Implement the list command to read the configuration and display all registered projects. Handle empty state and implement verbose output option for detailed information.
+
+## 4. Configure package and permissions [done]
+### Dependencies: 26.1
+### Description: Set up package.json bin entry and executable permissions
+### Details:
+Add commander dependency (v14.0.2) to package.json, configure bin entry for npm installation, and set executable permissions for the CLI entrypoint.
+
+## 5. Create documentation [done]
+### Dependencies: 26.1, 26.2, 26.3, 26.4
+### Description: Create documentation for CLI installation and usage
+### Details:
+Create INSTALLATION.md with setup instructions, PATH and symlink options, usage examples, and command reference.
+

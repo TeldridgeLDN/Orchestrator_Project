@@ -1,0 +1,88 @@
+# Task ID: 37
+# Title: Create project_orchestrator Skill Structure
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Build the PAI Skills-as-Containers structure for the orchestrator meta-skill, including the main skill documentation, metadata, workflows, and resources.
+# Details:
+Create the directory structure and core files for the project_orchestrator skill:
+
+1. Create the base directory structure:
+   ```bash
+   mkdir -p ~/.claude/skills/project_orchestrator/workflows
+   mkdir -p ~/.claude/skills/project_orchestrator/resources
+   ```
+
+2. Create the main skill documentation file (SKILL.md):
+   ```markdown
+   # Project Orchestrator Skill
+   
+   The Project Orchestrator skill helps manage Claude projects, enabling context switching, project creation, and project management.
+   
+   ## Capabilities
+   
+   - Create new projects from templates
+   - Switch between projects
+   - List available projects
+   - Remove projects
+   - Validate project structure
+   
+   ## Workflows
+   
+   - [Create Project](workflows/create.md): Create a new project from a template
+   - [Switch Project](workflows/switch.md): Switch to an existing project
+   - [List Projects](workflows/list.md): List all available projects
+   - [Remove Project](workflows/remove.md): Remove an existing project
+   - [Validate Project](workflows/validate.md): Validate project structure
+   
+   ## Resources
+   
+   - [Templates](resources/templates.md): Available project templates
+   - [Troubleshooting](resources/troubleshooting.md): Common issues and solutions
+   ```
+
+3. Create metadata.json:
+   ```json
+   {
+     "name": "project_orchestrator",
+     "version": "1.0.0",
+     "description": "Manages Claude projects and context switching",
+     "author": "Claude Team",
+     "dependencies": [],
+     "activationPatterns": [
+       "create project",
+       "switch to project",
+       "list projects",
+       "remove project",
+       "validate project"
+     ]
+   }
+   ```
+
+4. Create workflow documentation files:
+   - workflows/create.md
+   - workflows/switch.md
+   - workflows/list.md
+   - workflows/remove.md
+   - workflows/validate.md
+
+5. Create resource documentation files:
+   - resources/templates.md
+   - resources/troubleshooting.md
+
+Ensure all documentation files follow the diet103 rule of being under 500 lines each.
+
+# Test Strategy:
+1. Structure validation:
+   - Verify all required directories and files exist
+   - Validate metadata.json format
+   - Check SKILL.md content and length (<500 lines)
+
+2. Documentation review:
+   - Review all workflow documentation for completeness
+   - Verify resource documentation is helpful and accurate
+   - Check for broken links between documents
+
+3. Integration test:
+   - Verify the skill can be loaded by the skill manager
+   - Check that activation patterns are correctly registered

@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://claude.ai/schemas/metrics-v1.json",
+  "title": "Orchestrator Metrics Schema",
+  "description": "Schema for tracking skill and hook usage metrics",
+  "type": "object",
+  "required": ["version", "reporting_period", "skills", "hooks", "metadata"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "reporting_period": {
+      "type": "object",
+      "description": "Current reporting period",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Period start timestamp (ISO 8601)"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Period end timestamp (ISO 8601)"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about the metrics collection",
+      "required": ["created", "last_modified"],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When metrics collection started"
+        },
+        "last_modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last metrics update timestamp"
+        },
+        "flush_pending": {
+          "type": "boolean",
+          "description": "Whether there are pending metrics to flush",
+          "default": false
+        }
+      }
+    },
+    "skills": {
+      "type": "object",
+      "description": "Skill usage metrics",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["activations", "manual", "auto"],
+        "properties": {
+          "activations": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of skill activations"
+          },
+          "manual": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of manual activations"
+          },
+          "auto": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of automatic activations"
+          },
+          "avg_duration_seconds": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Average execution duration in seconds"
+          },
+          "total_duration_seconds": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total execution time across all activations"
+          },
+          "duration_histogram": {
+            "type": "object",
+            "description": "Histogram of execution durations",
+            "properties": {
+              "<1s": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "1-5s": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "5-10s": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "10-30s": {
+                "type": "integer",
+                "minimum": 0
+              },
+              ">30s": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "errors_found": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of errors/issues detected by this skill"
+          },
+          "errors_encountered": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of times the skill itself failed"
+          },
+          "last_used": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last activation"
+          },
+          "first_used": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of first activation"
+          }
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Hook execution metrics",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["executions"],
+        "properties": {
+          "executions": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of hook executions"
+          },
+          "warnings_issued": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of warnings issued by this hook"
+          },
+          "errors_caught": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of errors caught/handled by this hook"
+          },
+          "errors_encountered": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of times the hook itself failed"
+          },
+          "avg_execution_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Average execution time in milliseconds"
+          },
+          "total_execution_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total execution time across all invocations"
+          },
+          "execution_histogram": {
+            "type": "object",
+            "description": "Histogram of execution times",
+            "properties": {
+              "<1ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "1-5ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "5-10ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "10-50ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              ">50ms": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "last_executed": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last execution"
+          },
+          "first_executed": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of first execution"
+          }
+        }
+      }
+    }
+  }
+}
+

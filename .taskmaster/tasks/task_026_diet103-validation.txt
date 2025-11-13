@@ -1,0 +1,11 @@
+# Task ID: 26
+# Title: Implement CLI Commands for Scenario Management
+# Status: pending
+# Dependencies: 24, 25
+# Priority: high
+# Description: Build CLI commands for scenario lifecycle management, including creation, listing, showing, editing, deploying, validating, removing, and optimizing scenarios.
+# Details:
+Use a modern CLI framework such as Typer (Python, v0.12+) or oclif (Node.js, v4.x). Implement commands: `claude scenario create`, `list`, `show`, `edit`, `deploy`, `validate`, `remove`, `optimize`, and `explore`. Ensure commands interact with the scenario YAML files and trigger the appropriate workflows in scenario_builder. Support interactive prompts and template-based creation. Implement robust error handling and helpful inline documentation. Ensure CLI is extensible for future commands and integrates with partnership level settings. Follow best practices for CLI UX, including autocompletion and context-aware help.
+
+# Test Strategy:
+Automated CLI integration tests for all commands. Mock file system and workflow interactions. Usability tests for interactive flows.

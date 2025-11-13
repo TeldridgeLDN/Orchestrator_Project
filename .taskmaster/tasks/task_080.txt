@@ -1,0 +1,11 @@
+# Task ID: 80
+# Title: Develop Performance Metrics Collection and Reporting System
+# Status: pending
+# Dependencies: 79
+# Priority: medium
+# Description: Implement collection and reporting of scenario performance metrics (creation success, alternative accuracy, feasibility, optimization relevance, deployment time).
+# Details:
+Instrument scenario_builder and CLI to log relevant metrics. Store in local SQLite or lightweight analytics backend. Provide CLI/reporting commands for users to view metrics. Ensure GDPR compliance for telemetry.
+
+# Test Strategy:
+Simulate scenario runs and validate metrics are collected and reported accurately. Test opt-in/opt-out for telemetry.

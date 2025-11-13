@@ -1,0 +1,72 @@
+# Task ID: 4
+# Title: Develop Repair Module
+# Status: done
+# Dependencies: 1, 2, 3
+# Priority: high
+# Description: Create the auto-repair system for installing missing diet103 components
+# Details:
+Implement diet103-repair.js with key functions:
+- repairDiet103Infrastructure()
+- installCriticalComponents()
+- installImportantDirectories()
+- replaceTemplateVariables()
+
+Pseudo-code:
+```javascript
+function repairDiet103Infrastructure(projectPath, gaps, checks) {
+  if (gaps.critical.length > 0) {
+    installCriticalComponents(projectPath);
+  }
+  
+  if (gaps.important.length > 0) {
+    installImportantDirectories(projectPath);
+  }
+  
+  replaceTemplateVariables(projectPath, {
+    PROJECT_NAME: path.basename(projectPath),
+    CREATED_DATE: new Date().toISOString()
+  });
+  
+  return validateDiet103Infrastructure(projectPath);
+}```
+
+# Test Strategy:
+Rigorous testing scenarios:
+1. Repair on completely empty project
+2. Repair on partially complete project
+3. Verify no existing files are overwritten
+4. Validate correct template variable replacement
+5. Verify file permissions are correctly set
+6. Test repair on projects with various infrastructure gaps
+
+# Subtasks:
+## 1. Design repairDiet103Infrastructure function interface and flow [done]
+### Dependencies: None
+### Description: Define the main entry point for the repair module, specifying parameters, control flow, and integration points for sub-functions.
+### Details:
+Draft the function signature for repairDiet103Infrastructure, ensuring it accepts projectPath, gaps, and checks. Outline the control flow to call sub-functions for critical and important gaps, template replacement, and validation. Document expected input/output and error handling.
+
+## 2. Implement installCriticalComponents function [done]
+### Dependencies: 4.1
+### Description: Develop logic to detect and install missing critical components in the diet103 project infrastructure.
+### Details:
+Create installCriticalComponents to scan for missing critical files or directories and install or restore them as needed. Ensure idempotency and avoid overwriting existing files. Use file system operations and maintain a log of actions.
+
+## 3. Implement installImportantDirectories function [done]
+### Dependencies: 4.1
+### Description: Develop logic to detect and create missing important directories in the diet103 project.
+### Details:
+Create installImportantDirectories to check for and create required directories classified as important. Ensure correct permissions and structure. Avoid modifying existing directories.
+
+## 4. Implement replaceTemplateVariables function [done]
+### Dependencies: 4.1
+### Description: Develop logic to replace template variables in relevant files with project-specific values.
+### Details:
+Implement replaceTemplateVariables to scan files for placeholders (e.g., PROJECT_NAME, CREATED_DATE) and replace them with actual values. Ensure only intended files are modified and support extensibility for future variables.
+
+## 5. Integrate validation and finalize repairDiet103Infrastructure [done]
+### Dependencies: 4.2, 4.3, 4.4
+### Description: Integrate all sub-functions and implement final validation to ensure the repaired infrastructure meets diet103 requirements.
+### Details:
+Combine all sub-functions within repairDiet103Infrastructure. After repairs, call validateDiet103Infrastructure to confirm all gaps are addressed. Handle errors and return a comprehensive status report.
+

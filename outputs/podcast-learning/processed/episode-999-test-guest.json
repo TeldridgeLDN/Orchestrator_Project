@@ -1,0 +1,349 @@
+{
+  "episode": {
+    "title": "Architecture Validation Test",
+    "guest": "Test Guest",
+    "episodeNumber": "999"
+  },
+  "insights": [
+    "Design systems teams are particularly vulnerable to burnout because they constantly context-switch between different teams and projects while doing infrastructure work that's often invisible and undervalued by organizations.",
+    "Living your values in practice means being explicit about what matters to you and making decisions that align with those values, even when it puts you in conflict with organizational pressures to move fast and cut corners.",
+    "Knowing when to quit is a strength, not a weakness - recognizing when you've advocated, tried, and done the work but the environment isn't changing is crucial for protecting your own sustainability.",
+    "Making invisible work visible by documenting what you're doing, tracking your impact, and showing the value helps both others understand your contribution and helps you see what you've actually accomplished.",
+    "Design systems practitioners who care deeply about accessibility, consistency, and craft face vulnerability when their values conflict with organizational structures that don't prioritize these aspects.",
+    "Establishing clear boundaries about when you work and when you don't is essential because design systems work can feel endless with always more teams to support and components to build.",
+    "Finding supportive communities - whether other design systems practitioners, people in your organization who understand, or online communities - is essential for validation when dealing with unreasonable situations.",
+    "The emotional labor of convincing people why consistency and accessibility matter, combined with negotiating priorities and fighting for resources, contributes significantly to design systems team burnout."
+  ],
+  "references": [
+    {
+      "url": "https://www.activevoicehq.com/",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": false,
+      "finalUrl": "https://www.activevoicehq.com/",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "unknown"
+    },
+    {
+      "url": "https://www.linkedin.com/in/saraboettcher/",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": true,
+      "finalUrl": "https://www.linkedin.com/in/saraboettcher",
+      "title": "Sara Wachter-Boettcher - Active Voice | LinkedIn",
+      "description": "I’m a coach, strategist, speaker, and the founder of Active Voice, a leadership… · Experience: Active Voice · Education: University of Oregon · Location: Philadelphia · 500+ connections on LinkedIn. View Sara Wachter-Boettcher’s profile on LinkedIn, a professional community of 1 billion members.",
+      "error": null,
+      "metadata": {
+        "title": "Sara Wachter-Boettcher - Active Voice | LinkedIn",
+        "description": "I’m a coach, strategist, speaker, and the founder of Active Voice, a leadership… · Experience: Active Voice · Education: University of Oregon · Location: Philadelphia · 500+ connections on LinkedIn. View Sara Wachter-Boettcher’s profile on LinkedIn, a professional community of 1 billion members.",
+        "author": null,
+        "image": "https://media.licdn.com/dms/image/v2/D4E03AQF3E9WUU5G6tQ/profile-displayphoto-shrink_200_200/B4EZS0KVONHgAg-/0/1738189395181?e=2147483647&amp;v=beta&amp;t=vP27sh6_o-gg4rSFdoHcsjfRS3ai9abB47wZCoQaiO8",
+        "siteName": null
+      },
+      "category": "social"
+    },
+    {
+      "url": "https://abookapart.com/products/design-for-real-life",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": false,
+      "finalUrl": "https://abookapart.com/products/design-for-real-life",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    },
+    {
+      "url": "https://bookshop.org/p/books/technically-wrong-sexist-apps-biased-algorithms-and-other-threats-of-toxic-tech-sara-wachter-boettcher/11186625",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": true,
+      "finalUrl": "https://bookshop.org/p/books/technically-wrong-sexist-apps-biased-algorithms-and-other-threats-of-toxic-tech-sara-wachter-boettcher/a13ebc739ef27029?ean=9780393356045&next=t&",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    },
+    {
+      "url": "https://rosenfeldmedia.com/books/content-everywhere/",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": false,
+      "finalUrl": "https://rosenfeldmedia.com/books/content-everywhere/",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    },
+    {
+      "url": "https://www.activevoicehq.com/)",
+      "valid": true,
+      "reachable": false,
+      "status": 404,
+      "statusText": "Not Found",
+      "redirected": false,
+      "finalUrl": "https://www.activevoicehq.com/)",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "unknown"
+    },
+    {
+      "url": "https://www.linkedin.com/in/saraboettcher/)",
+      "valid": true,
+      "reachable": false,
+      "status": 999,
+      "statusText": "Request denied",
+      "redirected": false,
+      "finalUrl": "https://www.linkedin.com/in/saraboettcher/)",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {
+        "title": null,
+        "description": null,
+        "author": null,
+        "image": null,
+        "siteName": null
+      },
+      "category": "social"
+    },
+    {
+      "url": "https://abookapart.com/products/design-for-real-life)",
+      "valid": true,
+      "reachable": false,
+      "status": 404,
+      "statusText": "Not Found",
+      "redirected": false,
+      "finalUrl": "https://abookapart.com/products/design-for-real-life)",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    },
+    {
+      "url": "https://bookshop.org/p/books/technically-wrong-sexist-apps-biased-algorithms-and-other-threats-of-toxic-tech-sara-wachter-boettcher/11186625)",
+      "valid": true,
+      "reachable": false,
+      "status": 404,
+      "statusText": "Not Found",
+      "redirected": false,
+      "finalUrl": "https://bookshop.org/p/books/technically-wrong-sexist-apps-biased-algorithms-and-other-threats-of-toxic-tech-sara-wachter-boettcher/11186625)",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    },
+    {
+      "url": "https://rosenfeldmedia.com/books/content-everywhere/)",
+      "valid": true,
+      "reachable": true,
+      "status": 200,
+      "statusText": "OK",
+      "redirected": true,
+      "finalUrl": "https://rosenfeldmedia.com/books/content-everywhere/",
+      "title": null,
+      "description": null,
+      "error": null,
+      "metadata": {},
+      "category": "book"
+    }
+  ],
+  "actions": [
+    {
+      "name": "Personal Practice",
+      "description": "Applying design systems best practices to personal projects and skill development",
+      "actions": [
+        {
+          "title": "Establish a personal 'sustainability audit' framework",
+          "description": "Create a checklist to review your personal projects every quarter, assessing whether the work is still aligned with your values and energy levels. Include questions about invisible labor, context-switching frequency, and whether you're advocating effectively for sustainable practices.",
+          "relatedInsights": [
+            0,
+            2
+          ],
+          "effort": "low",
+          "impact": "high",
+          "timeframe": "immediate"
+        },
+        {
+          "title": "Document your 'design values manifesto'",
+          "description": "Write a personal document explicitly stating what matters to you in design work (accessibility, consistency, user-centered design, etc.). Reference this when making decisions about which projects to take on or how to approach new challenges. Make it visible in your workspace.",
+          "relatedInsights": [
+            1,
+            4
+          ],
+          "effort": "low",
+          "impact": "medium",
+          "timeframe": "immediate"
+        },
+        {
+          "title": "Build a 'work visibility' habit",
+          "description": "Start a weekly practice of documenting your accomplishments in a personal log. Track both visible outputs and invisible work (research, mentoring, process improvements). Use this to advocate for yourself and recognize your own progress.",
+          "relatedInsights": [
+            3
+          ],
+          "effort": "low",
+          "impact": "medium",
+          "timeframe": "immediate"
+        }
+      ]
+    },
+    {
+      "name": "Regular Work",
+      "description": "Implementing design systems and avoiding burnout in professional design systems team work",
+      "actions": [
+        {
+          "title": "Propose a 'design systems impact dashboard'",
+          "description": "Create a simple dashboard that tracks and visualizes the impact of your design systems work across teams. Include metrics like: components adopted, consistency improvements, accessibility wins, time saved by teams. Present this monthly to leadership to make invisible infrastructure work visible.",
+          "relatedInsights": [
+            0,
+            3
+          ],
+          "effort": "medium",
+          "impact": "high",
+          "timeframe": "short-term"
+        },
+        {
+          "title": "Implement 'office hours' instead of ad-hoc context switching",
+          "description": "Establish scheduled office hours (e.g., Tuesday and Thursday 2-4pm) for teams to bring design systems questions. Block other times for deep work on infrastructure. Communicate this clearly to reduce constant context switching while still providing support.",
+          "relatedInsights": [
+            0,
+            5
+          ],
+          "effort": "low",
+          "impact": "high",
+          "timeframe": "immediate"
+        },
+        {
+          "title": "Create a 'values alignment' discussion for quarterly planning",
+          "description": "Propose adding a 30-minute discussion to quarterly planning meetings where the team explicitly discusses whether current priorities align with stated values (accessibility, consistency, craft). Use this to identify misalignments early and advocate for necessary changes.",
+          "relatedInsights": [
+            1,
+            4
+          ],
+          "effort": "medium",
+          "impact": "high",
+          "timeframe": "short-term"
+        },
+        {
+          "title": "Build a design systems team 'burnout prevention protocol'",
+          "description": "Work with your team to create explicit guidelines for recognizing and addressing burnout signs. Include: workload assessment criteria, escalation paths when advocacy isn't working, and clear boundaries about when to say 'this isn't sustainable.'",
+          "relatedInsights": [
+            2,
+            7
+          ],
+          "effort": "medium",
+          "impact": "high",
+          "timeframe": "short-term"
+        }
+      ]
+    },
+    {
+      "name": "Landing Page Business",
+      "description": "Helping clients test online ideas with effective landing pages",
+      "actions": [
+        {
+          "title": "Offer a 'values-first' landing page consultation",
+          "description": "Create a consultation package that starts by helping clients identify their core values before designing. Position this as a way to ensure their landing pages don't just convert, but convert the *right* customers who align with their values. Differentiate from competitors who focus only on conversion metrics.",
+          "relatedInsights": [
+            1,
+            4
+          ],
+          "effort": "medium",
+          "impact": "high",
+          "timeframe": "short-term"
+        },
+        {
+          "title": "Build a 'sustainable testing' framework for clients",
+          "description": "Develop a lightweight framework that helps clients test ideas without burning out. Include guidance on: setting realistic timelines, defining success criteria upfront, knowing when to pivot or quit, and avoiding the 'move fast and break things' trap. Package this as part of your service.",
+          "relatedInsights": [
+            2,
+            6
+          ],
+          "effort": "medium",
+          "impact": "medium",
+          "timeframe": "short-term"
+        },
+        {
+          "title": "Create accessibility-first landing page templates",
+          "description": "Design 3-5 landing page templates that prioritize accessibility from the start (proper contrast, semantic HTML, keyboard navigation, screen reader support). Market these as 'inclusive by design' templates that help clients reach wider audiences while doing the right thing.",
+          "relatedInsights": [
+            4,
+            7
+          ],
+          "effort": "high",
+          "impact": "high",
+          "timeframe": "long-term"
+        },
+        {
+          "title": "Document invisible work as case study differentiation",
+          "description": "For each client project, document not just the final landing page, but the invisible work: user research, accessibility audits, performance optimization, and strategic decisions. Turn this into case studies that demonstrate depth of expertise and justify premium pricing.",
+          "relatedInsights": [
+            3
+          ],
+          "effort": "low",
+          "impact": "medium",
+          "timeframe": "immediate"
+        }
+      ]
+    }
+  ],
+  "contexts": [
+    {
+      "name": "Personal Practice",
+      "focus": [
+        "frameworks",
+        "self-care",
+        "skill-building"
+      ]
+    },
+    {
+      "name": "Regular Work",
+      "focus": [
+        "team-practices",
+        "advocacy",
+        "implementation"
+      ]
+    },
+    {
+      "name": "Landing Page Business",
+      "focus": [
+        "client-deliverables",
+        "reusable-patterns",
+        "efficiency"
+      ]
+    }
+  ],
+  "metadata": {
+    "processedAt": "2025-11-10T11:45:47.028Z",
+    "model": "test-mode",
+    "duration": 503,
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "insightsCount": 8,
+    "referencesValidated": true,
+    "referencesCategorized": true,
+    "actionsGenerated": true
+  }
+}

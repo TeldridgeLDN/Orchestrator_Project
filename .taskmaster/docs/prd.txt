@@ -1,0 +1,66 @@
+# Portfolio Redesign - Prospecting Landing Page
+
+## Project Overview
+Redesign and enhance the prospecting landing page with modern UI components, focusing on applying appropriate shadcn/ui icons to match the visual identity of each section and improve user experience.
+
+## Core Requirements
+
+### 1. Discovery Section Icon Implementation
+**Description**: "We kick off with a focused session to understand your idea, target audience, and key assumptions to test"
+**Requirements**:
+- Apply a discovery/exploration themed icon (e.g., compass, search, lightbulb)
+- Icon should convey ideation and understanding
+- Must integrate with shadcn/ui icon system
+- Responsive sizing across devices
+
+### 2. Landing Page Section Audit
+**Requirements**:
+- Identify all existing sections on the prospecting landing page
+- Document current visual elements and their purpose
+- Create mapping of section descriptions to appropriate icon themes
+- Ensure consistency in icon style and size
+
+### 3. Shadcn/UI Icon Integration
+**Requirements**:
+- Install and configure shadcn/ui icon library
+- Create reusable icon components
+- Implement consistent sizing system (sm, md, lg)
+- Add proper accessibility attributes (aria-labels)
+- Ensure icons work with dark/light mode if applicable
+
+### 4. Icon Selection and Mapping
+**Requirements**:
+For each landing page section, select appropriate icons that:
+- Visually represent the section's purpose
+- Maintain consistent visual language
+- Are recognizable and intuitive
+- Work well at different sizes
+- Follow shadcn/ui design system
+
+### 5. Implementation and Styling
+**Requirements**:
+- Apply icons to all relevant sections
+- Implement proper spacing and alignment
+- Add subtle animations/transitions where appropriate
+- Ensure mobile responsiveness
+- Test cross-browser compatibility
+
+## Technical Stack
+- shadcn/ui icon library
+- React (if applicable) or vanilla JavaScript
+- Tailwind CSS for styling
+- Lucide React or Radix Icons (shadcn default)
+
+## Success Criteria
+- All landing page sections have appropriate, visually appealing icons
+- Icons are consistently sized and styled
+- Page maintains fast load times
+- Icons enhance rather than clutter the design
+- Accessibility standards are met
+
+## Deliverables
+1. Complete icon mapping document
+2. Implemented icons across all landing page sections
+3. Reusable icon component system
+4. Documentation for future icon additions
+

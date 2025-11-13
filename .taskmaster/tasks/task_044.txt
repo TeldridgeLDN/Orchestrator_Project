@@ -1,0 +1,101 @@
+# Task ID: 44
+# Title: Build Feature Composition Framework
+# Status: done
+# Dependencies: 42, 43
+# Priority: medium
+# Description: Implement a framework for Skills to compose (call/leverage) other features like Slash Commands, Sub-Agents, and MCPs.
+# Details:
+Create a JavaScript framework that enables skills to seamlessly compose and leverage other agentic features:
+
+1. Create ~/.claude/lib/feature-composer.js with:
+   - FeatureComposer class with methods for each feature type
+   - Configuration and initialization logic
+   - Error handling and logging
+
+2. Implement core methods:
+   - executeSlashCommand(command, params) - Execute slash commands from skills
+   - invokeSubAgent(agentName, input, options) - Invoke and interact with sub-agents
+   - queryMCP(mcpName, endpoint, data) - Send requests to MCP servers
+
+3. Add output parsing functionality:
+   - Parse structured outputs from sub-agents ([AGENT_STATUS] format)
+   - Handle JSON responses from MCPs
+   - Process command outputs
+
+4. Create integration examples and documentation
+
+Implementation example:
+```javascript
+class FeatureComposer {
+  constructor(config = {}) {
+    this.config = config;
+    this.logger = config.logger || console;
+  }
+
+  async executeSlashCommand(command, params = {}) {
+    try {
+      this.logger.debug(`Executing slash command: ${command}`, params);
+      // Implementation to find and execute the slash command
+      const commandModule = await this._loadCommand(command);
+      return await commandModule.execute(params);
+    } catch (error) {
+      this.logger.error(`Error executing slash command ${command}:`, error);
+      throw new Error(`Failed to execute slash command: ${error.message}`);
+    }
+  }
+
+  async invokeSubAgent(agentName, input, options = {}) {
+    try {
+      this.logger.debug(`Invoking sub-agent: ${agentName}`, { input, options });
+      // Implementation to invoke the sub-agent
+      const agent = await this._loadSubAgent(agentName);
+      const response = await agent.process(input, options);
+      
+      // Parse the response with [AGENT_STATUS] format
+      return this._parseAgentResponse(response);
+    } catch (error) {
+      this.logger.error(`Error invoking sub-agent ${agentName}:`, error);
+      throw new Error(`Failed to invoke sub-agent: ${error.message}`);
+    }
+  }
+
+  async queryMCP(mcpName, endpoint, data = {}) {
+    try {
+      this.logger.debug(`Querying MCP: ${mcpName}`, { endpoint, data });
+      // Implementation to query the MCP
+      const mcpClient = await this._getMCPClient(mcpName);
+      return await mcpClient.request(endpoint, data);
+    } catch (error) {
+      this.logger.error(`Error querying MCP ${mcpName}:`, error);
+      throw new Error(`Failed to query MCP: ${error.message}`);
+    }
+  }
+
+  _parseAgentResponse(response) {
+    // Parse [AGENT_STATUS] format
+    const match = response.match(/\[(\w+)\]\s*(.*)/s);
+    if (match) {
+      return {
+        status: match[1],
+        message: match[2].trim()
+      };
+    }
+    return { status: 'UNKNOWN', message: response };
+  }
+
+  // Private helper methods
+  async _loadCommand(command) { /* ... */ }
+  async _loadSubAgent(agentName) { /* ... */ }
+  async _getMCPClient(mcpName) { /* ... */ }
+}
+
+module.exports = FeatureComposer;
+```
+
+# Test Strategy:
+1. Write unit tests for each method (executeSlashCommand, invokeSubAgent, queryMCP)
+2. Create integration tests with mock features
+3. Test error handling and edge cases
+4. Verify output parsing functionality with various response formats
+5. Benchmark performance with multiple concurrent feature compositions
+6. Test with real skills to ensure practical usability

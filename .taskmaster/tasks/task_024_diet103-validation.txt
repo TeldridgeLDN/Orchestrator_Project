@@ -1,0 +1,11 @@
+# Task ID: 24
+# Title: Establish Scenario Layer Directory Structure and YAML Schema Validation
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Implement the user-facing scenario abstraction layer, including directory setup and robust YAML schema validation for scenario definitions.
+# Details:
+Create the directory `~/.claude/scenarios/` and implement a YAML schema validator using a modern Python library such as `pydantic` (v2.x) or `Cerberus` for Python, or `js-yaml` with `ajv` for Node.js. The schema must enforce all fields and nested structures as specified in the PRD, including triggers, steps, dependencies, design_decisions, and potential_improvements. Provide CLI feedback on validation errors. Ensure the validator is modular to support future schema extensions. Use test-driven development (TDD) with sample scenario files and edge cases. Follow best practices for schema evolution and backward compatibility.
+
+# Test Strategy:
+Unit tests for schema validation using sample and malformed YAML files. CLI integration tests to ensure errors are surfaced clearly. Regression tests for future schema changes.

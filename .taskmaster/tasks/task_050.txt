@@ -1,0 +1,104 @@
+# Task ID: 50
+# Title: Write User Documentation for Project Orchestrator
+# Status: done
+# Dependencies: 41, 42, 43, 44, 45, 46, 47, 48, 49
+# Priority: medium
+# Description: Create comprehensive user-facing documentation set for the project orchestrator.
+# Details:
+Develop a complete set of user documentation for the project orchestrator:
+
+1. Create the following documents in ~/.claude/docs/:
+   - README.md: Overview and quick start guide
+   - GETTING_STARTED.md: Step-by-step guide for new users
+   - CLI_REFERENCE.md: All commands with examples
+   - ARCHITECTURE.md: System design explanation with diagrams
+   - TROUBLESHOOTING.md: Common issues and solutions
+   - FAQ.md: Frequently asked questions
+
+2. README.md should include:
+   - Project overview and purpose
+   - Key features and capabilities
+   - Installation instructions
+   - Quick start examples
+   - Links to other documentation
+
+3. GETTING_STARTED.md should include:
+   - Prerequisites and setup
+   - Creating your first project
+   - Basic workflow examples
+   - Next steps and advanced usage
+
+4. CLI_REFERENCE.md should document all commands:
+   - Command syntax and options
+   - Examples for each command
+   - Output explanation
+   - Common usage patterns
+
+5. ARCHITECTURE.md should explain:
+   - System components and their relationships
+   - Data flow diagrams
+   - Configuration file formats
+   - Extension points
+
+6. TROUBLESHOOTING.md should cover:
+   - Common error messages and solutions
+   - Diagnostic procedures
+   - Recovery techniques
+   - Where to get help
+
+7. FAQ.md should address:
+   - Common questions from users
+   - Best practices
+   - Integration with other tools
+   - Performance optimization
+
+Example content structure:
+```markdown
+# Project Orchestrator
+
+## Overview
+The Project Orchestrator is a tool for managing Claude development projects. It provides a structured way to create, switch between, and manage projects with different skills, workflows, and resources.
+
+## Key Features
+- Project creation from templates
+- Fast project switching with context preservation
+- Project validation and health checks
+- Integration with Claude skills and features
+- Extensible workflow system
+
+## Installation
+
+```bash
+# Install the Project Orchestrator
+curl -sSL https://claude.ai/install/orchestrator | bash
+```
+
+## Quick Start
+
+```bash
+# Create a new project
+claude project create my-project --template=basic
+
+# Switch to the project
+claude project switch my-project
+
+# List all projects
+claude project list
+```
+
+## Documentation
+- [Getting Started Guide](GETTING_STARTED.md)
+- [CLI Reference](CLI_REFERENCE.md)
+- [Architecture](ARCHITECTURE.md)
+- [Troubleshooting](TROUBLESHOOTING.md)
+- [FAQ](FAQ.md)
+```
+
+# Test Strategy:
+1. Review documentation for completeness and accuracy
+2. Verify all commands and features are documented
+3. Test examples to ensure they work as documented
+4. Have team members review for clarity and comprehensiveness
+5. Test with new users to ensure documentation is helpful
+6. Check for consistency across all documents
+7. Validate links between documents work correctly

@@ -1,0 +1,56 @@
+# Task ID: 42
+# Title: Implement Agentic Feature Selection Guide
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Create a decision tree framework for selecting appropriate agentic features based on task requirements.
+# Details:
+Develop a comprehensive guide for selecting the right agentic feature (Slash Commands, MCPs, Sub-Agents, Skills) based on task requirements:
+
+1. Create ~/.claude/docs/AGENTIC_FEATURE_GUIDE.md with:
+   - Introduction explaining the purpose of the guide
+   - Decision tree with 4 steps for feature selection
+   - Detailed explanations for each decision point
+
+2. For each feature type, document:
+   - Use cases and scenarios
+   - Advantages and limitations
+   - Implementation complexity
+   - Integration considerations
+   - 2-3 concrete examples
+
+3. Include a justification template for new feature proposals with sections for:
+   - Problem statement
+   - Requirements analysis
+   - Feature selection rationale
+   - Implementation plan
+   - Testing strategy
+
+Decision tree structure:
+```markdown
+# Agentic Feature Selection Guide
+
+## Decision Tree
+1. Is the functionality self-contained and simple? 
+   - Yes → Consider Slash Command
+   - No → Continue to step 2
+
+2. Does it require integration with external systems?
+   - Yes → Consider MCP
+   - No → Continue to step 3
+
+3. Does it need to maintain state or have complex logic?
+   - Yes → Continue to step 4
+   - No → Reconsider Slash Command with parameters
+
+4. Does it need to operate independently or have its own persona?
+   - Yes → Consider Sub-Agent
+   - No → Consider Skill
+```
+
+# Test Strategy:
+1. Review guide with team members to ensure clarity
+2. Test the decision tree with 5-10 example features to verify it leads to appropriate recommendations
+3. Validate examples are accurate and representative
+4. Check that justification template is comprehensive
+5. Verify the guide aligns with existing implementation patterns

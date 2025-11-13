@@ -1,0 +1,120 @@
+# Task ID: 52
+# Title: Create Data Science Project Template
+# Status: deferred
+# Dependencies: None
+# Priority: low
+# Description: Develop a Python data analysis template with relevant data science skills in the ~/.claude/templates/data-science/ directory
+# Details:
+1. Create the data-science template directory structure:
+```
+~/.claude/templates/data-science/
+├── .claude/
+│   ├── skills/
+│   │   ├── data-analysis.json
+│   │   └── visualization.json
+│   ├── workflows/
+│   │   ├── exploratory-analysis.yaml
+│   │   └── model-training.yaml
+│   ├── Claude.md
+│   ├── skill-rules.json
+│   └── metadata.json
+├── notebooks/
+│   └── example.ipynb
+└── README.md
+```
+
+2. Implement data science skills for analysis and visualization
+3. Create template-specific Claude.md with data science context
+4. Configure skill-rules.json with triggers for data analysis tasks
+5. Define metadata.json with template variables like:
+```json
+{
+  "template_name": "data-science",
+  "variables": [
+    {
+      "name": "PROJECT_NAME",
+      "description": "Name of your data science project",
+      "default": "data-analysis-project"
+    },
+    {
+      "name": "PYTHON_VERSION",
+      "description": "Python version for the project",
+      "default": "3.9"
+    }
+  ]
+}
+```
+6. Create example workflows for common data science tasks
+7. Include sample Jupyter notebook
+8. Add a README.md with template usage instructions
+
+Progress so far:
+- Created template directory structure with hooks
+- Created two skills (data_analysis and visualization) with complete SKILL.md files and metadata
+
+Remaining tasks:
+- Create Claude.md with data science context
+- Configure skill-rules.json with triggers
+- Define metadata.json with template variables
+- Create sample Jupyter notebook
+- Add README.md with usage instructions
+- Complete testing
+
+# Test Strategy:
+1. Verify template creation with `claude project create --template data-science`
+2. Validate directory structure matches specification
+3. Test skill activation with data science queries
+4. Verify workflows execute correctly
+5. Test variable substitution in template files
+6. Ensure Claude.md provides appropriate context for data analysis
+7. Validate sample notebook opens correctly
+
+# Subtasks:
+## 1. Create template directory structure [done]
+### Dependencies: None
+### Description: Set up the basic directory structure for the data science template following the specified hierarchy
+### Details:
+Create all required directories and placeholder files according to the template specification. Ensure proper permissions are set for all directories and files.
+
+## 2. Implement data science skills [done]
+### Dependencies: 52.1
+### Description: Create data-analysis.json and visualization.json skill definitions with complete SKILL.md files
+### Details:
+Develop comprehensive skill definitions for data analysis and visualization capabilities. Include metadata, actions, and documentation in SKILL.md files for both skills.
+
+## 3. Create template-specific Claude.md [pending]
+### Dependencies: 52.1
+### Description: Develop Claude.md file with data science context and instructions
+### Details:
+Create a comprehensive Claude.md file that provides context for data analysis tasks, common workflows, and best practices for data science projects.
+
+## 4. Configure skill-rules.json [pending]
+### Dependencies: 52.2
+### Description: Define skill activation rules for data analysis tasks
+### Details:
+Create skill-rules.json with appropriate triggers for activating data analysis and visualization skills based on user queries and context.
+
+## 5. Define metadata.json [pending]
+### Dependencies: 52.1
+### Description: Create metadata.json with template variables for data science projects
+### Details:
+Implement metadata.json with template variables like PROJECT_NAME and PYTHON_VERSION, along with appropriate defaults and descriptions.
+
+## 6. Create example workflows [pending]
+### Dependencies: 52.2
+### Description: Develop workflow YAML files for common data science tasks
+### Details:
+Create exploratory-analysis.yaml and model-training.yaml workflow definitions with appropriate steps and configurations.
+
+## 7. Include sample Jupyter notebook [pending]
+### Dependencies: 52.1
+### Description: Create example.ipynb with data science examples and documentation
+### Details:
+Develop a sample Jupyter notebook that demonstrates common data science tasks, visualization techniques, and best practices.
+
+## 8. Add README.md with usage instructions [pending]
+### Dependencies: 52.1
+### Description: Create comprehensive README.md for the data science template
+### Details:
+Develop a README.md file with clear instructions for using the template, including installation, configuration, and common workflows.
+

@@ -1,0 +1,11 @@
+# Task ID: 76
+# Title: Implement test_feasibility and proof_of_concept Workflows
+# Status: pending
+# Dependencies: 75
+# Priority: medium
+# Description: Enable scenario_builder to validate technical possibility and run proof-of-concept tests before full deployment.
+# Details:
+Write test_feasibility.md and proof_of_concept.md workflows. Use feasibility_checker agent for validation. For proof of concept, scaffold minimal scenario, test API connections, and validate data flow. Provide user with demo and blockers.
+
+# Test Strategy:
+Test with sample integrations (e.g., Airtable, Google Forms). Validate that blockers are detected early and demo is functional.

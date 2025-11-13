@@ -1,0 +1,743 @@
+# Momentum Squared diet103 - Sprint 4: Polish & Enhancement
+# Product Requirements Document (PRD)
+
+**Project**: Momentum Squared diet103 Enhancements
+**Sprint**: 4 - Polish & Enhancement
+**Date**: November 13, 2025
+**Author**: Development Team
+**Version**: 1.0
+
+---
+
+## Executive Summary
+
+Sprint 4 is the final sprint, focusing on polishing the user experience and adding enhancements that improve workflow visibility, notification management, and contextual help. These finishing touches ensure the system is not only functional but delightful to use.
+
+### Sprint Goals
+1. Add visual workflow progress tracking
+2. Centralize alert and notification management
+3. Implement context-aware documentation suggestions
+4. Ensure consistent, polished user experience
+
+### Success Metrics
+- 10-15 hours/year time savings
+- Improved workflow visibility
+- Faster problem resolution through contextual help
+- Centralized notification management
+
+---
+
+## Sprint Overview
+
+### Total Tasks: 3
+### Estimated Effort: 8 hours
+### Priority: Medium
+### Dependencies: Sprint 3 completion
+
+---
+
+## Task 1: Workflow Progress Tracker
+
+### Purpose
+Provide visual indicators of workflow progress, time tracking, and completion estimates to give developers visibility into long-running processes and task completion.
+
+### Problem Statement
+Currently, long-running workflows lack visibility:
+- No progress indicators for multi-step processes
+- Unknown time remaining estimates
+- Difficulty tracking task completion percentages
+- Missing context on what's happening during delays
+- Hard to identify bottlenecks
+
+### Solution
+Build a comprehensive progress tracking system that:
+1. Displays real-time progress bars for workflows
+2. Shows time elapsed and estimated time remaining
+3. Tracks completion percentages for task sets
+4. Provides step-by-step workflow visibility
+5. Identifies and highlights bottlenecks
+
+### Requirements
+
+#### Core Features
+- **Visual Progress Bars**: Rich terminal progress indicators using `rich` library
+- **Time Tracking**: Elapsed time, estimated remaining, completion ETA
+- **Multi-Level Progress**: Parent task + subtask progress
+- **Step Visibility**: Current step, total steps, step descriptions
+- **Bottleneck Detection**: Identify slow steps, suggest optimizations
+- **History Tracking**: Log workflow durations for future estimates
+- **Workflow States**: Pending, in-progress, completed, failed, paused
+- **Real-Time Updates**: Live progress updates during execution
+- **Notifications**: Completion alerts, milestone notifications
+
+#### Technical Specifications
+- **Language**: Python 3.10+
+- **Libraries**:
+  - `rich` v13.0 - Progress bars and live displays
+  - `tqdm` v4.66 - Alternative progress bars
+  - `time` - Time tracking
+  - `datetime` - Timestamps and durations
+  - `psutil` v5.9 - System resource monitoring
+- **Storage**: JSON history file for duration estimates
+- **Integration**: Hook into existing workflows
+
+#### Workflow Types to Track
+
+1. **Task Expansion**: Breaking down tasks into subtasks
+   - Parse PRD step
+   - Complexity analysis step
+   - Subtask generation step
+   - Validation step
+
+2. **Test Execution**: Running test suites
+   - Test selection step
+   - Individual test execution
+   - Coverage calculation
+   - Result aggregation
+
+3. **Documentation Generation**: Creating docs from code
+   - Code scanning step
+   - Metadata extraction step
+   - Template rendering step
+   - File writing step
+
+4. **Batch Operations**: Processing multiple items
+   - Individual item processing
+   - Error handling
+   - Success/failure tracking
+
+#### Files to Create
+- `.claude/agents/progress-tracker/agent.md` - Progress tracker documentation
+- `.claude/agents/progress-tracker/tracker.py` - Core progress tracking engine
+- `.claude/agents/progress-tracker/display.py` - Visual display module (rich/tqdm)
+- `.claude/agents/progress-tracker/estimator.py` - Time estimation module
+- `.claude/agents/progress-tracker/history.py` - Duration history tracking
+- `.claude/agents/progress-tracker/config.json` - Tracker configuration
+- `.claude/agents/progress-tracker/tests/test_tracker.py` - Test suite
+- `.claude/agents/progress-tracker/resources/workflow-definitions.yaml` - Workflow step definitions
+
+#### Success Criteria
+- **Visual Quality**: Clean, informative progress displays
+- **Accuracy**: Estimates within 20% of actual duration
+- **Performance**: <50ms overhead per progress update
+- **Integration**: Works with all major workflows
+- **Reliability**: Never blocks workflow execution
+- **History**: Improves estimates over time
+
+#### Usage Example
+
+```python
+from progress_tracker import WorkflowTracker
+
+# Create tracker
+tracker = WorkflowTracker(workflow_name="expand-tasks", total_steps=4)
+
+# Start workflow
+tracker.start()
+
+# Update progress
+tracker.update(step=1, message="Analyzing task complexity...")
+# ... do work ...
+
+tracker.update(step=2, message="Generating subtasks...")
+# ... do work ...
+
+tracker.update(step=3, message="Validating subtasks...")
+# ... do work ...
+
+tracker.update(step=4, message="Saving results...")
+# ... do work ...
+
+# Complete
+tracker.complete(message="✅ 12 subtasks generated")
+```
+
+#### Example Output
+
+```
+╭─────────────────────────────────────────────────────╮
+│ Workflow: Expand Tasks                              │
+│ Status: In Progress                                 │
+├─────────────────────────────────────────────────────┤
+│ ████████████████░░░░ 75% (3/4 steps)                │
+│                                                     │
+│ Current: Validating subtasks...                     │
+│ Elapsed: 1m 23s                                     │
+│ Remaining: ~28s                                     │
+│ ETA: 14:23:45                                       │
+│                                                     │
+│ Steps:                                              │
+│   ✅ 1. Analyzing task complexity (18s)             │
+│   ✅ 2. Generating subtasks (42s)                   │
+│   🔄 3. Validating subtasks (in progress)           │
+│   ⏳ 4. Saving results                              │
+╰─────────────────────────────────────────────────────╯
+```
+
+### Estimated Effort
+3 hours
+
+### Impact Metrics
+- **Saves**: 5-7 hours/year (reduced waiting uncertainty, better planning)
+- **Annual ROI**: 167-233%
+- **Quality**: Improved developer experience and workflow visibility
+- **Efficiency**: Faster bottleneck identification
+
+---
+
+## Task 2: Alert Aggregator
+
+### Purpose
+Centralize all alerts and notifications from different systems into a single, priority-based notification center with intelligent routing and deduplication.
+
+### Problem Statement
+Alerts come from multiple sources without coordination:
+- Scattered notifications (score trends, portfolio sync, DB connections, tests)
+- No priority-based routing
+- Alert fatigue from duplicates
+- Missing important alerts in noise
+- No central view of system health
+
+### Solution
+Build a centralized alert aggregation system that:
+1. Collects alerts from all sources
+2. Deduplicates similar alerts
+3. Prioritizes by severity and impact
+4. Routes alerts to appropriate channels
+5. Provides a unified alert dashboard
+
+### Requirements
+
+#### Core Features
+- **Alert Collection**: Ingest from all sources (skills, hooks, agents, workflows)
+- **Deduplication**: Merge similar/duplicate alerts
+- **Priority Routing**: Route by severity (critical, warning, info)
+- **Channel Management**: Console, file, webhook, email
+- **Alert History**: Store all alerts for analysis
+- **Filtering**: View alerts by severity, source, time range
+- **Aggregation**: Group related alerts
+- **Snoozing**: Temporarily silence non-critical alerts
+- **Dashboard**: Visual alert overview
+
+#### Alert Severity Levels
+1. **Critical**: Immediate attention required (system failures, data loss)
+2. **Warning**: Important but not urgent (drift detected, performance degradation)
+3. **Info**: Informational updates (task completion, sync success)
+4. **Debug**: Development/troubleshooting info
+
+#### Technical Specifications
+- **Language**: Python 3.10+ and TypeScript 5.x (for hooks)
+- **Libraries**:
+  - `logging` - Python logging integration
+  - `rich` v13.0 - Terminal formatting
+  - `sqlite3` - Alert history storage
+  - `requests` v2.31 - Webhook support
+  - `smtplib` - Email notifications (optional)
+- **Storage**: SQLite database for alert history
+- **API**: RESTful endpoints for alert submission
+
+#### Alert Sources to Integrate
+1. **Score Trend Monitoring Skill** (Sprint 2)
+2. **Portfolio Master Sync Validator** (Sprint 2)
+3. **Database Connection Manager** (Sprint 2)
+4. **Test Selector Agent** (Sprint 2)
+5. **Documentation Generator** (Sprint 3)
+6. **Command Expander** (Sprint 3)
+7. **Progress Tracker** (Sprint 4)
+
+#### Files to Create
+- `.claude/agents/alert-aggregator/agent.md` - Alert aggregator documentation
+- `.claude/agents/alert-aggregator/aggregator.py` - Core aggregation engine
+- `.claude/agents/alert-aggregator/collector.py` - Alert collection module
+- `.claude/agents/alert-aggregator/router.py` - Priority routing module
+- `.claude/agents/alert-aggregator/deduplicator.py` - Deduplication logic
+- `.claude/agents/alert-aggregator/channels/console.py` - Console output
+- `.claude/agents/alert-aggregator/channels/file.py` - File logging
+- `.claude/agents/alert-aggregator/channels/webhook.py` - Webhook integration
+- `.claude/agents/alert-aggregator/dashboard.py` - Alert dashboard UI
+- `.claude/agents/alert-aggregator/storage.py` - SQLite storage
+- `.claude/agents/alert-aggregator/config.json` - Aggregator configuration
+- `.claude/agents/alert-aggregator/tests/test_aggregator.py` - Test suite
+
+#### Success Criteria
+- **Integration**: All 7 sources send alerts to aggregator
+- **Deduplication**: <5% duplicate alerts shown
+- **Performance**: <10ms alert processing time
+- **Reliability**: 100% alert delivery (no lost alerts)
+- **Routing**: Correct channel selection for all severities
+- **History**: Complete searchable alert history
+
+#### Alert Schema
+
+```json
+{
+  "id": "alert-uuid",
+  "timestamp": "2025-11-13T14:23:45Z",
+  "source": "portfolio-sync-validator",
+  "severity": "warning",
+  "title": "Portfolio drift detected",
+  "message": "Holdings count mismatch: JSON=15, DB=14",
+  "details": {
+    "portfolio": "isa_master.json",
+    "drift_type": "holdings_count",
+    "expected": 15,
+    "actual": 14
+  },
+  "actions": [
+    {
+      "label": "Sync now",
+      "command": "python scripts/sync_portfolio.py isa"
+    },
+    {
+      "label": "View details",
+      "command": "task-master show 3"
+    }
+  ]
+}
+```
+
+#### Usage Example
+
+```python
+from alert_aggregator import AlertAggregator
+
+# Initialize aggregator
+aggregator = AlertAggregator()
+
+# Send alert
+aggregator.alert(
+    source="test-selector",
+    severity="info",
+    title="Tests completed",
+    message="8 of 8 tests passed",
+    details={"duration": "11.2s", "saved": "7.8s"}
+)
+
+# View dashboard
+aggregator.show_dashboard(severity_filter="warning")
+```
+
+#### Dashboard Output
+
+```
+╭──────────────────────────────────────────────────────────╮
+│ Alert Dashboard - Last 24 hours                          │
+├──────────────────────────────────────────────────────────┤
+│ 🔴 Critical: 0    🟡 Warning: 3    🔵 Info: 12          │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│ 🟡 14:23:45 - Portfolio Sync Validator                   │
+│    Holdings count mismatch: isa_master.json             │
+│    ⚡ Action: python scripts/sync_portfolio.py isa      │
+│                                                          │
+│ 🟡 14:18:32 - Database Connection Manager                │
+│    Unsafe connection: portfolio_performance_tracker.py  │
+│    ⚡ Action: Add context manager                        │
+│                                                          │
+│ 🟡 13:45:12 - Documentation Generator                    │
+│    Drift detected: pe-compression-analysis/skill.md     │
+│    ⚡ Action: python generator.py --regenerate           │
+│                                                          │
+│ 🔵 14:30:11 - Test Selector                              │
+│    Tests completed: 8/8 passed (7.8s saved)             │
+│                                                          │
+╰──────────────────────────────────────────────────────────╯
+
+[F]ilter  [S]nooze  [C]lear  [Q]uit
+```
+
+### Estimated Effort
+2 hours
+
+### Impact Metrics
+- **Saves**: 2-3 hours/year (faster alert triage, reduced alert fatigue)
+- **Annual ROI**: 100-150%
+- **Quality**: No missed critical alerts, reduced noise
+- **Efficiency**: Centralized notification management
+
+---
+
+## Task 3: Context-Aware Documentation
+
+### Purpose
+Provide intelligent, context-aware documentation suggestions based on current task, recent errors, and development context to accelerate problem resolution.
+
+### Solution
+Build a smart documentation suggestion system that:
+1. Analyzes current development context
+2. Suggests relevant documentation
+3. Provides quick access to examples
+4. Learns from usage patterns
+5. Integrates with error messages
+
+### Requirements
+
+#### Core Features
+- **Context Detection**: Identify current task, file, and workflow
+- **Smart Suggestions**: Recommend docs based on context
+- **Error Analysis**: Parse errors and suggest relevant docs
+- **Quick Access**: Hotkey or command for instant doc lookup
+- **Example Library**: Code snippets for common patterns
+- **Learning System**: Improve suggestions based on usage
+- **Integration**: Works with all skills, hooks, and agents
+- **Offline Support**: Local doc caching for speed
+
+#### Context Sources
+1. **Current File**: Detect language and framework
+2. **Taskmaster State**: Current task and subtask
+3. **Recent Errors**: Parse error messages
+4. **Git Branch**: Feature context from branch name
+5. **Command History**: Recent commands executed
+6. **Time of Day**: Common workflows by time
+
+#### Technical Specifications
+- **Language**: Python 3.10+
+- **Libraries**:
+  - `spaCy` v3.7 - NLP for context analysis
+  - `scikit-learn` v1.3 - ML for suggestion ranking
+  - `whoosh` v2.7 - Full-text search for docs
+  - `rich` v13.0 - Terminal UI
+  - `gitpython` v3.1 - Git integration
+- **Storage**: 
+  - SQLite for usage history
+  - JSON for doc index
+  - Local file cache for docs
+- **ML Model**: TF-IDF + cosine similarity for ranking
+
+#### Documentation Types
+1. **Skill Documentation**: Usage guides for skills
+2. **Hook Documentation**: Hook behavior and configuration
+3. **Agent Documentation**: Agent capabilities and usage
+4. **API Reference**: Function and class references
+5. **Code Examples**: Common patterns and snippets
+6. **Troubleshooting**: Error resolution guides
+7. **Best Practices**: Development guidelines
+
+#### Files to Create
+- `.claude/agents/doc-assistant/agent.md` - Documentation assistant specification
+- `.claude/agents/doc-assistant/assistant.py` - Core assistance engine
+- `.claude/agents/doc-assistant/context_analyzer.py` - Context detection
+- `.claude/agents/doc-assistant/suggestion_engine.py` - Doc suggestion logic
+- `.claude/agents/doc-assistant/error_parser.py` - Error analysis
+- `.claude/agents/doc-assistant/indexer.py` - Documentation indexer
+- `.claude/agents/doc-assistant/learning.py` - Usage-based learning
+- `.claude/agents/doc-assistant/config.json` - Assistant configuration
+- `.claude/agents/doc-assistant/tests/test_assistant.py` - Test suite
+- `.claude/agents/doc-assistant/resources/doc-index.json` - Documentation index
+- `.claude/agents/doc-assistant/resources/examples.json` - Code example library
+
+#### Success Criteria
+- **Accuracy**: 80%+ relevant suggestions
+- **Speed**: <200ms suggestion generation
+- **Coverage**: Index all project documentation
+- **Learning**: Suggestions improve with usage
+- **Integration**: Works from any workflow context
+- **Offline**: Full functionality without network
+
+#### Context Detection Examples
+
+**Scenario 1: Error in Python file**
+```
+Context Detected:
+- File: scripts/portfolio_performance_tracker.py
+- Error: "database is locked"
+- Recent: sqlite3.connect() usage
+
+Suggested Docs:
+1. 🎯 Database Connection Manager Hook
+   → Use context managers to prevent locks
+   
+2. 📚 SQLite Best Practices
+   → Connection pooling and locking
+
+3. 💡 Example: Safe Database Connection
+   ```python
+   with sqlite3.connect('db.db') as conn:
+       cursor = conn.cursor()
+       # ... operations ...
+   ```
+```
+
+**Scenario 2: Working on Taskmaster task**
+```
+Context Detected:
+- Task: 1.3 (Develop Operational Mode Logic)
+- File: .claude/skills/pe-compression-analysis/src/modes/
+- Recent: pytest execution
+
+Suggested Docs:
+1. 🎯 Task 1 Subtask 1.3 Details
+   → Implementation requirements
+   
+2. 📚 Testing Strategy for Task 1
+   → Pytest best practices
+
+3. 💡 Example: Mode Implementation Pattern
+   ```python
+   class BasicMode:
+       def analyze(self, data):
+           # ... implementation ...
+   ```
+```
+
+**Scenario 3: Using Test Selector**
+```
+Context Detected:
+- Command: python select-tests.py --mode aggressive
+- Recent: 4 test failures
+- Time: Development hours
+
+Suggested Docs:
+1. 🎯 Test Selector Agent Modes
+   → aggressive vs smart vs conservative
+   
+2. 📚 Test Failure Troubleshooting
+   → Common test failure patterns
+
+3. 💡 Example: Conservative Mode for Pre-Commit
+   ```bash
+   python select-tests.py --mode conservative
+   ```
+```
+
+#### Usage Patterns
+
+##### Hotkey Access
+```bash
+# Press Ctrl+? from anywhere
+# Shows contextual docs for current state
+```
+
+##### Command-Line
+```bash
+# Explicit query
+python .claude/agents/doc-assistant/assistant.py "How do I expand a task?"
+
+# Context-aware query
+python assistant.py --context-aware
+
+# Error-based query
+python assistant.py --error "database is locked"
+```
+
+##### Integration with Errors
+```python
+# Automatic suggestion on error
+try:
+    conn = sqlite3.connect('db.db')
+except sqlite3.OperationalError as e:
+    # Doc assistant automatically suggests relevant docs
+    doc_assistant.suggest_for_error(e)
+```
+
+#### Example Output
+
+```
+╭────────────────────────────────────────────────────╮
+│ 📚 Context-Aware Documentation                     │
+├────────────────────────────────────────────────────┤
+│ Context: Task 1.3, Python file, pytest running     │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│ Top Suggestions:                                   │
+│                                                    │
+│ 1. 🎯 Task 1.3: Operational Mode Logic            │
+│    Relevance: 95%                                  │
+│    Location: .taskmaster/tasks/task-1.md           │
+│    → [O]pen  [P]review  [C]opy Path                │
+│                                                    │
+│ 2. 📚 Testing with Pytest                          │
+│    Relevance: 88%                                  │
+│    Location: .claude/skills/doc-generator/...      │
+│    → [O]pen  [P]review  [C]opy Path                │
+│                                                    │
+│ 3. 💡 Example: Mode Class Implementation           │
+│    Relevance: 82%                                  │
+│    ```python                                       │
+│    class FullMode:                                 │
+│        def analyze(self, data):                    │
+│            # ... implementation ...                │
+│    ```                                             │
+│    → [C]opy Example  [V]iew Full                   │
+│                                                    │
+╰────────────────────────────────────────────────────╯
+
+[N]ext  [E]xpand  [S]earch  [Q]uit
+```
+
+### Estimated Effort
+3 hours
+
+### Impact Metrics
+- **Saves**: 3-5 hours/year (faster problem resolution, reduced doc searching)
+- **Annual ROI**: 100-167%
+- **Quality**: Faster onboarding, consistent patterns
+- **Efficiency**: Instant access to relevant information
+
+---
+
+## Sprint 4 Success Criteria
+
+### Workflow Progress Tracker
+- ✅ Visual progress for all major workflows
+- ✅ Time estimates within 20% accuracy
+- ✅ Complete workflow history
+- ✅ Bottleneck identification
+
+### Alert Aggregator
+- ✅ All 7 sources integrated
+- ✅ <5% duplicate alerts
+- ✅ Centralized dashboard
+- ✅ Priority-based routing
+
+### Context-Aware Documentation
+- ✅ 80%+ suggestion accuracy
+- ✅ Complete doc index
+- ✅ Sub-200ms response time
+- ✅ Learning from usage
+
+### Overall Sprint
+- ✅ 100% tasks completed
+- ✅ 10-15 hours/year time savings
+- ✅ Polished user experience
+- ✅ Production-ready system
+
+---
+
+## Technical Architecture
+
+### Progress Tracker Architecture
+```
+tracker.py (Core)
+    ↓
+    ├── display.py (rich/tqdm UI)
+    ├── estimator.py (Time estimation)
+    └── history.py (Duration tracking)
+```
+
+### Alert Aggregator Architecture
+```
+aggregator.py (Core)
+    ↓
+    ├── collector.py (Ingest alerts)
+    ├── deduplicator.py (Merge similar)
+    ├── router.py (Route by severity)
+    ├── channels/ (Output targets)
+    └── dashboard.py (Visual UI)
+```
+
+### Doc Assistant Architecture
+```
+assistant.py (Core)
+    ↓
+    ├── context_analyzer.py (Detect context)
+    ├── suggestion_engine.py (Rank docs)
+    ├── error_parser.py (Parse errors)
+    ├── indexer.py (Index all docs)
+    └── learning.py (Improve over time)
+```
+
+---
+
+## Testing Strategy
+
+### Progress Tracker Testing
+1. **Unit Tests**: Estimator, history tracking
+2. **Integration Tests**: Full workflow tracking
+3. **Performance Tests**: Update overhead <50ms
+4. **Visual Tests**: Progress display quality
+
+### Alert Aggregator Testing
+1. **Unit Tests**: Deduplication, routing logic
+2. **Integration Tests**: End-to-end alert flow
+3. **Load Tests**: Handle 1000+ alerts
+4. **Channel Tests**: All output channels work
+
+### Doc Assistant Testing
+1. **Unit Tests**: Context detection, suggestion ranking
+2. **Integration Tests**: Full suggestion workflow
+3. **Accuracy Tests**: Suggestion relevance
+4. **Learning Tests**: Improvement over time
+
+---
+
+## Rollout Plan
+
+### Phase 1: Progress Tracker (Hour 1-3)
+1. Implement core tracking engine
+2. Create rich terminal displays
+3. Add time estimation
+4. Integrate with existing workflows
+
+### Phase 2: Alert Aggregator (Hour 4-5)
+1. Build core aggregation engine
+2. Implement deduplication
+3. Create channels (console, file, webhook)
+4. Build dashboard UI
+
+### Phase 3: Doc Assistant (Hour 6-8)
+1. Implement context analyzer
+2. Build doc indexer
+3. Create suggestion engine
+4. Add learning system
+
+---
+
+## Dependencies
+
+### External Libraries
+- `rich` v13.0+ - Terminal UI
+- `tqdm` v4.66+ - Progress bars
+- `psutil` v5.9+ - System monitoring
+- `spaCy` v3.7+ - NLP
+- `scikit-learn` v1.3+ - ML
+- `whoosh` v2.7+ - Search
+- `requests` v2.31+ - HTTP
+
+### Internal Dependencies
+- All Sprint 2 tools (alert sources)
+- All Sprint 3 tools (documentation)
+
+---
+
+## Success Metrics
+
+### Quantitative
+- **Time Saved**: 10-15 hours/year
+- **Suggestion Accuracy**: 80%+
+- **Alert Deduplication**: <5% duplicates
+- **Estimation Accuracy**: 20% margin
+
+### Qualitative
+- **Developer Satisfaction**: Positive feedback
+- **Workflow Visibility**: Clear progress indicators
+- **Alert Management**: Reduced alert fatigue
+- **Documentation Access**: Faster problem resolution
+
+---
+
+## Future Enhancements (Post-Sprint 4)
+
+### Progress Tracker
+- Parallel workflow tracking
+- Resource usage monitoring
+- Predictive bottleneck detection
+
+### Alert Aggregator
+- Slack/Discord integration
+- Mobile app notifications
+- Alert analytics dashboard
+
+### Doc Assistant
+- Natural language queries
+- Video tutorial suggestions
+- Interactive code examples
+
+---
+
+## Conclusion
+
+Sprint 4 completes the Momentum Squared diet103 enhancement project with polished user experience features. The Progress Tracker provides workflow visibility, the Alert Aggregator centralizes notifications, and the Doc Assistant accelerates problem resolution. Together with Sprints 1-3, the project delivers 162-304 hours of annual time savings with 470-881% ROI.
+
+**Ready to implement!** 🚀
+

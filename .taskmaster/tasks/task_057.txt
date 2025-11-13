@@ -1,0 +1,82 @@
+# Task ID: 57
+# Title: Profile and Identify Performance Bottlenecks
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Profile the project switching operation to identify bottlenecks preventing sub-second switching times
+# Details:
+1. Create a performance profiling script at tools/profile-switch.sh:
+```bash
+#!/bin/bash
+
+# Create test projects if they don't exist
+clause project create --name profile-test-1 --template base
+clause project create --name profile-test-2 --template base
+
+# Warm up cache
+clause project switch profile-test-1
+clause project switch profile-test-2
+
+# Profile switching performance
+echo "Profiling project switch performance..."
+
+for i in {1..10}; do
+  echo "Run $i:"
+  time clause project switch profile-test-1
+  time clause project switch profile-test-2
+done
+
+# Generate detailed profile with debug flags
+CLAUDE_DEBUG=1 CLAUDE_PROFILE=1 clause project switch profile-test-1 2> switch-profile.log
+
+# Analyze results
+echo "\nPerformance Summary:"
+grep "real" switch-profile.log | awk '{ sum += $2; n++ } END { print "Average switch time: " sum/n "s" }'
+grep "SLOW" switch-profile.log
+```
+
+2. Implement detailed timing instrumentation in the codebase:
+```javascript
+// Add to core switching function
+function switchProject(projectName) {
+  const startTime = process.hrtime();
+  
+  // Log start of operation
+  debug(`Starting switch to project: ${projectName}`);
+  
+  // Add timing checkpoints throughout the function
+  const loadConfigStart = process.hrtime();
+  const config = loadConfig();
+  logTiming('Load config', loadConfigStart);
+  
+  // Continue with more timing checkpoints
+  
+  // Log overall performance
+  logTiming('Total switch operation', startTime);
+  return result;
+}
+
+// Helper for timing logs
+function logTiming(operation, startTime) {
+  const diff = process.hrtime(startTime);
+  const duration = (diff[0] * 1000) + (diff[1] / 1000000);
+  debug(`${operation}: ${duration.toFixed(2)}ms`);
+  
+  // Flag slow operations
+  if (duration > 100) {
+    debug(`SLOW OPERATION: ${operation} took ${duration.toFixed(2)}ms`);
+  }
+}
+```
+
+3. Create a performance baseline document
+4. Identify the top 5 bottlenecks based on profiling data
+5. Document findings in performance-analysis.md with recommendations
+
+# Test Strategy:
+1. Run the profiling script on different machines to establish baseline
+2. Verify timing instrumentation correctly identifies slow operations
+3. Compare results across different project sizes and configurations
+4. Validate that identified bottlenecks match actual performance issues
+5. Test with different hardware configurations to identify environment-specific issues
+6. Verify profiling has minimal impact on normal operation

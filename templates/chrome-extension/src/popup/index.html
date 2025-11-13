@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{PROJECT_NAME}}</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <h1 class="popup-title">{{PROJECT_NAME}}</h1>
+      <button id="settingsBtn" class="icon-button" title="Open Settings">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M17.43 10.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C12.46 2.18 12.25 2 12 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="popup-content">
+      <!-- Status Section -->
+      <section class="status-section">
+        <div class="status-indicator">
+          <div id="statusLight" class="status-light status-active"></div>
+          <span id="statusText" class="status-text">Active</span>
+        </div>
+        <button id="toggleBtn" class="toggle-button">Disable</button>
+      </section>
+
+      <!-- Info Section -->
+      <section class="info-section">
+        <h2 class="section-title">Current Page</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">URL:</span>
+            <span id="pageUrl" class="info-value">Loading...</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Title:</span>
+            <span id="pageTitle" class="info-value">Loading...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Actions Section -->
+      <section class="actions-section">
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="action-buttons">
+          <button id="action1Btn" class="action-button">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+              <path d="M9 0C4.03 0 0 4.03 0 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm3.5-11L9 8.5 5.5 5 4 6.5 9 11.5l5-5z"/>
+            </svg>
+            <span>Action 1</span>
+          </button>
+          <button id="action2Btn" class="action-button">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+              <path d="M12.5 5.5l-5 5-2-2L4 10l3.5 3.5 6.5-6.5z"/>
+            </svg>
+            <span>Action 2</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Stats Section (Optional) -->
+      <section class="stats-section">
+        <div class="stat-item">
+          <span class="stat-value" id="statValue1">0</span>
+          <span class="stat-label">Stat 1</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="statValue2">0</span>
+          <span class="stat-label">Stat 2</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <a href="#" id="helpLink" class="footer-link">Help</a>
+      <span class="footer-divider">•</span>
+      <a href="#" id="feedbackLink" class="footer-link">Feedback</a>
+    </footer>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
+

@@ -1,0 +1,677 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                # Partnership-Enabled Scenario System PRD
+
+**Version:** 1.0
+**Date:** 2025-11-10
+**Status:** Draft for Implementation
+
+---
+
+## Executive Summary
+
+This PRD defines a **Partnership-Enabled Scenario System** that transforms the orchestrator from a simple project manager into an intelligent AI workflow development platform. The system introduces "scenarios" as first-class user-facing abstractions that compile into orchestrator primitives (skills, workflows, commands, hooks, MCPs).
+
+**Core Innovation:** The AI acts as a **consultant partner**, not an order taker. It researches alternatives, challenges assumptions, validates feasibility, and continuously optimizes deployed workflows.
+
+---
+
+## Problem Statement
+
+### Current Limitations
+
+**From Orchestrator PRD:**
+- Users must manually decompose business processes into Skills, Workflows, Agents, MCPs, Commands, and Hooks
+- No guidance on which primitive to use for a given scenario
+- No alternative exploration ("is there a better way?")
+- No feasibility validation before implementation
+- No optimization suggestions for deployed workflows
+
+**User Pain Points:**
+1. "I don't know if I should create a Skill, Agent, or MCP for my use case"
+2. "I described my workflow, but there might be simpler approaches I don't know about"
+3. "I want to capture client requirements—should I use Google Forms or something else?"
+4. "My workflow has been running for a month. Can it be improved?"
+
+---
+
+## Solution: Three-Layer Architecture
+
+### Layer 1: Scenario Layer (User Mental Model)
+**Location:** `~/.claude/scenarios/`
+**Purpose:** User-facing abstraction for business processes
+**Format:** Declarative YAML with steps, dependencies, triggers
+
+**Example:**
+```yaml
+scenario:
+  name: client_intake
+  description: "Capture client requirements before building landing site"
+  trigger:
+    type: hybrid
+    command: "/client-intake"
+    keywords: ["new client", "requirements"]
+  steps:
+    - send_form
+    - wait_completion
+    - analyze_requirements
+    - create_project
+```
+
+### Layer 2: Global Layer (Implementation)
+**Location:** `~/.claude/`
+**Purpose:** Generated implementation components
+**Components:** Skills, Commands, Hooks, MCP configs
+
+**Generated from scenarios**
+
+### Layer 3: Project Layer (Codebases)
+**Location:** `<project>/.claude/`
+**Purpose:** Project-specific behavior (unchanged from PRD)
+
+---
+
+## Core Components
+
+### 1. scenario_builder Meta-Skill
+
+**Location:** `~/.claude/skills/scenario_builder/`
+
+**Purpose:** Interactive system for building and optimizing scenarios
+
+**Structure:**
+```
+scenario_builder/
+├── SKILL.md
+├── metadata.json
+├── config.json (partnership settings)
+│
+├── workflows/
+│   # Core workflows
+│   ├── create_scenario.md
+│   ├── analyze_scenario.md
+│   ├── scaffold_components.md
+│   ├── validate_scenario.md
+│   ├── update_scenario.md
+│   
+│   # Partnership workflows (NEW)
+│   ├── explore_alternatives.md      # Research 3+ options
+│   ├── compare_options.md           # Deep trade-off analysis
+│   ├── test_feasibility.md          # Validate technical possibility
+│   ├── optimize_scenario.md         # Suggest improvements
+│   ├── research_best_practices.md   # Look up industry patterns
+│   └── proof_of_concept.md          # Test before deploying
+│
+├── resources/
+│   ├── decision_framework.md        # How to evaluate options
+│   ├── cost_calculator.md           # Monthly cost estimates
+│   ├── mcp_registry.md              # Available MCPs
+│   └── example_scenarios.md         # Community patterns
+│
+└── agents/
+    └── feasibility_checker/         # Parallel validation
+        ├── AGENT.md
+        └── config.json
+```
+
+### 2. Scenario Definition Format
+
+**File:** `~/.claude/scenarios/<name>.yaml`
+
+**Schema:**
+```yaml
+scenario:
+  name: string
+  version: string
+  description: string
+  category: string
+  
+  trigger:
+    type: manual|auto|hybrid|scheduled
+    command: string (slash command)
+    keywords: [strings] (auto-activation)
+    schedule: cron (if scheduled)
+  
+  steps:
+    - id: string
+      type: external_api|monitor|notification|ai_analysis|orchestrator_call
+      action: string
+      mcp_required: string
+      inputs: [strings]
+      outputs: [strings]
+      conditions: [conditions]
+      timeout: duration
+  
+  dependencies:
+    mcp_servers: [strings]
+    skills: [strings]
+    agents: [strings]
+  
+  generates:
+    - global_skill: string
+    - slash_command: string
+    - hook_pattern: string
+  
+  design_decisions:
+    - decision: string
+      date: ISO8601
+      rationale: string
+      alternatives_considered:
+        - option: string
+          feasibility_score: 0-10
+          rejected_because: string
+      trade_offs:
+        pros: [strings]
+        cons: [strings]
+  
+  potential_improvements:
+    - suggestion: string
+      impact: low|medium|high
+      complexity: low|medium|high
+      estimated_effort: string
+      status: pending|approved|rejected|implemented
+```
+
+### 3. Partnership Levels
+
+**Setting:** `~/.claude/config.json` → `partnership_level`
+
+**Options:**
+1. **order_taker** - No alternatives, just build what user says
+2. **clarifier** - Ask questions, don't challenge
+3. **advisor** - Research alternatives, recommend best (DEFAULT)
+4. **partner** - Deep exploration, proactive optimization
+
+**User Control:**
+```bash
+# Global setting
+claude config set partnership_level advisor
+
+# Per-scenario override
+claude scenario create --partnership-level partner
+```
+
+### 4. Required MCP Servers
+
+scenario_builder needs these MCPs to be a partner:
+
+**1. Research MCP** (e.g., Perplexity)
+- Query: "Best practices for client requirements capture 2025"
+- Purpose: Stay current, research alternatives
+
+**2. MCP Registry MCP** (custom)
+- Query: "What MCPs exist for Airtable?"
+- Purpose: Know what's buildable
+
+**3. API Documentation MCP**
+- Query: "Does Airtable API support webhooks?"
+- Purpose: Validate feasibility
+
+**4. Cost Calculator MCP** (custom)
+- Query: "Monthly cost: Typeform Pro + Airtable Plus"
+- Purpose: Inform decisions with real costs
+
+**5. Community Scenarios MCP** (future)
+- Query: "Show similar client intake scenarios"
+- Purpose: Learn from proven patterns
+
+### 5. Feasibility Checker Sub-Agent
+
+**Location:** `~/.claude/agents/feasibility_checker/`
+
+**Purpose:** Parallel validation of proposed integration approaches
+
+**System Prompt:**
+```markdown
+You validate technical feasibility of proposed integrations.
+
+Check:
+1. MCP availability
+2. API capabilities (webhooks, rate limits)
+3. Authentication methods
+4. Known blockers
+5. Cost requirements
+
+**Output Format:**
+[FEASIBILITY_SCORE: X/10] Brief analysis. Blockers: [list]
+```
+
+**Usage:**
+- scenario_builder spawns 3 instances in parallel
+- Each validates one alternative approach
+- Results inform recommendations in ~10 seconds
+
+---
+
+## CLI Commands
+
+### Scenario Management
+
+```bash
+# Create scenario interactively (partner-guided)
+claude scenario create
+
+# Create from template
+claude scenario create --template client-intake
+
+# Deploy scenario (scaffold all components)
+claude scenario deploy <name>
+
+# List all scenarios
+claude scenario list
+
+# Show scenario details
+claude scenario show <name>
+
+# Edit and redeploy
+claude scenario edit <name>
+
+# Validate scenario definition
+claude scenario validate <name>
+
+# Remove scenario
+claude scenario remove <name>
+
+# Optimize deployed scenario
+claude scenario optimize <name>
+
+# Research alternatives for existing scenario
+claude scenario explore <name>
+```
+
+### Partnership Configuration
+
+```bash
+# Set partnership level
+claude config set partnership_level advisor
+
+# Get current partnership level
+claude config get partnership_level
+
+# Per-scenario override
+claude scenario create --partnership-level partner
+```
+
+---
+
+## User Experience Flows
+
+### Flow 1: Creating New Scenario (Advisor Level)
+
+**User:** "I need to capture client requirements before building their landing site"
+
+**Claude (scenario_builder):**
+```
+Let me explore the best approach for collecting client requirements.
+Researching current best practices...
+
+[Uses research MCP + spawns 3 feasibility_checker agents]
+
+I found three approaches:
+
+┌─────────────────────────────────────────────────────┐
+│ Option A: Airtable Forms (Recommended)             │
+├─────────────────────────────────────────────────────┤
+│ Pros: Single system, built-in sync, simple         │
+│ Cons: Less UI customization                        │
+│ Complexity: 3/10  Cost: $20/mo  MCPs: 1           │
+│ Feasibility: 9/10                                  │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ Option B: Google Forms → Airtable                  │
+├─────────────────────────────────────────────────────┤
+│ Pros: Better form customization                    │
+│ Cons: Two integrations, sync complexity            │
+│ Complexity: 6/10  Cost: $20/mo  MCPs: 2           │
+│ Feasibility: 7/10                                  │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ Option C: Typeform → Airtable (Premium)            │
+├─────────────────────────────────────────────────────┤
+│ Pros: Best-in-class UX, advanced logic             │
+│ Cons: Higher cost, still needs integration         │
+│ Complexity: 5/10  Cost: $70/mo  MCPs: 2           │
+│ Feasibility: 9/10                                  │
+└─────────────────────────────────────────────────────┘
+
+My recommendation: Option A (Airtable Forms)
+
+Rationale: Eliminates an entire integration point, reducing 
+complexity by 50% with minimal trade-offs unless you specifically 
+need Google Forms' customization.
+
+Would you like to:
+1. Implement Option A (recommended)
+2. Deep dive: Why Option B might still be better
+3. Test Option A with proof of concept
+4. Explore other alternatives
+```
+
+**User:** "1"
+
+**Claude:**
+```
+Creating scenario: client_intake
+
+✓ Scenario definition: client_intake.yaml
+✓ Global skill: client_intake/ (4 workflows)
+✓ MCP configuration: airtable-mcp
+✓ Slash command: /client-intake
+✓ Auto-activation hook: "new client", "requirements"
+✓ Integration with project_orchestrator
+
+Scenario ready! To deploy: claude scenario deploy client_intake
+```
+
+### Flow 2: Optimizing Existing Scenario
+
+**User:** "How's my client_intake scenario performing?"
+
+**Claude (scenario_builder with optimize workflow):**
+```
+Analyzing client_intake scenario...
+
+📊 Performance (30 days):
+- 24 clients processed
+- Average response time: 4.8 minutes
+- Success rate: 95.8% (1 failed due to Airtable downtime)
+- Cost: $20/mo (as expected)
+
+💡 I found 3 optimization opportunities:
+
+┌──────────────────────────────────────────────────────┐
+│ 1. Switch polling → webhooks (HIGH IMPACT)          │
+├──────────────────────────────────────────────────────┤
+│ Current: Poll Airtable every 5 minutes              │
+│ Better: Webhook → instant notification              │
+│ Impact: 5min → 5sec latency                         │
+│ Complexity: Low (already have airtable-mcp)         │
+│ Risk: Low                                           │
+│ Estimated effort: 15 minutes                        │
+└──────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────┐
+│ 2. Pre-fill client name in form URL (MEDIUM)        │
+├──────────────────────────────────────────────────────┤
+│ Better UX, reduce client errors                     │
+│ Impact: Medium | Complexity: Low                    │
+└──────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────┐
+│ 3. Add Slack notification (MEDIUM)                  │
+├──────────────────────────────────────────────────────┤
+│ Get notified via Slack instead of email             │
+│ Impact: Medium | Complexity: Low (+1 MCP)           │
+└──────────────────────────────────────────────────────┘
+
+Would you like me to implement #1? It's the highest ROI.
+```
+
+---
+
+## Key Workflows
+
+### explore_alternatives.md
+
+**Purpose:** Research and propose 3+ implementation approaches
+
+**Process:**
+1. Extract core need (not proposed solution)
+2. Research using MCP: "best practices for X 2025"
+3. Generate 3 options: Simplest, User's idea, Advanced
+4. Validate feasibility (spawn 3 sub-agents in parallel)
+5. Analyze trade-offs (pros/cons, complexity, cost)
+6. Recommend best option with reasoning
+7. Present structured comparison table
+
+### test_feasibility.md
+
+**Purpose:** Validate technical possibility before recommending
+
+**Checks:**
+1. MCP availability
+2. API capabilities (webhooks, rate limits)
+3. Authentication methods
+4. Known blockers (deprecated APIs)
+5. Cost requirements (plan tiers)
+
+**Output:** Feasibility score (0-10) + blockers list
+
+### optimize_scenario.md
+
+**Purpose:** Suggest improvements to deployed scenarios
+
+**Process:**
+1. Read scenario YAML + usage logs
+2. Analyze performance metrics
+3. Research current best practices
+4. Identify optimization opportunities
+5. Rank by impact/complexity/risk
+6. Present top 3 suggestions
+7. Offer to implement highest ROI
+
+### compare_options.md
+
+**Purpose:** Deep dive trade-off analysis
+
+**When:** User requests "tell me more about Option A vs B"
+
+**Output:**
+- Detailed feature comparison
+- Sample workflows for each
+- Monthly cost breakdown
+- Implementation effort estimates
+- Maintenance burden analysis
+- Risk assessment
+
+### proof_of_concept.md
+
+**Purpose:** Test approach before full deployment
+
+**Process:**
+1. Create minimal test scenario
+2. Validate API connections
+3. Test data flow
+4. Identify blockers early
+5. Show demo to user
+6. Confirm approach or pivot
+
+---
+
+## Implementation Phases
+
+### Phase 1: Core Scenario System (Week 1-2)
+
+**Deliverables:**
+- [ ] Create `~/.claude/scenarios/` directory structure
+- [ ] Implement scenario YAML schema and validation
+- [ ] Create scenario_builder meta-skill skeleton
+- [ ] Implement `create_scenario.md` workflow (basic)
+- [ ] Implement `analyze_scenario.md` workflow
+- [ ] Implement `scaffold_components.md` workflow
+- [ ] Implement CLI: `claude scenario create/list/show/deploy`
+- [ ] Create scenario template examples
+
+**Success Criteria:**
+- User can create basic scenario YAML
+- System can scaffold skills/commands from scenario
+- CLI commands work end-to-end
+
+### Phase 2: Partnership Workflows (Week 3-4)
+
+**Deliverables:**
+- [ ] Implement `explore_alternatives.md` workflow
+- [ ] Implement `test_feasibility.md` workflow
+- [ ] Implement `compare_options.md` workflow
+- [ ] Create feasibility_checker sub-agent
+- [ ] Add partnership_level configuration
+- [ ] Integrate research MCP (Perplexity or similar)
+- [ ] Create decision_framework resource
+- [ ] Implement parallel sub-agent spawning
+
+**Success Criteria:**
+- scenario_builder researches alternatives automatically
+- Feasibility validation works in parallel
+- Partnership level setting controls behavior
+- User receives 3 options with trade-off analysis
+
+### Phase 3: MCP Ecosystem (Week 5)
+
+**Deliverables:**
+- [ ] Create MCP Registry MCP (custom)
+- [ ] Integrate API Documentation MCP
+- [ ] Create Cost Calculator MCP (custom)
+- [ ] Build mcp_registry.md resource
+- [ ] Document available MCPs and capabilities
+- [ ] Create MCP installation/discovery system
+
+**Success Criteria:**
+- scenario_builder knows what MCPs exist
+- Cost estimates are accurate
+- API capabilities can be validated
+- Users can discover relevant MCPs
+
+### Phase 4: Optimization & Refinement (Week 6)
+
+**Deliverables:**
+- [ ] Implement `optimize_scenario.md` workflow
+- [ ] Implement `research_best_practices.md` workflow
+- [ ] Implement `proof_of_concept.md` workflow
+- [ ] Add design_decisions tracking to YAML
+- [ ] Add potential_improvements tracking
+- [ ] Create performance metrics collection
+- [ ] Implement CLI: `claude scenario optimize`
+
+**Success Criteria:**
+- Deployed scenarios can be analyzed
+- Optimization suggestions are proactive
+- Design decisions are documented
+- Users can test before deploying
+
+### Phase 5: Documentation & Polish (Week 7)
+
+**Deliverables:**
+- [ ] Write comprehensive user documentation
+- [ ] Create scenario templates (5+ examples)
+- [ ] Add inline help and examples
+- [ ] Create video/tutorial content
+- [ ] Write migration guide for existing workflows
+- [ ] Final integration testing
+- [ ] Performance optimization
+
+**Success Criteria:**
+- Documentation covers all use cases
+- New users can create scenarios in <15 minutes
+- Examples cover common patterns
+- Zero critical bugs
+
+---
+
+## Success Metrics
+
+### Functional Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Scenario creation success rate | >95% | Automated tests |
+| Alternative exploration accuracy | >90% relevant options | User feedback |
+| Feasibility validation accuracy | >85% correct | Post-deployment tracking |
+| Optimization suggestion relevance | >80% helpful | User feedback |
+| Component generation correctness | >99% | Automated validation |
+
+### Partnership Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| User accepts AI recommendation | >70% | Telemetry |
+| User requests deeper analysis | 20-30% | Telemetry |
+| Optimizations implemented | >50% | Tracking |
+| User satisfaction with partnership | >85% | Survey |
+
+### Performance Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Alternative exploration time | <30s | Performance tests |
+| Feasibility check time (parallel) | <15s | Performance tests |
+| Scenario deployment time | <10s | Performance tests |
+| Optimization analysis time | <20s | Performance tests |
+
+---
+
+## Risk Management
+
+### Technical Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|------------|--------|------------|
+| Research MCP unavailable | Medium | High | Fallback to local knowledge base |
+| Feasibility checks inaccurate | Medium | Medium | Human validation in advisor mode |
+| Sub-agent spawn failures | Low | Medium | Graceful degradation, retry logic |
+| YAML complexity overwhelming | Medium | Low | Provide templates, CLI wizard |
+
+### User Experience Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|------------|--------|------------|
+| Too many alternatives confusing | Medium | Medium | Limit to 3 options, clear ranking |
+| Partnership feels pushy | Low | Medium | User-controlled partnership level |
+| Optimization suggestions annoying | Low | Low | Only show on request by default |
+| Steep learning curve | High | Low | Progressive disclosure, examples |
+
+---
+
+## Future Enhancements (Post v1.0)
+
+### v1.1: Advanced Features
+- Scenario versioning and rollback
+- A/B testing for scenario alternatives
+- Community scenario marketplace
+- Scenario templates for common industries
+
+### v1.2: Intelligence Upgrades
+- Learn from user preferences over time
+- Predict which options user will prefer
+- Automatic optimization deployment (with approval)
+- Cross-scenario insights
+
+### v1.3: Team Features
+- Shared scenario libraries
+- Team approval workflows
+- Collaborative scenario building
+- Usage analytics and dashboards
+
+---
+
+## Appendices
+
+### A. Example Scenario: Client Intake
+
+See: `~/.claude/scenarios/examples/client_intake.yaml`
+
+### B. Decision Framework
+
+See: `~/.claude/skills/scenario_builder/resources/decision_framework.md`
+
+### C. MCP Registry
+
+See: `~/.claude/skills/scenario_builder/resources/mcp_registry.md`
+
+### D. Partnership Level Comparison
+
+| Feature | Order Taker | Clarifier | Advisor | Partner |
+|---------|------------|-----------|---------|---------|
+| Ask questions | No | Yes | Yes | Yes |
+| Research alternatives | No | No | Yes | Yes |
+| Challenge assumptions | No | No | Yes | Yes |
+| Validate feasibility | No | No | Yes | Yes |
+| Explain trade-offs | No | No | Yes | Yes |
+| Recommend best option | No | No | Yes | Yes |
+| Deep dive analysis | No | No | Optional | Always |
+| Proof of concept | No | No | Optional | Always |
+| Proactive optimization | No | No | No | Yes |
+
+---
+
+**END OF PRD**
+

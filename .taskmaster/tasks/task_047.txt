@@ -1,0 +1,157 @@
+# Task ID: 47
+# Title: Build Project Integrity Validation
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Implement 'claude project validate <name>' command to check project structure and health.
+# Details:
+Create a comprehensive validation system to check project structure and health:
+
+1. Implement validator module (lib/validator.js) with checks for:
+   - Directory structure validation
+   - Claude.md validation
+   - skill-rules.json validation
+   - metadata.json validation
+   - Skill validation
+   - Path validation
+
+2. Create command handler for 'claude project validate <name>':
+   - Parse command arguments
+   - Load project configuration
+   - Run validation checks
+   - Display results
+
+3. Implement actionable fix suggestions for all errors:
+   - Clear error messages
+   - Specific fix commands or steps
+   - Auto-fix options where appropriate
+
+4. Add validation reporting:
+   - Console output with color coding
+   - JSON output option
+   - Severity levels for issues
+
+Implementation example:
+```javascript
+// lib/validator.js
+class ProjectValidator {
+  constructor(projectName, options = {}) {
+    this.projectName = projectName;
+    this.options = options;
+    this.results = {
+      valid: true,
+      errors: [],
+      warnings: [],
+      suggestions: []
+    };
+  }
+
+  async validate() {
+    try {
+      await this.loadProject();
+      
+      // Run all validation checks
+      await this.validateDirectoryStructure();
+      await this.validateClaudeMd();
+      await this.validateSkillRules();
+      await this.validateMetadata();
+      await this.validateSkills();
+      await this.validatePaths();
+      
+      // Set overall validity
+      this.results.valid = this.results.errors.length === 0;
+      
+      return this.results;
+    } catch (error) {
+      this.results.valid = false;
+      this.results.errors.push({
+        code: 'VALIDATION_FAILED',
+        message: `Validation failed: ${error.message}`,
+        fix: 'Check project configuration and try again.'
+      });
+      return this.results;
+    }
+  }
+
+  async loadProject() {
+    // Load project configuration
+  }
+
+  async validateDirectoryStructure() {
+    // Check required directories exist
+    const requiredDirs = [
+      '.claude',
+      '.claude/skills',
+      '.claude/workflows',
+      '.claude/resources'
+    ];
+    
+    for (const dir of requiredDirs) {
+      const fullPath = path.join(this.projectPath, dir);
+      if (!fs.existsSync(fullPath)) {
+        this.results.errors.push({
+          code: 'MISSING_DIRECTORY',
+          message: `Required directory not found: ${dir}`,
+          path: fullPath,
+          fix: `mkdir -p "${fullPath}"`
+        });
+      }
+    }
+  }
+
+  // Other validation methods
+  async validateClaudeMd() { /* ... */ }
+  async validateSkillRules() { /* ... */ }
+  async validateMetadata() { /* ... */ }
+  async validateSkills() { /* ... */ }
+  async validatePaths() { /* ... */ }
+}
+
+module.exports = ProjectValidator;
+```
+
+```javascript
+// bin/commands/validate.js
+const ProjectValidator = require('../../lib/validator');
+const { formatValidationResults } = require('../../lib/formatter');
+
+async function validateCommand(args) {
+  const projectName = args._[0];
+  if (!projectName) {
+    console.error('Error: Project name is required');
+    console.error('Usage: claude project validate <name> [options]');
+    process.exit(1);
+  }
+
+  const validator = new ProjectValidator(projectName, {
+    verbose: args.verbose,
+    fix: args.fix
+  });
+
+  try {
+    const results = await validator.validate();
+    
+    if (args.json) {
+      console.log(JSON.stringify(results, null, 2));
+    } else {
+      console.log(formatValidationResults(results));
+    }
+    
+    process.exit(results.valid ? 0 : 1);
+  } catch (error) {
+    console.error(`Error validating project: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+module.exports = validateCommand;
+```
+
+# Test Strategy:
+1. Create test projects with various issues to validate detection
+2. Test each validation check individually
+3. Verify error messages are clear and actionable
+4. Test fix suggestions for correctness
+5. Validate performance with large projects
+6. Test edge cases (empty project, corrupted files, etc.)
+7. Verify command-line interface works correctly with different arguments

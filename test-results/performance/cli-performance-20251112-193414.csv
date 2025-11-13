@@ -1,0 +1,36 @@
+Command,Iteration,Time(ms),Status
+list-projects,1,60,FAILED
+list-projects,2,44,FAILED
+list-projects,3,43,FAILED
+list-projects,4,44,FAILED
+list-projects,5,45,FAILED
+current,1,42,FAILED
+current,2,44,FAILED
+current,3,44,FAILED
+current,4,78,FAILED
+current,5,61,FAILED
+health,1,48,FAILED
+health,2,51,FAILED
+health,3,44,FAILED
+health,4,43,FAILED
+health,5,44,FAILED
+scenario list,1,44,FAILED
+scenario list,2,45,FAILED
+scenario list,3,50,FAILED
+scenario list,4,43,FAILED
+scenario list,5,47,FAILED
+validate (current dir),1,45,FAILED
+validate (current dir),2,45,FAILED
+validate (current dir),3,44,FAILED
+validate (current dir),4,48,FAILED
+validate (current dir),5,54,FAILED
+help command,1,47,FAILED
+help command,2,43,FAILED
+help command,3,44,FAILED
+help command,4,44,FAILED
+help command,5,44,FAILED
+version command,1,43,FAILED
+version command,2,43,FAILED
+version command,3,48,FAILED
+version command,4,82,FAILED
+version command,5,74,FAILED

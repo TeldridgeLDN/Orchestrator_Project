@@ -1,0 +1,107 @@
+# Task ID: 36
+# Title: Integrate with diet103 Hooks
+# Status: done
+# Dependencies: 34
+# Priority: high
+# Description: Ensure project switching properly activates/deactivates diet103 hooks, registering and unregistering skill-rules.json configurations when switching between projects.
+# Details:
+Implement integration with diet103's hook system to ensure proper skill activation/deactivation during project switching:
+
+1. Create a `Diet103Integration` class to manage hook registration:
+   ```javascript
+   class Diet103Integration {
+     constructor() {
+       this.activeHooks = new Map();
+     }
+     
+     async registerProjectHooks(projectName, skillRules) {
+       // Get the diet103 hook manager
+       const hookManager = await this.getDiet103HookManager();
+       
+       // Register each skill's hooks
+       for (const skill of skillRules.skills) {
+         const hookId = await this.registerSkillHook(hookManager, skill, projectName);
+         this.activeHooks.set(`${projectName}:${skill.name}`, hookId);
+       }
+       
+       console.log(`Registered hooks for project: ${projectName}`);
+     }
+     
+     async unregisterProjectHooks(projectName) {
+       // Get the diet103 hook manager
+       const hookManager = await this.getDiet103HookManager();
+       
+       // Find and unregister all hooks for this project
+       const hooksToRemove = [];
+       for (const [key, hookId] of this.activeHooks.entries()) {
+         if (key.startsWith(`${projectName}:`)) {
+           await hookManager.unregisterHook(hookId);
+           hooksToRemove.push(key);
+         }
+       }
+       
+       // Remove from our tracking map
+       for (const key of hooksToRemove) {
+         this.activeHooks.delete(key);
+       }
+       
+       console.log(`Unregistered hooks for project: ${projectName}`);
+     }
+     
+     async registerSkillHook(hookManager, skill, projectName) {
+       // Create hook configuration based on skill rules
+       const hookConfig = {
+         type: 'UserPromptSubmit',
+         skillName: skill.name,
+         projectName: projectName,
+         patterns: skill.activationPatterns || [],
+         handler: async (context) => {
+           // Hook handler logic
+           await this.executeSkillHandler(skill, context);
+         }
+       };
+       
+       // Register with diet103
+       return await hookManager.registerHook(hookConfig);
+     }
+     
+     async getDiet103HookManager() {
+       // Get reference to diet103's hook manager
+       // This will depend on how diet103 exposes its API
+       return require('diet103').hookManager;
+     }
+     
+     async executeSkillHandler(skill, context) {
+       // Execute the skill's handler logic
+       // This will depend on the skill implementation
+     }
+   }
+   ```
+
+2. Integrate this class with the `ContextManager` to register/unregister hooks during project switching
+
+3. Ensure hooks are properly scoped to the active project
+
+4. Add validation to prevent hook conflicts between projects
+
+5. Implement logging and error handling for hook registration/unregistration
+
+# Test Strategy:
+1. Unit tests:
+   - Test hook registration
+   - Test hook unregistration
+   - Test hook execution
+
+2. Integration tests:
+   - Create multiple projects with different skill-rules.json
+   - Switch between projects and verify only the active project's hooks respond
+   - Test with overlapping skill configurations
+
+3. Isolation tests:
+   - Verify hooks from inactive projects don't trigger
+   - Test with multiple projects having the same skill but different configurations
+
+4. Error handling tests:
+   - Test with invalid hook configurations
+   - Test with missing diet103 hook manager
+   - Test recovery from failed hook registration

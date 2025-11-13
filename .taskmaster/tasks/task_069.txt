@@ -1,0 +1,228 @@
+# Task ID: 69
+# Title: Develop CLI Commands for Scenario Lifecycle Management
+# Status: done
+# Dependencies: 67, 68
+# Priority: high
+# Description: Implement CLI commands for creating, listing, showing, editing, deploying, validating, removing, optimizing, and exploring scenarios.
+# Details:
+Use Commander.js (v11.0.0) for CLI framework (already installed in package.json). Extend existing bin/diet103.js or create new bin/scenario.js. Implement commands: scenario create, list, show, edit, deploy, validate, remove, optimize, explore. Support interactive prompts using inquirer or prompts package. Integrate with scenario-directory.js utility and existing Node.js infrastructure.
+
+# Test Strategy:
+Write CLI integration tests using Vitest (already configured). Validate command outputs, error handling, and file changes. Test interactive prompts with mocked user input.
+
+# Subtasks:
+## 1. Analyze existing bin/diet103.js structure [done]
+### Dependencies: None
+### Description: Review the existing CLI entry point to understand how to extend it with scenario commands or determine if a separate bin/scenario.js file is more appropriate.
+### Details:
+Examine the current command structure, argument parsing, and how the CLI is organized. Document key patterns and extension points. Determine whether to extend the existing file or create a new module that's imported by the main CLI.
+<info added on 2025-11-10T10:08:21.372Z>
+## Analysis of Existing CLI Structure
+
+The existing CLI structure follows a modular Commander.js pattern with commands organized in the `lib/commands/` directory. The main entry point is `bin/diet103.js` which currently only implements a `validate` command.
+
+Based on the analysis, the recommended approach for implementing scenario commands is to:
+
+1. Create a new directory structure at `lib/commands/scenario/` to house all scenario-related commands
+2. Implement each command (create, list, show, edit, deploy, validate, remove, optimize, explore) as a separate module
+3. Create an index.js file to group all scenario commands
+4. Import and add the scenario command group to the main CLI entry point
+
+This approach maintains the existing project patterns, ensures separation of concerns, facilitates testing, and provides a clean extension path for future commands. The scenario commands will follow the same naming conventions, option structures, and action patterns as the existing commands.
+</info added on 2025-11-10T10:08:21.372Z>
+
+## 2. Set up Commander.js command structure for scenarios [done]
+### Dependencies: 69.1
+### Description: Implement the base Commander.js structure for all scenario commands with proper command hierarchy and help documentation.
+### Details:
+Create a command group for 'scenario' with subcommands for create, list, show, edit, deploy, validate, remove, optimize, and explore. Include help text, examples, and proper argument/option definitions for each command. Ensure consistent command patterns across all scenario operations.
+<info added on 2025-11-10T10:10:36.540Z>
+✅ **Commander.js Command Structure Complete**
+
+**Implemented:**
+1. ✅ Created modular command structure in `lib/commands/scenario/`
+2. ✅ Implemented main command group with 9 subcommands:
+   - `create` - Interactive and template-based scenario creation
+   - `list` - List all scenarios
+   - `show` - Display scenario details
+   - `edit` - Edit scenario configuration
+   - `deploy` - Deploy to environments
+   - `validate` - Validate configuration
+   - `remove` (alias: rm) - Remove scenarios
+   - `optimize` - Analyze and optimize
+   - `explore` - Explore alternatives
+
+3. ✅ Each command includes:
+   - Proper help text with examples
+   - Relevant options and arguments
+   - Action handlers (stubs for now)
+   - Consistent naming and patterns
+
+4. ✅ Integrated into main CLI (`bin/diet103.js`)
+5. ✅ Created and passed 4 unit tests
+6. ✅ Verified commands work via manual testing
+
+**Files Created:**
+- `lib/commands/scenario/index.js` - Command group
+- `lib/commands/scenario/create.js`
+- `lib/commands/scenario/list.js`
+- `lib/commands/scenario/show.js`
+- `lib/commands/scenario/edit.js`
+- `lib/commands/scenario/deploy.js`
+- `lib/commands/scenario/validate.js`
+- `lib/commands/scenario/remove.js`
+- `lib/commands/scenario/optimize.js`
+- `lib/commands/scenario/explore.js`
+- `lib/commands/scenario/__tests__/index.test.js`
+
+**Test Results:**
+```
+✓ should create a valid Commander.js command
+✓ should have all required subcommands  
+✓ should have proper description
+✓ should have help text with examples
+```
+
+**Manual Test:**
+```bash
+$ node bin/diet103.js scenario --help
+# Shows all 9 subcommands with examples
+
+$ node bin/diet103.js scenario create --help
+# Shows create command options
+```
+
+Ready for implementation of actual command logic in subsequent subtasks!
+</info added on 2025-11-10T10:10:36.540Z>
+
+## 3. Implement scenario create command with interactive mode [done]
+### Dependencies: 69.2
+### Description: Develop the scenario create command with support for both interactive prompts and template-based creation.
+### Details:
+Use inquirer or prompts package to implement interactive creation workflow. Support template selection, scenario name, description, and basic configuration. Allow for non-interactive mode with template specification via command line arguments. Integrate with scenario-directory.js utility for file operations.
+<info added on 2025-11-10T10:13:20.420Z>
+Scenario create command has been successfully implemented with both interactive and non-interactive modes. The implementation includes:
+
+1. Interactive mode with prompts for scenario name (with kebab-case validation), description, category selection, template selection (basic, advanced, custom), and trigger type selection.
+
+2. Non-interactive mode supporting command-line options: `--name`, `--template`, and `--no-interactive`.
+
+3. Template system with basic template, advanced template, and custom template options.
+
+4. Core functionality for scenario creation including template loading and customization, name validation, duplicate prevention, proper YAML formatting, saving to the user's .claude/scenarios directory, and next steps guidance.
+
+5. Dependencies added: prompts package (complementing existing js-yaml, chalk, and commander).
+
+6. Comprehensive testing with 3 passing unit tests and verified manual testing.
+
+Implementation is complete in lib/commands/scenario/create.js with supporting template files and tests.
+</info added on 2025-11-10T10:13:20.420Z>
+
+## 4. Implement scenario list and show commands [done]
+### Dependencies: 69.2
+### Description: Create commands to list all available scenarios and show details of a specific scenario.
+### Details:
+For list: Display formatted table of scenarios with key metadata. For show: Display detailed information about a specific scenario including configuration, status, and dependencies. Use scenario-directory.js to retrieve scenario information.
+<info added on 2025-11-10T10:19:08.592Z>
+Implemented scenario list and show commands with comprehensive functionality. The list command scans the scenarios directory, displays formatted tables with key metadata (name, description, category, steps), supports JSON output, handles errors, and sorts alphabetically. The show command displays detailed scenario information in standard and verbose modes, including basic info, steps, dependencies, artifacts, and additional details in verbose mode. Both commands feature colored output, helpful error messages, JSON output support, proper file handling for YAML extensions, and have passed all unit tests. Manual testing confirms proper functionality with expected formatted output for both commands.
+</info added on 2025-11-10T10:19:08.592Z>
+
+## 5. Implement scenario edit command [done]
+### Dependencies: 69.2, 69.3
+### Description: Create a command to edit existing scenario configurations with interactive and direct options.
+### Details:
+Support opening in default editor or interactive prompt-based editing. Implement validation of changes before saving. Use scenario-directory.js for file operations and maintain file format consistency.
+<info added on 2025-11-10T10:21:05.175Z>
+The edit command has been successfully implemented with both editor and interactive modes. The editor mode opens scenario files in external editors, respecting environment variables and supporting custom editor selection via flags. It validates YAML syntax after editing and provides helpful error messages. The interactive mode prompts for basic scenario properties with current values as defaults, offers category and trigger type selection, and provides an option to edit steps in an external editor. Core functionality includes finding scenarios by name, loading and preserving existing data structure, YAML validation, and proper error handling. Helper functions have been created for file operations, editor interaction, data loading/saving, and validation. All tests are passing, confirming the command's functionality with proper arguments, options, and descriptions.
+</info added on 2025-11-10T10:21:05.175Z>
+
+## 6. Implement scenario validation and deployment commands [done]
+### Dependencies: 69.2, 69.4
+### Description: Create commands for validating scenario configuration and deploying scenarios to target environments.
+### Details:
+For validate: Implement schema validation and logical consistency checks. For deploy: Implement deployment workflow with environment selection, confirmation prompts, and status reporting. Integrate with existing deployment utilities.
+<info added on 2025-11-10T10:27:44.999Z>
+Validation and Deployment Commands have been successfully implemented with comprehensive functionality:
+
+For validate command (lib/commands/scenario/validate.js):
+- YAML syntax validation checks file format integrity
+- JSON Schema validation using Ajv validates structure including required fields, name format, categories, versions, triggers, and steps
+- Dependency validation ensures references exist and detects circular dependencies
+- Uniqueness validation prevents duplicate step IDs
+- Supports strict and verbose modes with formatted output
+
+For deploy command (lib/commands/scenario/deploy.js):
+- Supports multiple environments (dev, staging, production)
+- Includes dry run mode for deployment planning without changes
+- Implements production safeguards requiring explicit confirmation
+- Force flag to bypass confirmations when needed
+- Complete deployment simulation including configuration validation, dependency checks, skill definition creation, slash command registration, and trigger setup
+- Detailed output showing created resources, dependencies, and next steps
+
+All commands feature comprehensive validation, JSON Schema implementation, dependency detection, dry run support, production safeguards, and user-friendly colored output with detailed error messages. Test coverage is complete with passing unit and manual tests.
+</info added on 2025-11-10T10:27:44.999Z>
+
+## 7. Implement scenario remove, optimize and explore commands [done]
+### Dependencies: 69.2, 69.4
+### Description: Create commands for removing scenarios, optimizing configurations, and exploring alternatives.
+### Details:
+For remove: Implement with confirmation and dependency checking. For optimize: Implement performance suggestion workflow. For explore: Implement alternative configuration generation and comparison.
+<info added on 2025-11-10T10:31:25.999Z>
+The remove, optimize, and explore commands have been fully implemented with comprehensive functionality:
+
+Remove Command:
+- Deletes scenario files with confirmation prompt (bypass with -f flag)
+- Includes rm alias for convenience
+- Supports --keep-data flag to preserve data files
+- Provides clear success/error messaging
+
+Optimize Command:
+- Analysis engine checks for missing fields, duplicates, performance issues
+- Implements priority system (High/Medium/Low)
+- Supports automatic fixes and interactive mode
+- Displays sorted, color-coded output with actionable suggestions
+
+Explore Command:
+- Generates 5 alternative implementation approaches with complexity/timeline estimates
+- Configurable number of alternatives
+- Comparison mode showing pros/cons/changes/estimates
+- Provides decision guidance and next steps
+
+All commands feature consistent patterns, colored output with emoji indicators, comprehensive error handling, helpful guidance, and both interactive/non-interactive modes. All tests pass successfully. This completes all 9 scenario management commands (create, list, show, edit, validate, deploy, remove, optimize, explore).
+</info added on 2025-11-10T10:31:25.999Z>
+
+## 8. Create comprehensive CLI documentation [done]
+### Dependencies: 69.3, 69.4, 69.5, 69.6, 69.7
+### Description: Document all scenario commands with examples, options, and common workflows.
+### Details:
+Create markdown documentation for each command with syntax, examples, and option explanations. Include common workflows and troubleshooting information. Update project README with CLI usage information.
+<info added on 2025-11-10T10:40:09.479Z>
+I've completed the comprehensive CLI documentation for all scenario commands as requested. The documentation includes:
+
+1. A detailed SCENARIO_CLI.md guide (7,500+ words) with:
+   - Complete table of contents
+   - Detailed reference for all 9 commands
+   - Usage examples for every option
+   - Output samples
+   - Workflow examples
+   - Best practices
+   - Troubleshooting guide
+   - Quick start guide
+
+2. A one-page SCENARIO_QUICK_REFERENCE.md cheat sheet with:
+   - Command overview table
+   - Common options table
+   - Quick examples
+   - Templates and environment references
+   - Validation checks
+   - Alternative approaches
+   - Troubleshooting tips
+
+3. Updated the main README.md with:
+   - Links to the new documentation
+   - Integration into the Workflow & Scenario System section
+   - "NEW!" markers for visibility
+
+All 9 commands are fully documented (create, list, show, edit, validate, deploy, remove, optimize, explore) with complete coverage of syntax, options, examples, error handling, and real-world workflows. The documentation is structured to serve both beginners and power users with 50+ code examples throughout.
+</info added on 2025-11-10T10:40:09.479Z>
+

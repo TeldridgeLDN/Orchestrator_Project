@@ -1,0 +1,49 @@
+# Task ID: 21
+# Title: CLI Commands Implementation
+# Status: pending
+# Dependencies: 13, 17, 18, 19
+# Priority: medium
+# Description: Develop CLI commands for classify, organize, archive, cleanup, status, and stats workflows.
+# Details:
+Use commander v10+ for CLI scaffolding. Implement each command to invoke corresponding workflow. Provide options for dry-run, verbose output, and config overrides. Ensure help and usage guides are clear.
+
+# Test Strategy:
+Unit and integration tests for each CLI command. Usability and error handling tests.
+
+# Subtasks:
+## 1. CLI Scaffolding and Command Registration [pending]
+### Dependencies: None
+### Description: Set up the CLI application using commander v10+ and register all required commands (classify, organize, archive, cleanup, status, stats).
+### Details:
+Initialize the CLI app with commander v10+. Register each workflow command with basic structure and placeholder handlers. Ensure commands are accessible and registered correctly.
+
+## 2. Command Implementation for Each Workflow [pending]
+### Dependencies: 21.1
+### Description: Implement each CLI command to invoke the corresponding workflow logic.
+### Details:
+Write handlers for each command (classify, organize, archive, cleanup, status, stats) that call the respective workflow functions. Ensure proper argument parsing and workflow invocation.
+
+## 3. Dry-run and Verbose Options [pending]
+### Dependencies: 21.2
+### Description: Add support for dry-run and verbose output options to all commands.
+### Details:
+Implement --dry-run and --verbose flags for each command. Ensure dry-run simulates actions without side effects and verbose provides detailed output.
+
+## 4. Config Override Handling [pending]
+### Dependencies: 21.2
+### Description: Implement config override options for each command.
+### Details:
+Add --config flag to allow users to specify a custom config file. Ensure config overrides are applied correctly to workflow invocations.
+
+## 5. Help and Usage Guide Generation [pending]
+### Dependencies: 21.1
+### Description: Generate clear help and usage guides for all commands and options.
+### Details:
+Ensure each command has descriptive help text and usage examples. Use commander's built-in help features and customize as needed.
+
+## 6. Usability and Error Handling Tests [pending]
+### Dependencies: 21.2, 21.3, 21.4, 21.5
+### Description: Write usability and error handling tests for the CLI commands.
+### Details:
+Create tests that cover common user errors, edge cases, and usability scenarios. Ensure error messages are clear and helpful.
+

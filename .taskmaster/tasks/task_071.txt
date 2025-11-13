@@ -1,0 +1,56 @@
+# Task ID: 71
+# Title: Implement scaffold_components Workflow for Scenario Compilation
+# Status: in-progress
+# Dependencies: 70
+# Priority: high
+# Description: Automatically generate orchestrator primitives (skills, commands, hooks, MCP configs) from scenario YAML definitions.
+# Details:
+Parse scenario YAML and generate corresponding files in ~/.claude/ (skills, commands, hooks, MCP configs). Use Jinja2 templates for code generation. Ensure idempotency and safe overwrites. Support rollback on failure.
+
+# Test Strategy:
+Test with various scenario YAMLs. Validate that all required components are generated and registered. Use snapshot testing for generated files.
+
+# Subtasks:
+## 1. Create YAML parser for scenario definitions [done]
+### Dependencies: None
+### Description: Implement a module to parse scenario YAML files and validate their structure against a defined schema
+### Details:
+Create a parser module that reads scenario YAML files, validates them against a schema, and converts them to a structured JavaScript object. Handle edge cases like malformed YAML, missing required fields, and invalid values. Use js-yaml for parsing and a JSON schema for validation. Include error handling with descriptive messages.
+<info added on 2025-11-10T11:21:47.520Z>
+The YAML Parser Module has been successfully completed with comprehensive functionality for parsing and validating scenario files. The implementation includes a robust `lib/utils/scenario-parser.js` module (600+ lines) with eight core functions for parsing, validation, and error handling. The parser performs multi-phase validation including YAML syntax checking, JSON Schema compliance using AJV, and business logic validation that detects issues like duplicate step IDs and circular dependencies.
+
+The module supports various scenario components including different trigger types (manual, scheduled, webhook, hybrid) and step types (manual, webhook, ai_analysis, api_call, data_processing). It enforces naming conventions, version formats, and category validation through a comprehensive schema definition.
+
+Test coverage is thorough with 28 passing tests that verify the parser's ability to handle valid scenarios, detect various error conditions, and provide helpful error messages with context. The implementation is production-ready, type-safe with JSDoc, and designed for integration with validate and scaffold commands.
+</info added on 2025-11-10T11:21:47.520Z>
+
+## 2. Implement templating system for code generation [in-progress]
+### Dependencies: 71.1
+### Description: Create a templating system using a Node.js-compatible library to generate code from templates
+### Details:
+Implement a templating system using Handlebars or similar Node.js templating library. Create base templates for skills, commands, hooks, and MCP configs. Design the template structure to be extensible and maintainable. Include helper functions for common transformations like camelCase, snake_case, etc. Store templates in a designated directory structure.
+
+## 3. Develop file generation and management system [pending]
+### Dependencies: 71.2
+### Description: Create a system to generate files from templates and manage their lifecycle in the ~/.claude/ directory
+### Details:
+Implement a file generation system that takes parsed scenario data and templates to generate the required files (skills, commands, hooks, MCP configs). Include functionality for safe file operations: checking if files exist, backing up existing files, and writing new files. Ensure proper directory structure creation. Implement file hashing to detect changes for idempotent operations.
+
+## 4. Implement rollback mechanism for failed operations [pending]
+### Dependencies: 71.3
+### Description: Create a transaction-like system that can roll back file changes if any part of the scaffold process fails
+### Details:
+Implement a rollback mechanism that tracks all file operations during scaffolding. If any operation fails, restore the system to its previous state. Use a journal-based approach to track created, modified, and deleted files. Implement restore functions for each operation type. Include cleanup of temporary files and logging of rollback actions.
+
+## 5. Create main scaffold_components workflow [pending]
+### Dependencies: 71.1, 71.2, 71.3, 71.4
+### Description: Implement the main workflow that orchestrates the entire scaffolding process from YAML parsing to file generation
+### Details:
+Implement the main scaffold_components workflow that coordinates the entire process: parsing scenario YAML, validating input, generating files from templates, and handling errors with rollback. Include progress reporting, logging, and error handling. Design the workflow to be modular and testable. Integrate with existing CLI commands from Tasks 69-70.
+
+## 6. Implement CLI command and documentation [pending]
+### Dependencies: 71.5
+### Description: Create the CLI command interface for scaffold_components and write comprehensive documentation
+### Details:
+Implement the CLI command interface for scaffold_components, including argument parsing, help text, and integration with the main workflow. Create comprehensive documentation including usage examples, parameter descriptions, and troubleshooting guidance. Include information about the expected YAML structure, generated files, and customization options. Add the command to the CLI help system.
+

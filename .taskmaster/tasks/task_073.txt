@@ -1,0 +1,11 @@
+# Task ID: 73
+# Title: Integrate Research MCP (Perplexity or Similar) for Best Practice Discovery
+# Status: pending
+# Dependencies: 72
+# Priority: medium
+# Description: Enable scenario_builder to query external research MCPs for up-to-date best practices and alternatives.
+# Details:
+Implement async HTTP client (httpx >=0.25) to interact with Perplexity or similar API. Cache results for performance. Handle API errors gracefully. Provide abstraction for swapping MCP providers.
+
+# Test Strategy:
+Mock MCP responses in tests. Validate correct query formation, error handling, and caching. Test fallback to local knowledge base.

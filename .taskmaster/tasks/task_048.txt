@@ -1,0 +1,162 @@
+# Task ID: 48
+# Title: Create Migration Helper for Existing Projects
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Build a tool to register existing diet103 projects with the orchestrator.
+# Details:
+Develop a migration helper script to register existing projects with the orchestrator:
+
+1. Create register-existing.sh script for ~/.claude/bin/commands/:
+   - Accept project path as input
+   - Auto-detect project name from path
+   - Validate existing structure
+   - Register in global config
+
+2. Implement project detection and validation:
+   - Check for .claude/ directory
+   - Validate basic structure
+   - Detect project type and configuration
+
+3. Add metadata.json generation if missing:
+   - Extract project information
+   - Create default metadata
+   - Save to .claude/metadata.json
+
+4. Implement global registration:
+   - Add to global config.json
+   - Preserve existing project structure
+   - Set up project switching capability
+
+Implementation example:
+```bash
+#!/bin/bash
+# ~/.claude/bin/commands/register-existing.sh
+
+set -e
+
+usage() {
+  echo "Usage: claude project register-existing <project_path> [options]"
+  echo ""
+  echo "Options:"
+  echo "  --name=<name>  Specify project name (default: derived from path)"
+  echo "  --force        Overwrite existing registration"
+  echo "  --help         Show this help message"
+  exit 1
+}
+
+# Parse arguments
+PROJECT_PATH=""
+PROJECT_NAME=""
+FORCE=false
+
+for arg in "$@"; do
+  case $arg in
+    --name=*)
+      PROJECT_NAME="${arg#*=}"
+      ;;
+    --force)
+      FORCE=true
+      ;;
+    --help)
+      usage
+      ;;
+    -*)
+      echo "Unknown option: $arg"
+      usage
+      ;;
+    *)
+      if [ -z "$PROJECT_PATH" ]; then
+        PROJECT_PATH="$arg"
+      else
+        echo "Error: Multiple project paths specified"
+        usage
+      fi
+      ;;
+  esac
+done
+
+if [ -z "$PROJECT_PATH" ]; then
+  echo "Error: Project path is required"
+  usage
+fi
+
+# Resolve absolute path
+PROJECT_PATH=$(realpath "$PROJECT_PATH")
+
+# Validate project path exists
+if [ ! -d "$PROJECT_PATH" ]; then
+  echo "Error: Project directory does not exist: $PROJECT_PATH"
+  exit 1
+fi
+
+# Check for .claude directory
+if [ ! -d "$PROJECT_PATH/.claude" ]; then
+  echo "Error: Not a Claude project (missing .claude directory)"
+  echo "Create .claude directory? (y/n)"
+  read -r CREATE_DIR
+  if [[ $CREATE_DIR =~ ^[Yy] ]]; then
+    mkdir -p "$PROJECT_PATH/.claude"{/skills,/workflows,/resources}
+    echo "Created .claude directory structure"
+  else
+    exit 1
+  fi
+fi
+
+# Auto-detect project name if not specified
+if [ -z "$PROJECT_NAME" ]; then
+  PROJECT_NAME=$(basename "$PROJECT_PATH")
+  echo "Auto-detected project name: $PROJECT_NAME"
+fi
+
+# Check if metadata.json exists, create if missing
+METADATA_PATH="$PROJECT_PATH/.claude/metadata.json"
+if [ ! -f "$METADATA_PATH" ]; then
+  echo "Creating metadata.json..."
+  cat > "$METADATA_PATH" << EOF
+{
+  "name": "$PROJECT_NAME",
+  "path": "$PROJECT_PATH",
+  "created": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "lastOpened": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "type": "custom"
+}
+EOF
+  echo "Created metadata.json"
+fi
+
+# Register in global config.json
+CONFIG_PATH="$HOME/.claude/config.json"
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo "Creating global config.json..."
+  mkdir -p "$(dirname "$CONFIG_PATH")"
+  echo '{"projects":{}}' > "$CONFIG_PATH"
+fi
+
+# Check if project already registered
+if jq -e ".projects.\"$PROJECT_NAME\"" "$CONFIG_PATH" > /dev/null 2>&1; then
+  if [ "$FORCE" = false ]; then
+    echo "Error: Project '$PROJECT_NAME' already registered"
+    echo "Use --force to overwrite"
+    exit 1
+  fi
+  echo "Overwriting existing project registration"
+fi
+
+# Update global config
+jq ".projects.\"$PROJECT_NAME\" = {\"path\": \"$PROJECT_PATH\", \"registered\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ\")"}" "$CONFIG_PATH" > "$CONFIG_PATH.tmp"
+mv "$CONFIG_PATH.tmp" "$CONFIG_PATH"
+
+echo "Successfully registered project '$PROJECT_NAME'"
+echo "You can now switch to this project with: claude project switch $PROJECT_NAME"
+```
+
+# Test Strategy:
+1. Test with various project structures (empty, partial, complete)
+2. Verify auto-detection of project name works correctly
+3. Test metadata.json generation with different project types
+4. Verify global registration in config.json
+5. Test error handling for invalid projects
+6. Verify --force flag works correctly for overwriting
+7. Test project switching after registration
+8. Validate backward compatibility with existing projects

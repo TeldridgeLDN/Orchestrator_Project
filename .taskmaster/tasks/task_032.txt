@@ -1,0 +1,39 @@
+# Task ID: 32
+# Title: Add Web-App and Shopify Templates
+# Status: done
+# Dependencies: None
+# Priority: low
+# Description: Create additional project templates for common use cases including a Web-App template and a Shopify template with appropriate skill configurations.
+# Details:
+Develop two new project templates following the established template structure:
+
+1. Web-App Template:
+   - Create directory structure at `~/.claude/templates/web-app/`
+   - Include standard web application files (HTML, CSS, JS)
+   - Add `Claude.md` with web application context
+   - Create `skill-rules.json` with web_dev_assistant skill configuration
+   - Add README.md with template usage instructions
+
+2. Shopify Template:
+   - Create directory structure at `~/.claude/templates/shopify/`
+   - Include Shopify-specific files and structure
+   - Add `Claude.md` with Shopify development context
+   - Create `skill-rules.json` with shopify_skill and seo_optimizer configurations
+   - Add README.md with template usage instructions
+
+Each template should include appropriate variable placeholders ({{PROJECT_NAME}}, etc.) for the template processor to replace.
+
+# Test Strategy:
+1. Validation tests:
+   - Verify each template has the correct directory structure
+   - Validate skill-rules.json format for each template
+   - Check for required files in each template
+
+2. Integration tests:
+   - Create a new project using each template
+   - Verify variable substitution works correctly
+   - Verify skills are properly configured
+
+3. User acceptance testing:
+   - Have developers create sample projects with each template
+   - Gather feedback on template completeness and usability

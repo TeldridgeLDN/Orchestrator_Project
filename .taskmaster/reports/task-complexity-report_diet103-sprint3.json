@@ -1,0 +1,29 @@
+{
+	"meta": {
+		"generatedAt": "2025-11-13T19:37:24.817Z",
+		"tasksAnalyzed": 2,
+		"totalTasks": 2,
+		"analysisCount": 2,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Implement Skill Documentation Generator",
+			"complexityScore": 9,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Break down the implementation of the Skill Documentation Generator into subtasks covering: directory scanning, metadata extraction (YAML, JSON, Python docstrings), code analysis for Python and TypeScript/JavaScript, template generation, drift detection, incremental updates, multi-language parser abstraction, configuration management, CLI integration, and file structure setup. Include subtasks for unit, integration, drift, performance, regression, and manual validation testing.",
+			"reasoning": "This task involves multiple advanced components: recursive directory scanning, multi-format metadata extraction, AST-based code analysis for several languages, template-driven Markdown generation, drift detection with diffing, incremental update logic, extensible multi-language support, configuration management, CLI integration, and strict adherence to a PRD file layout. Each module requires robust unit and integration testing, and the drift detection and incremental update features add significant complexity. The need for extensibility, maintainability, and CI/CD compatibility further increases the technical challenge. Industry best practices recommend modular parser interfaces and deterministic initial implementations, but the breadth of requirements and the need for future-proofing make this a high-complexity task[1][2][4][5]."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Develop Command Template Expander CLI Tool",
+			"complexityScore": 7,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Decompose the Command Template Expander CLI Tool into subtasks for: template definition and YAML parsing, macro expansion engine with Jinja2, CLI interface with click, interactive prompts with prompt_toolkit, rich terminal output formatting, template validation, history tracking, alias support, extensibility of template loader, safety/dry-run logic, and cross-platform compatibility. Include subtasks for unit, integration, validation, interactive, safety, and performance testing.",
+			"reasoning": "This CLI tool requires integration of several Python libraries (PyYAML, Jinja2, click, prompt_toolkit, rich) and must support extensible template libraries, interactive variable input, robust validation, history tracking, and safety features. While the core logic is modular and leverages established patterns, the interactive and validation components, as well as extensibility and safety requirements, add moderate complexity. The dependency on the documentation generator for template management and the need for cross-platform support further increase the implementation effort, but the overall scope is narrower than the documentation generator[1][2][4][5]."
+		}
+	]
+}

@@ -1,0 +1,49 @@
+# Task ID: 31
+# Title: Implement Template Variable Substitution
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Create a utility to replace template variables (e.g., {{PROJECT_NAME}}) when copying templates to new projects.
+# Details:
+Develop a template processor module that handles variable substitution in project templates. The implementation should:
+
+1. Create a `TemplateProcessor` class with methods:
+   - `processDirectory(sourcePath, targetPath, variables)`: Recursively process a directory
+   - `processFile(sourcePath, targetPath, variables)`: Process a single file
+   - `isTextFile(filePath)`: Detect if a file is text or binary
+
+2. Support variable substitution using regex pattern matching:
+   ```javascript
+   function replaceVariables(content, variables) {
+     return content.replace(/\{\{([A-Z_]+)\}\}/g, (match, varName) => {
+       return variables[varName] || match; // Replace if variable exists, otherwise keep original
+     });
+   }
+   ```
+
+3. Handle binary files by copying them directly without processing
+
+4. Support nested directory traversal to process all files in the template
+
+5. Add error handling for missing variables or file system errors
+
+6. Create unit tests for the template processor
+
+# Test Strategy:
+1. Unit tests for the TemplateProcessor class:
+   - Test variable replacement in text files
+   - Test binary file detection and handling
+   - Test directory traversal
+   - Test error handling
+
+2. Integration tests:
+   - Create a test template with various variable placeholders
+   - Process the template with a set of variables
+   - Verify all variables are correctly replaced
+   - Verify binary files are copied without modification
+
+3. Edge case tests:
+   - Test with missing variables
+   - Test with empty directories
+   - Test with unusual file names/paths
+   - Test with large files

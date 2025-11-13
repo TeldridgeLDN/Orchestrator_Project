@@ -1,0 +1,11 @@
+# Task ID: 68
+# Title: Scaffold scenario_builder Meta-Skill Skeleton
+# Status: done
+# Dependencies: 66
+# Priority: high
+# Description: Create the foundational structure for the scenario_builder meta-skill, including workflow and resource placeholders.
+# Details:
+Generate SKILL.md, metadata.json, config.json, workflows/ (with .md stubs for each workflow), resources/ (with .md stubs), and agents/feasibility_checker/ (with AGENT.md and config.json). Use cookiecutter for templating. Ensure all files are discoverable by orchestrator.
+
+# Test Strategy:
+Verify all files are created with correct content and permissions. Use integration tests to ensure orchestrator can load the meta-skill.

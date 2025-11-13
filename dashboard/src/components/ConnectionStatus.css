@@ -1,0 +1,105 @@
+/**
+ * Connection Status Styles
+ */
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.status-text {
+  white-space: nowrap;
+}
+
+/* Connection status colors */
+.connection-status[data-color="green"] {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: rgb(34, 197, 94);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.connection-status[data-color="yellow"] {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: rgb(234, 179, 8);
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+.connection-status[data-color="orange"] {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: rgb(249, 115, 22);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.connection-status[data-color="red"] {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: rgb(239, 68, 68);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.connection-status[data-color="gray"] {
+  background-color: rgba(156, 163, 175, 0.1);
+  color: rgb(156, 163, 175);
+  border-color: rgba(156, 163, 175, 0.3);
+}
+
+/* Pulsing animation for connecting/reconnecting states */
+.status-connecting .status-indicator,
+.status-reconnecting .status-indicator {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Spinning animation */
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .connection-status {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .status-indicator {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .status-text {
+    display: none;
+  }
+}
+

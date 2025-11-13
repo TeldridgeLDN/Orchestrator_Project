@@ -1,0 +1,94 @@
+{
+  "patterns": [
+    {
+      "source": "scripts/**/*.js",
+      "tests": ["tests/commands/**/*.test.js"],
+      "confidence": "high",
+      "description": "Scripts to command tests"
+    },
+    {
+      "source": "scripts/modules/**/*.js",
+      "tests": [
+        "tests/commands/**/*.test.js",
+        "tests/taskmaster-init.test.js"
+      ],
+      "confidence": "high",
+      "description": "Module changes affect command tests"
+    },
+    {
+      "source": "lib/**/*.js",
+      "tests": ["tests/**/*.test.js"],
+      "confidence": "medium",
+      "description": "Library changes may affect multiple tests"
+    },
+    {
+      "source": ".claude/hooks/**/*.js",
+      "tests": ["tests/hooks/**/*.test.js"],
+      "confidence": "high",
+      "description": "Hook files to hook tests"
+    },
+    {
+      "source": ".claude/hooks/**/*.ts",
+      "tests": ["tests/hooks/**/*.test.js"],
+      "confidence": "high",
+      "description": "TypeScript hooks to hook tests"
+    },
+    {
+      "source": ".claude/skills/**/*.py",
+      "tests": [".claude/skills/**/tests/**/*.py"],
+      "confidence": "high",
+      "description": "Skill modules to skill tests"
+    },
+    {
+      "source": ".claude/skills/pe-compression-analysis/**/*.py",
+      "tests": [".claude/skills/pe-compression-analysis/tests/**/*.py"],
+      "confidence": "high",
+      "description": "P/E compression skill tests"
+    },
+    {
+      "source": "tests/validators/**/*.js",
+      "tests": ["tests/validators/**/*.test.js"],
+      "confidence": "high",
+      "description": "Validator code to validator tests"
+    },
+    {
+      "source": "tests/fixtures/**/*",
+      "tests": ["tests/**/*.test.js"],
+      "confidence": "low",
+      "description": "Fixture changes may affect many tests"
+    }
+  ],
+  "critical_tests": [
+    "tests/integration/integration.test.js",
+    "tests/commands/integration.test.js"
+  ],
+  "always_run": [
+    "tests/health-*.test.js"
+  ],
+  "test_directories": [
+    "tests/",
+    ".claude/skills/*/tests/"
+  ],
+  "ignored_paths": [
+    "node_modules/",
+    ".git/",
+    "coverage/",
+    "dist/",
+    "build/",
+    "*.md",
+    "*.txt",
+    "*.json"
+  ],
+  "settings": {
+    "default_mode": "smart",
+    "fallback_to_full_on_low_confidence": false,
+    "confidence_thresholds": {
+      "aggressive": 0.8,
+      "smart": 0.6,
+      "conservative": 0.3
+    },
+    "max_tests_before_warning": 50,
+    "always_include_integration_tests": true
+  }
+}
+

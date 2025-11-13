@@ -1,0 +1,37 @@
+# Task ID: 19
+# Title: Develop Cleanup Workflow for Archived Files
+# Status: done
+# Dependencies: 18
+# Priority: medium
+# Description: Implement cleanup logic to remove archived files older than archive_retention_days, ensuring no CRITICAL files are deleted.
+# Details:
+Scan docs/archive for files exceeding retention period. Remove files safely, update manifest. Never auto-delete CRITICAL files. Implement backup before deletion.
+
+# Test Strategy:
+Integration tests for cleanup. Safety checks for CRITICAL files. Backup and recovery tests.
+
+# Subtasks:
+## 1. Implement Retention Period Detection for Archived Files [done]
+### Dependencies: None
+### Description: Scan the docs/archive directory and identify files that exceed the configured archive_retention_days threshold.
+### Details:
+Develop logic to iterate through all files in docs/archive, compare each file's last modified or archived timestamp to the current date, and flag files older than archive_retention_days for further processing.
+
+## 2. Enforce Safety Checks for CRITICAL Files [done]
+### Dependencies: 19.1
+### Description: Ensure that files marked as CRITICAL are never deleted, regardless of age or retention policy.
+### Details:
+Before any deletion, check file metadata or manifest to determine if a file is labeled as CRITICAL. Exclude such files from the deletion candidate list and log any attempted deletion for audit purposes.
+
+## 3. Backup and Safely Delete Eligible Archived Files [done]
+### Dependencies: 19.2
+### Description: Create a backup of all files eligible for deletion, then perform safe deletion (soft or hard as required) of non-CRITICAL files exceeding retention.
+### Details:
+Copy files to a secure backup location before deletion. Implement soft deletion (move to a temporary holding area) or hard deletion (permanent removal) based on configuration. Ensure deletion is atomic and recoverable in case of failure.
+
+## 4. Update Manifest and Audit Logs After Cleanup [done]
+### Dependencies: 19.3
+### Description: Update the manifest to reflect deleted files and record all cleanup actions in an audit log for traceability.
+### Details:
+Remove references to deleted files from the manifest. Append detailed entries to an audit log, including timestamps, file names, actions taken, and user/process responsible. Ensure logs are tamper-evident and accessible for compliance review.
+

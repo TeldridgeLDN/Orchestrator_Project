@@ -1,0 +1,73 @@
+# Task ID: 5
+# Title: Enhance Validate Command
+# Status: done
+# Dependencies: 1, 2, 3, 4
+# Priority: high
+# Description: Update validate.js to integrate detection, analysis, and repair capabilities
+# Details:
+Modify validate.js to support:
+- Comprehensive validation report
+- --repair flag for auto-repair
+- --verbose flag for detailed output
+- Confidence level enforcement
+
+Pseudo-code:
+```javascript
+function validateProject(projectPath, options) {
+  const checks = detectDiet103Infrastructure(projectPath);
+  const gaps = analyzeDiet103Gaps(checks);
+  const consistency = validateDiet103Consistency(projectPath);
+  
+  const report = generateValidationReport(checks, gaps, consistency);
+  
+  if (options.repair && gaps.score < 100) {
+    repairDiet103Infrastructure(projectPath, gaps, checks);
+  }
+  
+  return {
+    report,
+    repaired: options.repair,
+    score: gaps.score
+  };
+}```
+
+# Test Strategy:
+Integration tests covering:
+1. Validation without repair
+2. Validation with repair
+3. Verbose output mode
+4. Different project infrastructure states
+5. Confidence level handling
+6. Report format and content accuracy
+
+# Subtasks:
+## 1. Integrate Detection and Analysis Modules into validate.js [done]
+### Dependencies: None
+### Description: Update validate.js to invoke detection and gap analysis functions for diet103 infrastructure.
+### Details:
+Import and call detectDiet103Infrastructure() and analyzeDiet103Gaps() within validate.js. Ensure the results are captured and available for subsequent validation and reporting steps.
+
+## 2. Implement Comprehensive Validation Report Generation [done]
+### Dependencies: 5.1
+### Description: Develop logic in validate.js to generate a detailed validation report combining detection, analysis, and consistency results.
+### Details:
+Create or update generateValidationReport() to aggregate outputs from detection, gap analysis, and consistency validation. Ensure the report includes scores, missing components, and actionable recommendations.
+
+## 3. Add --repair Flag for Auto-Repair Functionality [done]
+### Dependencies: 5.1, 5.2
+### Description: Enable validate.js to accept a --repair flag and trigger auto-repair when validation gaps are detected.
+### Details:
+Parse CLI options to detect --repair. If set and gaps exist, call repairDiet103Infrastructure() with appropriate arguments. Ensure repaired state is reflected in the output.
+
+## 4. Implement --verbose Flag for Detailed Output [done]
+### Dependencies: 5.1, 5.2, 5.3
+### Description: Add support for a --verbose flag to provide detailed validation and repair process output.
+### Details:
+Update CLI parsing to recognize --verbose. Enhance logging and reporting in validate.js to output step-by-step details when verbose mode is enabled.
+
+## 5. Enforce Confidence Level Threshold in Validation [done]
+### Dependencies: 5.2, 5.3, 5.4
+### Description: Implement logic to enforce a minimum confidence level for validation success and reflect this in the report and exit status.
+### Details:
+Add an option to specify a confidence threshold. If the validation score is below this threshold, mark validation as failed and update the report and process exit code accordingly.
+

@@ -1,0 +1,62 @@
+# Task ID: 22
+# Title: Implement Global Configuration Schema
+# Status: done
+# Dependencies: 21
+# Priority: high
+# Description: Define and implement the configuration schema for the global project registry in config.json
+# Details:
+Created the JSON schema for the global configuration file that serves as the project registry. Implemented validation functions to ensure the config adheres to the schema.
+
+Implemented components:
+
+1. **JSON Schema** (~/.claude/schema/config-schema.json)
+   - Full JSON Schema Draft-07 compliant
+   - Validates version format (semantic versioning)
+   - Enforces project name patterns (alphanumeric, hyphens, underscores)
+   - Uses additionalProperties: false to reject invalid project names
+   - Validates date-time formats for timestamps
+   - Requires path, created fields for projects
+
+2. **Validation Module** (~/.claude/lib/config-validator.js)
+   - ES6 module with complete type safety
+   - validateConfig() - Schema validation + custom business rules
+   - initializeConfig() - Creates default config structure
+   - loadConfig() - Loads and validates from disk
+   - saveConfig() - Atomic writes with temp file
+   - ensureConfig() - Initialize if missing
+   - Additional validations: active_project must exist, paths must be absolute
+
+3. **Node.js Project** - package.json with ajv, ajv-formats, jest
+
+4. **Test Suite** - 14 unit tests, all passing
+
+The implementation matches the requirements specified in implementation-tasks.md Task 1.2 exactly.
+
+# Test Strategy:
+Completed test suite includes 14 unit tests that verify schema validation with valid and invalid configurations. Tests cover edge cases like missing fields, invalid project names, and malformed paths. Validation catches all schema violations and provides clear error messages. Tests for atomic write functionality include simulations of interruptions during writes.
+
+# Subtasks:
+## 1. Create JSON Schema definition [done]
+### Dependencies: None
+### Description: Develop the JSON Schema Draft-07 compliant schema for the global configuration file
+### Details:
+Created the full JSON Schema Draft-07 compliant schema at ~/.claude/schema/config-schema.json that validates version format (semantic versioning), enforces project name patterns (alphanumeric, hyphens, underscores), uses additionalProperties: false to reject invalid project names, validates date-time formats for timestamps, and requires path and created fields for projects.
+
+## 2. Implement validation module [done]
+### Dependencies: 22.1
+### Description: Create the ES6 module for configuration validation with complete type safety
+### Details:
+Implemented the validation module at ~/.claude/lib/config-validator.js as an ES6 module with complete type safety. The module includes functions for validateConfig() (schema validation + custom business rules), initializeConfig() (creates default config structure), loadConfig() (loads and validates from disk), saveConfig() (atomic writes with temp file), ensureConfig() (initialize if missing), and additional validations to ensure active_project must exist and paths must be absolute.
+
+## 3. Set up Node.js project dependencies [done]
+### Dependencies: None
+### Description: Configure package.json with required dependencies for schema validation
+### Details:
+Set up the Node.js project with package.json including dependencies for ajv, ajv-formats, and jest for testing.
+
+## 4. Create test suite [done]
+### Dependencies: 22.1, 22.2, 22.3
+### Description: Develop comprehensive test suite for configuration validation
+### Details:
+Created a test suite with 14 unit tests covering schema validation with valid and invalid configurations, edge cases like missing fields, invalid project names, and malformed paths, validation error messages, and atomic write functionality including simulations of interruptions during writes.
+

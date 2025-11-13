@@ -1,0 +1,91 @@
+#!/bin/bash
+# Wrapper for task-master parse-prd with automatic critical evaluation
+# Usage: tm-parse-prd [same args as task-master parse-prd]
+
+set -e
+
+echo "🎯 Task Master with Critical Evaluation"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Run task-master parse-prd with all arguments
+echo "📋 Step 1: Generating tasks from PRD..."
+task-master parse-prd "$@"
+
+# Check exit code
+if [ $? -ne 0 ]; then
+  echo "❌ Task generation failed"
+  exit 1
+fi
+
+echo "✅ Tasks generated successfully"
+echo ""
+
+# 2. Check if evaluation is enabled
+if [ ! -f .taskmaster/config.json ]; then
+  echo "⚠️  No config found, skipping evaluation"
+  exit 0
+fi
+
+EVAL_ENABLED=$(cat .taskmaster/config.json | grep -o '"enableCriticalReview":\s*true' || echo "")
+
+if [ -z "$EVAL_ENABLED" ]; then
+  echo "ℹ️  Critical review disabled in config"
+  echo "💡 Enable with: config.global.enableCriticalReview = true"
+  exit 0
+fi
+
+# 3. Run critical evaluation
+echo "🔍 Step 2: Running critical evaluation..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+node .taskmaster/scripts/critical-task-evaluator.js
+
+# Check exit code
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "⚠️  Evaluation completed with warnings"
+  echo "📄 Check report for details"
+else
+  echo ""
+  echo "✅ Evaluation complete!"
+fi
+
+# 4. Show summary
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📊 Summary:"
+echo ""
+
+LATEST_REPORT=$(ls -t .taskmaster/reports/critical-review-*.md 2>/dev/null | head -1)
+
+if [ -n "$LATEST_REPORT" ]; then
+  echo "📄 Report: $LATEST_REPORT"
+  
+  # Extract key metrics if possible
+  ORIGINAL=$(grep "Original Tasks:" "$LATEST_REPORT" 2>/dev/null | head -1 || echo "")
+  REFINED=$(grep "Refined Tasks:" "$LATEST_REPORT" 2>/dev/null | head -1 || echo "")
+  REDUCTION=$(grep "Reduction:" "$LATEST_REPORT" 2>/dev/null | head -1 || echo "")
+  
+  if [ -n "$ORIGINAL" ]; then
+    echo "$ORIGINAL"
+  fi
+  if [ -n "$REFINED" ]; then
+    echo "$REFINED"
+  fi
+  if [ -n "$REDUCTION" ]; then
+    echo "$REDUCTION"
+  fi
+  
+  echo ""
+  echo "💡 View full report: code $LATEST_REPORT"
+else
+  echo "📄 No report generated"
+fi
+
+echo ""
+echo "🚀 Ready to start implementing!"
+echo "   Run: task-master next"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+

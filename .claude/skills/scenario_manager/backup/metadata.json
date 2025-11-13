@@ -1,0 +1,65 @@
+{
+  "id": "scenario_manager",
+  "name": "Scenario Manager",
+  "type": "meta-skill",
+  "version": "1.0.0",
+  "description": "Intelligent guidance and context-aware assistance for working with scenario definitions. Provides discovery, creation guidance, validation, and metadata tracking without auto-scaffolding.",
+  "architecture": {
+    "layer": "global",
+    "pattern": "PAI Skills-as-Containers + diet103 auto-activation",
+    "progressive_disclosure": true
+  },
+  "capabilities": [
+    "scenario_discovery",
+    "creation_guidance",
+    "validation",
+    "metadata_tracking",
+    "context_aware_suggestions"
+  ],
+  "activation": {
+    "auto_activate": true,
+    "trigger_categories": [
+      "creation_scaffolding",
+      "discovery_listing",
+      "validation",
+      "status_info"
+    ]
+  },
+  "token_footprint": {
+    "metadata_only": 300,
+    "full_scenario": 500,
+    "scaffolding_system": 0
+  },
+  "dependencies": {
+    "required": [
+      "~/.claude/config.json",
+      "~/.claude/scenarios/",
+      "lib/utils/scenario-parser.js"
+    ],
+    "optional": [
+      "lib/utils/scenario-directory.js",
+      "lib/utils/scaffold-workflow.js"
+    ]
+  },
+  "safety_features": [
+    "no_auto_scaffolding",
+    "validation_before_guidance",
+    "metadata_consistency_checks",
+    "audit_trail"
+  ],
+  "integration_points": {
+    "config_json": "~/.claude/config.json",
+    "scenario_parser": "lib/utils/scenario-parser.js",
+    "scaffold_workflow": "lib/utils/scaffold-workflow.js",
+    "cli_commands": [
+      "diet103 scenario create",
+      "diet103 scenario validate",
+      "diet103 scenario scaffold",
+      "diet103 scenario list"
+    ]
+  },
+  "created": "2025-11-10",
+  "author": "Claude (Sonnet 4.5)",
+  "status": "active"
+}
+

@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://orchestrator.ai/schemas/template-library.json",
+  "title": "Template Library Schema",
+  "description": "Schema for personal template library registry",
+  "type": "object",
+  "required": ["version", "lastUpdated", "templates", "categories"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp (ISO 8601)"
+    },
+    "templates": {
+      "type": "object",
+      "description": "Templates indexed by ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/template"
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Available template categories",
+      "items": {
+        "$ref": "#/definitions/category"
+      }
+    }
+  },
+  "definitions": {
+    "template": {
+      "type": "object",
+      "required": ["id", "name", "description", "category", "tags", "version", "createdAt", "updatedAt", "location"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique template identifier",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "category": {
+          "type": "string",
+          "description": "Primary category ID"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Search tags",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "uniqueItems": true
+        },
+        "version": {
+          "type": "string",
+          "description": "Template version (semver)",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        },
+        "location": {
+          "type": "string",
+          "description": "Path to template directory (relative or absolute)"
+        },
+        "requirements": {
+          "$ref": "#/definitions/requirements"
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "properties": {
+        "orchestratorVersion": {
+          "type": "string",
+          "description": "Required orchestrator version (semver range)",
+          "pattern": "^[~^<>=]*\\d+\\.\\d+\\.\\d+"
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "External dependencies",
+          "items": {
+            "$ref": "#/definitions/dependency"
+          }
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "required": ["type", "name", "version"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Dependency type",
+          "enum": ["npm", "pip", "gem", "composer", "cargo", "go", "maven", "nuget"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Package name"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version requirement"
+        }
+      }
+    },
+    "category": {
+      "type": "object",
+      "required": ["id", "name", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Category identifier",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name",
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "Category description",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      }
+    }
+  }
+}
+

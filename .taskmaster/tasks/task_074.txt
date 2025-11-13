@@ -1,0 +1,11 @@
+# Task ID: 74
+# Title: Implement explore_alternatives and compare_options Workflows
+# Status: pending
+# Dependencies: 73
+# Priority: medium
+# Description: Enable scenario_builder to research, generate, and compare multiple implementation options for a scenario.
+# Details:
+Write explore_alternatives.md and compare_options.md workflows. Use Research MCP to find options, spawn feasibility_checker agents for each, and present structured comparison tables. Support deep dive analysis on user request.
+
+# Test Strategy:
+Test with real and mocked scenarios. Validate that at least 3 options are generated, feasibility is scored, and trade-offs are clearly presented.

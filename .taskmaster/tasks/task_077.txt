@@ -1,0 +1,11 @@
+# Task ID: 77
+# Title: Build MCP Registry, API Documentation, and Cost Calculator MCPs
+# Status: pending
+# Dependencies: 76
+# Priority: medium
+# Description: Develop custom MCPs for registry, API documentation, and cost calculation to support scenario_builder research and validation.
+# Details:
+Implement MCP Registry MCP (Python FastAPI, SQLite for registry), API Documentation MCP (OpenAPI spec parsing, endpoint validation), and Cost Calculator MCP (monthly cost estimation logic). Provide RESTful APIs and document endpoints.
+
+# Test Strategy:
+Unit and integration tests for each MCP. Validate correct responses for registry queries, API capability checks, and cost estimates.

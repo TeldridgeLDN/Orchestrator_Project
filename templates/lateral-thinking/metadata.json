@@ -1,0 +1,102 @@
+{
+  "name": "lateral-thinking",
+  "displayName": "Lateral Thinking",
+  "version": "1.0.0",
+  "description": "Creative problem-solving through disruptive thinking patterns. Uses structured techniques (SCAMPER, Six Thinking Hats, Provocations) to break out of linear thought patterns and discover innovative solutions.",
+  "author": "Orchestrator Project",
+  "license": "MIT",
+  "keywords": [
+    "creativity",
+    "problem-solving",
+    "innovation",
+    "ideation",
+    "design-thinking",
+    "lateral-thinking",
+    "brainstorming"
+  ],
+  "dependencies": {
+    "skills": [],
+    "tools": [],
+    "runtime": {
+      "node": ">=16.0.0"
+    }
+  },
+  "structure": {
+    "format": "diet103-progressive-disclosure",
+    "version": "1.0",
+    "mainFile": "SKILL.md",
+    "resources": {
+      "quick-ref": {
+        "file": "resources/quick-ref.md",
+        "description": "Technique cheat sheet with fast-access patterns",
+        "maxLines": 100
+      },
+      "setup-guide": {
+        "file": "resources/setup-guide.md",
+        "description": "Integration with Orchestrator workflows",
+        "maxLines": 500
+      },
+      "api-reference": {
+        "file": "resources/api-reference.md",
+        "description": "Detailed technique documentation and parameters",
+        "maxLines": 500
+      },
+      "troubleshooting": {
+        "file": "resources/troubleshooting.md",
+        "description": "Common issues and technique selection guidance",
+        "maxLines": 500
+      }
+    }
+  },
+  "hooks": {
+    "autoActivate": false,
+    "detectionPatterns": [
+      "research.*complete",
+      "stuck.*problem",
+      "need.*creative.*solution",
+      "alternative.*approach",
+      "thinking.*outside.*box",
+      "brainstorm",
+      "innovative.*solution"
+    ],
+    "triggerConditions": {
+      "postResearch": true,
+      "prePlanning": true,
+      "stuckState": true,
+      "wickedProblem": true,
+      "explicitRequest": true
+    }
+  },
+  "configuration": {
+    "defaults": {
+      "tokenBudget": 3000,
+      "techniques": 2,
+      "ideasPerTechnique": 5,
+      "autoConverge": true,
+      "presentTopN": 3,
+      "includeBaseline": true,
+      "minConfidence": 0.6
+    }
+  },
+  "changelog": {
+    "1.0.0": {
+      "date": "2025-11-13",
+      "changes": [
+        "Initial release",
+        "SCAMPER technique implementation",
+        "Six Thinking Hats integration",
+        "Provocation method",
+        "Random Metaphors",
+        "Bad Ideas technique",
+        "Auto-convergence with prioritization",
+        "Context-aware triggering"
+      ]
+    }
+  },
+  "links": {
+    "documentation": "https://interaction-design.org/literature/topics/lateral-thinking",
+    "repository": "https://github.com/orchestrator-project/lateral-thinking",
+    "issues": "https://github.com/orchestrator-project/lateral-thinking/issues"
+  }
+}
+

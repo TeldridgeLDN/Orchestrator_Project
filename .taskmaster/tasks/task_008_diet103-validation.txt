@@ -1,0 +1,68 @@
+# Task ID: 8
+# Title: Update Create Command
+# Status: pending
+# Dependencies: 5
+# Priority: low
+# Description: Modify create.js to validate template installation
+# Details:
+Enhance create.js to:
+- Validate template installation immediately after project creation
+- Ensure all required diet103 components are present
+- Auto-repair if template is incomplete
+
+Pseudo-code:
+```javascript
+function createProject(templateName, projectPath) {
+  createProjectFromTemplate(templateName, projectPath);
+  
+  const validationResult = validateProject(projectPath, {
+    repair: true,
+    verbose: false
+  });
+  
+  if (validationResult.score < 100) {
+    console.warn('Template installation may be incomplete');
+  }
+  
+  return validationResult;
+}```
+
+# Test Strategy:
+Validation tests:
+1. Complete template installation
+2. Partial template installation
+3. Repair of incomplete templates
+4. Verification of all diet103 components
+5. Different template sources
+
+# Subtasks:
+## 1. Integrate validateProject function into create.js [pending]
+### Dependencies: None
+### Description: Modify create.js to call validateProject immediately after project creation.
+### Details:
+Update the createProject function to invoke validateProject with repair and verbose options after creating the project from template.
+
+## 2. Ensure required diet103 components are checked [pending]
+### Dependencies: 8.1
+### Description: Verify that the validation process checks for all required diet103 components.
+### Details:
+Update validation logic to include checks for all 12 diet103 infrastructure components as defined in the detection module.
+
+## 3. Implement auto-repair for incomplete templates [pending]
+### Dependencies: 8.2
+### Description: Add logic to automatically repair missing or incomplete template components.
+### Details:
+Enhance validateProject to auto-repair missing components if repair flag is enabled, using the repair capabilities from the validation module.
+
+## 4. Add warning for incomplete template installation [pending]
+### Dependencies: 8.3
+### Description: Display a warning message if the template installation score is below 100.
+### Details:
+Update create.js to log a warning if the validation result score is less than 100, indicating potential issues with the template installation.
+
+## 5. Verify integration with different template sources [pending]
+### Dependencies: 8.4
+### Description: Ensure the updated create command works with various template sources.
+### Details:
+Test the create command with templates from different sources (local, remote, monorepo) to confirm validation and repair functionality works consistently.
+

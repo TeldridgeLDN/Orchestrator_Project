@@ -26,12 +26,14 @@ python -m http.server 8000
 
 ### 2. Original Dashboard (`index.html`)
 
-React-based dashboard showing active skills and project metadata.
+React-based dashboard showing active skills, project metadata, and health metrics.
 
 **Features:**
+- **Health Metrics Panel** - Visual health score display with component breakdown
 - Active skills panel
 - Project statistics
 - File manifest data
+- Health recommendations (when score < 85)
 - Built with React + Vite + Tailwind
 
 **Usage:**
@@ -44,6 +46,47 @@ npm run dev
 
 # Build for production
 npm run build
+```
+
+#### Health Metrics Display
+
+The dashboard now includes a comprehensive health metrics panel that shows:
+
+**Overall Health Score**
+- Large, color-coded score display (0-100)
+- Status indicator: 🟢 Healthy (85-100), 🟡 Needs Attention (70-84), 🔴 Critical (0-69)
+- Last health check timestamp
+
+**Component Breakdown**
+- Structure Validity (40% weight)
+- Hook Status (30% weight)
+- Skill Activity (20% weight)
+- Configuration Completeness (10% weight)
+- Visual progress bars for each component
+- Individual scores and percentages
+
+**Recommendations Section**
+- Displays when health score < 85
+- Shows top 3 actionable recommendations
+- Severity indicators (Critical, Medium, Low)
+- Estimated impact on health score
+- Quick-fix suggestions
+
+**Sample Dashboard View:**
+```
+┌─────────────────────────────────────┐
+│   PROJECT HEALTH                    │
+│   87/100 🟢 Healthy                │
+│   Last checked: 2 minutes ago       │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│   COMPONENT BREAKDOWN               │
+│   ████████████████░░ Structure 90%  │
+│   ████████████████████ Hooks 100%   │
+│   ████████████░░░░░░ Skills 60%     │
+│   ████████████████████ Config 100%  │
+└─────────────────────────────────────┘
 ```
 
 ## Epic Dashboard Details

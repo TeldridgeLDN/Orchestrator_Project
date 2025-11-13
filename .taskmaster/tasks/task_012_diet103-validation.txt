@@ -1,0 +1,37 @@
+# Task ID: 12
+# Title: Project Setup and Core Skill Scaffolding
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Initialize the file_lifecycle_manager skill structure, including directories, manifests, and configuration files as per PAI Skills-as-Containers pattern.
+# Details:
+Create the directory structure under ~/.claude/skills/file_lifecycle_manager/. Scaffold SKILL.md, metadata.json, workflows/, resources/, hooks/, lib/, and tests/ folders. Use Node.js v20+ for best filesystem API support. Ensure config.json and metadata.json schemas match PRD specs. Adopt UFC hierarchy for docs/.
+
+# Test Strategy:
+Verify all directories and files are created as specified. Validate config.json and metadata.json against schema. Run basic CLI command to check skill registration.
+
+# Subtasks:
+## 1. Scaffold Directory Structure and Core Files [done]
+### Dependencies: None
+### Description: Create the required directory structure and initial files for the file_lifecycle_manager skill under ~/.claude/skills/file_lifecycle_manager/ as per the Skills-as-Containers pattern.
+### Details:
+Generate directories: workflows/, resources/, hooks/, lib/, tests/, and docs/ (with UFC subfolders). Scaffold SKILL.md, metadata.json, config.json, and any other manifest/config files. Ensure all files are placed in their correct locations and initial content is present.
+
+## 2. Validate config.json and metadata.json Schemas [done]
+### Dependencies: 12.1
+### Description: Ensure that config.json and metadata.json conform to the PRD-specified schemas for the skill.
+### Details:
+Obtain or define the PRD schemas for config.json and metadata.json. Use a JSON schema validator (e.g., ajv) to validate the generated files. Address any schema mismatches or missing fields.
+
+## 3. Set Up and Verify Node.js v20+ Environment [done]
+### Dependencies: None
+### Description: Install and configure Node.js v20 or higher to ensure compatibility with modern filesystem APIs and project tooling.
+### Details:
+Check for existing Node.js installation and version. If necessary, install or upgrade to Node.js v20+. Verify npm is available. Optionally, set up nvm for version management. Confirm that Node.js and npm commands work in the project directory.
+
+## 4. Implement UFC-Compliant Documentation Structure [done]
+### Dependencies: 12.1
+### Description: Organize the docs/ directory according to the UFC hierarchy, ensuring clear separation of core, implementation, session, and archive documentation.
+### Details:
+Within docs/, create subfolders: core/, impl/, sessions/, and archive/. Place placeholder README.md files in each. Ensure the structure matches UFC documentation standards and is referenced in SKILL.md.
+

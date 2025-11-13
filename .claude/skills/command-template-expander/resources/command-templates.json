@@ -1,0 +1,259 @@
+{
+  "workflows": [
+    {
+      "name": "portfolio",
+      "description": "Portfolio analysis and management commands",
+      "templates": {
+        "score": {
+          "description": "Score portfolio holdings using comprehensive metrics",
+          "command": "python comprehensive_portfolio_scorer.py --portfolio {{ portfolio }} --output {{ output|default('scores.json') }} {% if verbose %}--verbose{% endif %}",
+          "variables": {
+            "portfolio": {
+              "description": "Portfolio name to score",
+              "required": true,
+              "type": "string",
+              "options": ["ISA", "SIPP", "OPP", "ALL"]
+            },
+            "output": {
+              "description": "Output file path for scores",
+              "required": false,
+              "type": "string",
+              "default": "scores.json"
+            },
+            "verbose": {
+              "description": "Enable verbose output",
+              "required": false,
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "examples": [
+            "score ISA portfolio",
+            "score all portfolios to results.json",
+            "score SIPP with verbose output"
+          ],
+          "aliases": ["rate", "analyze", "evaluate"],
+          "dangerous": false
+        },
+        "rebalance": {
+          "description": "Generate rebalancing recommendations",
+          "command": "python scripts/rebalance_portfolio.py --portfolio {{ portfolio }} --target-allocation {{ allocation|default('equal') }}",
+          "variables": {
+            "portfolio": {
+              "description": "Portfolio to rebalance",
+              "required": true,
+              "type": "string",
+              "options": ["ISA", "SIPP", "OPP"]
+            },
+            "allocation": {
+              "description": "Target allocation strategy",
+              "required": false,
+              "type": "string",
+              "default": "equal",
+              "options": ["equal", "momentum", "risk-parity", "mean-variance"]
+            }
+          },
+          "examples": [
+            "rebalance ISA portfolio",
+            "rebalance SIPP with momentum allocation"
+          ],
+          "aliases": ["balance", "reallocate"],
+          "dangerous": false,
+          "confirm": true
+        }
+      }
+    },
+    {
+      "name": "backtest",
+      "description": "Backtesting and strategy validation",
+      "templates": {
+        "run": {
+          "description": "Run backtest with specified parameters",
+          "command": "python backtester/run_backtest.py --symbol {{ symbol }} --lookback {{ lookback|default(12) }} --start-date {{ start_date|default('2020-01-01') }} {% if benchmark %}--benchmark {{ benchmark }}{% endif %}",
+          "variables": {
+            "symbol": {
+              "description": "Stock symbol or portfolio to backtest",
+              "required": true,
+              "type": "string",
+              "pattern": "^[A-Z]{1,5}$"
+            },
+            "lookback": {
+              "description": "Lookback period in months",
+              "required": false,
+              "type": "integer",
+              "default": 12,
+              "min": 1,
+              "max": 60
+            },
+            "start_date": {
+              "description": "Backtest start date (YYYY-MM-DD)",
+              "required": false,
+              "type": "string",
+              "default": "2020-01-01",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "benchmark": {
+              "description": "Benchmark symbol for comparison",
+              "required": false,
+              "type": "string",
+              "pattern": "^[A-Z]{1,5}$"
+            }
+          },
+          "examples": [
+            "run backtest for MSFT with 12 month lookback",
+            "backtest AAPL from 2021-01-01 against SPY"
+          ],
+          "aliases": ["test", "bt", "simulate"],
+          "dangerous": false
+        },
+        "compare": {
+          "description": "Compare multiple strategies",
+          "command": "python backtester/compare_strategies.py --symbols {{ symbols }} --strategies {{ strategies }}",
+          "variables": {
+            "symbols": {
+              "description": "Comma-separated list of symbols",
+              "required": true,
+              "type": "string"
+            },
+            "strategies": {
+              "description": "Comma-separated list of strategies",
+              "required": true,
+              "type": "string"
+            }
+          },
+          "examples": [
+            "compare MSFT,AAPL,GOOGL with momentum,mean-reversion strategies"
+          ],
+          "aliases": ["cmp"],
+          "dangerous": false
+        }
+      }
+    },
+    {
+      "name": "data",
+      "description": "Data management and validation",
+      "templates": {
+        "fetch": {
+          "description": "Fetch market data for symbols",
+          "command": "python scripts/fetch_data.py --symbols {{ symbols }} --start {{ start_date|default('2020-01-01') }} --provider {{ provider|default('yfinance') }}",
+          "variables": {
+            "symbols": {
+              "description": "Comma-separated symbols to fetch",
+              "required": true,
+              "type": "string"
+            },
+            "start_date": {
+              "description": "Start date for data fetch",
+              "required": false,
+              "type": "string",
+              "default": "2020-01-01"
+            },
+            "provider": {
+              "description": "Data provider",
+              "required": false,
+              "type": "string",
+              "default": "yfinance",
+              "options": ["yfinance", "alphavantage", "iex"]
+            }
+          },
+          "examples": [
+            "fetch data for MSFT,AAPL",
+            "fetch GOOGL data from 2021-01-01 using alphavantage"
+          ],
+          "aliases": ["get", "download", "pull"],
+          "dangerous": false
+        },
+        "validate": {
+          "description": "Validate data quality and completeness",
+          "command": "python scripts/validate_data.py --portfolio {{ portfolio }} --checks {{ checks|default('all') }}",
+          "variables": {
+            "portfolio": {
+              "description": "Portfolio to validate",
+              "required": true,
+              "type": "string",
+              "options": ["ISA", "SIPP", "OPP", "ALL"]
+            },
+            "checks": {
+              "description": "Validation checks to run",
+              "required": false,
+              "type": "string",
+              "default": "all",
+              "options": ["all", "completeness", "accuracy", "consistency"]
+            }
+          },
+          "examples": [
+            "validate ISA portfolio data",
+            "validate all portfolios for completeness"
+          ],
+          "aliases": ["check", "verify"],
+          "dangerous": false
+        }
+      }
+    },
+    {
+      "name": "report",
+      "description": "Generate reports and dashboards",
+      "templates": {
+        "generate": {
+          "description": "Generate analysis report",
+          "command": "python scripts/generate_report.py --portfolio {{ portfolio }} --type {{ report_type|default('summary') }} --output {{ output|default('report.html') }}",
+          "variables": {
+            "portfolio": {
+              "description": "Portfolio for report",
+              "required": true,
+              "type": "string",
+              "options": ["ISA", "SIPP", "OPP", "ALL"]
+            },
+            "report_type": {
+              "description": "Type of report to generate",
+              "required": false,
+              "type": "string",
+              "default": "summary",
+              "options": ["summary", "detailed", "performance", "risk"]
+            },
+            "output": {
+              "description": "Output file path",
+              "required": false,
+              "type": "string",
+              "default": "report.html"
+            }
+          },
+          "examples": [
+            "generate summary report for ISA",
+            "generate detailed performance report for all portfolios"
+          ],
+          "aliases": ["report", "create"],
+          "dangerous": false
+        },
+        "dashboard": {
+          "description": "Launch interactive dashboard",
+          "command": "python app/dashboard.py --port {{ port|default(8050) }} --portfolio {{ portfolio|default('ALL') }}",
+          "variables": {
+            "port": {
+              "description": "Dashboard port",
+              "required": false,
+              "type": "integer",
+              "default": 8050,
+              "min": 1024,
+              "max": 65535
+            },
+            "portfolio": {
+              "description": "Portfolio to display",
+              "required": false,
+              "type": "string",
+              "default": "ALL",
+              "options": ["ISA", "SIPP", "OPP", "ALL"]
+            }
+          },
+          "examples": [
+            "launch dashboard",
+            "launch dashboard for ISA on port 8080"
+          ],
+          "aliases": ["dash", "launch"],
+          "dangerous": false
+        }
+      }
+    }
+  ]
+}
+

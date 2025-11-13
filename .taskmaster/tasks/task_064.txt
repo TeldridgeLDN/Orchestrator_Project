@@ -1,0 +1,37 @@
+# Task ID: 64
+# Title: Document CLI Naming Conflict Resolution
+# Status: done
+# Dependencies: 61
+# Priority: medium
+# Description: Add a comprehensive troubleshooting section to address CLI name conflicts between Orchestrator and Anthropic's Claude CLI, including detection and resolution steps.
+# Details:
+1. In `TROUBLESHOOTING.md`, add a 'CLI Name Conflict' section explaining the issue, detection steps (using `which claude`), and multiple resolution options (full path, aliases, PATH priority).
+2. Provide copy-paste ready code snippets for each solution, and explain implications for different OS environments (Linux, macOS, Windows WSL).
+3. Recommend best practices for CLI aliasing and PATH management.
+4. Ensure documentation is accessible and easy to follow for both novice and advanced users.
+5. Use Markdown best practices for code blocks and headings.
+
+# Test Strategy:
+1. Peer review for technical accuracy and clarity.
+2. User acceptance test: verify at least 3 users can resolve CLI conflicts using the documentation.
+3. Lint documentation for formatting and accessibility.
+
+# Subtasks:
+## 1. Draft Troubleshooting Section: CLI Name Conflict Detection and Resolution [done]
+### Dependencies: None
+### Description: Create a new 'CLI Name Conflict' section in TROUBLESHOOTING.md that explains the issue, outlines detection steps (e.g., using 'which claude'), and describes multiple resolution strategies.
+### Details:
+Write clear explanations of CLI naming conflicts between Orchestrator and Anthropic's Claude CLI. Include step-by-step instructions for detecting conflicts, such as running 'which claude' or checking PATH variables. Describe resolution options: using full path invocation, setting up shell aliases, and adjusting PATH priority. Ensure explanations are accessible for both novice and advanced users.
+
+## 2. Prepare OS-Specific Code Snippets and Best Practices [done]
+### Dependencies: 64.1
+### Description: Develop copy-paste ready code snippets for each resolution method, tailored for Linux, macOS, and Windows WSL environments. Summarize best practices for CLI aliasing and PATH management.
+### Details:
+For each operating system, provide code examples for setting aliases, modifying PATH, and invoking CLI tools by full path. Explain the implications and limitations of each approach. Include a best practices section covering safe aliasing, PATH hygiene, and recommendations for avoiding future conflicts. Use Markdown code blocks and headings for clarity.
+
+## 3. Conduct Peer/User Review and Validate Documentation Formatting [done]
+### Dependencies: 64.1, 64.2
+### Description: Organize a review session to validate technical accuracy, clarity, and formatting of the new troubleshooting section. Ensure documentation is accessible and follows Markdown best practices.
+### Details:
+Invite peers and representative users to review the updated TROUBLESHOOTING.md. Collect feedback on clarity, completeness, and usability. Validate that all code blocks render correctly, headings are properly structured, and instructions are easy to follow. Make necessary revisions based on feedback.
+

@@ -1,0 +1,153 @@
+# Task ID: 29
+# Title: Implement Project Listing Command
+# Status: done
+# Dependencies: 22, 26
+# Priority: medium
+# Description: Develop the list command to display all registered Claude projects
+# Details:
+Implement the project listing command that displays all registered Claude projects with their paths and status information.
+
+The implementation has been completed with the following components:
+
+1. **Created lib/utils/formatting.js** - Utility module with:
+   - formatTimeDifference() - Converts time deltas to human-readable strings ('3 hours ago', '5 minutes ago', etc.)
+   - formatISODate() - Formats dates as ISO strings (YYYY-MM-DD HH:MM:SS)
+   - padString() - String padding utility
+   - formatTableRow() - Creates formatted table rows with proper alignment
+   - formatTableBorder() - Creates Unicode box-drawing table borders (top/middle/bottom)
+
+2. **Enhanced lib/commands/list.js** - Full implementation with:
+   - Simple list format (default) - Shows projects with active marker (*), paths, and human-readable time differences
+   - Verbose table format (--verbose flag) - Beautiful Unicode table with Name, Path, Skills count, and Last Active timestamp
+   - Empty state handling - Graceful message when no projects exist or config missing
+   - Skill count detection - Reads metadata.json from each project to show skill counts in verbose mode
+   - Proper error handling for missing configs and invalid data
+
+```javascript
+// lib/commands/list.js
+const { readConfig } = require('../utils/config');
+const { formatTimeDifference } = require('../utils/formatting');
+
+async function listProjects(options) {
+  try {
+    // Get config
+    const config = await readConfig();
+    
+    // Get projects
+    const projects = config.projects;
+    const activeProject = config.active_project;
+    
+    if (Object.keys(projects).length === 0) {
+      console.log('No projects found.');
+      console.log();
+      console.log('Create a new project with:');
+      console.log('  claude project create <name>');
+      return {
+        success: true,
+        projects: []
+      };
+    }
+    
+    console.log('Active Projects:');
+    
+    if (options.verbose) {
+      // Verbose output (table format)
+      console.log('┌─────────────────┬──────────────────────────────────┬────────────┬─────────────────────┐');
+      console.log('│ Name            │ Path                             │ Skills     │ Last Active         │');
+      console.log('├─────────────────┼──────────────────────────────────┼────────────┼─────────────────────┤');
+      
+      for (const [name, project] of Object.entries(projects)) {
+        const isActive = name === activeProject;
+        const marker = isActive ? '*' : ' ';
+        const skillCount = project.metadata?.skills?.length || 0;
+        const lastActive = new Date(project.last_active);
+        const lastActiveStr = lastActive.toISOString().replace('T', ' ').substring(0, 19);
+        
+        console.log(`│ ${name.padEnd(14)}${marker} │ ${project.path.padEnd(34)} │ ${String(skillCount).padEnd(10)} │ ${lastActiveStr.padEnd(19)} │`);
+      }
+      
+      console.log('└─────────────────┴──────────────────────────────────┴────────────┴─────────────────────┘');
+      console.log();
+      console.log('* = active project');
+    } else {
+      // Default output (simple format)
+      for (const [name, project] of Object.entries(projects)) {
+        const isActive = name === activeProject;
+        const marker = isActive ? '*' : ' ';
+        const lastActive = new Date(project.last_active);
+        const now = new Date();
+        const timeDiff = formatTimeDifference(lastActive, now);
+        const status = isActive ? '(active)' : `(last used ${timeDiff})`;
+        
+        console.log(`${marker} ${name.padEnd(15)} ${project.path.padEnd(35)} ${status}`);
+      }
+      
+      console.log();
+      console.log(`Total: ${Object.keys(projects).length} projects`);
+    }
+    
+    console.log();
+    console.log("Use 'claude project switch <name>' to change active project");
+    
+    return {
+      success: true,
+      projects: Object.keys(projects),
+      active: activeProject
+    };
+  } catch (error) {
+    console.error(`Error listing projects: ${error.message}`);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+module.exports = { listProjects };
+```
+
+# Test Strategy:
+Testing has been completed with the following scenarios:
+
+- ✅ Simple mode with 5 projects - Shows correct formatting, active marker, time differences
+- ✅ Verbose mode with 5 projects - Beautiful Unicode table with all columns
+- ✅ Empty config - Graceful error message directing user to create project
+- ✅ Missing config file - Same graceful handling
+
+Output examples:
+- Simple: '* test-shop       /Users/tomeldridge/Projects/shopify (active)'
+- Simple: '  test-project-a  /tmp/test-project-a                 (last used 3 hours ago)'
+- Verbose: Unicode box-drawing table with headers and data
+
+All functionality matches the task specification in implementation-tasks.md Task 1.5 and Task 29.
+
+# Subtasks:
+## 1. Create formatting utility module [done]
+### Dependencies: None
+### Description: Implement the formatting utility module with functions for time differences and table formatting
+### Details:
+Created lib/utils/formatting.js with the following utility functions:
+- formatTimeDifference() - Converts time deltas to human-readable strings
+- formatISODate() - Formats dates as ISO strings
+- padString() - String padding utility
+- formatTableRow() - Creates formatted table rows
+- formatTableBorder() - Creates Unicode box-drawing table borders
+
+## 2. Implement list command with simple output format [done]
+### Dependencies: 29.1
+### Description: Implement the default simple output format for the list command
+### Details:
+Implemented the default simple output format that shows projects with active marker (*), paths, and human-readable time differences. Added proper error handling for missing configs and invalid data.
+
+## 3. Implement verbose output format [done]
+### Dependencies: 29.1, 29.2
+### Description: Add verbose output format with detailed table display
+### Details:
+Implemented the verbose output format (--verbose flag) that displays projects in a Unicode table with Name, Path, Skills count, and Last Active timestamp columns. Added skill count detection by reading metadata.json from each project.
+
+## 4. Add empty state handling [done]
+### Dependencies: 29.2
+### Description: Implement graceful handling for empty project list
+### Details:
+Added graceful message when no projects exist or config is missing, directing users to create a new project with the appropriate command.
+

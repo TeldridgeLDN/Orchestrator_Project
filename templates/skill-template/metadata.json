@@ -1,0 +1,73 @@
+{
+  "name": "[skill-name]",
+  "displayName": "[Skill Display Name]",
+  "version": "1.0.0",
+  "description": "[Brief description of what this skill does]",
+  "author": "[Author name or organization]",
+  "license": "MIT",
+  "keywords": [
+    "[keyword1]",
+    "[keyword2]",
+    "[keyword3]"
+  ],
+  "dependencies": {
+    "skills": [],
+    "tools": [],
+    "runtime": {
+      "node": ">=16.0.0"
+    }
+  },
+  "structure": {
+    "format": "diet103-progressive-disclosure",
+    "version": "1.0",
+    "mainFile": "SKILL.md",
+    "resources": {
+      "quick-ref": {
+        "file": "resources/quick-ref.md",
+        "description": "Command cheat sheet",
+        "maxLines": 100
+      },
+      "setup-guide": {
+        "file": "resources/setup-guide.md",
+        "description": "Complete setup instructions",
+        "maxLines": 500
+      },
+      "api-reference": {
+        "file": "resources/api-reference.md",
+        "description": "Technical API documentation",
+        "maxLines": 500
+      },
+      "troubleshooting": {
+        "file": "resources/troubleshooting.md",
+        "description": "Common issues and solutions",
+        "maxLines": 500
+      }
+    }
+  },
+  "hooks": {
+    "autoActivate": true,
+    "detectionPatterns": [
+      "[pattern that triggers skill activation]"
+    ]
+  },
+  "configuration": {
+    "configFile": "[optional-config-file-name]",
+    "defaults": {
+      "[setting-name]": "[default-value]"
+    }
+  },
+  "changelog": {
+    "1.0.0": {
+      "date": "[YYYY-MM-DD]",
+      "changes": [
+        "Initial release"
+      ]
+    }
+  },
+  "links": {
+    "documentation": "[URL to full documentation]",
+    "repository": "[URL to source repository]",
+    "issues": "[URL to issue tracker]"
+  }
+}
+

@@ -1,0 +1,62 @@
+# Task ID: 23
+# Title: Create Global Claude.md Template
+# Status: done
+# Dependencies: 21
+# Priority: medium
+# Description: Develop the global Claude.md template that defines orchestrator behavior and meta-level rules
+# Details:
+Create the global Claude.md file that will serve as the orchestration context for the system. This file defines the meta-level rules and behavior for the orchestrator.
+
+The implementation has been completed successfully with the creation of the Global AI Orchestration Layer section in ~/.claude/CLAUDE.md. The file consists of 187 lines covering the following key components:
+
+1. Orchestration principles (single active context, context isolation, explicit switching)
+2. Active project configuration
+3. Project orchestrator skill capabilities
+4. Token efficiency strategy
+5. Project templates
+6. Workflow examples
+7. diet103 integration
+8. Usage guidelines
+
+The file follows PAI principles and is designed to be readable and maintainable.
+
+# Test Strategy:
+Verify the Claude.md file is created with the correct content. Test that it loads properly into Claude's context by making a request that references the orchestration rules. Ensure the token count is within the specified limit (~500 tokens) by measuring token usage with and without this file loaded. Additionally, validate that all the newly added sections (project templates, workflow examples, diet103 integration, and usage guidelines) function as expected.
+
+# Subtasks:
+## 1. Create initial Global Claude.md template structure [done]
+### Dependencies: None
+### Description: Implement the basic structure of the Global Claude.md template with orchestration rules and active project management
+### Details:
+Created the initial template structure with sections for orchestration rules, active project configuration, project orchestrator skill, and token efficiency. The file has been placed at ~/.claude/CLAUDE.md and includes the core functionality for the orchestration layer.
+
+## 2. Add project templates section to Claude.md [done]
+### Dependencies: 23.1
+### Description: Expand the Global Claude.md template to include information about project templates and their usage
+### Details:
+Add a comprehensive section about project templates, including how they are structured, how they can be used, and the default templates available in the system.
+
+## 3. Add workflow examples to Claude.md [done]
+### Dependencies: 23.1
+### Description: Include practical workflow examples in the Global Claude.md template to demonstrate usage patterns
+### Details:
+Document common workflow examples showing how to use the orchestration layer effectively, including project switching, creation, and management scenarios.
+
+## 4. Implement diet103 integration documentation [done]
+### Dependencies: 23.1
+### Description: Document how the orchestration layer integrates with diet103
+### Details:
+Add a section explaining the integration between the global orchestration layer and diet103, including configuration options and usage patterns.
+
+## 5. Create usage guidelines section [done]
+### Dependencies: 23.1
+### Description: Develop comprehensive usage guidelines for the Global Claude.md template
+### Details:
+Create a section with best practices and usage guidelines for working with the orchestration layer, including recommendations for project organization and context management.
+
+## 6. Finalize and review Global Claude.md template [done]
+### Dependencies: 23.1, 23.2, 23.3, 23.4, 23.5
+### Description: Conduct a final review of the Global Claude.md template to ensure completeness and accuracy
+### Details:
+Review the entire Global Claude.md file to ensure all sections are properly implemented, the content is accurate, and the file follows PAI principles. Make any necessary adjustments to improve readability and maintainability.
+

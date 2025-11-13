@@ -1,0 +1,188 @@
+# Task ID: 49
+# Title: Write Comprehensive Tests for Orchestrator
+# Status: done
+# Dependencies: 41, 42, 43, 44, 45, 46, 47, 48
+# Priority: high
+# Description: Create a full test suite covering all orchestrator functionality including unit tests, integration tests, and performance benchmarks.
+# Details:
+Develop a comprehensive test suite for the project orchestrator:
+
+1. Create unit tests for all modules:
+   - Test each function and class independently
+   - Mock dependencies for isolation
+   - Aim for >80% code coverage
+   - Test edge cases and error handling
+
+2. Implement integration tests for complete workflows:
+   - Project creation workflow
+   - Project switching workflow
+   - Validation workflow
+   - Migration workflow
+
+3. Create performance benchmarks:
+   - Measure project switch time (target: <1s)
+   - Test with various project sizes
+   - Measure memory usage
+   - Identify performance bottlenecks
+
+4. Implement error recovery tests:
+   - Test behavior with corrupted config
+   - Test with missing files/directories
+   - Verify error messages and recovery options
+
+5. Create project lifecycle tests:
+   - Full lifecycle: create → switch → validate → remove
+   - Test with different project templates
+   - Verify state consistency throughout lifecycle
+
+6. Implement multi-project isolation tests:
+   - Test with multiple projects
+   - Verify project isolation
+   - Test rapid switching between projects
+
+Implementation example:
+```javascript
+// test/unit/validator.test.js
+const { expect } = require('chai');
+const sinon = require('sinon');
+const fs = require('fs');
+const path = require('path');
+const ProjectValidator = require('../../lib/validator');
+
+describe('ProjectValidator', () => {
+  let validator;
+  let sandbox;
+  
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    validator = new ProjectValidator('test-project');
+    
+    // Mock filesystem
+    sandbox.stub(fs, 'existsSync');
+    sandbox.stub(fs, 'readFileSync');
+  });
+  
+  afterEach(() => {
+    sandbox.restore();
+  });
+  
+  describe('validateDirectoryStructure()', () => {
+    it('should pass when all required directories exist', async () => {
+      // Setup
+      fs.existsSync.returns(true);
+      
+      // Execute
+      await validator.validateDirectoryStructure();
+      
+      // Verify
+      expect(validator.results.errors).to.have.lengthOf(0);
+    });
+    
+    it('should report errors for missing directories', async () => {
+      // Setup
+      fs.existsSync.returns(false);
+      
+      // Execute
+      await validator.validateDirectoryStructure();
+      
+      // Verify
+      expect(validator.results.errors.length).to.be.greaterThan(0);
+      expect(validator.results.errors[0].code).to.equal('MISSING_DIRECTORY');
+    });
+  });
+  
+  // More unit tests...
+});
+```
+
+```javascript
+// test/integration/project-lifecycle.test.js
+const { expect } = require('chai');
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+describe('Project Lifecycle', () => {
+  const testProjectName = `test-project-${Date.now()}`;
+  const testProjectPath = path.join(process.env.HOME, '.claude', 'test', testProjectName);
+  
+  after(() => {
+    // Cleanup
+    try {
+      execSync(`claude project remove ${testProjectName} --force`);
+    } catch (error) {
+      console.error(`Cleanup failed: ${error.message}`);
+    }
+  });
+  
+  it('should create a new project', () => {
+    const output = execSync(`claude project create ${testProjectName} --template=basic`).toString();
+    expect(output).to.include('successfully created');
+    expect(fs.existsSync(testProjectPath)).to.be.true;
+  });
+  
+  it('should switch to the project', () => {
+    const output = execSync(`claude project switch ${testProjectName}`).toString();
+    expect(output).to.include('switched to');
+    
+    // Verify current project is set
+    const config = JSON.parse(fs.readFileSync(path.join(process.env.HOME, '.claude', 'config.json')));
+    expect(config.currentProject).to.equal(testProjectName);
+  });
+  
+  it('should validate the project', () => {
+    const output = execSync(`claude project validate ${testProjectName}`).toString();
+    expect(output).to.include('valid');
+  });
+  
+  it('should remove the project', () => {
+    const output = execSync(`claude project remove ${testProjectName} --force`).toString();
+    expect(output).to.include('removed');
+    expect(fs.existsSync(testProjectPath)).to.be.false;
+  });
+});
+```
+
+```javascript
+// test/performance/switch-time.test.js
+const { expect } = require('chai');
+const { execSync } = require('child_process');
+const fs = require('fs');
+
+describe('Project Switch Performance', () => {
+  const projects = ['test-small', 'test-medium', 'test-large'];
+  
+  before(() => {
+    // Create test projects of different sizes
+    // ...
+  });
+  
+  after(() => {
+    // Cleanup test projects
+    // ...
+  });
+  
+  it('should switch between projects in under 1 second', () => {
+    for (const project of projects) {
+      const startTime = process.hrtime();
+      
+      execSync(`claude project switch ${project}`);
+      
+      const [seconds, nanoseconds] = process.hrtime(startTime);
+      const elapsedMs = (seconds * 1000) + (nanoseconds / 1000000);
+      
+      console.log(`Switch to ${project} took ${elapsedMs.toFixed(2)}ms`);
+      expect(elapsedMs).to.be.lessThan(1000);
+    }
+  });
+});
+```
+
+# Test Strategy:
+1. Run unit tests with code coverage reporting
+2. Execute integration tests in a controlled environment
+3. Run performance benchmarks on different hardware configurations
+4. Test error recovery with simulated failures
+5. Verify project lifecycle tests with different templates
+6. Run multi-project isolation tests with concurrent operations
+7. Create CI/CD pipeline for automated testing

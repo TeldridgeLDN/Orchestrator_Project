@@ -1,0 +1,43 @@
+# Task ID: 15
+# Title: Build Manifest CRUD Operations
+# Status: done
+# Dependencies: 12
+# Priority: high
+# Description: Implement manifest.js for centralized .file-manifest.json management, supporting CRUD operations and atomic writes.
+# Details:
+Use fs/promises for async file operations. Implement atomic writes with temporary file and rename strategy. Validate manifest schema on read/write. Support statistics and tier breakdown. Backup manifest before updates.
+
+# Test Strategy:
+Unit tests for all CRUD operations. Corruption simulation and recovery tests. Performance test (<20ms load, <50ms update).
+
+# Subtasks:
+## 1. Implement Manifest CRUD Operations [done]
+### Dependencies: None
+### Description: Develop create, read, update, and delete functions for .file-manifest.json using fs/promises for asynchronous file handling.
+### Details:
+Write modular functions in manifest.js to perform CRUD operations on the manifest file. Ensure each operation handles errors gracefully and supports async/await. Integrate with the rest of the system for centralized management.
+
+## 2. Implement Atomic Write Strategy [done]
+### Dependencies: 15.1
+### Description: Ensure all manifest updates are atomic by writing to a temporary file and renaming it to .file-manifest.json.
+### Details:
+Use a temp file (e.g., .file-manifest.json.tmp) for all write operations. After successful write, atomically rename the temp file to the target manifest file. Handle failures and cleanup orphaned temp files.
+
+## 3. Implement Manifest Schema Validation [done]
+### Dependencies: 15.1
+### Description: Validate manifest data against a predefined schema during read and write operations to ensure data integrity.
+### Details:
+Define a JSON schema for the manifest structure. Integrate schema validation using a library (e.g., ajv) before accepting any changes. Reject invalid data and provide clear error messages.
+
+## 4. Add Statistics and Tier Breakdown Logic [done]
+### Dependencies: 15.1, 15.3
+### Description: Implement logic to compute and expose statistics and tier breakdowns from manifest data.
+### Details:
+Parse manifest entries to calculate statistics (e.g., counts, sizes) and categorize files by tier. Provide API or functions to retrieve these metrics for reporting and analysis.
+
+## 5. Implement Backup and Recovery Mechanism [done]
+### Dependencies: 15.2, 15.3
+### Description: Create a backup of the manifest before each update and provide recovery logic in case of corruption or failure.
+### Details:
+Before updating the manifest, copy the current file to a backup location (e.g., .file-manifest.json.bak). On read failure or corruption, restore from backup. Log backup and recovery events for audit.
+

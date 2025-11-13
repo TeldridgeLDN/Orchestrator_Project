@@ -1,0 +1,11 @@
+# Task ID: 72
+# Title: Develop Partnership Level Configuration and Enforcement
+# Status: pending
+# Dependencies: 69
+# Priority: medium
+# Description: Implement global and per-scenario partnership level settings, controlling scenario_builder behavior.
+# Details:
+Store partnership_level in ~/.claude/config.json and allow per-scenario override in scenario YAML. Enforce behavior in workflows (e.g., alternatives, feasibility checks, optimization). Use enum validation and provide CLI commands for get/set.
+
+# Test Strategy:
+Unit test config reading/writing. Integration test workflow branching based on partnership level. Validate CLI commands.

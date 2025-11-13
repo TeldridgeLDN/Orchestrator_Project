@@ -1,0 +1,205 @@
+# Task ID: 33
+# Title: Implement Context Unload Logic
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Build the mechanism to cleanly unload a project's context from Claude's memory, including flushing skill activation states and clearing in-memory skill cache.
+# Details:
+Create a context unloading system that safely removes a project's context from Claude's memory:
+
+1. Create a `ContextManager` class with an `unloadContext(projectName)` method:
+   ```javascript
+   class ContextManager {
+     constructor() {
+       this.activeProject = null;
+       this.skillCache = {};
+     }
+     
+     async unloadContext(projectName) {
+       if (!this.activeProject || this.activeProject !== projectName) {
+         console.log(`No active project named ${projectName} to unload`);
+         return false;
+       }
+       
+       // Flush skill activation states
+       await this.deactivateSkills(projectName);
+       
+       // Clear in-memory skill cache
+       delete this.skillCache[projectName];
+       
+       // Optional caching for fast resume
+       await this.cacheProjectState(projectName);
+       
+       // Log unload event
+       console.log(`Unloaded project context: ${projectName}`);
+       this.activeProject = null;
+       
+       return true;
+     }
+     
+     async deactivateSkills(projectName) {
+       // Get project's skill-rules.json
+       const skillRules = await this.getSkillRules(projectName);
+       
+       // Deactivate each skill
+       for (const skill of skillRules.skills) {
+         await this.deactivateSkill(skill.name);
+       }
+     }
+     
+     async cacheProjectState(projectName) {
+       // Save current state to cache for fast resume
+       const cachePath = path.join(CONFIG.cachePath, `${projectName}.json`);
+       const state = {
+         timestamp: Date.now(),
+         // Add relevant state data here
+       };
+       
+       await fs.writeFile(cachePath, JSON.stringify(state, null, 2));
+     }
+   }
+   ```
+
+2. Implement skill deactivation logic to properly unregister skills from diet103
+
+3. Add optional caching mechanism for fast resume
+
+4. Implement logging for unload events
+
+5. Handle edge cases (no active project, failed deactivation)
+
+# Test Strategy:
+1. Unit tests:
+   - Test unloading with no active project
+   - Test unloading with active project
+   - Test skill deactivation
+   - Test caching functionality
+
+2. Integration tests:
+   - Load a project with multiple skills
+   - Unload the project
+   - Verify all skills are properly deactivated
+   - Verify cache is created
+
+3. Memory tests:
+   - Monitor memory usage before and after unload
+   - Verify no memory leaks occur after multiple load/unload cycles
+
+# Subtasks:
+## 1. Design and Implement ContextManager Class with unloadContext Method [done]
+### Dependencies: None
+### Description: Create the ContextManager class and implement the unloadContext(projectName) method to orchestrate context unloading for a given project.
+### Details:
+Define the ContextManager class with properties for activeProject and skillCache. Implement the unloadContext(projectName) method to check for an active project, initiate skill deactivation, clear the skill cache, optionally cache the project state, log the unload event, and reset the activeProject property.
+<info added on 2025-11-06T19:30:50.132Z>
+After examining the existing context.js file, I'll enhance it by implementing the ContextManager class pattern according to PRD section 5.2. The implementation will need to:
+
+1. Refactor the existing placeholder functions into a proper ContextManager class
+2. Add skill activation state management
+3. Implement an in-memory skill cache
+4. Create skill deactivation hooks
+5. Integrate with Claude API for context clearing
+
+The unloadContext method should be enhanced to properly handle skill deactivation, cache clearing, and context management while maintaining compatibility with the existing codebase.
+</info added on 2025-11-06T19:30:50.132Z>
+
+## 2. Implement Skill Deactivation Logic [done]
+### Dependencies: 33.1
+### Description: Develop the logic to properly deactivate and unregister all skills associated with the project from diet103.
+### Details:
+Create the deactivateSkills(projectName) method to retrieve the project's skill-rules.json, iterate through each skill, and call deactivateSkill for each. Ensure skills are unregistered from diet103 and any related resources are released.
+<info added on 2025-11-06T19:33:16.488Z>
+Implemented the ContextManager class in context-manager.js with comprehensive skill deactivation functionality. The implementation includes:
+
+1. A skillActivationStates Map to track which skills are active for each project
+2. deactivateSkills(projectName) method that reads the project's skill-rules.json file and systematically deactivates each skill
+3. deactivateSkill(skillName, projectName) method that handles individual skill cleanup, unregistering from diet103 and releasing resources
+4. clearSkillCache() method to remove in-memory cached skills and prevent memory leaks
+5. Integration with switch.js command, properly calling contextManager.unloadContext() before switching projects and contextManager.loadContext() after switching
+
+The implementation ensures proper context isolation between projects by thoroughly cleaning up all skill-related resources during context switching. This prevents skill conflicts and memory leaks when moving between different projects.
+</info added on 2025-11-06T19:33:16.488Z>
+
+## 3. Add Optional Caching Mechanism for Fast Resume [done]
+### Dependencies: 33.1
+### Description: Implement a caching system to save the current project state during unload for fast future resume.
+### Details:
+Develop the cacheProjectState(projectName) method to serialize relevant state data and write it to a cache file. Ensure cache integrity and compatibility with future resume operations.
+<info added on 2025-11-06T19:35:19.420Z>
+Implement an enhanced caching mechanism in the ContextManager with the following components:
+
+1. Create a cacheContext() method that saves:
+   - Skill activation states
+   - Project path
+   - Last active timestamp
+
+2. Enhance loadContext() method to:
+   - Accept a useCache option parameter
+   - Check for cached state when option is enabled
+   - Restore from cache when available and valid
+
+3. Implement cached state restoration logic that:
+   - Restores skill activation states to their previous condition
+   - Sets project path and last active timestamp
+
+4. Add automatic caching during unloadContext() with:
+   - Optional cache parameter to control behavior
+   - Integration with existing context unload flow
+
+5. Structure the cache data to include:
+   - projectName (string)
+   - cachedAt (timestamp)
+   - activationStates (array)
+   - projectPath (string)
+   - lastActive (timestamp)
+
+6. Implement a 24-hour cache expiration policy consistent with existing context.js implementation.
+
+7. Integrate with existing cacheProjectState() and loadCachedState() utilities to maintain compatibility.
+</info added on 2025-11-06T19:35:19.420Z>
+
+## 4. Implement Logging for Unload Events [done]
+### Dependencies: 33.1
+### Description: Add logging functionality to record context unload events, including project name and status.
+### Details:
+Integrate logging within unloadContext to capture unload attempts, successes, failures, and relevant metadata. Ensure logs are structured and accessible for debugging and audit purposes.
+<info added on 2025-11-06T19:37:24.791Z>
+Implemented a structured logging system using the logger.js utility that provides JSON-based logging to daily log files. The system includes:
+
+1. Logger class with info/warn/error/debug levels
+2. Specialized methods for context operations (logContextUnload, logContextLoad, logSkillDeactivation)
+3. Structured JSON log entries with timestamps, event types, and metadata
+4. Comprehensive logging in unloadContext() tracking:
+   - Operation duration
+   - Skills deactivated
+   - Cache status
+5. Comprehensive logging in loadContext() tracking:
+   - Operation duration
+   - Cache usage
+   - Restored skills
+6. Logging in deactivateSkill() tracking cached/active status
+7. Error logging with stack traces for debugging
+
+Logs are stored in ~/.claude/logs/ directory with daily rotation (orchestrator-YYYY-MM-DD.log format). Logging can be disabled with ORCHESTRATOR_LOGGING=false environment variable.
+</info added on 2025-11-06T19:37:24.791Z>
+
+## 5. Handle Edge Cases and Error Conditions [done]
+### Dependencies: 33.1, 33.2, 33.3, 33.4
+### Description: Implement robust handling for edge cases such as no active project, failed skill deactivation, and cache write errors.
+### Details:
+Add checks and error handling in unloadContext and related methods to manage scenarios like missing active project, skill deactivation failures, and cache write exceptions. Ensure graceful degradation and informative error reporting.
+<info added on 2025-11-06T19:38:00.454Z>
+Error handling has been comprehensively implemented throughout the ContextManager with multiple layers of protection:
+
+1. unloadContext() performs active project validation, logging a warning and returning false if no project is active
+2. All methods utilize try-catch blocks with detailed error logging
+3. deactivateSkills() is wrapped in try-catch blocks that log warnings without throwing exceptions, allowing the unload process to continue
+4. cacheContext() implements try-catch with warning logs since caching is considered optional functionality
+5. Error logs include complete stack traces to facilitate debugging
+6. Failed operations generate structured error events with duration metrics and detailed error information
+7. The Logger implementation includes silent fail protection to prevent logging failures from disrupting operations
+8. loadCachedState incorporates a 24-hour expiration check and returns null for invalid cache data
+
+All identified edge cases are handled gracefully, including: no active project, missing skill-rules.json, cache write failures, and skill deactivation errors. The system maintains stability under all error conditions while providing comprehensive logging for troubleshooting.
+</info added on 2025-11-06T19:38:00.454Z>
+

@@ -1,0 +1,73 @@
+#!/bin/bash
+# Wrapper for task-master add-task with automatic critical evaluation
+# Usage: tm-add-task [same args as task-master add-task]
+
+set -e
+
+echo "🎯 Task Master: Add Task with Critical Evaluation"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Run task-master add-task with all arguments
+echo "📋 Adding task..."
+task-master add-task "$@"
+
+# Check exit code
+if [ $? -ne 0 ]; then
+  echo "❌ Task creation failed"
+  exit 1
+fi
+
+echo "✅ Task added successfully"
+echo ""
+
+# 2. Check if evaluation is enabled
+if [ ! -f .taskmaster/config.json ]; then
+  echo "⚠️  No config found, skipping evaluation"
+  exit 0
+fi
+
+EVAL_ENABLED=$(cat .taskmaster/config.json | grep -o '"enableCriticalReview":\s*true' || echo "")
+
+if [ -z "$EVAL_ENABLED" ]; then
+  echo "ℹ️  Critical review disabled in config"
+  echo "💡 Enable with: config.global.enableCriticalReview = true"
+  exit 0
+fi
+
+# 3. Run critical evaluation
+echo "🔍 Running critical evaluation on new task..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+node .taskmaster/scripts/critical-task-evaluator.js
+
+# Check exit code
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "⚠️  Evaluation completed with warnings"
+  echo "📄 Check report for details"
+else
+  echo ""
+  echo "✅ Evaluation complete!"
+fi
+
+# 4. Show summary
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📊 Task added and evaluated"
+echo ""
+
+LATEST_REPORT=$(ls -t .taskmaster/reports/critical-review-*.md 2>/dev/null | head -1)
+
+if [ -n "$LATEST_REPORT" ]; then
+  echo "📄 Report: $LATEST_REPORT"
+  echo "💡 View: code $LATEST_REPORT"
+fi
+
+echo ""
+echo "🚀 Next steps:"
+echo "   View tasks: task-master list"
+echo "   Show task: task-master show <id>"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+

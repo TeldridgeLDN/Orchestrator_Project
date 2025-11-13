@@ -1,0 +1,51 @@
+#!/bin/bash
+# Use the orchestrator CLI, not Claude Code
+CLAUDE_CLI=~/.claude/bin/claude
+set -e
+
+# Test script for power user workflow
+echo "Running Power User Workflow Test"
+
+# Setup test environment
+rm -rf ~/.claude-test
+CLAUDE_HOME=~/.claude-test claude init
+
+# Create multiple projects (12)
+echo "Creating 12 projects..."
+for i in {1..12}; do
+  CLAUDE_HOME=~/.claude-test claude project create "project-$i" --template base
+  echo "✓ Created project-$i"
+done
+
+# Test rapid switching between projects
+echo "Testing rapid project switching..."
+for i in {1..12}; do
+  start_time=$(date +%s.%N)
+  CLAUDE_HOME=~/.claude-test claude project switch "project-$i"
+  end_time=$(date +%s.%N)
+  duration=$(echo "$end_time - $start_time" | bc)
+  echo "  Switch to project-$i took $duration seconds"
+
+  # Verify correct project
+  CURRENT=$(CLAUDE_HOME=~/.claude-test claude project current)
+  if [ "$CURRENT" != "project-$i" ]; then
+    echo "FAIL: Project switch to project-$i failed"
+    exit 1
+  fi
+done
+
+# Test natural language commands (if implemented)
+if command -v "CLAUDE_HOME=~/.claude-test claude nl" &> /dev/null; then
+  echo "Testing natural language commands..."
+  CLAUDE_HOME=~/.claude-test claude nl "switch to project 5"
+  CURRENT=$(CLAUDE_HOME=~/.claude-test claude project current)
+  if [ "$CURRENT" != "project-5" ]; then
+    echo "FAIL: Natural language command failed"
+    exit 1
+  fi
+  echo "✓ Natural language command succeeded"
+else
+  echo "⚠ Natural language commands not implemented, skipping test"
+fi
+
+echo "Power User Workflow Test: PASSED"

@@ -1,0 +1,32 @@
+# Task ID: 21
+# Title: Create Global Directory Structure
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Establish the foundational directory structure for the global orchestration layer at ~/.claude/
+# Details:
+Create the necessary directory structure for the global orchestration layer following the PAI-inspired architecture. This includes setting up the main directories and placeholder files.
+
+```bash
+# Create main directory structure
+mkdir -p ~/.claude/bin
+mkdir -p ~/.claude/skills/project_orchestrator/actions
+mkdir -p ~/.claude/templates/base/.claude
+mkdir -p ~/.claude/templates/web-app/.claude/skills/web_dev_assistant
+mkdir -p ~/.claude/templates/shopify/.claude/skills/shopify_skill
+mkdir -p ~/.claude/templates/shopify/.claude/skills/seo_optimizer
+mkdir -p ~/.claude/cache
+mkdir -p ~/.claude/logs
+
+# Create placeholder files
+touch ~/.claude/config.json
+touch ~/.claude/Claude.md
+touch ~/.claude/skills/project_orchestrator/SKILL.md
+touch ~/.claude/skills/project_orchestrator/metadata.json
+touch ~/.claude/skills/project_orchestrator/hooks.yaml
+```
+
+Ensure all directories have appropriate permissions (typically 755) and files have 644 permissions. The structure should match the specification in section 7.1 of the PRD.
+
+# Test Strategy:
+Verify the directory structure exists with the correct permissions using a shell script that checks each path. Confirm all required directories and placeholder files are created. Test with both a fresh installation and an existing installation to ensure idempotency.

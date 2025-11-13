@@ -1,0 +1,49 @@
+# Task ID: 17
+# Title: Directory Structure Builder and Organizer Logic
+# Status: done
+# Dependencies: 13, 15, 16
+# Priority: high
+# Description: Create organizer.js to move files into UFC-compliant directory hierarchy and update references.
+# Details:
+Use Node.js fs/promises for file moves. Implement logic for docs/core, docs/impl, docs/sessions, docs/archive. Update references in manifest and markdown links. Dry-run mode for ambiguous moves. Protect CRITICAL files from auto-move.
+
+# Test Strategy:
+Integration tests for file movement. Reference update validation. Test dry-run and protection logic.
+
+# Subtasks:
+## 1. Implement UFC-compliant file move logic [done]
+### Dependencies: None
+### Description: Develop the core logic in organizer.js to move files into the UFC-compliant directory hierarchy (docs/core, docs/impl, docs/sessions, docs/archive) using Node.js fs/promises, ensuring atomic and consistent file operations.
+### Details:
+Use fs/promises for all file system operations. Implement recursive directory creation and file movement. Handle edge cases such as existing files, symlinks, and concurrent access. Log all operations for auditability.
+
+## 2. Update manifest file references [done]
+### Dependencies: 17.1
+### Description: Modify organizer.js to scan and update all references in the project manifest file(s) to reflect new file locations after moves.
+### Details:
+Parse manifest file(s) (e.g., package.json, custom manifest). For each moved file, find and update its path reference. Handle JSON, YAML, or custom formats as required. Preserve formatting and comments if possible.
+
+## 3. Update markdown link references [done]
+### Dependencies: 17.1
+### Description: Scan all markdown files in the project and update internal links to reflect new file locations after directory reorganization.
+### Details:
+Recursively scan for .md files. Parse each file for internal links (relative and absolute). Update links to point to new paths. Handle edge cases like broken links, anchor references, and inline code blocks.
+
+## 4. Implement dry-run and ambiguity handling [done]
+### Dependencies: 17.1
+### Description: Add a dry-run mode to organizer.js that previews moves without executing them, and implement logic to handle ambiguous file moves (e.g., name conflicts, unclear destinations).
+### Details:
+Add a --dry-run CLI flag. Log proposed moves without performing them. For ambiguous cases, prompt user for confirmation or log warnings. Provide clear output for review before actual execution.
+
+## 5. Protect CRITICAL files from auto-move [done]
+### Dependencies: 17.1
+### Description: Enhance organizer.js to identify and protect CRITICAL files (e.g., configuration, secrets, core system files) from being automatically moved, unless explicitly overridden.
+### Details:
+Define a list of CRITICAL file patterns or paths. Skip or require explicit confirmation before moving these files. Log protection actions. Allow override via CLI flag for advanced users.
+
+## 6. Develop integration and validation tests [done]
+### Dependencies: 17.1, 17.2, 17.3, 17.4, 17.5
+### Description: Create a comprehensive test suite for organizer.js covering file moves, reference updates, dry-run, ambiguity handling, and CRITICAL file protection.
+### Details:
+Write integration tests using a test harness and mock file systems. Validate end-to-end behavior, including manifest and markdown updates. Test dry-run, ambiguity resolution, and protection logic. Include edge cases and concurrent operation scenarios.
+

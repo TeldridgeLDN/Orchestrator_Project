@@ -1,0 +1,37 @@
+# Basic Scenario Template
+#
+# This is a simple scenario template for straightforward workflows.
+# Fill in the details below to create your scenario.
+
+scenario:
+  name: my-scenario
+  description: "Brief description of what this scenario does"
+  category: business_process  # Options: business_process, data_pipeline, automation, integration
+  version: "1.0.0"
+  
+  # How this scenario gets triggered
+  trigger:
+    type: manual  # Options: manual, scheduled, webhook, keyword
+    command: /my-scenario
+    
+  # Steps to execute in order
+  steps:
+    - id: step_1
+      action: "First step description"
+      type: manual  # Options: manual, api_call, ai_analysis, data_processing
+      
+    - id: step_2
+      action: "Second step description"
+      type: manual
+      dependencies: [step_1]
+      
+  # Required integrations or MCPs
+  dependencies:
+    mcps: []  # List any required MCPs here
+    skills: []  # List any required skills here
+    
+  # What this scenario will create
+  generates:
+    - global_skill: my_scenario  # Global skill name
+    - slash_command: /my-scenario  # Slash command
+

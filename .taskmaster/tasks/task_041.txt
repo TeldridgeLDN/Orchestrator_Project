@@ -1,0 +1,141 @@
+# Task ID: 41
+# Title: Complete Skill Documentation for Project Orchestrator
+# Status: done
+# Dependencies: None
+# Priority: low
+# Description: Create comprehensive documentation for the project orchestrator skill including SKILL.md and workflow documentation.
+# Details:
+This task involves creating clear and concise documentation for the project orchestrator skill:
+
+1. Create SKILL.md in the project root directory (under 500 lines, following diet103 rule)
+   - Include overview, purpose, and capabilities
+   - Document all available commands and their parameters
+   - Provide usage examples with expected outputs
+   - List dependencies and requirements
+
+2. Document each workflow in the workflows/ directory:
+   - Create a markdown file for each workflow
+   - Include step-by-step execution flow
+   - Document input/output specifications
+   - Add code examples
+
+3. Add a troubleshooting section in resources/ directory:
+   - Common issues and their solutions
+   - Debugging techniques
+   - Known limitations
+
+4. Address identified documentation gaps:
+   - Add 'register' command documentation to SKILL.md and create its workflow documentation
+   - Add configuration examples for hooks.yaml file
+   - Create a quick reference/cheat sheet section in SKILL.md for common operations
+   - Improve structure of CLI command reference
+
+Implementation approach:
+```javascript
+// Directory structure
+// ~/.claude/skills/project_orchestrator/
+// ├── SKILL.md
+// ├── workflows/
+// │   ├── project_creation.md
+// │   ├── project_switching.md
+// │   ├── project_list.md
+// │   ├── project_remove.md
+// │   ├── project_validate.md
+// │   └── project_register.md (new)
+// ├── templates/
+// │   ├── base.md
+// │   ├── web-app.md
+// │   └── shopify.md
+// └── resources/
+//     └── troubleshooting.md
+
+// Example SKILL.md content structure
+# Project Orchestrator Skill
+
+## Overview
+[Concise description of the skill's purpose and capabilities]
+
+## Quick Reference
+[Cheat sheet for common operations]
+
+## Commands
+[Detailed documentation of each command with parameters and examples]
+
+## Workflows
+[Overview of available workflows with links to detailed documentation]
+
+## Integration
+[How to integrate with other skills and features]
+
+// Example hooks.yaml configuration
+project_created:
+  - skill: notification
+    action: notify
+    params:
+      message: "Project {{project_name}} created successfully"
+```
+
+# Test Strategy:
+1. Review documentation for completeness against implementation
+2. Verify all commands and workflows are documented (including the 'register' command)
+3. Check for clarity and conciseness (SKILL.md under 500 lines)
+4. Have another team member review for comprehensibility
+5. Validate all examples work as documented
+6. Ensure troubleshooting section covers common issues
+7. Verify quick reference section provides clear guidance for common operations
+8. Test hooks.yaml configuration examples
+
+# Subtasks:
+## 1. Document 'register' command workflow [pending]
+### Dependencies: None
+### Description: Create comprehensive documentation for the 'register' command that is referenced in troubleshooting but missing from SKILL.md.
+### Details:
+Create project_register.md in the workflows directory with:
+- Command syntax and parameters
+- Step-by-step execution flow
+- Use cases and examples
+- Common errors and solutions
+- Integration with other commands
+
+Also update SKILL.md to include this command in the commands section with proper examples and parameter descriptions.
+
+## 2. Create hooks.yaml configuration examples [pending]
+### Dependencies: None
+### Description: Develop configuration examples for the currently empty hooks.yaml file to demonstrate proper usage.
+### Details:
+Create comprehensive examples for hooks.yaml configuration including:
+- Event-based triggers (project_created, project_switched, etc.)
+- Integration with other skills (notification, logging, etc.)
+- Parameter passing and variable substitution
+- Conditional execution examples
+- Best practices and common patterns
+
+Add these examples to the appropriate section in SKILL.md and create a separate hooks.md file in the resources directory with detailed explanations.
+
+## 3. Add quick reference/cheat sheet section [pending]
+### Dependencies: None
+### Description: Create a concise quick reference section in SKILL.md for common operations to improve usability.
+### Details:
+Develop a well-structured quick reference section that includes:
+- Most common commands with minimal syntax
+- Typical workflows with single-line examples
+- Frequently used parameter combinations
+- Tips for efficient usage
+- Common troubleshooting one-liners
+
+Format this section for easy scanning and quick reference, using tables or bullet points for clarity. Place it near the top of SKILL.md after the overview section.
+
+## 4. Improve CLI command reference structure [pending]
+### Dependencies: None
+### Description: Restructure the CLI command reference in SKILL.md to be more organized and easier to navigate.
+### Details:
+Reorganize the CLI command reference with:
+- Consistent formatting for all commands
+- Grouping of related commands (project management, configuration, etc.)
+- Table of contents with links to each command section
+- Parameter tables with types, defaults, and descriptions
+- Color-coded or visually distinct examples
+- Cross-references to relevant workflows and troubleshooting
+
+Ensure the structure is consistent and makes logical sense for users trying to find specific commands quickly.
+

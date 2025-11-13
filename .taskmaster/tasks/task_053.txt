@@ -1,0 +1,58 @@
+# Task ID: 53
+# Title: Create Documentation Project Template
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Develop a documentation project template with doc_generator skill in the ~/.claude/templates/documentation/ directory
+# Details:
+1. Create the documentation template directory structure:
+```
+~/.claude/templates/documentation/
+├── .claude/
+│   ├── skills/
+│   │   └── doc_generator.json
+│   ├── workflows/
+│   │   ├── generate-docs.yaml
+│   │   └── validate-links.yaml
+│   ├── Claude.md
+│   ├── skill-rules.json
+│   └── metadata.json
+├── docs/
+│   ├── index.md
+│   └── getting-started.md
+└── README.md
+```
+
+2. Implement doc_generator skill for documentation automation
+3. Create template-specific Claude.md with documentation context
+4. Configure skill-rules.json with triggers for documentation tasks
+5. Define metadata.json with template variables like:
+```json
+{
+  "template_name": "documentation",
+  "variables": [
+    {
+      "name": "DOC_PROJECT",
+      "description": "Name of your documentation project",
+      "default": "my-documentation"
+    },
+    {
+      "name": "DOC_FORMAT",
+      "description": "Documentation format (markdown/asciidoc)",
+      "default": "markdown"
+    }
+  ]
+}
+```
+6. Create example workflows for documentation generation and validation
+7. Include sample documentation files
+8. Add a README.md with template usage instructions
+
+# Test Strategy:
+1. Verify template creation with `claude project create --template documentation`
+2. Validate directory structure matches specification
+3. Test skill activation with documentation queries
+4. Verify workflows execute correctly
+5. Test variable substitution in template files
+6. Ensure Claude.md provides appropriate context for documentation tasks
+7. Validate sample documentation files are properly formatted

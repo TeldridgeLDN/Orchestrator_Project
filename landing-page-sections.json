@@ -1,0 +1,177 @@
+{
+  "landingPageSections": [
+    {
+      "id": "hero",
+      "name": "Hero Section",
+      "order": 1,
+      "position": "above-the-fold",
+      "description": "Primary conversion area with headline, value proposition, and email capture",
+      "purpose": "Immediate value proposition and clear call-to-action to capture leads",
+      "content": {
+        "headline": "Get Your Pre-Launch Landing Page Checklist",
+        "subheadline": "The 5-step framework 500+ founders used to validate their ideas",
+        "primaryCTA": "Download Free Checklist",
+        "ctaType": "email-capture-form"
+      },
+      "visualElements": {
+        "background": "Clean, modern gradient or solid color",
+        "imagery": "Optional hero image or illustration",
+        "icons": "Potential check mark or validation icon",
+        "spacing": "Generous padding for focus"
+      },
+      "designPrinciples": [
+        "Straightforward kindness - no jargon",
+        "Simplicity over cleverness",
+        "Clear visual hierarchy"
+      ]
+    },
+    {
+      "id": "trust-indicators",
+      "name": "Trust Indicators Section",
+      "order": 2,
+      "position": "above-the-fold-or-just-below",
+      "description": "Social proof elements to build credibility and reduce friction",
+      "purpose": "Build trust and reduce conversion barriers",
+      "content": {
+        "indicators": [
+          "✓ Used by 100+ founders",
+          "✓ No credit card required",
+          "✓ Instant download"
+        ]
+      },
+      "visualElements": {
+        "icons": "Check marks or trust badges",
+        "layout": "Horizontal row or grid",
+        "style": "Minimal, clean iconography"
+      },
+      "designPrinciples": [
+        "Reduce friction",
+        "Build immediate credibility"
+      ]
+    },
+    {
+      "id": "discovery-process",
+      "name": "Discovery/Process Section",
+      "order": 3,
+      "position": "mid-page",
+      "description": "Explains the consultation and validation process",
+      "purpose": "Educate visitors on how the process works and what to expect",
+      "content": {
+        "description": "We kick off with a focused session to understand your idea, target audience, and key assumptions to test",
+        "processSteps": "Visual representation of the validation methodology"
+      },
+      "visualElements": {
+        "icon": "Compass, lightbulb, or discovery-themed icon",
+        "imagery": "Process diagram or flowchart",
+        "background": "Subtle section differentiation"
+      },
+      "designPrinciples": [
+        "Clear explanation",
+        "Visual process representation"
+      ]
+    },
+    {
+      "id": "benefits-features",
+      "name": "Benefits/Features Section",
+      "order": 4,
+      "position": "mid-page",
+      "description": "Key offerings and value propositions of the checklist",
+      "purpose": "Demonstrate tangible value of the lead magnet",
+      "content": {
+        "benefits": [
+          "5 must-have elements for pre-launch pages",
+          "10 common mistakes to avoid",
+          "Actionable implementation steps",
+          "Real examples and templates"
+        ]
+      },
+      "visualElements": {
+        "icons": "Feature-specific icons for each benefit",
+        "layout": "Grid or card-based layout",
+        "style": "Consistent iconography throughout"
+      },
+      "designPrinciples": [
+        "Scannable content",
+        "Visual hierarchy for quick comprehension"
+      ]
+    },
+    {
+      "id": "social-proof",
+      "name": "Social Proof/Testimonials Section",
+      "order": 5,
+      "position": "lower-mid-page",
+      "description": "User testimonials and success metrics",
+      "purpose": "Provide third-party validation and build trust",
+      "content": {
+        "testimonials": "User quotes and feedback",
+        "metrics": "Trusted by 200+ remote teams",
+        "logos": "Optional company/user logos"
+      },
+      "visualElements": {
+        "avatars": "User profile images",
+        "quoteMarks": "Visual quote styling",
+        "starRatings": "Optional rating displays",
+        "layout": "Carousel or grid of testimonials"
+      },
+      "designPrinciples": [
+        "Authentic, real testimonials",
+        "Credible source attribution"
+      ]
+    },
+    {
+      "id": "about-credibility",
+      "name": "About/Credibility Section",
+      "order": 6,
+      "position": "lower-page",
+      "description": "Expertise demonstration and authority building",
+      "purpose": "Establish creator credibility and expertise",
+      "content": {
+        "expertise": "I've reviewed 500+ landing pages",
+        "caseStudies": "Before/after transformations",
+        "credentials": "Relevant background and achievements"
+      },
+      "visualElements": {
+        "profileImage": "Professional headshot or brand image",
+        "icons": "Achievement badges or certifications",
+        "charts": "Data visualization of results"
+      },
+      "designPrinciples": [
+        "Establish authority without arrogance",
+        "Data-driven credibility"
+      ]
+    },
+    {
+      "id": "final-cta",
+      "name": "Final CTA Section",
+      "order": 7,
+      "position": "bottom-page",
+      "description": "Repeated conversion opportunity with clear next steps",
+      "purpose": "Catch visitors who scrolled but didn't convert earlier",
+      "content": {
+        "headline": "Ready to validate your idea?",
+        "cta": "Download Free Checklist",
+        "ctaType": "email-capture-form",
+        "assurances": "Repeat key trust indicators"
+      },
+      "visualElements": {
+        "background": "Distinct section with strong visual presence",
+        "button": "Prominent CTA button",
+        "spacing": "Clear focus on conversion"
+      },
+      "designPrinciples": [
+        "Second conversion opportunity",
+        "Remove all friction",
+        "Clear value reminder"
+      ]
+    }
+  ],
+  "metadata": {
+    "documentVersion": "1.0",
+    "createdDate": "2025-11-13",
+    "designFramework": "Monzo Principles (Straightforward Kindness, Simplicity, Friction Reduction)",
+    "targetAudience": "Pre-launch founders and startups",
+    "conversionGoal": "Email capture for checklist download",
+    "totalSections": 7
+  }
+}
+

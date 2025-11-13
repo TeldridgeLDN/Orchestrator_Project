@@ -1,0 +1,139 @@
+# Task ID: 43
+# Title: Create Sub-Agent System Prompt Template
+# Status: done
+# Dependencies: 42
+# Priority: high
+# Description: Develop standardized templates for sub-agent design following Section 3.6.3 patterns.
+# Details:
+Create a comprehensive template structure for sub-agents that follows established patterns:
+
+1. Create directory structure at ~/.claude/templates/sub-agent-template/ with:
+   - AGENT.md (system prompt and documentation)
+   - config.json (agent configuration and tool restrictions)
+   - README.md (usage instructions)
+
+2. AGENT.md should include:
+   - Agent purpose and capabilities
+   - Persona definition
+   - Input/output format specifications
+   - Constraints and limitations
+   - Example interactions
+
+3. config.json should define:
+   - Agent name and version
+   - Required tools and permissions
+   - Memory configuration
+   - Output format settings
+   - Invocation protocol with trigger conditions
+   - Tool permission framework (allowed/forbidden lists)
+   - Constraints definition (timeouts, file limits, read-only mode)
+
+4. README.md should contain:
+   - Installation instructions
+   - Usage examples
+   - Integration patterns
+   - Customization options
+   - Best practices
+
+5. Implement proper output format example: [AGENT_STATUS] message with standardized status codes (SUCCESS, PARTIAL, ERROR, INFO)
+
+6. Include variable placeholder system for easy customization
+
+7. Add justification checklist for sub-agent appropriateness
+
+Implementation completed with the following files:
+- AGENT.md template (3,440 bytes) - comprehensive system prompt with all required sections and {{VARIABLE}} placeholders
+- config.json template (1,696 bytes) - structured configuration with invocation, tools, constraints, output format specs
+- README.md template (11,881 bytes) - extensive documentation with installation, customization guide, integration patterns, best practices
+
+Example template structure:
+```javascript
+// AGENT.md template
+# {{AGENT_NAME}}
+
+## Purpose
+{{AGENT_PURPOSE}}
+
+## Capabilities
+- {{CAPABILITY_1}}
+- {{CAPABILITY_2}}
+
+## Interaction Format
+Input: {{INPUT_FORMAT}}
+Output: [AGENT_STATUS] {{OUTPUT_FORMAT}}
+
+// config.json template
+{
+  "name": "{{AGENT_NAME}}",
+  "version": "1.0.0",
+  "tools": [
+    {{TOOL_LIST}}
+  ],
+  "memory": {
+    "enabled": {{MEMORY_ENABLED}},
+    "type": "{{MEMORY_TYPE}}"
+  },
+  "outputFormat": {
+    "prefix": "[AGENT_STATUS]",
+    "structure": "{{OUTPUT_STRUCTURE}}",
+    "codes": ["SUCCESS", "PARTIAL", "ERROR", "INFO"]
+  },
+  "constraints": {
+    "timeout": {{TIMEOUT_VALUE}},
+    "fileAccess": "{{FILE_ACCESS_MODE}}"
+  }
+}
+```
+
+# Test Strategy:
+1. Create a test sub-agent using the template
+2. Verify all required components are present and properly structured
+3. Test the output format to ensure it follows [AGENT_STATUS] pattern
+4. Review with team to ensure template meets all requirements
+5. Validate against existing sub-agents to ensure compatibility
+6. Check documentation clarity and completeness
+
+Validation completed:
+- Created working example: security_audit_agent at ~/.claude/agents/security_audit_example/
+- All template variables successfully replaced with realistic security audit agent configuration
+- Verified structure matches PRD specifications
+- Output format follows [AGENT_STATUS] pattern from Section 3.6.3
+- Template is production-ready for creating new sub-agents following orchestrator design patterns
+
+# Subtasks:
+## 1. Create directory structure for sub-agent template [done]
+### Dependencies: None
+### Description: Set up the directory structure at ~/.claude/templates/sub-agent-template/ with placeholder files for AGENT.md, config.json, and README.md
+### Details:
+Create the base directory structure that will house all template files. Ensure proper permissions are set for all directories and files.
+
+## 2. Develop AGENT.md template with system prompt structure [done]
+### Dependencies: 43.1
+### Description: Create comprehensive AGENT.md template with all required sections including purpose, capabilities, persona, I/O formats, constraints, and examples
+### Details:
+Implement the AGENT.md template with variable placeholders for customization. Include sections for agent purpose, capabilities list, persona definition, input/output format specifications, constraints and limitations, and example interactions.
+
+## 3. Implement config.json template with agent configuration [done]
+### Dependencies: 43.1
+### Description: Create config.json template with agent metadata, tool permissions, memory settings, and output format specifications
+### Details:
+Develop the config.json template with structured configuration for agent name/version, tools and permissions framework, memory configuration, output format settings, invocation protocol, and constraints definition.
+
+## 4. Create README.md with comprehensive documentation [done]
+### Dependencies: 43.1
+### Description: Develop extensive README.md template with installation, usage, integration, and customization documentation
+### Details:
+Create the README.md template with comprehensive documentation covering installation instructions, usage examples, integration patterns, customization options, and best practices for sub-agent implementation.
+
+## 5. Implement standardized output format with status codes [done]
+### Dependencies: 43.2, 43.3
+### Description: Define and implement the [AGENT_STATUS] output format pattern with standardized status codes
+### Details:
+Implement the standardized output format with [AGENT_STATUS] prefix and defined status codes (SUCCESS, PARTIAL, ERROR, INFO) as specified in Section 3.6.3.
+
+## 6. Create security_audit_agent example using template [done]
+### Dependencies: 43.2, 43.3, 43.4, 43.5
+### Description: Develop a working security audit agent example using the template to validate functionality
+### Details:
+Create a complete working example of a security audit agent at ~/.claude/agents/security_audit_example/ by using the template and replacing all variables with realistic values for a security audit use case.
+

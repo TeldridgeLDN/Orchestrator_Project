@@ -1,0 +1,49 @@
+# Task ID: 14
+# Title: Develop Content-Based Classification Fallback
+# Status: done
+# Dependencies: 13
+# Priority: high
+# Description: Extend classifier.js to analyze file content (keywords, YAML frontmatter) for classification when pattern matching is insufficient.
+# Details:
+Integrate js-yaml v4+ for frontmatter parsing. Use keyword extraction (e.g., natural v6+ or compromise v13+) for content analysis. Implement confidence scoring and user confirmation for ambiguous cases. Ensure fallback triggers only when pattern confidence < threshold.
+
+# Test Strategy:
+Unit tests for content-based classification. Test ambiguous files for correct fallback. Validate confidence scoring logic.
+
+# Subtasks:
+## 1. Integrate YAML Frontmatter Parsing with js-yaml v4+ [done]
+### Dependencies: None
+### Description: Implement robust YAML frontmatter extraction and parsing in classifier.js using js-yaml v4+ or a compatible frontmatter library.
+### Details:
+Use js-yaml or a frontmatter-specific wrapper (e.g., yaml-front-matter) to extract and parse YAML blocks at the start of files. Ensure correct handling of files with and without frontmatter, and store parsed metadata separately from main content. Validate with sample files containing various YAML structures.
+
+## 2. Integrate Keyword Extraction Library for Content Analysis [done]
+### Dependencies: 14.1
+### Description: Add support for keyword extraction from file content using a library such as natural v6+ or compromise v13+.
+### Details:
+After parsing frontmatter, use a keyword extraction library to analyze the remaining file content. Extract significant keywords or phrases to aid in classification. Ensure compatibility with various file encodings and handle edge cases such as empty or binary files.
+
+## 3. Implement Confidence Scoring for Content-Based Classification [done]
+### Dependencies: 14.2
+### Description: Develop a scoring mechanism to quantify classification confidence based on extracted metadata and keywords.
+### Details:
+Design a scoring algorithm that combines signals from YAML frontmatter and keyword analysis. Assign confidence levels to classification outcomes. Document the scoring logic and thresholds for triggering fallback or user confirmation.
+
+## 4. Develop User Confirmation Workflow for Ambiguous Cases [done]
+### Dependencies: 14.3
+### Description: Implement a user interaction flow to confirm or override classification when confidence is below a defined threshold.
+### Details:
+When the confidence score is low, prompt the user for confirmation or manual classification. Design the workflow to be non-blocking and to record user input for future improvements. Ensure accessibility and clear messaging.
+
+## 5. Integrate Fallback Trigger Based on Pattern Confidence Threshold [done]
+### Dependencies: 14.3
+### Description: Ensure content-based fallback logic activates only when pattern-based classification confidence falls below a configurable threshold.
+### Details:
+Modify classifier.js to check pattern-based confidence before invoking content-based analysis. Make the threshold configurable and document its usage. Prevent unnecessary fallback invocations for high-confidence pattern matches.
+
+## 6. Develop Unit Tests for Ambiguous and Edge Case Scenarios [done]
+### Dependencies: 14.1, 14.2, 14.3, 14.4, 14.5
+### Description: Create comprehensive unit tests covering ambiguous, malformed, and edge case files to ensure fallback and user confirmation logic is robust.
+### Details:
+Design test cases for files with conflicting metadata, missing content, unusual encodings, and borderline confidence scores. Validate that all fallback and confirmation workflows behave as specified.
+

@@ -1,0 +1,89 @@
+# Task ID: 45
+# Title: Create MCP Integration Guidelines
+# Status: done
+# Dependencies: 42
+# Priority: low
+# Description: Document when and how to create MCP servers for external system integrations.
+# Details:
+Develop comprehensive guidelines for creating and integrating MCP (Model Control Protocol) servers:
+
+1. Create ~/.claude/docs/MCP_INTEGRATION_GUIDE.md with:
+   - Introduction to MCPs and their purpose
+   - When to use MCPs (referencing Step 2 of the Decision Tree)
+   - Architecture overview with diagrams
+
+2. Document MCP server structure:
+   - Server setup and configuration
+   - Endpoint design patterns
+   - Authentication and security
+   - Error handling
+   - Rate limiting and caching strategies
+
+3. Provide integration patterns from skills:
+   - Direct API calls
+   - Using the FeatureComposer
+   - Handling responses and errors
+   - State management
+
+4. Include best practices for:
+   - Security (authentication, input validation, etc.)
+   - Error handling and reporting
+   - Rate limiting and throttling
+   - Caching strategies
+   - Logging and monitoring
+
+5. Add example implementations:
+   - Basic MCP server template
+   - Integration examples from skills
+   - Configuration examples
+
+Example content structure:
+```markdown
+# MCP Integration Guide
+
+## Introduction
+Model Control Protocol (MCP) servers provide a standardized way for Claude to interact with external systems and APIs. This guide explains when and how to implement MCPs for your projects.
+
+## When to Use MCPs
+Refer to Step 2 of the [Agentic Feature Selection Guide](./AGENTIC_FEATURE_GUIDE.md). MCPs are appropriate when:
+- Integration with external systems or APIs is required
+- Data needs to be fetched or processed outside Claude's environment
+- Stateful operations need to be performed
+- Complex data transformations are required
+
+## MCP Server Structure
+```javascript
+// Example MCP server structure
+const express = require('express');
+const app = express();
+
+// Authentication middleware
+app.use(authMiddleware);
+
+// Endpoints
+app.get('/api/resource', async (req, res) => {
+  try {
+    // Implementation
+    res.json({ status: 'success', data: result });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
+});
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ status: 'error', message: 'Internal server error' });
+});
+
+app.listen(3000, () => console.log('MCP server running on port 3000'));
+```
+```
+
+# Test Strategy:
+1. Review guide with team members for clarity and completeness
+2. Verify all sections are covered (when to use, structure, integration, best practices)
+3. Test example code to ensure it works as documented
+4. Check alignment with Agentic Feature Selection Guide
+5. Validate security best practices with security team
+6. Have developers attempt to create an MCP using only the guide to test usability

@@ -1,0 +1,11 @@
+# Task ID: 78
+# Title: Implement optimize_scenario and research_best_practices Workflows
+# Status: pending
+# Dependencies: 77
+# Priority: medium
+# Description: Enable scenario_builder to analyze deployed scenarios, suggest optimizations, and research latest best practices.
+# Details:
+Write optimize_scenario.md and research_best_practices.md workflows. Analyze scenario YAML, usage logs, and performance metrics. Query Research MCP for optimization ideas. Rank suggestions by impact, complexity, and risk.
+
+# Test Strategy:
+Test with real usage logs and scenarios. Validate that top 3 optimizations are relevant and actionable.

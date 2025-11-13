@@ -1,0 +1,316 @@
+# Product Requirements Document: Momentum Squared Sprint 2 - Workflow Automation
+
+## Project Context
+Sprint 2 builds on the success of Sprint 1 (100% complete, 1,200-2,494% ROI) by automating time-consuming workflows and integrating intelligent monitoring systems for the Momentum Squared trading analysis platform.
+
+## Sprint Overview
+- **Focus**: Workflow Automation (Week 2)
+- **Effort**: 10-12 hours estimated
+- **ROI Target**: Automate 50% of manual workflows
+- **Expected Savings**: 30-90 min/week (26-78 hrs/year)
+- **Total ROI**: 400-658%
+- **Break-Even**: 2-3 months
+
+## Sprint 1 Context (Completed)
+Sprint 1 delivered:
+- Pre-Command Validation Hook (saves 52-130 hrs/year)
+- Database Query Validator Hook (saves 26-43 hrs/year)
+- Emergency Recovery Agent (<5 min recovery vs 20-30 min)
+- Workflow 9 Execution Skill (95%+ automation rate)
+- Total Sprint 1 ROI: 1,200-2,494%
+
+Combined Sprint 1 + Sprint 2 will save 150-291 hours annually (3.75-7.3 work weeks).
+
+## Technical Stack
+- Python 3.10+
+- TypeScript 5.x
+- spaCy v3.7 (for NLP keyword activation)
+- pandas v2.2
+- pytest v7.x
+- Jest v29
+- tree-sitter (for AST parsing)
+- node-postgres v8.x
+- chokidar v3.5 (file watching)
+- coverage.py v7.x
+
+## Task 1: Implement P/E Compression Analysis Skill
+
+### Purpose
+Wrap the new 6-section P/E compression framework with intelligent mode selection to support guided valuation analysis.
+
+### Requirements
+- Auto-activate on keywords: "p/e compression", "comparative pe", "valuation"
+- Implement three operational modes:
+  * Basic mode (no external API)
+  * Full mode (with Perplexity API integration)
+  * Offline mode (cached data only)
+- Detect PERPLEXITY_API_KEY environment variable and suggest appropriate mode
+- Display decision framework after analysis completion
+- Integrate seamlessly with Workflow 9 Execution Skill from Sprint 1
+- Use spaCy v3.7 for robust NLP-based keyword detection
+- Support Markdown rendering for decision frameworks
+
+### Files to Create
+- `.claude/skills/pe-compression-analysis/skill.md` - Main skill definition
+- `.claude/skills/pe-compression-analysis/resources/decision-framework.md` - Decision support framework
+- `.claude/skills/pe-compression-analysis/resources/offline-mode-guide.md` - Offline usage guide
+
+### Success Criteria
+- Keyword detection accuracy: 100%
+- Mode detection works correctly based on API key presence
+- Decision framework renders properly after analysis
+- Integration with Workflow 9 is seamless
+- Performance: <2 seconds for mode selection
+
+### Estimated Effort
+3 hours
+
+### Impact Metrics
+- Saves: 30-45 min/week
+- Annual savings: 26-39 hours
+- ROI: 867-1,300%
+
+## Task 2: Develop Score Trend Monitoring Skill
+
+### Purpose
+Automate daily score monitoring and alerting to ensure consistent tracking without manual intervention.
+
+### Requirements
+- Auto-activate on keywords: "score trends", "monitor scores", "daily check"
+- Execute `score_trend_alert_monitor.py --all --critical-only` command
+- Parse command output for critical alerts
+- Provide actionable recommendations based on alert types
+- Display formatted summary with clear visual indicators
+- Use spaCy v3.7 for keyword activation
+- Handle subprocess execution with proper error handling
+- Support pandas v2.2 for data processing
+
+### Files to Create
+- `.claude/skills/score-trend-monitor/skill.md` - Main skill definition
+- `.claude/skills/score-trend-monitor/resources/alert-interpretation.md` - Alert interpretation guide
+
+### Success Criteria
+- Automates 5-minute daily task
+- 100% uptime for monitoring execution
+- Clear, actionable alert summaries
+- Zero false positives
+- Performance: <5 seconds execution time
+
+### Estimated Effort
+2 hours
+
+### Impact Metrics
+- Saves: 5 min/day
+- Annual savings: 4-4.3 hours
+- ROI: 200-215%
+- Ensures monitoring never gets skipped
+
+## Task 3: Create Portfolio Master Sync Validator
+
+### Purpose
+Prevent drift between portfolio master JSON files and database through automated validation on file edits.
+
+### Requirements
+- Trigger on edits to `data/portfolios/master/*_master.json` files
+- Compare holdings count between JSON and database
+- Validate symbol lists match between sources
+- Check cash balance consistency
+- Verify last_updated timestamp is current
+- Provide non-blocking warnings on discrepancies
+- Suggest specific sync commands to resolve issues
+- Use chokidar v3.5 for file watching
+- Connect to PostgreSQL via node-postgres v8.x
+
+### Files to Create
+- `.claude/hooks/portfolio-sync-checker.ts` - Main validation hook
+- `.claude/hooks/tests/test-portfolio-sync.ts` - Comprehensive test suite
+
+### Success Criteria
+- Catches all drift scenarios (holdings, symbols, cash, timestamps)
+- Non-blocking warnings (doesn't prevent saves)
+- Clear sync command suggestions
+- 100% test coverage
+- Performance: <1 second validation time
+
+### Estimated Effort
+2 hours
+
+### Impact Metrics
+- Saves: 30+ min per drift incident
+- Annual savings: 10-15 hours
+- ROI: 500-750%
+- Prevents data integrity issues
+
+## Task 4: Implement Database Connection Manager Hook
+
+### Purpose
+Enforce proper context manager usage for database connections to prevent "database is locked" errors.
+
+### Requirements
+- Trigger on Python file edits containing `sqlite3.connect`
+- Use AST parsing to detect connection patterns
+- Verify proper `with` statement usage for connection management
+- Provide before/after code examples for corrections
+- Detect anti-patterns: bare connect() calls without context managers
+- Non-blocking educational warnings
+- Use tree-sitter or regex for pattern detection
+- Support TypeScript 5.x implementation
+
+### Files to Create
+- `.claude/hooks/db-connection-guardian.ts` - Main enforcement hook
+- `.claude/hooks/tests/test-db-connection.ts` - Comprehensive test suite
+
+### Success Criteria
+- Detects all SQLite connection patterns
+- Accurately identifies missing context managers
+- Provides clear, helpful correction examples
+- Zero false positives
+- 100% test coverage
+- Performance: <500ms analysis time
+
+### Estimated Effort
+2 hours
+
+### Impact Metrics
+- Prevents DB lock errors (5-10 min recovery each)
+- Annual savings: 4-8 hours
+- ROI: 200-400%
+- Improves code quality
+
+## Task 5: Build Test Selector Agent
+
+### Purpose
+Implement intelligent test selection to reduce test cycle time by only running tests relevant to recent code changes.
+
+### Requirements
+- Provide `/select-tests` slash command for invocation
+- Analyze recent edits from `/tmp/claude-edits-*.json` files
+- Map edited files to relevant test files using intelligent mapping
+- Execute only necessary tests via pytest
+- Display coverage statistics post-execution
+- Implement fallback to full test suite if mapping is uncertain
+- Use pytest v7.x for test execution
+- Use coverage.py v7.x for coverage analysis
+- Support Python 3.10+
+
+### Files to Create
+- `.claude/agents/test-selector/agent.md` - Main agent definition
+- `.claude/agents/test-selector/resources/test-mapping.json` - File-to-test mapping configuration
+- `.claude/commands/select-tests.md` - Slash command definition
+
+### Success Criteria
+- Achieves 60-80% test cycle time reduction
+- Maintains 100% accuracy (no missed relevant tests)
+- Coverage statistics are accurate
+- Fallback to full suite works reliably
+- Clear reporting of tests selected and reason
+- Performance: Analysis <2s, execution depends on test count
+
+### Estimated Effort
+3-4 hours
+
+### Impact Metrics
+- Saves: 5-15 min per test cycle
+- Annual savings: 4-13 hours
+- ROI: 133-433%
+- Improves development velocity
+
+## Quality Standards
+
+### Testing Requirements
+- 100% test pass rate (following Sprint 1 success)
+- Code coverage >85%
+- Zero false positives for all validators
+- All edge cases covered in tests
+
+### Performance Targets
+- Skills: <2s activation time
+- Hooks: <1s validation time
+- Agents: <2s analysis time
+- All operations must be non-blocking where appropriate
+
+### Documentation Standards
+- Complete skill definitions with examples
+- Clear activation keyword lists
+- Comprehensive resource guides
+- Integration examples with existing system
+
+### User Experience Goals
+- Clear, actionable feedback messages
+- Visual indicators for status (✅, ❌, ⚠️)
+- Contextual help and suggestions
+- Graceful degradation on errors
+
+## Integration Points
+
+### Sprint 1 Integration
+- Task 1 integrates with Workflow 9 Executor (Sprint 1 Task 4)
+- Task 2 provides input to Workflow 9 decision making
+- Task 3 builds on PostToolUse hook pattern from Sprint 1
+- Task 4 builds on PostToolUse hook pattern from Sprint 1
+- Task 5 works alongside Emergency Recovery (Sprint 1 Task 3)
+
+### Existing System Enhancements
+- Add Tasks 1, 2 to `user-prompt-submit-skills-activator.ts`
+- Add Tasks 3, 4 to `post-tool-use-edit-tracker.ts`
+- Keep `stop-event-quality-checker.ts` unchanged
+- Maintain all 6 existing skills
+- Total skills after Sprint 2: 8 skills
+- Total hooks after Sprint 2: 5 hooks
+- Total agents after Sprint 2: 2 agents
+
+## Success Metrics
+
+### Sprint 2 Completion Criteria
+- All 5 tasks completed with all subtasks
+- 100% test pass rate maintained
+- Zero false positives across all validators
+- Complete documentation for all components
+- Integration testing completed
+- Performance targets met or exceeded
+
+### Combined Sprint 1 + Sprint 2 Impact
+- Total Annual Savings: 150-291 hours (3.75-7.3 work weeks)
+- Total Investment: 20.5 hours (8.5 Sprint 1 + 12 Sprint 2)
+- Combined ROI: 732-1,420%
+- Break-Even: 1 MONTH
+- Automation Rate: 50%+ of workflows automated
+
+## Risk Mitigation
+- All tasks have zero dependencies (can be worked in parallel)
+- Fallback strategies for all intelligent components
+- Non-blocking validation (warnings, not errors)
+- Comprehensive test coverage prevents regressions
+- Clear documentation reduces onboarding friction
+
+## Recommended Task Order
+
+### Option 1: Quick Wins First
+1. Task 2 (Score Monitor) - 2 hours, daily impact
+2. Task 4 (DB Guardian) - 2 hours, prevents locks
+3. Task 3 (Sync Validator) - 2 hours, prevents drift
+4. Task 1 (P/E Analysis) - 3 hours, high-value integration
+5. Task 5 (Test Selector) - 3 hours, long-term efficiency
+
+### Option 2: High Impact First
+1. Task 1 (P/E Analysis) - 3 hours, 867-1,300% ROI
+2. Task 3 (Sync Validator) - 2 hours, 500-750% ROI
+3. Task 5 (Test Selector) - 3 hours, significant time savings
+4. Task 4 (DB Guardian) - 2 hours, prevents critical issues
+5. Task 2 (Score Monitor) - 2 hours, automation win
+
+## Patterns from Sprint 1 to Reuse
+1. Test-Driven Development - Write tests first
+2. Performance Targets - Measure early and often
+3. Modular Design - Small, focused modules
+4. Clear Error Messages - Actionable feedback
+5. Incremental Approach - Build confidence with early wins
+6. TaskMaster Integration - Log progress in subtasks
+
+## New Patterns for Sprint 2
+1. Skill Pattern - Keyword activation → Command execution → Decision support
+2. Enhanced Hook Pattern - AST parsing, multi-criteria validation, corrective guidance
+3. Intelligent Agent Pattern - Context analysis → Smart selection → Execution → Reporting
+4. Mode Detection - Check environment early, provide appropriate options
+5. Decision Frameworks - Render guidance after analysis for user decision-making
+

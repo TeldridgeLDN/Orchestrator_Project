@@ -1,0 +1,11 @@
+# Task ID: 67
+# Title: Implement Scenario YAML Schema and Validation Engine
+# Status: done
+# Dependencies: 66
+# Priority: high
+# Description: Develop a robust schema validator for scenario YAML files, enforcing all required fields and types.
+# Details:
+Use PyYAML (>=6.0) for parsing and jsonschema (>=4.19) for validation. Define the schema as per PRD, including nested steps, triggers, dependencies, design_decisions, and improvements. Provide CLI feedback with clear error messages. Support schema evolution via versioning.
+
+# Test Strategy:
+Write unit tests for valid and invalid YAMLs. Include edge cases (missing fields, wrong types, deprecated keys). Use sample files from PRD and future enhancements.

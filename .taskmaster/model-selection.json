@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-11-13T07:09:36.725Z",
+  "generatedBy": "orchestrator-startup",
+  "modelSelection": {
+    "tiers": {
+      "simple": [
+        "update-subtask",
+        "set-status",
+        "commit-message",
+        "format",
+        "validate-simple"
+      ],
+      "medium": [
+        "add-task",
+        "update-task",
+        "update",
+        "add-subtask",
+        "auto-repair",
+        "health-check",
+        "scope-up",
+        "scope-down"
+      ],
+      "complex": [
+        "parse-prd",
+        "expand-task",
+        "expand-all",
+        "analyze-complexity",
+        "generate-tests",
+        "architecture-planning"
+      ],
+      "research": [
+        "research",
+        "analyze-complexity --research",
+        "expand-task --research",
+        "add-task --research",
+        "update-task --research"
+      ]
+    },
+    "models": {
+      "simple": {
+        "provider": "claude-code",
+        "modelId": "haiku",
+        "maxTokens": 200000,
+        "temperature": 0.2
+      },
+      "medium": {
+        "provider": "anthropic",
+        "modelId": "claude-3-7-sonnet-20250219",
+        "maxTokens": 120000,
+        "temperature": 0.2
+      },
+      "complex": {
+        "provider": "anthropic",
+        "modelId": "claude-3-7-sonnet-20250219",
+        "maxTokens": 120000,
+        "temperature": 0.2
+      },
+      "research": {
+        "provider": "perplexity",
+        "modelId": "sonar-pro",
+        "maxTokens": 8700,
+        "temperature": 0.1
+      }
+    }
+  }
+}

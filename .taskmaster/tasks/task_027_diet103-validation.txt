@@ -1,0 +1,11 @@
+# Task ID: 27
+# Title: Integrate Partnership Workflows and Feasibility Checker Sub-Agent
+# Status: pending
+# Dependencies: 25, 26
+# Priority: high
+# Description: Add advanced partnership workflows (explore alternatives, compare options, test feasibility, optimize scenario, research best practices, proof of concept) and implement the feasibility_checker sub-agent for parallel validation.
+# Details:
+Implement new workflows in `~/.claude/skills/scenario_builder/workflows/` as described in the PRD. Use a workflow engine or async task runner (e.g., Python asyncio, Node.js worker threads) to spawn feasibility_checker sub-agents in parallel. Integrate with external MCPs (e.g., Perplexity for research, custom MCP Registry, API Documentation MCP, Cost Calculator MCP) via REST or gRPC APIs. Use OpenAPI (v3.1) for API contracts. Implement partnership level configuration in `~/.claude/config.json` and support per-scenario overrides. Ensure all workflows log decisions, alternatives, and trade-offs in the scenario YAML. Follow best practices for agentic workflow design, including modularity, observability, and graceful degradation if MCPs are unavailable[1][2][3][5].
+
+# Test Strategy:
+Unit and integration tests for each workflow. Mock MCP responses for deterministic testing. Performance tests for parallel agent spawning. Validation of YAML updates for design_decisions and potential_improvements.

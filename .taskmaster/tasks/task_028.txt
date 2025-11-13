@@ -1,0 +1,123 @@
+# Task ID: 28
+# Title: Implement Project Switching Mechanism
+# Status: done
+# Dependencies: 22, 26
+# Priority: high
+# Description: Develop the context switching mechanism to change between projects
+# Details:
+Implement the project switching mechanism that handles unloading the current project context and loading the new project context. This is a critical component for maintaining context isolation and token efficiency.
+
+```javascript
+// lib/commands/switch.js
+const fs = require('fs-extra');
+const path = require('path');
+const { readConfig, writeConfig } = require('../utils/config');
+const { validateProjectPath } = require('../utils/validation');
+const { unloadProjectContext, loadProjectContext } = require('../utils/context');
+
+async function switchProject(name) {
+  try {
+    const startTime = Date.now();
+    
+    // Get config
+    const config = await readConfig();
+    
+    // Check if project exists
+    if (!config.projects[name]) {
+      throw new Error(`Project '${name}' not found.`);
+    }
+    
+    // Get project path
+    const projectPath = config.projects[name].path;
+    
+    // Validate project path
+    if (!validateProjectPath(projectPath)) {
+      throw new Error(`Project path '${projectPath}' is invalid or missing.`);
+    }
+    
+    console.log(`Switching to project '${name}'...`);
+    
+    // Unload current project
+    const currentProject = config.active_project;
+    if (currentProject) {
+      await unloadProjectContext(currentProject);
+      console.log(`✓ Context unloaded: ${currentProject}`);
+      
+      // Cache current project state (optional)
+      if (config.settings.cache_last_active) {
+        await cacheProjectState(currentProject);
+      }
+    }
+    
+    // Load new project
+    await loadProjectContext(name, projectPath);
+    
+    // Count skills
+    const skillsDir = path.join(projectPath, '.claude', 'skills');
+    let skillCount = 0;
+    if (fs.existsSync(skillsDir)) {
+      skillCount = fs.readdirSync(skillsDir).filter(f => 
+        fs.statSync(path.join(skillsDir, f)).isDirectory()
+      ).length;
+    }
+    
+    console.log(`✓ Context loaded: ${name}`);
+    console.log(`✓ Skills activated: ${skillCount}`);
+    
+    // Update config
+    config.active_project = name;
+    config.projects[name].last_active = new Date().toISOString();
+    await writeConfig(config);
+    
+    const switchTime = Date.now() - startTime;
+    
+    console.log();
+    console.log(`Active project: ${name}`);
+    console.log(`Path: ${projectPath}`);
+    console.log(`Switch time: ${switchTime}ms`);
+    console.log();
+    console.log('Start working - Claude is ready!');
+    
+    return {
+      success: true,
+      previous: currentProject,
+      current: name,
+      switchTime: switchTime
+    };
+  } catch (error) {
+    console.error(`Error switching project: ${error.message}`);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+async function unloadProjectContext(projectName) {
+  // Implementation of context unloading
+  // This would interact with Claude's API to clear context
+  // For now, we'll simulate this with a placeholder
+  return true;
+}
+
+async function loadProjectContext(projectName, projectPath) {
+  // Implementation of context loading
+  // This would load the project's Claude.md, skill-rules.json, etc.
+  // For now, we'll simulate this with a placeholder
+  return true;
+}
+
+async function cacheProjectState(projectName) {
+  // Implementation of project state caching
+  // This would save the current state for fast resume
+  // For now, we'll simulate this with a placeholder
+  return true;
+}
+
+module.exports = { switchProject };
+```
+
+Implement the context management utility functions for unloading and loading project contexts.
+
+# Test Strategy:
+Test project switching between different projects and verify that the context is properly unloaded and loaded. Measure the switch time to ensure it meets the <1 second target. Test error cases such as non-existent projects and invalid project paths. Verify that the active project is correctly updated in the config file and that the last_active timestamp is updated.

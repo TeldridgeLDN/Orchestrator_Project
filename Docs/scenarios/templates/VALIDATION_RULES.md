@@ -1,0 +1,1 @@
+../../workflows/templates/VALIDATION_RULES.md

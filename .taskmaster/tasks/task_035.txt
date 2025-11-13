@@ -1,0 +1,129 @@
+# Task ID: 35
+# Title: Implement Caching for Fast Resume
+# Status: done
+# Dependencies: 33, 34
+# Priority: medium
+# Description: Add caching mechanism to speed up project switching when returning to recent projects, including cache validation and invalidation logic.
+# Details:
+Implement a caching system to optimize project switching performance:
+
+1. Extend the `ContextManager` class with caching methods:
+   ```javascript
+   class ContextManager {
+     // ... existing methods
+     
+     async loadContext(projectName) {
+       // Check if we can load from cache
+       if (await this.canLoadFromCache(projectName)) {
+         return await this.loadFromCache(projectName);
+       }
+       
+       // Regular loading logic if cache is invalid
+       // ... existing loading code
+     }
+     
+     async canLoadFromCache(projectName) {
+       const cachePath = path.join(CONFIG.cachePath, `${projectName}.json`);
+       try {
+         // Check if cache file exists
+         const stats = await fs.stat(cachePath);
+         if (!stats.isFile()) return false;
+         
+         // Load cache metadata
+         const cacheData = JSON.parse(await fs.readFile(cachePath, 'utf8'));
+         
+         // Check cache timestamp (e.g., expire after 1 hour)
+         const cacheAge = Date.now() - cacheData.timestamp;
+         if (cacheAge > CONFIG.cacheMaxAge) return false;
+         
+         // Check if project files have changed since cache was created
+         if (await this.haveProjectFilesChanged(projectName, cacheData.timestamp)) {
+           return false;
+         }
+         
+         return true;
+       } catch (error) {
+         return false;
+       }
+     }
+     
+     async loadFromCache(projectName) {
+       console.log(`Loading ${projectName} from cache`);
+       const cachePath = path.join(CONFIG.cachePath, `${projectName}.json`);
+       const cacheData = JSON.parse(await fs.readFile(cachePath, 'utf8'));
+       
+       // Restore state from cache
+       this.activeProject = projectName;
+       this.skillCache[projectName] = cacheData.skillState;
+       
+       // Reactivate skills from cache state
+       await this.reactivateSkillsFromCache(cacheData.skillState);
+       
+       // Log cache load event
+       console.log(`Loaded project context from cache: ${projectName}`);
+       
+       return true;
+     }
+     
+     async haveProjectFilesChanged(projectName, cacheTimestamp) {
+       const projectPath = path.join(CONFIG.projectsPath, projectName);
+       const filesToCheck = [
+         path.join(projectPath, 'metadata.json'),
+         path.join(projectPath, 'Claude.md'),
+         path.join(projectPath, 'skill-rules.json')
+       ];
+       
+       for (const filePath of filesToCheck) {
+         try {
+           const stats = await fs.stat(filePath);
+           if (stats.mtimeMs > cacheTimestamp) return true;
+         } catch (error) {
+           return true; // If file doesn't exist, consider it changed
+         }
+       }
+       
+       return false;
+     }
+     
+     async invalidateCache(projectName) {
+       const cachePath = path.join(CONFIG.cachePath, `${projectName}.json`);
+       try {
+         await fs.unlink(cachePath);
+         console.log(`Cache invalidated for project: ${projectName}`);
+       } catch (error) {
+         // Ignore errors if cache file doesn't exist
+       }
+     }
+   }
+   ```
+
+2. Implement cache directory creation in the initialization code
+
+3. Add configuration options for cache behavior (max age, enabled/disabled)
+
+4. Create cache invalidation hooks for project file changes
+
+5. Add performance metrics to measure cache effectiveness
+
+# Test Strategy:
+1. Unit tests:
+   - Test cache validation logic
+   - Test cache loading
+   - Test cache invalidation
+   - Test file change detection
+
+2. Integration tests:
+   - Create and load a project
+   - Switch to another project
+   - Switch back and verify cache is used
+   - Modify a project file and verify cache is invalidated
+
+3. Performance tests:
+   - Measure load time with and without cache
+   - Test with various project sizes
+   - Benchmark cache hit/miss rates
+
+4. Edge case tests:
+   - Test with corrupted cache files
+   - Test with very old cache files
+   - Test with missing project files

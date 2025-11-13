@@ -1,0 +1,109 @@
+# Task ID: 54
+# Title: Implement Bash Completion Script
+# Status: done
+# Dependencies: None
+# Priority: low
+# Description: Create a bash completion script for the Claude CLI to enhance user experience with command suggestions
+# Details:
+Implementation complete. Created bash completion script at ~/.claude/completions/claude-completion.bash with the following features:
+
+1. Full command hierarchy completion:
+   - Top-level: project, help, version
+   - Project subcommands: list, create, switch, remove, validate, register
+   
+2. Context-aware completions:
+   - Dynamic project name completion from ~/.claude/config.json (works with jq or fallback grep/sed)
+   - Template suggestions for 'project create' command
+   - Directory path completion for 'project register' command
+   
+3. Implementation details:
+```bash
+_claude_completions() {
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  
+  # Top-level commands
+  opts="project help version"
+  
+  # Subcommand completion
+  case "${prev}" in
+    project)
+      local subopts="list create switch remove validate register"
+      COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+      return 0
+      ;;
+    switch)
+      # Dynamic project completion from config with fallback
+      if command -v jq >/dev/null 2>&1; then
+        local projects=$(cat ~/.claude/config.json 2>/dev/null | jq -r '.projects[].name' 2>/dev/null)
+      else
+        local projects=$(grep -o '"name":"[^"]*"' ~/.claude/config.json 2>/dev/null | sed 's/"name":"\(.*\)"/\1/')
+      fi
+      COMPREPLY=( $(compgen -W "${projects}" -- ${cur}) )
+      return 0
+      ;;
+    # Additional subcommand cases
+  esac
+  
+  # Default completion
+  COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+  return 0
+}
+
+complete -F _claude_completions claude
+```
+
+4. Error handling:
+   - Gracefully handles missing config.json
+   - Falls back to grep/sed if jq not available
+   - Works with both bash 4.x and 5.x
+   
+5. Installation instructions included in script header.
+
+# Test Strategy:
+All test cases passing:
+
+1. Installation successful with `source ~/.claude/completions/claude-completion.bash`
+2. Top-level command completion working with `claude [TAB]`
+3. Subcommand completion verified with `claude project [TAB]`
+4. Project name completion working with `claude project switch [TAB]`
+5. Partial command completion tested and working
+6. Error handling verified with missing config
+7. Tested successfully in both bash 4.x and 5.x environments
+8. Template suggestions working for 'project create' command
+9. Directory path completion working for 'project register' command
+10. Fallback mechanism works when jq is not available
+
+# Subtasks:
+## 1. Create basic bash completion script structure [done]
+### Dependencies: None
+### Description: Set up the initial bash completion script with the basic structure and command hierarchy
+### Details:
+Created the bash completion script at ~/.claude/completions/claude-completion.bash with the basic structure for handling top-level commands and subcommands. Implemented the _claude_completions function and registered it with the complete command.
+
+## 2. Implement dynamic project name completion [done]
+### Dependencies: 54.1
+### Description: Add functionality to dynamically extract project names from config.json for completion suggestions
+### Details:
+Implemented dynamic project name extraction from ~/.claude/config.json using jq with a fallback mechanism using grep/sed when jq is not available. This ensures project names are always available for completion with the switch command.
+
+## 3. Add context-aware completions for additional commands [done]
+### Dependencies: 54.1, 54.2
+### Description: Implement specialized completion behavior for template selection and directory paths
+### Details:
+Added context-aware completions for 'project create' to suggest available templates and for 'project register' to provide directory path completion. This enhances usability by providing relevant suggestions based on command context.
+
+## 4. Implement error handling and fallback mechanisms [done]
+### Dependencies: 54.2
+### Description: Add robust error handling for missing files and alternative parsing methods
+### Details:
+Implemented error handling for missing config.json and added fallback parsing using grep/sed when jq is not available. Ensured the script works correctly in both bash 4.x and 5.x environments.
+
+## 5. Add installation instructions and documentation [done]
+### Dependencies: 54.1, 54.2, 54.3, 54.4
+### Description: Include clear installation instructions and usage documentation in the script header
+### Details:
+Added comprehensive header documentation with installation instructions, usage examples, and explanation of features. This ensures users can easily install and understand how to use the completion script.
+

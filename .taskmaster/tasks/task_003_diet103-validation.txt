@@ -1,0 +1,86 @@
+# Task ID: 3
+# Title: Implement Consistency Validation
+# Status: done
+# Dependencies: 1, 2
+# Priority: high
+# Description: Develop deep validation of diet103 component structure and content
+# Details:
+Create validateDiet103Consistency() function in diet103-validator.js. Implement checks for:
+- metadata.json structure validation
+- skill-rules.json format validation
+- Hook file permissions
+- Skill directory structure
+- Claude.md content length
+
+Pseudo-code:
+```javascript
+function validateDiet103Consistency(projectPath) {
+  const validations = [
+    validateMetadataJson(projectPath),
+    validateSkillRules(projectPath),
+    validateHookPermissions(projectPath),
+    validateSkillDirectory(projectPath),
+    validateClaudeMdContent(projectPath)
+  ];
+  
+  return {
+    isConsistent: validations.every(v => v.valid),
+    errors: validations.filter(v => !v.valid)
+  };
+}```
+
+# Test Strategy:
+Comprehensive test suite covering:
+1. Correct JSON schema validation
+2. Permission checks
+3. Content validation
+4. Various edge cases and malformed inputs
+5. Verification of diet103 1.2.0 specification compliance
+
+# Subtasks:
+## 1. Implement metadata.json Structure Validation [done]
+### Dependencies: None
+### Description: Develop a function to validate the structure and required fields of metadata.json according to the diet103 specification.
+### Details:
+Create validateMetadataJson(projectPath) in diet103-validator.js. Use a JSON Schema to check for required properties, correct data types, and any nested object requirements. Ensure the schema matches the expected structure for diet103 components.
+<info added on 2025-11-09T21:35:21.823Z>
+Implemented validateMetadataJson() function with comprehensive validation:
+- Validates all required fields: project_id, version, description, skills, created, diet103_version
+- Type checking for each field
+- Validates diet103_version is exactly '1.2.0'
+- Checks skills array contains only strings
+- Optional tags array validation
+- Returns structured result with errors and warnings
+</info added on 2025-11-09T21:35:21.823Z>
+<info added on 2025-11-10T07:07:13.380Z>
+Implementation of validateMetadataJson() is now complete with comprehensive validation and testing. The function has been created in lib/utils/diet103-validator.js with full validation for all required fields (project_id, version, description, skills, created, diet103_version), type checking, and specific validations including diet103_version enforcement, skills array validation, ISO 8601 date format validation, and semantic versioning format validation.
+
+The implementation returns structured results with errors and warnings arrays, providing clear and actionable error messages. A comprehensive test suite has been created in lib/utils/__tests__/diet103-validator.test.js with 100% coverage, including 20+ test cases covering normal, edge, and error scenarios.
+
+Additionally, the broader diet103-validator.js module now includes other key functions: detectDiet103Infrastructure(), analyzeDiet103Gaps(), and validateDiet103Consistency() to orchestrate all consistency checks.
+</info added on 2025-11-10T07:07:13.380Z>
+
+## 2. Implement skill-rules.json Format Validation [done]
+### Dependencies: None
+### Description: Create a function to validate the format and content of skill-rules.json, ensuring compliance with expected rules and structure.
+### Details:
+Develop validateSkillRules(projectPath) in diet103-validator.js. Define the expected schema for skill-rules.json, including required keys, value types, and any constraints. Validate against this schema and report any discrepancies.
+
+## 3. Check Hook File Permissions [done]
+### Dependencies: None
+### Description: Implement validation to ensure all hook files have correct file permissions as required by diet103 standards.
+### Details:
+Write validateHookPermissions(projectPath) in diet103-validator.js. Identify all hook files (e.g., pre-commit, post-merge) and check their permissions (e.g., executable bit set). Use fs.stat or similar methods to verify permissions.
+
+## 4. Validate Skill Directory Structure [done]
+### Dependencies: None
+### Description: Develop logic to check that the skill directory structure matches the required layout for diet103 components.
+### Details:
+Implement validateSkillDirectory(projectPath) in diet103-validator.js. Traverse the skill directories, ensuring all required subdirectories and files exist and are correctly named. Report any missing or misnamed elements.
+
+## 5. Validate Claude.md Content Length [done]
+### Dependencies: None
+### Description: Create a function to check that Claude.md exists and its content length meets the minimum required by the diet103 specification.
+### Details:
+Write validateClaudeMdContent(projectPath) in diet103-validator.js. Read the Claude.md file, check for existence, and verify that its content length (in characters or words) meets the minimum threshold.
+

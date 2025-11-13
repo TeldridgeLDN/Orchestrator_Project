@@ -1,0 +1,346 @@
+# diet103 Project Implementation PRD
+
+## Project Overview
+[Provide a high-level overview of the diet103 project you're building. Explain what it does, who it's for, and why it's valuable.]
+
+**Project Type:** [documentation | web-app | api-backend | cli-tool | data-science | other]
+
+**Primary Focus:** [What is the main focus - validation, automation, development, testing, etc.]
+
+## Core Features
+
+### Feature 1: [Feature Name]
+**Description:** [What it does]
+
+**Value:** [Why it's important]
+
+**Implementation:** [High-level technical approach]
+
+### Feature 2: [Feature Name]
+**Description:** [What it does]
+
+**Value:** [Why it's important]
+
+**Implementation:** [High-level technical approach]
+
+### Feature 3: [Feature Name]
+**Description:** [What it does]
+
+**Value:** [Why it's important]
+
+**Implementation:** [High-level technical approach]
+
+## diet103 Infrastructure
+
+### Skills Required
+
+#### Skill 1: [Skill Name]
+**Type:** [Simple | Complex]
+
+**Purpose:** [What capability this skill provides]
+
+**Auto-activation triggers:** [List natural language triggers]
+
+**File patterns:** [Glob patterns that trigger this skill]
+
+**Integration points:** [How it connects to hooks/commands/agents]
+
+#### Skill 2: [Skill Name]
+**Type:** [Simple | Complex]
+
+**Purpose:** [What capability this skill provides]
+
+**Auto-activation triggers:** [List natural language triggers]
+
+**File patterns:** [Glob patterns that trigger this skill]
+
+**Integration points:** [How it connects to hooks/commands/agents]
+
+### Agents Required
+
+#### Agent 1: [Agent Name]
+**Purpose:** [What autonomous task this agent handles]
+
+**Phases:** [List 3-5 workflow phases]
+
+**Tools needed:** [Read, Edit, Bash, Grep, etc.]
+
+**Invocation:** [How users trigger this agent]
+
+**Output:** [What report format the agent produces]
+
+#### Agent 2: [Agent Name]
+**Purpose:** [What autonomous task this agent handles]
+
+**Phases:** [List 3-5 workflow phases]
+
+**Tools needed:** [Read, Edit, Bash, Grep, etc.]
+
+**Invocation:** [How users trigger this agent]
+
+**Output:** [What report format the agent produces]
+
+### Slash Commands Required
+
+#### Command 1: /[command-name]
+**Purpose:** [What workflow this command orchestrates]
+
+**Steps:** [List 4-8 steps]
+
+**Integrations:** [Which skills/agents it calls]
+
+**Use case:** [When users would invoke this]
+
+#### Command 2: /[command-name]
+**Purpose:** [What workflow this command orchestrates]
+
+**Steps:** [List 4-8 steps]
+
+**Integrations:** [Which skills/agents it calls]
+
+**Use case:** [When users would invoke this]
+
+### Hooks Required
+
+#### UserPromptSubmit Hook
+**Type:** [Bash | TypeScript]
+
+**Validations:**
+- [Validation 1]
+- [Validation 2]
+- [Validation 3]
+
+**Exit behavior:** [Blocking | Non-blocking]
+
+#### PostToolUse Hook
+**Type:** [Bash | TypeScript]
+
+**Validations:**
+- [Validation 1 by file type]
+- [Validation 2 by file type]
+- [Validation 3 by file type]
+
+**Exit behavior:** [Blocking | Non-blocking]
+
+## Technical Architecture
+
+### Directory Structure
+```
+project/
+├── .claude/
+│   ├── metadata.json
+│   ├── skill-rules.json
+│   ├── settings.local.json
+│   ├── hooks/
+│   │   ├── UserPromptSubmit.sh
+│   │   └── PostToolUse.sh
+│   ├── skills/
+│   │   ├── [skill-1]/
+│   │   ├── [skill-2]/
+│   │   └── [skill-3]/
+│   ├── agents/
+│   │   ├── [agent-1]/
+│   │   └── [agent-2]/
+│   └── commands/
+│       ├── [command-1].md
+│       └── [command-2].md
+├── [project-specific directories]
+└── [project files]
+```
+
+### Dependencies
+**Required:**
+- [Tool 1 and why it's needed]
+- [Tool 2 and why it's needed]
+- [Tool 3 and why it's needed]
+
+**Optional:**
+- [Tool 1 and when it's used]
+- [Tool 2 and when it's used]
+
+### Configuration Files
+- [Config file 1 - purpose]
+- [Config file 2 - purpose]
+- [Config file 3 - purpose]
+
+## Development Roadmap
+
+### Phase 1: Foundation
+**Objective:** Set up basic diet103 infrastructure
+
+**Tasks:**
+1. Create `.claude/` directory structure
+2. Implement `metadata.json` with project identity
+3. Create basic `skill-rules.json`
+4. Set up `settings.local.json` with tool allowlist
+5. Create placeholder README
+
+**Deliverable:** Working diet103 project skeleton
+
+### Phase 2: Core Skills
+**Objective:** Implement primary skills
+
+**Tasks:**
+1. Implement [skill 1]
+2. Implement [skill 2]
+3. Implement [skill 3]
+4. Add auto-activation rules for each skill
+5. Test skill triggering
+
+**Deliverable:** All core skills working and auto-activating
+
+### Phase 3: Hooks
+**Objective:** Add validation automation
+
+**Tasks:**
+1. Implement UserPromptSubmit hook
+2. Implement PostToolUse hook
+3. Test hook execution
+4. Verify non-blocking behavior
+5. Add error handling
+
+**Deliverable:** Hooks running automatically with clear feedback
+
+### Phase 4: Commands
+**Objective:** Create user-facing workflows
+
+**Tasks:**
+1. Implement /[command-1]
+2. Implement /[command-2]
+3. Document each command
+4. Test command execution
+5. Add troubleshooting guides
+
+**Deliverable:** All commands working and documented
+
+### Phase 5: Agents (Optional)
+**Objective:** Add autonomous task handlers
+
+**Tasks:**
+1. Implement [agent-1]
+2. Implement [agent-2]
+3. Test agent workflows
+4. Verify quality gates
+5. Document agent outputs
+
+**Deliverable:** Agents executing complete workflows autonomously
+
+### Phase 6: Testing & Documentation
+**Objective:** Ensure quality and usability
+
+**Tasks:**
+1. Test all skills in isolation
+2. Test integrated workflows
+3. Complete .claude/README.md
+4. Add usage examples
+5. Document common issues
+
+**Deliverable:** Production-ready diet103 project
+
+## Logical Dependency Chain
+
+### Critical Path
+1. **Foundation first** - Can't build anything without `.claude/` structure
+2. **Skills before commands** - Commands delegate to skills
+3. **Hooks before agents** - Hooks validate agent outputs
+4. **Commands before agents** - Users need simple commands before complex agents
+
+### Parallel Work
+These can be built in parallel:
+- Individual skills (no dependencies between them)
+- Hooks and commands (once skills exist)
+- Documentation and implementation (once structure exists)
+
+## Success Metrics
+
+### Quantitative
+- **Validation time reduction:** [Current manual time] → [Target automated time]
+- **Error detection rate:** [Target %] of issues caught by hooks
+- **Command usage:** [Target number] of common workflows automated
+- **Test coverage:** [Target %] of skills have validation
+
+### Qualitative
+- Skills auto-activate reliably when triggered
+- Hooks provide clear, actionable feedback
+- Commands guide users through workflows
+- Agents complete tasks autonomously
+- Documentation is clear and complete
+
+## Risks and Mitigations
+
+### Risk 1: [Risk Name]
+**Impact:** [High | Medium | Low]
+
+**Probability:** [High | Medium | Low]
+
+**Mitigation:**
+- [Mitigation strategy 1]
+- [Mitigation strategy 2]
+
+### Risk 2: [Risk Name]
+**Impact:** [High | Medium | Low]
+
+**Probability:** [High | Medium | Low]
+
+**Mitigation:**
+- [Mitigation strategy 1]
+- [Mitigation strategy 2]
+
+### Risk 3: [Risk Name]
+**Impact:** [High | Medium | Low]
+
+**Probability:** [High | Medium | Low]
+
+**Mitigation:**
+- [Mitigation strategy 1]
+- [Mitigation strategy 2]
+
+## Testing Strategy
+
+### Unit Testing
+- Test each skill in isolation
+- Test each validation in hooks
+- Test each command step independently
+
+### Integration Testing
+- Test skill auto-activation
+- Test hook triggering
+- Test command → skill delegation
+- Test agent workflows end-to-end
+
+### User Acceptance Testing
+- Test natural language skill triggers
+- Test command usability
+- Test error message clarity
+- Test documentation completeness
+
+## Maintenance Plan
+
+### Regular Updates
+- Review skill triggers monthly
+- Update validation rules as needed
+- Add new patterns to skills
+- Expand agent capabilities
+
+### Monitoring
+- Track skill auto-activation rate
+- Monitor hook execution time
+- Collect user feedback
+- Log common issues
+
+## Appendix
+
+### diet103 Compliance Checklist
+- [ ] Follows PAI (Prompt as Interface) pattern
+- [ ] Skills are <500 lines each
+- [ ] Agents have UFC (User, Function, Context) structure
+- [ ] Hooks are non-blocking by default
+- [ ] Commands are well-documented
+- [ ] Metadata.json is complete
+- [ ] Skill-rules.json has proper triggers
+- [ ] Settings.local.json has tool allowlist
+
+### References
+- [diet103 Specification](https://github.com/diet103)
+- [PAI Documentation](https://github.com/diet103/pai)
+- [Template Repository](~/.claude/templates/component-templates/)

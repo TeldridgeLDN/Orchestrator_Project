@@ -1,0 +1,178 @@
+# Task ID: 51
+# Title: Create API Backend Project Template
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Develop a REST API template with backend-dev-guidelines skill in the ~/.claude/templates/api-backend/ directory
+# Details:
+1. Create the api-backend template directory structure:
+```
+~/.claude/templates/api-backend/
+├── .claude/
+│   ├── skills/
+│   │   └── backend-dev-guidelines.json
+│   ├── workflows/
+│   │   ├── create-endpoint.yaml
+│   │   └── optimize-performance.yaml
+│   ├── Claude.md
+│   ├── skill-rules.json
+│   └── metadata.json
+└── README.md
+```
+
+2. Implement backend-dev-guidelines skill with comprehensive REST API best practices covering:
+   - REST API design patterns
+   - Database design and optimization
+   - Authentication & authorization (JWT, OAuth, API keys)
+   - Error handling patterns
+   - Security best practices (OWASP Top 10)
+   - Performance optimization strategies
+   - Testing strategies (unit, integration, load)
+   - Deployment patterns
+
+3. Create template-specific Claude.md with API development context including:
+   - API-specific project context
+   - Architecture guidelines
+   - Response format standards
+   - Security and database best practices
+   - Testing strategy
+   - Deployment checklist
+   - Performance targets
+
+4. Configure skill-rules.json with comprehensive trigger phrases for auto-activation
+
+5. Define metadata.json with template variables like:
+```json
+{
+  "template_name": "api-backend",
+  "variables": [
+    {
+      "name": "API_NAME",
+      "description": "Name of your API",
+      "default": "my-rest-api"
+    },
+    {
+      "name": "API_VERSION",
+      "description": "Initial API version",
+      "default": "v1"
+    },
+    {
+      "name": "PROJECT_DESCRIPTION",
+      "description": "Brief description of the API project",
+      "default": "A RESTful API service"
+    },
+    {
+      "name": "DATABASE_TYPE",
+      "description": "Primary database technology",
+      "default": "SQL"
+    },
+    {
+      "name": "AUTH_TYPE",
+      "description": "Authentication mechanism",
+      "default": "JWT"
+    }
+  ]
+}
+```
+
+6. Create example workflows for common API development tasks
+
+7. Add a comprehensive README.md with:
+   - Quick start guide
+   - Usage examples for common scenarios
+   - Framework-specific examples (Node.js, Python, Go)
+   - Technology-agnostic patterns
+   - Best practices and standards
+   - Security and performance checklists
+
+8. Copy hook files from base template
+
+# Test Strategy:
+1. Verify template creation with `claude project create --template api-backend`
+2. Validate directory structure matches specification and follows diet103 standards
+3. Test skill activation with API-related queries
+4. Verify workflows execute correctly
+5. Test variable substitution in template files (API_NAME, API_VERSION, PROJECT_DESCRIPTION, DATABASE_TYPE, AUTH_TYPE)
+6. Ensure Claude.md provides appropriate context for API development
+7. Test creation of a new project with: `claude project create my-api --template api-backend`
+8. Verify all hook files are correctly copied from base template
+
+# Subtasks:
+## 1. Implement backend-dev-guidelines skill [done]
+### Dependencies: None
+### Description: Create comprehensive backend-dev-guidelines.json skill file with REST API best practices
+### Details:
+Implement the backend-dev-guidelines skill with comprehensive coverage of:
+- REST API design patterns and principles
+- Database design and optimization strategies
+- Authentication & authorization mechanisms (JWT, OAuth, API keys)
+- Error handling patterns and standards
+- Security best practices based on OWASP Top 10
+- Performance optimization strategies
+- Testing strategies (unit, integration, load)
+- Deployment patterns and best practices
+
+## 2. Create API-specific Claude.md [done]
+### Dependencies: None
+### Description: Develop template-specific Claude.md with comprehensive API development context
+### Details:
+Create a detailed Claude.md file that provides comprehensive context for API development including:
+- API-specific project context and guidelines
+- Architecture guidelines and best practices
+- Response format standards and conventions
+- Security and database best practices
+- Testing strategy recommendations
+- Deployment checklist
+- Performance targets and optimization guidelines
+
+## 3. Configure metadata.json with template variables [done]
+### Dependencies: None
+### Description: Define metadata.json with expanded template variables for API projects
+### Details:
+Create metadata.json with comprehensive template variables including:
+- API_NAME
+- API_VERSION
+- PROJECT_DESCRIPTION
+- DATABASE_TYPE
+- AUTH_TYPE
+
+Ensure each variable has appropriate descriptions and default values.
+
+## 4. Create comprehensive README.md [done]
+### Dependencies: None
+### Description: Develop detailed README.md with usage instructions and best practices
+### Details:
+Create a comprehensive README.md that includes:
+- Quick start guide for immediate usage
+- Usage examples for common API development scenarios
+- Framework-specific examples (Node.js, Python, Go)
+- Technology-agnostic patterns and principles
+- Best practices and standards for API development
+- Security and performance checklists
+
+## 5. Configure skill-rules.json [done]
+### Dependencies: None
+### Description: Set up skill-rules.json with comprehensive trigger phrases for auto-activation
+### Details:
+Create skill-rules.json with extensive trigger phrases that automatically activate the backend-dev-guidelines skill during API development tasks
+
+## 6. Copy hook files from base template [done]
+### Dependencies: None
+### Description: Ensure all necessary hook files are copied from the base template
+### Details:
+Copy all required hook files from the base template to maintain consistency with the diet103 standards
+
+## 7. Create example workflows [done]
+### Dependencies: None
+### Description: Develop example workflows for common API development tasks
+### Details:
+Create workflow YAML files for common API development tasks including:
+- create-endpoint.yaml
+- optimize-performance.yaml
+
+## 8. Verify complete template functionality [done]
+### Dependencies: 51.1, 51.2, 51.3, 51.4, 51.5, 51.6, 51.7
+### Description: Test end-to-end template creation and usage
+### Details:
+Perform comprehensive testing of the complete template to ensure it works as expected with the command: claude project create my-api --template api-backend
+

@@ -1,0 +1,81 @@
+# Task ID: 27
+# Title: Implement Project Creation Command
+# Status: done
+# Dependencies: 22, 25, 26
+# Priority: high
+# Description: Develop the create command to scaffold new Claude projects from templates
+# Details:
+Implement the project creation command that scaffolds new Claude projects from templates. This should handle template copying, variable substitution, and project registration.
+
+The implementation has been completed with the following features:
+
+- Project name validation (^[a-zA-Z0-9_-]+$)
+- Duplicate project detection
+- Template system (base, web-app, shopify)
+- Variable substitution (PROJECT_NAME, PROJECT_DESCRIPTION, CREATED_DATE)
+- Recursive directory copying
+- Tag support (comma-separated)
+- Atomic config registration
+- Structure validation
+- Custom path support
+- Comprehensive error handling
+
+The code structure includes:
+- validateProjectName() - Format validation
+- copyDirectory() - Recursive copying
+- replaceTemplateVariables() - Single file substitution
+- processTemplateDirectory() - Recursive processing
+- createProject() - Main implementation (225 lines)
+
+The implementation is located at /Users/tomeldridge/.claude/lib/commands/create.js and has been fully implemented.
+
+All tests have passed, confirming that:
+- All 3 templates (base, web-app, shopify) work correctly
+- Skills are copied for web-app and shopify templates
+- Invalid name errors include helpful examples
+- Duplicate detection provides helpful messages
+- Invalid template errors list available options
+- Non-empty directory protection prevents accidental overwrites
+
+# Test Strategy:
+Test project creation with various templates and options. Verify that the created project has the correct structure and that template variables are properly substituted. Test error cases such as invalid project names, existing projects, and non-existent templates. Verify that the project is correctly registered in the config file and set as the active project.
+
+All tests have been completed successfully, confirming:
+✅ All 3 templates work correctly
+✅ Skills copied for web-app and shopify
+✅ Invalid name error with examples
+✅ Duplicate detection with helpful message
+✅ Invalid template error lists available options
+✅ Non-empty directory protection
+
+# Subtasks:
+## 1. Implement project name validation [done]
+### Dependencies: None
+### Description: Create a validation function that ensures project names follow the required pattern (alphanumeric, hyphens, underscores).
+### Details:
+Implemented validateProjectName() function that validates project names against the regex pattern ^[a-zA-Z0-9_-]+$ to ensure they only contain alphanumeric characters, hyphens, and underscores.
+
+## 2. Implement template copying functionality [done]
+### Dependencies: None
+### Description: Create utility functions to copy template directories recursively to the new project location.
+### Details:
+Implemented copyDirectory() function that recursively copies all files and directories from the template to the new project location, preserving the directory structure.
+
+## 3. Implement template variable substitution [done]
+### Dependencies: None
+### Description: Create utility functions to replace template variables in files with actual project values.
+### Details:
+Implemented replaceTemplateVariables() for single file substitution and processTemplateDirectory() for recursive processing. Variables supported include PROJECT_NAME, PROJECT_DESCRIPTION, and CREATED_DATE.
+
+## 4. Implement project registration in config [done]
+### Dependencies: None
+### Description: Add functionality to register the new project in the global configuration file.
+### Details:
+Implemented project registration in the global config.json file with atomic write operations to prevent corruption. Projects are stored with metadata including description, tags, creation date, and last active date.
+
+## 5. Implement error handling and user feedback [done]
+### Dependencies: None
+### Description: Add comprehensive error handling and user feedback for the create command.
+### Details:
+Implemented error handling for all potential failure points including invalid project names, duplicate projects, non-existent templates, and non-empty directories. Added detailed user feedback with next steps after successful project creation.
+

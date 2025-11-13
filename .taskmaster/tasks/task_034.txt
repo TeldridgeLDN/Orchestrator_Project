@@ -1,0 +1,117 @@
+# Task ID: 34
+# Title: Implement Context Load Logic
+# Status: done
+# Dependencies: 33
+# Priority: high
+# Description: Build the mechanism to load a project's context into Claude's memory, including validating project path, loading metadata and configuration files, and initializing skill activation.
+# Details:
+Create a context loading system that properly loads a project's context into Claude's memory:
+
+1. Extend the `ContextManager` class with a `loadContext(projectName)` method:
+   ```javascript
+   class ContextManager {
+     // ... existing methods
+     
+     async loadContext(projectName) {
+       // Validate project path exists
+       const projectPath = path.join(CONFIG.projectsPath, projectName);
+       if (!await this.validateProjectPath(projectPath)) {
+         throw new Error(`Invalid project path: ${projectPath}`);
+       }
+       
+       // Unload current project if one is active
+       if (this.activeProject) {
+         await this.unloadContext(this.activeProject);
+       }
+       
+       // Load metadata, Claude.md, and skill-rules.json
+       const metadata = await this.loadMetadata(projectPath);
+       const claudeContext = await this.loadClaudeContext(projectPath);
+       const skillRules = await this.loadSkillRules(projectPath);
+       
+       // Initialize skill activation manager (lazy loading)
+       await this.initializeSkills(skillRules);
+       
+       // Set as active project
+       this.activeProject = projectName;
+       
+       // Log load event
+       console.log(`Loaded project context: ${projectName}`);
+       
+       return true;
+     }
+     
+     async validateProjectPath(projectPath) {
+       try {
+         const stats = await fs.stat(projectPath);
+         return stats.isDirectory();
+       } catch (error) {
+         return false;
+       }
+     }
+     
+     async loadMetadata(projectPath) {
+       const metadataPath = path.join(projectPath, 'metadata.json');
+       try {
+         const data = await fs.readFile(metadataPath, 'utf8');
+         return JSON.parse(data);
+       } catch (error) {
+         throw new Error(`Failed to load metadata: ${error.message}`);
+       }
+     }
+     
+     async loadClaudeContext(projectPath) {
+       const claudePath = path.join(projectPath, 'Claude.md');
+       try {
+         return await fs.readFile(claudePath, 'utf8');
+       } catch (error) {
+         throw new Error(`Failed to load Claude.md: ${error.message}`);
+       }
+     }
+     
+     async loadSkillRules(projectPath) {
+       const rulesPath = path.join(projectPath, 'skill-rules.json');
+       try {
+         const data = await fs.readFile(rulesPath, 'utf8');
+         return JSON.parse(data);
+       } catch (error) {
+         throw new Error(`Failed to load skill-rules.json: ${error.message}`);
+       }
+     }
+     
+     async initializeSkills(skillRules) {
+       // Initialize skill activation manager with lazy loading
+       for (const skill of skillRules.skills) {
+         await this.activateSkill(skill.name, skill.config);
+       }
+     }
+   }
+   ```
+
+2. Implement skill activation logic to properly register skills with diet103
+
+3. Add validation for required project files
+
+4. Implement logging for load events
+
+5. Handle edge cases (missing files, invalid JSON, etc.)
+
+# Test Strategy:
+1. Unit tests:
+   - Test project path validation
+   - Test metadata loading
+   - Test Claude.md loading
+   - Test skill-rules.json loading
+   - Test skill initialization
+
+2. Integration tests:
+   - Create a test project with multiple skills
+   - Load the project context
+   - Verify all skills are properly activated
+   - Verify Claude's context is updated
+
+3. Error handling tests:
+   - Test with missing metadata.json
+   - Test with missing Claude.md
+   - Test with missing skill-rules.json
+   - Test with invalid JSON files

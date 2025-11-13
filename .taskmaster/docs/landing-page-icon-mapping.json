@@ -1,0 +1,303 @@
+{
+  "landingPageIconMapping": {
+    "projectName": "Portfolio Redesign - Prospecting Landing Page",
+    "dateCreated": "2025-11-13",
+    "iconLibrary": "Lucide React (shadcn/ui)",
+    "status": "approved",
+    "approvedBy": "Product Owner",
+    "sections": [
+      {
+        "sectionId": "hero",
+        "sectionName": "Hero Section",
+        "position": "above-the-fold",
+        "icons": [
+          {
+            "iconName": "ClipboardCheck",
+            "purpose": "Primary hero icon - represents checklist/document",
+            "size": "large",
+            "sizeClass": "h-12 w-12 md:h-16 md:w-16",
+            "colorClass": "text-brand-primary",
+            "placement": "above-headline",
+            "priority": "critical"
+          },
+          {
+            "iconName": "ArrowRight",
+            "purpose": "CTA button icon - forward movement",
+            "size": "small",
+            "sizeClass": "h-4 w-4",
+            "colorClass": "text-current",
+            "placement": "inside-button-after-text",
+            "priority": "high"
+          }
+        ]
+      },
+      {
+        "sectionId": "discovery",
+        "sectionName": "Discovery/Process Section",
+        "position": "first-content-section",
+        "icons": [
+          {
+            "iconName": "Compass",
+            "purpose": "Exploration, navigation, finding direction",
+            "size": "medium-large",
+            "sizeClass": "h-8 w-8 md:h-10 md:w-10",
+            "colorClass": "text-brand-primary",
+            "placement": "above-section-title",
+            "priority": "high",
+            "alternatives": ["Search", "Lightbulb", "Target", "Telescope"]
+          }
+        ]
+      },
+      {
+        "sectionId": "trust-indicators",
+        "sectionName": "Trust Indicators Section",
+        "position": "above-fold-or-just-below",
+        "icons": [
+          {
+            "iconName": "UserCheck",
+            "purpose": "Social proof - Used by 100+ founders",
+            "size": "small-medium",
+            "sizeClass": "h-5 w-5 md:h-6 md:w-6",
+            "colorClass": "text-success",
+            "placement": "inline-with-text",
+            "priority": "high",
+            "badgeText": "Used by 100+ founders"
+          },
+          {
+            "iconName": "ShieldCheck",
+            "purpose": "Security/Trust - No credit card required",
+            "size": "small-medium",
+            "sizeClass": "h-5 w-5 md:h-6 md:w-6",
+            "colorClass": "text-success",
+            "placement": "inline-with-text",
+            "priority": "high",
+            "badgeText": "No credit card required"
+          },
+          {
+            "iconName": "Zap",
+            "purpose": "Speed - Instant download",
+            "size": "small-medium",
+            "sizeClass": "h-5 w-5 md:h-6 md:w-6",
+            "colorClass": "text-success",
+            "placement": "inline-with-text",
+            "priority": "high",
+            "badgeText": "Instant download"
+          }
+        ]
+      },
+      {
+        "sectionId": "benefits-features",
+        "sectionName": "Benefits/Features Section",
+        "position": "mid-page",
+        "icons": [
+          {
+            "iconName": "ListChecks",
+            "purpose": "5 must-have elements - Checklist representation",
+            "size": "medium",
+            "sizeClass": "h-6 w-6 md:h-8 md:w-8",
+            "colorClass": "text-brand-primary",
+            "placement": "feature-card",
+            "priority": "medium"
+          },
+          {
+            "iconName": "AlertTriangle",
+            "purpose": "10 common mistakes - Warning/caution",
+            "size": "medium",
+            "sizeClass": "h-6 w-6 md:h-8 md:w-8",
+            "colorClass": "text-warning",
+            "placement": "feature-card",
+            "priority": "medium"
+          },
+          {
+            "iconName": "Rocket",
+            "purpose": "Actionable steps - Implementation/launch",
+            "size": "medium",
+            "sizeClass": "h-6 w-6 md:h-8 md:w-8",
+            "colorClass": "text-brand-accent",
+            "placement": "feature-card",
+            "priority": "medium"
+          }
+        ]
+      },
+      {
+        "sectionId": "social-proof",
+        "sectionName": "Social Proof/Testimonials Section",
+        "position": "lower-mid-page",
+        "icons": [
+          {
+            "iconName": "Quote",
+            "purpose": "Testimonial quote marks",
+            "size": "small",
+            "sizeClass": "h-4 w-4 md:h-5 md:w-5",
+            "colorClass": "text-neutral opacity-50",
+            "placement": "testimonial-decoration",
+            "priority": "medium",
+            "note": "Deferred until testimonials exist"
+          },
+          {
+            "iconName": "Star",
+            "purpose": "Rating visualization",
+            "size": "small",
+            "sizeClass": "h-4 w-4",
+            "colorClass": "text-warning fill-current",
+            "placement": "rating-display",
+            "priority": "medium",
+            "note": "Deferred until testimonials exist"
+          },
+          {
+            "iconName": "TrendingUp",
+            "purpose": "Growth metrics representation",
+            "size": "small-medium",
+            "sizeClass": "h-5 w-5 md:h-6 md:w-6",
+            "colorClass": "text-success",
+            "placement": "metrics-display",
+            "priority": "medium",
+            "note": "Deferred until testimonials exist"
+          }
+        ]
+      },
+      {
+        "sectionId": "credibility",
+        "sectionName": "About/Credibility Section",
+        "position": "lower-page",
+        "icons": [
+          {
+            "iconName": "Eye",
+            "purpose": "Expertise - I've reviewed 500+ landing pages",
+            "size": "large",
+            "sizeClass": "h-10 w-10 md:h-12 md:w-12",
+            "colorClass": "text-brand-accent",
+            "placement": "section-header",
+            "priority": "medium",
+            "alternatives": ["Award"]
+          }
+        ]
+      },
+      {
+        "sectionId": "final-cta",
+        "sectionName": "Final CTA Section",
+        "position": "bottom-page",
+        "icons": [
+          {
+            "iconName": "ArrowRight",
+            "purpose": "Action direction - Download button",
+            "size": "small",
+            "sizeClass": "h-4 w-4",
+            "colorClass": "text-current",
+            "placement": "inside-button",
+            "priority": "high"
+          },
+          {
+            "iconName": "Mail",
+            "purpose": "Email input indicator",
+            "size": "small",
+            "sizeClass": "h-4 w-4 md:h-5 md:w-5",
+            "colorClass": "text-neutral",
+            "placement": "input-prefix",
+            "priority": "medium"
+          }
+        ]
+      }
+    ],
+    "utilityIcons": {
+      "navigation": [
+        {
+          "iconName": "Menu",
+          "purpose": "Mobile menu toggle",
+          "sizeClass": "h-6 w-6"
+        },
+        {
+          "iconName": "X",
+          "purpose": "Close/dismiss actions",
+          "sizeClass": "h-5 w-5"
+        },
+        {
+          "iconName": "ChevronDown",
+          "purpose": "Scroll indicator",
+          "sizeClass": "h-6 w-6"
+        },
+        {
+          "iconName": "ChevronRight",
+          "purpose": "Forward navigation",
+          "sizeClass": "h-4 w-4"
+        }
+      ],
+      "interactive": [
+        {
+          "iconName": "Loader2",
+          "purpose": "Loading states",
+          "sizeClass": "h-5 w-5",
+          "animation": "animate-spin"
+        },
+        {
+          "iconName": "CheckCircle2",
+          "purpose": "Success states",
+          "sizeClass": "h-5 w-5",
+          "colorClass": "text-success"
+        },
+        {
+          "iconName": "AlertCircle",
+          "purpose": "Error states",
+          "sizeClass": "h-5 w-5",
+          "colorClass": "text-error"
+        }
+      ],
+      "actions": [
+        {
+          "iconName": "Download",
+          "purpose": "Download actions",
+          "sizeClass": "h-4 w-4"
+        },
+        {
+          "iconName": "Send",
+          "purpose": "Submit/send actions",
+          "sizeClass": "h-4 w-4"
+        },
+        {
+          "iconName": "ExternalLink",
+          "purpose": "External links",
+          "sizeClass": "h-3 w-3 md:h-4 md:w-4"
+        },
+        {
+          "iconName": "FileText",
+          "purpose": "Document references",
+          "sizeClass": "h-4 w-4"
+        }
+      ]
+    },
+    "designSystem": {
+      "colors": {
+        "brand": {
+          "primary": "#667eea",
+          "accent": "#764ba2"
+        },
+        "semantic": {
+          "success": "#10b981",
+          "warning": "#f59e0b",
+          "error": "#ef4444",
+          "neutral": "#6b7280"
+        }
+      },
+      "sizes": {
+        "xs": "h-3 w-3 (12px)",
+        "sm": "h-4 w-4 (16px)",
+        "md": "h-6 w-6 (24px)",
+        "lg": "h-8 w-8 (32px)",
+        "xl": "h-10 w-10 (40px)",
+        "2xl": "h-12 w-12 (48px)"
+      },
+      "accessibility": {
+        "ariaLabels": "required-for-semantic-icons",
+        "roles": "role=img for semantic, aria-hidden for decorative",
+        "colorContrast": "WCAG-AA-compliant",
+        "keyboardNav": "all-interactive-icons-keyboard-accessible"
+      }
+    },
+    "implementation": {
+      "componentUsage": "Use Icon component from @/components/Icon",
+      "importPath": "import { Icon } from '@/components/Icon'",
+      "iconImportPath": "import { CompassIcon, CheckIcon } from '@/lib/icons'",
+      "exampleUsage": "<Icon icon={CompassIcon} size='lg' color='accent' label='Navigate' />"
+    }
+  }
+}

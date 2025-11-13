@@ -1,0 +1,11 @@
+# Task ID: 66
+# Title: Establish Scenario Directory Structure and File Conventions
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Set up the required directory and file structure for scenario management, ensuring alignment with the three-layer architecture.
+# Details:
+Create the following directories: ~/.claude/scenarios/ for scenario YAMLs, ~/.claude/skills/scenario_builder/ for meta-skill workflows and resources, ~/.claude/agents/feasibility_checker/ for sub-agent configs, and <project>/.claude/ for project-specific overrides. Use Python 3.11+ (for best async support) and pathlib for cross-platform compatibility. Enforce file naming and schema conventions as per PRD.
+
+# Test Strategy:
+Unit test directory creation and file permissions. Validate that all required folders and example files are present after setup. Use pytest and mock filesystem for tests.

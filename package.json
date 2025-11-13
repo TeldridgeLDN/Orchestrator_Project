@@ -12,17 +12,26 @@
     "init:silent": "node lib/init/startup_hooks.js --silent",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "validate:ufc": "node bin/validate-ufc.js"
   },
   "dependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "chalk": "^5.3.0",
+    "chokidar": "^4.0.3",
     "commander": "^11.0.0",
+    "firebase": "^10.14.1",
+    "inquirer": "^12.11.0",
     "js-yaml": "^4.1.0",
-    "prompts": "^2.4.2"
+    "minimatch": "^10.1.1",
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2",
+    "uuid": "^9.0.0",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^1.6.1",
     "vitest": "^1.0.0"
   },
   "engines": {

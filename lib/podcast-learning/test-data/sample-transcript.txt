@@ -1,0 +1,76 @@
+# Episode 1: Design Systems and Burnout with Sara Wachter-Boettcher
+
+## Introduction
+
+**Amy Hupe:** Welcome to Systems of Harm. I'm Amy Hupe, and this is a podcast about design systems, systemic exclusion, and how we can work to design more inclusive experiences.
+
+Today, I'm thrilled to be speaking with Sara Wachter-Boettcher, coach, speaker, and author of the books "Technically Wrong" and "Design for Real Life."
+
+Sara, thank you so much for joining me today.
+
+**Sara Wachter-Boettcher:** Thanks for having me, Amy. It's great to be here.
+
+## The Burnout Crisis in Design Systems
+
+**Amy:** Sara, you've written extensively about burnout and sustainable practices in tech. Can you talk about why design systems teams are particularly vulnerable to burnout?
+
+**Sara:** Absolutely. Design systems work is incredibly demanding in ways that aren't always visible. You're constantly context-switching between different teams and projects. You're doing infrastructure work that's essential but often invisible. And you're dealing with the emotional labor of convincing people why consistency and accessibility matter.
+
+What makes it particularly challenging is that design systems teams often sit in this weird organizational space where they're serving everyone but reporting to no one specific. That means you're constantly negotiating priorities, fighting for resources, and advocating for work that people don't always understand or value.
+
+**Amy:** That resonates so deeply with my experience. It's like being a translator between multiple worlds - engineering, design, product, marketing - and each one has different expectations and timelines.
+
+**Sara:** Exactly. And what I've observed is that the people who gravitate toward design systems work are often the people who care deeply about doing things right. They care about accessibility. They care about consistency. They care about craft. And that caring becomes a vulnerability when you're in an organizational structure that doesn't necessarily prioritize those things.
+
+## Living Your Values
+
+**Amy:** You talk a lot about living your values in your coaching work. Can you explain what that means in practice for someone working on a design system?
+
+**Sara:** Living your values means being explicit about what matters to you and then making decisions that align with those values, even when it's hard. For design systems people, this might mean saying no to feature requests that would compromise accessibility. It might mean pushing back on unrealistic timelines. It might mean advocating for user research when everyone else wants to move fast and break things.
+
+The problem is that living your values often puts you in conflict with organizational pressures. Companies say they value accessibility and inclusion, but when it comes down to it, they want to ship fast and hit quarterly targets. So you end up carrying the weight of that contradiction.
+
+**Amy:** And that's exhausting.
+
+**Sara:** It's incredibly exhausting. What I work with my clients on is recognizing that you can't fix broken systems by yourself. You can advocate, you can push, you can do excellent work, but ultimately, if the organization isn't set up to support the values you care about, you'll burn yourself out trying.
+
+## Knowing When to Quit
+
+**Amy:** That leads me to something I find really powerful in your work - you talk about knowing when to quit as a strength, not a weakness. Can you expand on that?
+
+**Sara:** Yes! We have this idea in tech that perseverance is always the answer. "Just work harder, just be more strategic, just find the right way to communicate." But sometimes the answer isn't to try harder. Sometimes the answer is to recognize that the environment isn't going to change, and you need to protect yourself by leaving.
+
+I think about it like this: if you're constantly advocating for accessibility and you're being told "maybe next quarter," if you're trying to build in time for proper testing and you're being told to cut corners, if you're raising concerns about technical debt and being ignored - at some point, you have to ask yourself whether this is where you want to invest your energy.
+
+**Amy:** That's such an important reframe. Instead of "I failed because I quit," it's "I succeeded in recognizing what wasn't working and making a healthy decision."
+
+**Sara:** Exactly. And I want to be clear - I'm not saying quit at the first sign of trouble. I'm saying recognize when you've tried, when you've advocated, when you've done the work, and it's still not changing. At that point, protecting your own sustainability becomes more important than any single job.
+
+## Sustainable Practices
+
+**Amy:** What are some practices you recommend for people working in design systems to prevent burnout before it gets to that point?
+
+**Sara:** First, boundaries. Get really clear about when you work and when you don't. Design systems work can feel endless because there's always more to do, always more teams to support, always more components to build. You have to draw lines.
+
+Second, make the invisible work visible. Document what you're doing, track your impact, show the value. Not just for others, but for yourself. It's easy to feel like you're not accomplishing anything when you're doing infrastructure work, but when you look back at what you've actually built, it's substantial.
+
+Third, find your people. Whether that's other design systems practitioners, whether it's people in your organization who get it, whether it's communities online - find spaces where you don't have to justify the work, where people understand what you're dealing with.
+
+**Amy:** Those communities have been lifesaving for me.
+
+**Sara:** They're essential. Because otherwise you start to think maybe you're the problem. Maybe you're too slow, maybe you care too much, maybe you're not strategic enough. Having people who can say "no, the situation is actually unreasonable" is incredibly validating.
+
+## Conclusion
+
+**Amy:** Sara, this has been such a valuable conversation. Before we wrap up, where can people find you and learn more about your work?
+
+**Sara:** You can find me at activevoicehq.com - that's my coaching practice focused on ethical leadership in tech. I'm also on LinkedIn, and I've written two books: "Design for Real Life" with Eric Meyer, which is about designing for stress cases and difficult moments, and "Technically Wrong," which looks at how bias gets built into technology.
+
+**Amy:** Thank you so much for sharing your insights today, Sara.
+
+**Sara:** Thank you, Amy. This was wonderful.
+
+---
+
+**End of Transcript**
+

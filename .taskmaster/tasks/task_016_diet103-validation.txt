@@ -1,0 +1,43 @@
+# Task ID: 16
+# Title: Implement YAML Frontmatter Parsing and Sync
+# Status: done
+# Dependencies: 15
+# Priority: medium
+# Description: Develop frontmatter.js to parse, write, and synchronize YAML frontmatter in markdown files with manifest data.
+# Details:
+Use js-yaml for parsing/writing. Ensure frontmatter tags (file_class, created, expires, tags, classification, protected) are updated in sync with manifest. Implement bidirectional sync mechanism. Handle edge cases (missing frontmatter, malformed YAML).
+
+# Test Strategy:
+Unit tests for parsing and writing. Sync tests between manifest and markdown files. Coverage for error cases.
+
+# Subtasks:
+## 1. Implement YAML Frontmatter Parsing and Writing [done]
+### Dependencies: None
+### Description: Develop functions to parse and write YAML frontmatter in markdown files using js-yaml or gray-matter.
+### Details:
+Use libraries like js-yaml or gray-matter to extract and serialize YAML frontmatter. Ensure support for all required tags (file_class, created, expires, tags, classification, protected). Provide utility functions for reading and updating frontmatter sections in markdown files.
+
+## 2. Develop Sync Logic Between Manifest and Frontmatter [done]
+### Dependencies: 16.1
+### Description: Create logic to synchronize manifest data with YAML frontmatter tags in markdown files.
+### Details:
+Implement functions to compare manifest data and frontmatter, identify differences, and update frontmatter tags to match manifest values. Ensure all specified tags are kept in sync and changes in manifest are reflected in markdown files.
+
+## 3. Implement Bidirectional Update Mechanism [done]
+### Dependencies: 16.2
+### Description: Ensure changes in either manifest or frontmatter are reflected in the other, maintaining consistency.
+### Details:
+Design and implement a mechanism to detect changes in both manifest and frontmatter, triggering updates as needed. Handle conflict resolution and ensure no data loss during synchronization.
+
+## 4. Handle Edge Cases: Missing or Malformed YAML Frontmatter [done]
+### Dependencies: 16.1
+### Description: Detect and robustly handle cases where frontmatter is missing or contains malformed YAML.
+### Details:
+Implement checks for missing frontmatter and fallback behaviors. Use safe parsing methods to handle malformed YAML, providing clear error messages and recovery strategies. Ensure the system can recover or notify users appropriately.
+
+## 5. Implement Error Handling and Comprehensive Test Coverage [done]
+### Dependencies: 16.1, 16.2, 16.3, 16.4
+### Description: Add robust error handling throughout the module and ensure thorough test coverage for all functionalities.
+### Details:
+Integrate error handling for file I/O, YAML parsing, and sync operations. Develop a comprehensive test suite covering normal operation, edge cases, and error scenarios. Use mocks and stubs as needed to simulate failures.
+

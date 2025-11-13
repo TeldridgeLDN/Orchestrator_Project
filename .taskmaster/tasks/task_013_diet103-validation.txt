@@ -1,0 +1,43 @@
+# Task ID: 13
+# Title: Implement Pattern-Based File Classification Engine
+# Status: done
+# Dependencies: 12
+# Priority: high
+# Description: Develop classifier.js to classify files using filename, path, and extension patterns according to PRD rules.
+# Details:
+Use fast-glob v3.2+ for pattern matching. Implement classification rules for CRITICAL, PERMANENT, EPHEMERAL, and ARCHIVED tiers. Ensure confidence scoring (0-100%) and fallback to content-based analysis if pattern match is ambiguous. Use TypeScript for type safety.
+
+# Test Strategy:
+Unit tests for all pattern rules. Test classification accuracy on a sample set of files. Measure performance (<50ms per file).
+
+# Subtasks:
+## 1. Define and Map Pattern Classification Rules [done]
+### Dependencies: None
+### Description: Create a structured definition of pattern rules for CRITICAL, PERMANENT, EPHEMERAL, and ARCHIVED tiers based on filename, path, and extension. Map these rules to a configuration object for use in the classifier.
+### Details:
+Implement a configuration file or object that stores regex or glob patterns for each classification tier. Ensure rules are extensible and documented for future updates.
+
+## 2. Integrate fast-glob for Pattern Matching [done]
+### Dependencies: 13.1
+### Description: Integrate fast-glob v3.2+ into the classifier to match files against defined patterns for each classification tier.
+### Details:
+Use fast-glob to scan files and match them against the pattern rules. Ensure the integration supports both synchronous and asynchronous operations as needed.
+
+## 3. Implement Confidence Scoring Logic [done]
+### Dependencies: 13.2
+### Description: Develop logic to assign a confidence score (0-100%) to each classification based on pattern match strength and specificity.
+### Details:
+Calculate confidence scores by evaluating how closely a file matches the defined patterns. Use a scoring algorithm that considers pattern specificity and match quality.
+
+## 4. Implement Fallback Trigger Mechanism [done]
+### Dependencies: 13.3
+### Description: Create a mechanism to trigger content-based analysis if pattern matching results in ambiguous or low-confidence classifications.
+### Details:
+Implement logic to detect ambiguous matches and invoke a content-based analysis module. Ensure seamless transition between pattern-based and content-based classification.
+
+## 5. Ensure TypeScript Type Safety and Validation [done]
+### Dependencies: 13.4
+### Description: Apply TypeScript types and validation to all components of the classifier to ensure type safety and robust error handling.
+### Details:
+Define TypeScript interfaces for configuration, classification results, and confidence scores. Use type guards and validation to prevent runtime errors.
+

@@ -1,0 +1,314 @@
+# File Lifecycle Management System PRD - Task Generation
+
+## Project Overview
+
+Create a File Lifecycle Management System implemented as a PAI skill (`file_lifecycle_manager`) that automatically organizes, classifies, and maintains project documentation based on importance and lifecycle stage.
+
+## Core Objectives
+
+1. Automatic file classification on creation (CRITICAL, PERMANENT, EPHEMERAL, ARCHIVED)
+2. Organized directory hierarchy following PAI's UFC pattern
+3. Lifecycle management with automatic archival of expired files
+4. Protection for critical files (CLAUDE.md, config.json, PRDs)
+5. Seamless integration with Orchestrator and diet103 validation
+
+## System Architecture
+
+### Classification System
+- Pattern-based classification (filename, path, extension matching)
+- Content-based fallback classification (keywords, frontmatter analysis)
+- Confidence scoring (0-100%) with user confirmation for ambiguous cases
+- Four classification tiers with specific organization rules
+
+### Directory Structure
+```
+docs/
+├── core/        [CRITICAL]   - Core architectural documents
+├── impl/        [PERMANENT]  - Implementation guides
+├── sessions/    [EPHEMERAL]  - Session reports (auto-archive 30 days)
+└── archive/     [ARCHIVED]   - Historical documents
+```
+
+### Metadata System
+- Centralized `.file-manifest.json` index
+- YAML frontmatter tags in markdown files
+- Sync mechanism between frontmatter and manifest
+- Expiration tracking for ephemeral files
+
+### Integration Points
+- PostToolUse hook for automatic classification
+- diet103 validation system for organization scoring
+- Orchestrator config.json for global settings
+- Project-level metadata.json for overrides
+
+## Implementation Components
+
+### Core Skill Structure
+```
+~/.claude/skills/file_lifecycle_manager/
+├── SKILL.md                  # Main documentation (<500 lines)
+├── metadata.json             # Skill manifest
+├── workflows/               # Organization workflows
+├── resources/               # Classification rules and docs
+├── hooks/                   # PostToolUse handler
+├── lib/                     # Core implementation
+└── tests/                   # Test suite
+```
+
+### Core Libraries
+1. **classifier.js** - Classification engine with pattern and content analysis
+2. **organizer.js** - File movement and reference updating
+3. **manifest.js** - Manifest CRUD operations
+4. **frontmatter.js** - YAML frontmatter parsing and writing
+
+### Workflows
+1. **Classify** - Determine file tier and metadata
+2. **Organize** - Move files to proper directories
+3. **Archive** - Move expired ephemeral files to archive
+4. **Cleanup** - Remove old archived files
+
+### CLI Commands
+```bash
+claude lifecycle classify [options]
+claude lifecycle organize [options]
+claude lifecycle archive [options]
+claude lifecycle cleanup [options]
+claude lifecycle status
+claude lifecycle stats
+```
+
+## Classification Rules
+
+### CRITICAL (Never Auto-Move)
+- CLAUDE.md
+- config.json
+- *_PRD.md (any file ending in PRD.md)
+- skill-rules.json
+- metadata.json
+- .file-manifest.json
+
+### PERMANENT (Organize but Keep)
+- lib/**/* (all infrastructure code)
+- skills/**/* (all skill definitions)
+- templates/**/* (all templates)
+- *IMPLEMENTATION.md
+- *_guidelines.md
+- *_reference.md
+- README.md
+
+### EPHEMERAL (Auto-Archive 30 Days)
+- *COMPLETE*SUMMARY.md
+- PHASE_*.md
+- session*.md
+- temp_*
+- scratch_*
+- Files with date stamps (YYYY-MM-DD)
+
+### ARCHIVED
+- Expired ephemeral files (>30 days)
+- Deprecated permanent documents
+
+## Technical Specifications
+
+### .file-manifest.json Schema
+```json
+{
+  "version": "1.0",
+  "project": "project-name",
+  "last_updated": "ISO-8601",
+  "statistics": { "total_files": 0, "by_tier": {} },
+  "files": {
+    "path/to/file.md": {
+      "tier": "EPHEMERAL",
+      "classification": { "method": "pattern", "confidence": 0.95 },
+      "created": "ISO-8601",
+      "expires": "ISO-8601",
+      "expected_path": "docs/sessions/2025-11/file.md",
+      "current_path": "path/to/file.md",
+      "status": "misplaced"
+    }
+  }
+}
+```
+
+### PostToolUse Hook Integration
+```javascript
+export async function onFileChanged(toolUse, context) {
+  // 1. Classify file
+  // 2. Update manifest
+  // 3. Add frontmatter (markdown)
+  // 4. Suggest organization (if misplaced)
+}
+```
+
+### Frontmatter Schema
+```yaml
+---
+file_class: ephemeral
+created: 2025-11-10T14:22:00Z
+expires: 2025-12-10T14:22:00Z
+tags: [session-report, phase-1]
+classification:
+  method: pattern
+  confidence: 0.95
+protected: false
+---
+```
+
+## Integration Requirements
+
+### Orchestrator Integration
+- Follows PAI Skills-as-Containers pattern
+- Uses UFC (Unified Filesystem Context) hierarchy
+- Works at both global (~/.claude/) and project (<project>/.claude/) layers
+- Integrates with Orchestrator config.json
+
+### diet103 Validation Integration
+- Extends validation with organization scoring
+- Detects misplaced files during validation
+- Provides auto-repair recommendations
+- Reports organization percentage (0-100%)
+
+## Performance Targets
+
+- Classify single file: <50ms
+- Organize single file: <200ms
+- Load manifest: <20ms
+- Update manifest: <50ms
+- Full organization (100 files): <10s
+- Hook overhead: <100ms
+
+## Success Metrics
+
+### Functional
+- Auto-classification accuracy: >90%
+- Organization correctness: 100%
+- Reference update accuracy: >99%
+- Hook trigger reliability: >99.5%
+
+### User Experience
+- Zero-friction classification: >95% auto-classified
+- Protection effectiveness: 100% (no accidental CRITICAL moves)
+- Archive notifications: 100% (7-day warning before archival)
+
+## Configuration
+
+### Global Settings (config.json)
+```json
+{
+  "fileLifecycle": {
+    "enabled": true,
+    "auto_organize": false,
+    "auto_classify": true,
+    "auto_archive": true,
+    "ephemeral_expiration_days": 30,
+    "archive_retention_days": 365,
+    "confidence_threshold": 0.80,
+    "warning_period_days": 7
+  }
+}
+```
+
+### Project Overrides (metadata.json)
+```json
+{
+  "fileLifecycle": {
+    "ephemeral_expiration_days": 60,
+    "auto_organize": true,
+    "custom_rules": []
+  }
+}
+```
+
+## Testing Requirements
+
+### Unit Tests
+- Classification engine: 100% coverage
+- Organizer logic: 95%+ coverage
+- Manifest operations: 100% coverage
+- Frontmatter parsing: 100% coverage
+
+### Integration Tests
+- Full lifecycle test (create → classify → organize → archive → cleanup)
+- Multi-file organization test (10+ files)
+- Hook integration test (PostToolUse triggering)
+- diet103 validation integration test
+
+### Performance Tests
+- Classification performance (<50ms per file)
+- Organization performance (<200ms per file)
+- Batch processing performance (<10s for 100 files)
+
+## Implementation Phases
+
+### Phase 1: Core Infrastructure
+- Classification engine (pattern-based)
+- Manifest operations (CRUD)
+- Classification rules JSON
+- Unit tests
+
+### Phase 2: Organization Workflows
+- Organizer logic (file movement)
+- Directory structure builder
+- Reference updating system
+- Content-based classification fallback
+
+### Phase 3: Hook Integration
+- PostToolUse hook enhancement
+- Automatic classification on file write
+- Frontmatter operations
+- Hook testing
+
+### Phase 4: Lifecycle Management
+- Archive workflow
+- Cleanup workflow
+- Expiration tracking
+- Warning notifications
+
+### Phase 5: CLI & Integration
+- CLI commands implementation
+- diet103 validation integration
+- Organization scoring
+- Status and statistics commands
+
+### Phase 6: Polish & Documentation
+- SKILL.md documentation
+- Examples and troubleshooting
+- Performance optimization
+- Final testing
+
+## Risk Mitigation
+
+### Technical Risks
+- Incorrect classification → Conservative defaults, user confirmation
+- Broken references → Comprehensive scanning, dry-run mode
+- Manifest corruption → Atomic writes, backups
+- Hook performance → Async processing, confidence thresholds
+
+### User Experience Risks
+- Unexpected file moves → Dry-run for ambiguous cases
+- Lost files → Never auto-delete, only archive
+- Confusion about tiers → Clear documentation, examples
+
+## Dependencies
+
+- Orchestrator PRD (Section 3.6: Agentic Feature Selection)
+- diet103 Validation System
+- PostToolUse hook infrastructure
+- PAI Skills-as-Containers pattern
+- Node.js file system APIs
+- YAML parser for frontmatter
+
+## Deliverables
+
+1. file_lifecycle_manager skill (complete implementation)
+2. .file-manifest.json schema and operations
+3. Four workflows (classify, organize, archive, cleanup)
+4. CLI commands (6 commands total)
+5. PostToolUse hook integration
+6. diet103 validation enhancement
+7. Comprehensive test suite (>95% coverage)
+8. Documentation (SKILL.md + resources/)
+9. Classification rules configuration
+10. Example configurations and usage guides
+

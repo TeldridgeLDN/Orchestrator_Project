@@ -1,0 +1,49 @@
+{
+  "name": "{{PROJECT_NAME_SLUG}}",
+  "version": "0.1.0",
+  "description": "{{PROJECT_DESCRIPTION}}",
+  "main": "src/background/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.{js,json,css,html}\"",
+    "format:check": "prettier --check \"src/**/*.{js,json,css,html}\"",
+    "validate": "npm run lint && npm run format:check && npm run test",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {}\""
+  },
+  "keywords": [
+    "chrome-extension",
+    "browser-extension",
+    "manifest-v3"
+  ],
+  "author": "{{AUTHOR_NAME}} <{{AUTHOR_EMAIL}}>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}.git"
+  },
+  "bugs": {
+    "url": "https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}/issues"
+  },
+  "homepage": "https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}#readme",
+  "devDependencies": {
+    "@vitest/ui": "^1.0.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "husky": "^8.0.3",
+    "prettier": "^3.1.1",
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
+

@@ -1,0 +1,11 @@
+# Task ID: 25
+# Title: Develop scenario_builder Meta-Skill Skeleton and Core Workflows
+# Status: pending
+# Dependencies: 24
+# Priority: high
+# Description: Implement the foundational scenario_builder meta-skill, including core workflows for scenario creation, analysis, scaffolding, and validation.
+# Details:
+Create the directory structure under `~/.claude/skills/scenario_builder/` with subfolders for workflows, resources, and agents. Implement the following workflows as Markdown-driven or code-backed modules: `create_scenario.md`, `analyze_scenario.md`, `scaffold_components.md`, and `validate_scenario.md`. Use a workflow engine such as Temporal (v1.23+) or Prefect (v2.x) for orchestration, or a lightweight custom orchestrator if dependencies must be minimized. Workflows should interact with the scenario YAML files, generate implementation components in `~/.claude/`, and provide clear CLI feedback. Ensure modularity for future partnership workflows. Use dependency injection for extensibility.
+
+# Test Strategy:
+Workflow unit tests with mocked scenario files. End-to-end CLI tests for scenario creation and validation. Snapshot tests for generated components.

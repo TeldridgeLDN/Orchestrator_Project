@@ -1,0 +1,73 @@
+# Task ID: 7
+# Title: Update Switch Command
+# Status: done
+# Dependencies: 5
+# Priority: medium
+# Description: Modify switch.js to perform lightweight validation when changing projects
+# Details:
+Enhance switch.js to:
+- Perform quick detection and gap analysis
+- Enforce confidence level (block <70%)
+- Warn for 70-84% score
+- Allow silent switch for 85%+
+- Support --no-validate bypass
+
+Pseudo-code:
+```javascript
+function switchProject(projectPath, options) {
+  if (options.validate !== false) {
+    const checks = detectDiet103Infrastructure(projectPath);
+    const gaps = analyzeDiet103Gaps(checks);
+    
+    if (gaps.score < 70) {
+      throw new Error('Project infrastructure is insufficient');
+    }
+    
+    if (gaps.score < 85) {
+      console.warn('Project infrastructure is partially incomplete');
+    }
+  }
+  
+  // Proceed with project switch
+  return true;
+}```
+
+# Test Strategy:
+Test cases covering:
+1. Successful switch for complete projects
+2. Switch blocked for low confidence projects
+3. Warning generation for partial infrastructure
+4. --no-validate bypass
+5. Different project infrastructure states
+
+# Subtasks:
+## 1. Integrate Quick Detection and Gap Analysis in switch.js [done]
+### Dependencies: None
+### Description: Implement logic in switch.js to perform rapid detection of diet103 infrastructure and analyze gaps when switching projects.
+### Details:
+Use detectDiet103Infrastructure() and analyzeDiet103Gaps() functions to scan the target project directory and produce a gap score. Ensure this runs before any switch operation unless validation is bypassed.
+
+## 2. Enforce Confidence Level Blocking for Low Scores [done]
+### Dependencies: 7.1
+### Description: Block project switching if the gap analysis score is below 70%, raising an error to prevent incomplete infrastructure switches.
+### Details:
+After gap analysis, check if the score is less than 70. If so, throw an error and halt the switch process. Ensure error messaging is clear and actionable.
+
+## 3. Implement Warning for Partial Infrastructure (70-84%) [done]
+### Dependencies: 7.1
+### Description: Display a warning message when the gap score is between 70% and 84%, allowing the switch but informing the user of incomplete infrastructure.
+### Details:
+If the gap score is >=70 and <85, log a warning to the console indicating partial infrastructure. Allow the switch to proceed after warning.
+
+## 4. Enable Silent Switch for High Confidence (85%+) [done]
+### Dependencies: 7.1
+### Description: Allow project switching to proceed silently when the gap score is 85% or higher, with no warnings or errors.
+### Details:
+If the gap score is >=85, proceed with the switch operation without any warning or error messages.
+
+## 5. Support --no-validate Option to Bypass Validation [done]
+### Dependencies: None
+### Description: Add support for the --no-validate flag in switch.js to bypass all validation checks and allow unconditional project switching.
+### Details:
+Check options.validate; if set to false (via --no-validate), skip detection, gap analysis, and all related checks, proceeding directly to switch.
+

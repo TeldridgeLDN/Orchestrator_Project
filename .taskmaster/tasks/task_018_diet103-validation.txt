@@ -1,0 +1,43 @@
+# Task ID: 18
+# Title: Implement Expiration Tracking and Archival Workflow
+# Status: done
+# Dependencies: 15, 16, 17
+# Priority: high
+# Description: Develop archive workflow to automatically move expired ephemeral files to archive and update manifest/frontmatter.
+# Details:
+Scan manifest for EPHEMERAL files older than expiration_days. Move files to docs/archive, update manifest and frontmatter. Send notifications (log or CLI output) 7 days before archival. Use node-cron v3+ for scheduled checks if needed.
+
+# Test Strategy:
+Integration tests for expiration detection and archival. Notification tests. Performance test (<200ms per file).
+
+# Subtasks:
+## 1. Implement Expiration Detection Logic [done]
+### Dependencies: None
+### Description: Develop logic to scan the manifest and identify EPHEMERAL files older than the configured expiration_days.
+### Details:
+Parse the manifest file, filter for EPHEMERAL files, and compare their timestamps to the current date to determine if they have expired. Ensure accurate date parsing and handle edge cases such as missing or malformed timestamps.
+
+## 2. Develop File Move and Archival Mechanism [done]
+### Dependencies: 18.1
+### Description: Create functionality to move expired files to the docs/archive directory, ensuring atomic operations and error handling.
+### Details:
+Implement file system operations to move each expired file to docs/archive, preserving directory structure if needed. Handle file permission errors and verify that files are not lost or duplicated during the move.
+
+## 3. Update Manifest and Frontmatter After Archival [done]
+### Dependencies: 18.2
+### Description: Modify the manifest and file frontmatter to reflect the archival status of moved files.
+### Details:
+After moving files, update the manifest to remove or mark files as archived. Adjust frontmatter in each file to indicate archival, ensuring consistency and data integrity.
+
+## 4. Implement Notification System for Pending Archival [done]
+### Dependencies: 18.1
+### Description: Build a notification system that logs or outputs CLI messages 7 days before a file is scheduled for archival.
+### Details:
+Detect files approaching expiration (within 7 days) and generate notifications via logging or CLI output. Ensure notifications are not duplicated and are clear for users.
+
+## 5. Integrate Scheduled Checks Using node-cron [done]
+### Dependencies: 18.1, 18.2, 18.3, 18.4
+### Description: Set up scheduled tasks using node-cron v3+ to periodically run expiration detection and archival workflow.
+### Details:
+Install and configure node-cron to execute the expiration and archival workflow at a defined interval (e.g., daily). Ensure the schedule is configurable and the process is robust against missed or overlapping runs.
+
