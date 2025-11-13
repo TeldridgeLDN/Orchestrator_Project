@@ -1,0 +1,596 @@
+# Orchestrator Project diet103 - Sprint 3: System Integrity
+# Product Requirements Document (PRD)
+
+**Project**: Orchestrator Multi-Project AI System - diet103 Integration
+**Sprint**: 3 - System Integrity
+**Date**: November 13, 2025
+**Author**: Development Team
+**Version**: 1.0
+
+---
+
+## Executive Summary
+
+Sprint 3 focuses on maintaining system integrity through automated documentation generation and command templating. These tools ensure that documentation stays synchronized with code and reduce repetitive command entry through intelligent macro expansion.
+
+### Sprint Goals
+1. Auto-generate skill documentation from code structure
+2. Implement macro system for common command patterns
+3. Reduce documentation maintenance overhead
+4. Streamline repetitive command workflows
+
+### Success Metrics
+- 100% documentation coverage for all skills
+- 15-20 hours/year time savings
+- Zero documentation drift
+- 50%+ reduction in repetitive command entry
+
+---
+
+## Sprint Overview
+
+### Total Tasks: 2
+### Estimated Effort: 6 hours
+### Priority: High
+### Dependencies: Sprint 2 completion
+
+---
+
+## Task 1: Skill Documentation Generator
+
+### Purpose
+Automatically generate comprehensive skill documentation from code structure, ensuring documentation is always synchronized with implementation and reducing manual maintenance overhead.
+
+### Problem Statement
+Currently, skill documentation requires manual creation and updates, leading to:
+- Documentation drift (docs don't match code)
+- Incomplete documentation
+- Wasted time on manual doc updates
+- Inconsistent documentation formats
+- Missing fields or outdated information
+
+### Solution
+Build an intelligent documentation generator that:
+1. Scans skill directories for structure and metadata
+2. Analyzes code to extract capabilities, inputs, outputs
+3. Generates standardized skill.md files
+4. Detects documentation drift and suggests updates
+5. Supports continuous documentation validation
+
+### Requirements
+
+#### Core Features
+- **Directory Scanning**: Recursively scan `.claude/skills/` for skill directories
+- **Metadata Extraction**: Parse skill configuration files (JSON, YAML, or Python docstrings)
+- **Code Analysis**: Use AST parsing to extract:
+  - Function signatures
+  - Input/output parameters
+  - Docstrings and comments
+  - Dependencies and imports
+  - Example usage patterns
+- **Template Generation**: Generate docs using predefined templates with:
+  - Skill overview and purpose
+  - Capabilities and features
+  - Usage examples
+  - Configuration options
+  - Integration points
+  - API reference
+- **Drift Detection**: Compare generated docs with existing docs to detect:
+  - Missing sections
+  - Outdated information
+  - New features not documented
+  - Removed features still documented
+- **Incremental Updates**: Support updating existing docs without full regeneration
+- **Multi-Language Support**: Handle Python, TypeScript, JavaScript skills
+
+#### Technical Specifications
+- **Language**: Python 3.10+
+- **Libraries**:
+  - `ast` - Python AST parsing
+  - `tree-sitter` - Multi-language parsing (TypeScript, JavaScript)
+  - `jinja2` v3.1 - Template rendering
+  - `PyYAML` v6.0 - YAML config parsing
+  - `pathlib` - Path handling
+- **Output Format**: Markdown with consistent structure
+- **Configuration**: JSON config for templates and formatting rules
+
+#### Files to Create
+- `.claude/skills/doc-generator/skill.md` - Main documentation generator skill definition
+- `.claude/skills/doc-generator/generator.py` - Core documentation generation engine
+- `.claude/skills/doc-generator/parsers/python_parser.py` - Python code parser
+- `.claude/skills/doc-generator/parsers/typescript_parser.py` - TypeScript code parser
+- `.claude/skills/doc-generator/templates/skill-template.md.j2` - Jinja2 template for skill docs
+- `.claude/skills/doc-generator/config.json` - Configuration for doc generation rules
+- `.claude/skills/doc-generator/tests/test_generator.py` - Test suite for generator
+- `.claude/skills/doc-generator/resources/style-guide.md` - Documentation style guidelines
+
+#### Success Criteria
+- **Coverage**: 100% of existing skills have generated documentation
+- **Accuracy**: Generated docs match code reality (zero drift)
+- **Completeness**: All standard sections present in generated docs
+- **Performance**: <5 seconds to generate docs for all skills
+- **Maintainability**: Easy to add new templates or parsing rules
+- **Integration**: Can be run manually or as a git pre-commit hook
+
+#### Usage Patterns
+
+##### Manual Generation
+```bash
+python .claude/skills/doc-generator/generator.py
+```
+
+##### Specific Skill
+```bash
+python .claude/skills/doc-generator/generator.py --skill pe-compression-analysis
+```
+
+##### Drift Detection
+```bash
+python .claude/skills/doc-generator/generator.py --check-drift
+```
+
+##### Pre-Commit Hook
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+python .claude/skills/doc-generator/generator.py --validate
+```
+
+#### Example Output Structure
+
+```markdown
+# Skill Name
+
+**Purpose**: Brief description
+
+## Overview
+- Detailed description
+- Key features
+
+## Capabilities
+- Feature 1
+- Feature 2
+
+## Usage
+### Basic Usage
+```code example```
+
+### Advanced Usage
+```code example```
+
+## Configuration
+- Option 1: Description
+- Option 2: Description
+
+## API Reference
+### Functions
+- `function_name()`: Description
+
+## Integration
+- Integration point 1
+- Integration point 2
+
+## Examples
+- Example 1
+- Example 2
+```
+
+### Estimated Effort
+3 hours
+
+### Impact Metrics
+- **Saves**: 8-12 hours/year (documentation maintenance)
+- **Annual ROI**: 267-400%
+- **Quality**: Ensures documentation always matches code
+- **Consistency**: Standardized doc format across all skills
+
+---
+
+## Task 2: Command Template Expander
+
+### Purpose
+Implement a macro system that expands short commands into full command templates, reducing repetitive typing and ensuring consistent command usage.
+
+### Problem Statement
+Developers frequently execute similar commands with slight variations:
+- Long, repetitive command strings
+- Easy to forget flags or options
+- Copy-paste errors
+- Inconsistent command usage across team
+- Time wasted on command entry
+
+### Solution
+Build a command template expander that:
+1. Defines reusable command templates with variables
+2. Expands short macros into full commands
+3. Supports variable substitution and defaults
+4. Provides interactive prompts for missing variables
+5. Maintains a library of common command patterns
+
+### Requirements
+
+#### Core Features
+- **Template Definition**: JSON/YAML-based template library
+- **Macro Expansion**: Short syntax → full command
+- **Variable Substitution**: Replace placeholders with values
+- **Interactive Mode**: Prompt for missing variables
+- **Default Values**: Sensible defaults for common scenarios
+- **Template Categories**: Organize by workflow (git, testing, deployment, etc.)
+- **Template Validation**: Ensure templates are syntactically correct
+- **History Tracking**: Log expanded commands for reference
+- **Alias Support**: Multiple names for same template
+
+#### Technical Specifications
+- **Language**: Python 3.10+
+- **Libraries**:
+  - `jinja2` v3.1 - Template expansion
+  - `PyYAML` v6.0 - Template configuration
+  - `click` v8.1 - CLI interface
+  - `prompt_toolkit` v3.0 - Interactive prompts
+  - `rich` v13.0 - Rich terminal formatting
+- **Storage**: JSON/YAML template files
+- **Integration**: CLI tool + importable module
+
+#### Template Syntax
+
+```yaml
+templates:
+  # Git workflow templates
+  git-feature:
+    description: "Start new feature branch"
+    command: "git checkout -b feature/{{ feature_name }}"
+    variables:
+      feature_name:
+        description: "Name of the feature"
+        required: true
+    
+  git-commit-task:
+    description: "Commit with Taskmaster task reference"
+    command: "git commit -m '{{ type }}: {{ message }} (task {{ task_id }})'"
+    variables:
+      type:
+        description: "Commit type"
+        default: "feat"
+        choices: ["feat", "fix", "docs", "refactor", "test"]
+      message:
+        description: "Commit message"
+        required: true
+      task_id:
+        description: "Taskmaster task ID"
+        required: true
+  
+  # Testing templates
+  test-smart:
+    description: "Run smart test selection"
+    command: "python .claude/agents/test-selector/select-tests.py --mode {{ mode }}"
+    variables:
+      mode:
+        description: "Test selection mode"
+        default: "smart"
+        choices: ["aggressive", "smart", "conservative", "full"]
+  
+  # Taskmaster templates
+  tm-expand-research:
+    description: "Expand task with research"
+    command: "task-master expand --id={{ task_id }} --research --force"
+    variables:
+      task_id:
+        description: "Task ID to expand"
+        required: true
+  
+  tm-update-from:
+    description: "Update tasks from ID onwards"
+    command: "task-master update --from={{ from_id }} --prompt='{{ prompt }}' --research"
+    variables:
+      from_id:
+        description: "Starting task ID"
+        required: true
+      prompt:
+        description: "Update context"
+        required: true
+```
+
+#### Files to Create
+- `.claude/tools/command-expander/README.md` - Command expander documentation
+- `.claude/tools/command-expander/expander.py` - Core expansion engine
+- `.claude/tools/command-expander/templates/git.yaml` - Git command templates ✅
+- `.claude/tools/command-expander/templates/testing.yaml` - Testing templates ✅
+- `.claude/tools/command-expander/templates/deployment.yaml` - Deployment templates ✅
+- `.claude/tools/command-expander/template_loader.py` - Template loader ✅
+- `.claude/tools/command-expander/cli.py` - CLI interface
+- `.claude/tools/command-expander/config.json` - Expander configuration
+- `.claude/tools/command-expander/tests/test_expander.py` - Test suite
+- `.claude/tools/command-expander/tests/test_template_loader.py` - Template loader tests
+- `.claude/tools/command-expander/resources/template-style-guide.md` - Template authoring guide
+
+#### Success Criteria
+- **Template Library**: 20+ pre-defined templates for common workflows
+- **Expansion Accuracy**: 100% correct command generation
+- **Interactive UX**: Clear prompts with validation and defaults
+- **Performance**: <500ms expansion time
+- **Extensibility**: Easy to add new templates without code changes
+- **Safety**: Validation prevents invalid commands
+- **Documentation**: Clear usage examples for all templates
+
+#### Usage Patterns
+
+##### List Available Templates
+```bash
+python .claude/agents/command-expander/cli.py list
+```
+
+##### Expand Template (Interactive)
+```bash
+python .claude/agents/command-expander/cli.py expand git-feature
+# Prompts: feature_name? authentication
+# Outputs: git checkout -b feature/authentication
+```
+
+##### Expand Template (Non-Interactive)
+```bash
+python .claude/agents/command-expander/cli.py expand tm-expand-research --var task_id=5
+# Outputs: task-master expand --id=5 --research --force
+```
+
+##### Direct Execution
+```bash
+python .claude/agents/command-expander/cli.py run git-feature
+# Prompts for variables, then executes the command
+```
+
+##### Add Alias
+```bash
+alias tmx='python .claude/agents/command-expander/cli.py'
+tmx run git-feature  # Short form
+```
+
+#### Example Interactive Session
+
+```
+$ python cli.py expand git-commit-task
+
+📋 Command Template: git-commit-task
+   Commit with Taskmaster task reference
+
+⚙️  Variables:
+   
+   type (Commit type) [feat]: feat
+   
+   message (Commit message): Add user authentication
+   
+   task_id (Taskmaster task ID): 15
+
+✨ Expanded Command:
+   git commit -m 'feat: Add user authentication (task 15)'
+
+Run this command? [y/N]: y
+
+✅ Command executed successfully
+```
+
+#### Template Categories
+
+1. **Git Workflows**
+   - Feature branches
+   - Commit messages
+   - PR creation
+   - Branch cleanup
+
+2. **Testing**
+   - Smart test selection
+   - Coverage reports
+   - Specific test execution
+
+3. **Taskmaster**
+   - Task expansion
+   - Status updates
+   - Task creation
+
+4. **Deployment**
+   - Build commands
+   - Deploy scripts
+   - Version bumps
+
+5. **Development**
+   - Linting
+   - Formatting
+   - Dependency updates
+
+### Estimated Effort
+3 hours
+
+### Impact Metrics
+- **Saves**: 7-8 hours/year (reduced command entry time)
+- **Annual ROI**: 233-267%
+- **Quality**: Consistent command usage, fewer typos
+- **Productivity**: 50%+ faster common workflows
+- **Learning Curve**: New team members learn commands faster
+
+---
+
+## Sprint 3 Success Criteria
+
+### Documentation Generator
+- ✅ Generates docs for all existing skills
+- ✅ Detects and reports documentation drift
+- ✅ <5 second generation time
+- ✅ Comprehensive test coverage
+- ✅ Pre-commit hook integration ready
+
+### Command Expander
+- ✅ 20+ templates across 5 categories
+- ✅ Interactive and non-interactive modes
+- ✅ <500ms expansion time
+- ✅ Validation prevents invalid commands
+- ✅ Easy to extend with new templates
+
+### Overall Sprint
+- ✅ 100% tasks completed
+- ✅ Comprehensive documentation for both tools
+- ✅ Real-world testing with existing workflows
+- ✅ Integration guides for CI/CD and git hooks
+- ✅ 15-20 hours/year time savings achieved
+
+---
+
+## Technical Architecture
+
+### Documentation Generator Architecture
+
+```
+generator.py (Orchestrator)
+    ↓
+    ├── parsers/
+    │   ├── python_parser.py (AST analysis)
+    │   ├── typescript_parser.py (tree-sitter)
+    │   └── base_parser.py (interface)
+    │
+    ├── templates/
+    │   └── skill-template.md.j2 (Jinja2)
+    │
+    ├── validators/
+    │   └── drift_detector.py (compare existing vs generated)
+    │
+    └── formatters/
+        └── markdown_formatter.py (clean output)
+```
+
+### Command Expander Architecture
+
+```
+cli.py (Entry Point)
+    ↓
+expander.py (Core Engine)
+    ↓
+    ├── template_loader.py (Load YAML templates)
+    ├── variable_resolver.py (Resolve variables)
+    ├── interactive_prompter.py (prompt_toolkit UI)
+    ├── validator.py (Validate expanded commands)
+    └── executor.py (Optional command execution)
+```
+
+---
+
+## Testing Strategy
+
+### Documentation Generator Testing
+1. **Unit Tests**: Parser modules, template rendering
+2. **Integration Tests**: Full doc generation workflow
+3. **Drift Detection Tests**: Known drift scenarios
+4. **Performance Tests**: Generation speed benchmarks
+5. **Regression Tests**: Existing skills generate correctly
+
+### Command Expander Testing
+1. **Unit Tests**: Template loading, variable substitution
+2. **Integration Tests**: Full expansion workflows
+3. **Validation Tests**: Invalid template handling
+4. **Interactive Tests**: Prompt sequences
+5. **Safety Tests**: Prevent dangerous command execution
+
+---
+
+## Rollout Plan
+
+### Phase 1: Documentation Generator (Hour 1-3)
+1. Implement Python parser module
+2. Create Jinja2 templates
+3. Build drift detection
+4. Test with existing skills
+5. Generate docs for all skills
+
+### Phase 2: Command Expander (Hour 4-6)
+1. Implement core expansion engine
+2. Create template library (20+ templates)
+3. Build interactive CLI
+4. Add validation and safety checks
+5. Test with real workflows
+
+### Phase 3: Integration & Documentation (Included)
+1. Write comprehensive usage guides
+2. Create integration examples
+3. Set up git hooks
+4. Validate time savings
+
+---
+
+## Dependencies
+
+### External Libraries
+- `jinja2` v3.1+ - Template rendering
+- `tree-sitter` v0.20+ - Multi-language parsing
+- `click` v8.1+ - CLI framework
+- `prompt_toolkit` v3.0+ - Interactive prompts
+- `rich` v13.0+ - Terminal formatting
+- `PyYAML` v6.0+ - YAML parsing
+
+### Internal Dependencies
+- Sprint 2 completion (Test Selector Agent for testing templates)
+- Existing skill structure (for doc generation)
+
+---
+
+## Risk Mitigation
+
+### Documentation Generator Risks
+1. **Risk**: Complex code structures hard to parse
+   - **Mitigation**: Start with well-structured skills, iterate on parser
+   
+2. **Risk**: Breaking existing docs
+   - **Mitigation**: Non-destructive updates, backup mode, manual review
+
+3. **Risk**: Template rigidity
+   - **Mitigation**: Support custom templates, flexible sections
+
+### Command Expander Risks
+1. **Risk**: Executing dangerous commands
+   - **Mitigation**: Dry-run default, explicit confirmation, validation
+
+2. **Risk**: Template complexity
+   - **Mitigation**: Start simple, progressive enhancement, clear examples
+
+3. **Risk**: Platform compatibility
+   - **Mitigation**: Test on multiple shells, document limitations
+
+---
+
+## Success Metrics
+
+### Quantitative
+- **Time Saved**: 15-20 hours/year
+- **Doc Coverage**: 100% of skills
+- **Template Usage**: 20+ templates
+- **Adoption Rate**: Daily usage within 1 week
+- **Error Rate**: <1% incorrect expansions
+
+### Qualitative
+- **Developer Satisfaction**: Positive feedback on both tools
+- **Documentation Quality**: Consistent, complete, accurate
+- **Workflow Efficiency**: Noticeably faster common tasks
+- **Maintainability**: Easy to extend and customize
+
+---
+
+## Future Enhancements (Post-Sprint 3)
+
+### Documentation Generator
+- Auto-update docs on git pre-commit
+- Generate API documentation from docstrings
+- Support for additional languages (Rust, Go)
+- Changelog generation from git history
+- Visual diagrams from code structure
+
+### Command Expander
+- Machine learning-based template suggestions
+- Command history analysis for new templates
+- Integration with shell history (zsh/bash)
+- Collaborative template sharing
+- Web UI for template management
+
+---
+
+## Conclusion
+
+Sprint 3 delivers foundational system integrity tools that reduce manual overhead and ensure consistency. The Documentation Generator keeps docs synchronized with code, while the Command Expander streamlines repetitive workflows. Together, they save 15-20 hours annually while improving documentation quality and command consistency.
+
+**Ready to implement!** 🚀
+
