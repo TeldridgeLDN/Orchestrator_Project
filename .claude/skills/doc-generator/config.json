@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "generator": {
+    "name": "Skill Documentation Generator",
+    "description": "Automated documentation generator for Claude Code skills"
+  },
+  "paths": {
+    "skills_dir": ".claude/skills",
+    "templates_dir": "templates",
+    "output_dir": null,
+    "reports_dir": ".taskmaster/reports"
+  },
+  "templates": {
+    "default": "skill-template.md.j2",
+    "custom_templates": {}
+  },
+  "formatting": {
+    "markdown": {
+      "line_length": 120,
+      "list_indent": 2,
+      "code_fence": "```",
+      "heading_style": "atx"
+    },
+    "sections": {
+      "include_empty": false,
+      "preserve_order": true,
+      "standard_order": [
+        "Overview",
+        "Capabilities",
+        "Dependencies",
+        "Configuration",
+        "File Structure",
+        "API Reference",
+        "Usage",
+        "Testing",
+        "Documentation",
+        "License"
+      ]
+    }
+  },
+  "parsing": {
+    "python": {
+      "enabled": true,
+      "include_private": false,
+      "include_dunder": false,
+      "max_depth": 10
+    },
+    "typescript": {
+      "enabled": true,
+      "include_private": false,
+      "parse_mode": "auto"
+    },
+    "javascript": {
+      "enabled": true,
+      "include_private": false,
+      "parse_mode": "auto"
+    }
+  },
+  "drift_detection": {
+    "enabled": true,
+    "threshold": "minor",
+    "auto_backup": true,
+    "backup_suffix": ".bak"
+  },
+  "incremental_updates": {
+    "enabled": true,
+    "preserve_manual_edits": true,
+    "manual_edit_markers": {
+      "start": "<!-- MANUAL EDIT START -->",
+      "end": "<!-- MANUAL EDIT END -->"
+    },
+    "auto_generated_marker": "<!-- AUTO-GENERATED: DO NOT EDIT -->"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(levelname)s: %(message)s",
+    "file": null
+  },
+  "performance": {
+    "max_file_size_mb": 10,
+    "timeout_seconds": 30,
+    "parallel_parsing": false
+  }
+}
+

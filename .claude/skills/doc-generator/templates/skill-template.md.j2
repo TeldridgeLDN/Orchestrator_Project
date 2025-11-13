@@ -1,0 +1,265 @@
+# {{ skill.name | default('Unnamed Skill') }}
+
+{% if skill.version %}**Version**: {{ skill.version }}{% endif %}
+{% if skill.author %}**Author**: {{ skill.author }}{% endif %}
+{% if skill.created %}**Created**: {{ skill.created }}{% endif %}
+
+## Overview
+
+{{ skill.description | default('No description available.') }}
+
+{% if skill.keywords %}
+**Keywords**: {{ skill.keywords | join(', ') }}
+{% endif %}
+
+{% if skill.category %}
+**Category**: {{ skill.category }}
+{% endif %}
+
+---
+
+## Capabilities
+
+{% if skill.capabilities %}
+{% for capability_name, capability_data in skill.capabilities.items() %}
+### {{ capability_name | replace('_', ' ') | title }}
+
+{% if capability_data is mapping %}
+{% for key, value in capability_data.items() %}
+- **{{ key | replace('_', ' ') | title }}**: {{ value }}
+{% endfor %}
+{% else %}
+- {{ capability_data }}
+{% endif %}
+
+{% endfor %}
+{% else %}
+No capabilities documented.
+{% endif %}
+
+---
+
+## Dependencies
+
+{% if skill.dependencies %}
+{% if skill.dependencies.python %}
+**Python**: {{ skill.dependencies.python }}
+{% endif %}
+
+{% if skill.dependencies.packages %}
+### Required Packages
+
+{% for package, version in skill.dependencies.packages.items() %}
+- `{{ package }}`: {{ version }}
+{% endfor %}
+{% endif %}
+
+{% if skill.dependencies.external_skills %}
+### External Skills
+
+{% for skill_name, skill_info in skill.dependencies.external_skills.items() %}
+- **{{ skill_name }}**: {{ skill_info.version }}
+  - Purpose: {{ skill_info.purpose }}
+  - Required: {{ 'Yes' if skill_info.required else 'No' }}
+{% endfor %}
+{% endif %}
+{% else %}
+No dependencies.
+{% endif %}
+
+---
+
+## Configuration
+
+{% if skill.configuration %}
+{% if skill.configuration.environment_variables %}
+### Environment Variables
+
+{% for var_name, var_info in skill.configuration.environment_variables.items() %}
+- **{{ var_name }}**
+  - Required: {{ 'Yes' if var_info.required else 'No' }}
+  - Description: {{ var_info.description }}
+{% endfor %}
+{% endif %}
+
+{% if skill.configuration.settings %}
+### Settings
+
+{% for setting_name, setting_value in skill.configuration.settings.items() %}
+- **{{ setting_name | replace('_', ' ') | title }}**: {{ setting_value }}
+{% endfor %}
+{% endif %}
+{% else %}
+No configuration required.
+{% endif %}
+
+---
+
+## File Structure
+
+{% if skill.structure %}
+```
+{{ skill.name }}/
+{% for dir_name, files in skill.structure.items() %}
+├── {{ dir_name }}/
+{% if files is sequence %}
+{% for file in files %}
+│   ├── {{ file }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+```
+{% else %}
+File structure not documented.
+{% endif %}
+
+---
+
+## API Reference
+
+{% if python_modules %}
+### Python Modules
+
+{% for module in python_modules %}
+#### {{ module.file }}
+
+{% if module.module_docstring %}
+{{ module.module_docstring }}
+{% endif %}
+
+{% if module.classes %}
+##### Classes
+
+{% for class in module.classes %}
+###### `{{ class.name }}`
+
+{% if class.docstring %}
+{{ class.docstring }}
+{% endif %}
+
+{% if class.methods %}
+**Methods:**
+
+{% for method in class.methods %}
+- `{{ method.name }}({{ method.args | join(', ') }})`
+{% if method.docstring %}
+  - {{ method.docstring | truncate(100) }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+---
+
+{% endfor %}
+{% endif %}
+
+{% if module.functions %}
+##### Functions
+
+{% for function in module.functions %}
+###### `{{ function.name }}({{ function.args | join(', ') }})`
+
+{% if function.docstring %}
+{{ function.docstring }}
+{% endif %}
+
+---
+
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+---
+
+## Usage
+
+{% if skill.usage %}
+{% if skill.usage.installation %}
+### Installation
+
+```bash
+{{ skill.usage.installation }}
+```
+{% endif %}
+
+{% if skill.usage.basic_usage %}
+### Basic Usage
+
+```python
+{{ skill.usage.basic_usage }}
+```
+{% endif %}
+
+{% if skill.usage.workflow_integration %}
+### Workflow Integration
+
+```python
+{{ skill.usage.workflow_integration }}
+```
+{% endif %}
+{% else %}
+Usage examples not available.
+{% endif %}
+
+---
+
+## Testing
+
+{% if skill.testing %}
+- **Framework**: {{ skill.testing.framework }}
+{% if skill.testing.coverage_target %}
+- **Coverage Target**: {{ skill.testing.coverage_target }}
+{% endif %}
+{% if skill.testing.test_count %}
+- **Test Count**: {{ skill.testing.test_count }}
+{% endif %}
+{% if skill.testing.pass_rate %}
+- **Pass Rate**: {{ skill.testing.pass_rate }}
+{% endif %}
+
+{% if skill.testing.performance_targets %}
+### Performance Targets
+
+{% for target_name, target_value in skill.testing.performance_targets.items() %}
+- **{{ target_name | replace('_', ' ') | title }}**: {{ target_value }}
+{% endfor %}
+{% endif %}
+{% else %}
+Testing information not available.
+{% endif %}
+
+---
+
+## Documentation
+
+{% if skill.documentation %}
+{% for doc_type, doc_path in skill.documentation.items() %}
+- **{{ doc_type | replace('_', ' ') | title }}**: [{{ doc_path }}]({{ doc_path }})
+{% endfor %}
+{% else %}
+Additional documentation not available.
+{% endif %}
+
+---
+
+## License
+
+{% if skill.license %}
+{{ skill.license }}
+{% else %}
+License not specified.
+{% endif %}
+
+{% if skill.repository %}
+
+## Repository
+
+{{ skill.repository.url }}
+{% endif %}
+
+---
+
+*Documentation generated automatically from code and configuration.*
+
