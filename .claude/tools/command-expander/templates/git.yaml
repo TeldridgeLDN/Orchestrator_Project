@@ -1,0 +1,138 @@
+# Git Workflow Templates
+
+workflow: git
+description: Common git operations and workflows
+
+templates:
+  commit:
+    description: Create a git commit with message
+    command: git commit -m "{{ message }}"
+    variables:
+      message:
+        description: Commit message
+        required: true
+        type: string
+    aliases: [c, ci]
+    examples:
+      - "commit message='fix: resolve authentication bug'"
+      - "c message='feat: add new feature'"
+
+  push:
+    description: Push commits to remote
+    command: git push {{ remote|default('origin') }} {{ branch|default('main') }}
+    variables:
+      remote:
+        description: Remote name
+        required: false
+        type: string
+        default: origin
+      branch:
+        description: Branch name
+        required: false
+        type: string
+        default: main
+    aliases: [p]
+    examples:
+      - "push"
+      - "push branch='feature/new-feature'"
+      - "p remote='upstream' branch='develop'"
+
+  branch:
+    description: Create and checkout a new branch
+    command: git checkout -b {{ name }}
+    variables:
+      name:
+        description: Branch name
+        required: true
+        type: string
+        pattern: '^[a-zA-Z0-9/_-]+$'
+    aliases: [b, nb]
+    examples:
+      - "branch name='feature/user-auth'"
+      - "b name='fix/bug-123'"
+
+  pr:
+    description: Create a pull request using gh CLI
+    command: gh pr create --title "{{ title }}" --body "{{ body|default('') }}" {% if draft %}--draft{% endif %}
+    variables:
+      title:
+        description: PR title
+        required: true
+        type: string
+      body:
+        description: PR description
+        required: false
+        type: string
+        default: ""
+      draft:
+        description: Create as draft PR
+        required: false
+        type: boolean
+        default: false
+    aliases: [pull-request, merge-request]
+    examples:
+      - "pr title='Add authentication' body='Implements JWT auth'"
+      - "pr title='WIP: New feature' draft=true"
+
+  rebase:
+    description: Rebase current branch onto target
+    command: git rebase {{ target|default('main') }} {% if interactive %}-i{% endif %}
+    variables:
+      target:
+        description: Target branch to rebase onto
+        required: false
+        type: string
+        default: main
+      interactive:
+        description: Interactive rebase
+        required: false
+        type: boolean
+        default: false
+    aliases: [rb]
+    examples:
+      - "rebase"
+      - "rebase target='develop'"
+      - "rb target='main' interactive=true"
+
+  stash:
+    description: Stash changes with optional message
+    command: git stash {% if message %}push -m "{{ message }}"{% else %}push{% endif %}
+    variables:
+      message:
+        description: Stash message
+        required: false
+        type: string
+    aliases: [st, save]
+    examples:
+      - "stash"
+      - "stash message='WIP: working on feature'"
+      - "st message='temp changes'"
+
+  tag:
+    description: Create an annotated git tag
+    command: git tag -a {{ name }} -m "{{ message }}"
+    variables:
+      name:
+        description: Tag name
+        required: true
+        type: string
+        pattern: '^v?[0-9]+\.[0-9]+\.[0-9]+.*$'
+      message:
+        description: Tag message
+        required: true
+        type: string
+    aliases: [t]
+    examples:
+      - "tag name='v1.0.0' message='Release 1.0.0'"
+      - "t name='v2.1.0-beta' message='Beta release'"
+
+  cleanup:
+    description: Clean up merged branches
+    command: git branch --merged | grep -v "\\*\\|main\\|develop" | xargs -n 1 git branch -d
+    variables: {}
+    aliases: [clean, prune-branches]
+    examples:
+      - "cleanup"
+    dangerous: true
+    confirm: true
+

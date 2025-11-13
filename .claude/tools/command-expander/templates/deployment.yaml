@@ -1,0 +1,139 @@
+# Deployment Workflow Templates
+
+workflow: deployment
+description: Deployment and infrastructure operations
+
+templates:
+  deploy:
+    description: Deploy application to environment
+    command: {{ tool|default('kubectl') }} apply -f {{ manifest }} {% if namespace %}--namespace {{ namespace }}{% endif %}
+    variables:
+      tool:
+        description: Deployment tool
+        required: false
+        type: string
+        default: kubectl
+        options: [kubectl, docker, terraform]
+      manifest:
+        description: Deployment manifest file
+        required: true
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+    aliases: [d, release]
+    examples:
+      - "deploy manifest='k8s/deployment.yaml'"
+      - "deploy manifest='k8s/app.yaml' namespace='production'"
+      - "d tool='kubectl' manifest='deploy.yaml'"
+
+  rollback:
+    description: Rollback deployment to previous version
+    command: kubectl rollout undo deployment/{{ deployment }} {% if namespace %}--namespace {{ namespace }}{% endif %}
+    variables:
+      deployment:
+        description: Deployment name
+        required: true
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+    aliases: [rb, undo]
+    examples:
+      - "rollback deployment='api-server'"
+      - "rollback deployment='web-app' namespace='prod'"
+    dangerous: true
+    confirm: true
+
+  scale:
+    description: Scale deployment replicas
+    command: kubectl scale deployment/{{ deployment }} --replicas={{ replicas }} {% if namespace %}--namespace {{ namespace }}{% endif %}
+    variables:
+      deployment:
+        description: Deployment name
+        required: true
+        type: string
+      replicas:
+        description: Number of replicas
+        required: true
+        type: integer
+        min: 0
+        max: 100
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+    aliases: [s]
+    examples:
+      - "scale deployment='api' replicas=3"
+      - "scale deployment='web' replicas=5 namespace='staging'"
+
+  logs:
+    description: View application logs
+    command: kubectl logs {% if follow %}-f{% endif %} {% if deployment %}deployment/{{ deployment }}{% else %}{{ pod }}{% endif %} {% if namespace %}--namespace {{ namespace }}{% endif %} {% if tail %}--tail={{ tail }}{% endif %}
+    variables:
+      deployment:
+        description: Deployment name
+        required: false
+        type: string
+      pod:
+        description: Pod name
+        required: false
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+      follow:
+        description: Follow log output
+        required: false
+        type: boolean
+        default: false
+      tail:
+        description: Number of lines to show
+        required: false
+        type: integer
+    aliases: [l, log]
+    examples:
+      - "logs deployment='api' follow=true"
+      - "logs pod='web-123' namespace='prod' tail=100"
+
+  status:
+    description: Check deployment status
+    command: kubectl get {% if resource %}{{ resource }}{% else %}deployments,pods,services{% endif %} {% if namespace %}--namespace {{ namespace }}{% endif %}
+    variables:
+      resource:
+        description: Resource type to check
+        required: false
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+    aliases: [st, check]
+    examples:
+      - "status"
+      - "status resource='pods' namespace='production'"
+      - "st namespace='staging'"
+
+  restart:
+    description: Restart deployment
+    command: kubectl rollout restart deployment/{{ deployment }} {% if namespace %}--namespace {{ namespace }}{% endif %}
+    variables:
+      deployment:
+        description: Deployment name
+        required: true
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: false
+        type: string
+    aliases: [r, reload]
+    examples:
+      - "restart deployment='api-server'"
+      - "restart deployment='worker' namespace='prod'"
+    dangerous: false
+    confirm: false
+

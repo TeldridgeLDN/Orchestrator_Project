@@ -1,0 +1,119 @@
+# Testing Workflow Templates
+
+workflow: testing
+description: Common testing and quality assurance operations
+
+templates:
+  test:
+    description: Run tests with optional filter
+    command: pytest {% if path %}{{ path }}{% else %}.{% endif %} {% if verbose %}-v{% endif %} {% if coverage %}--cov{% endif %}
+    variables:
+      path:
+        description: Test file or directory path
+        required: false
+        type: string
+      verbose:
+        description: Verbose output
+        required: false
+        type: boolean
+        default: false
+      coverage:
+        description: Generate coverage report
+        required: false
+        type: boolean
+        default: false
+    aliases: [t, run-tests]
+    examples:
+      - "test"
+      - "test path='tests/test_api.py' verbose=true"
+      - "t path='tests/' coverage=true"
+
+  lint:
+    description: Run linter on code
+    command: {{ linter|default('pylint') }} {% if path %}{{ path }}{% else %}.{% endif %} {% if fix %}--fix{% endif %}
+    variables:
+      linter:
+        description: Linter to use
+        required: false
+        type: string
+        default: pylint
+        options: [pylint, flake8, ruff, eslint]
+      path:
+        description: Path to lint
+        required: false
+        type: string
+      fix:
+        description: Auto-fix issues
+        required: false
+        type: boolean
+        default: false
+    aliases: [l, check]
+    examples:
+      - "lint"
+      - "lint linter='ruff' path='src/'"
+      - "l linter='eslint' fix=true"
+
+  format:
+    description: Format code with formatter
+    command: {{ formatter|default('black') }} {% if path %}{{ path }}{% else %}.{% endif %} {% if check %}--check{% endif %}
+    variables:
+      formatter:
+        description: Code formatter
+        required: false
+        type: string
+        default: black
+        options: [black, autopep8, prettier]
+      path:
+        description: Path to format
+        required: false
+        type: string
+      check:
+        description: Check only, don't modify
+        required: false
+        type: boolean
+        default: false
+    aliases: [f, fmt]
+    examples:
+      - "format"
+      - "format formatter='prettier' path='src/'"
+      - "fmt check=true"
+
+  coverage:
+    description: Generate test coverage report
+    command: pytest --cov={{ package|default('.') }} --cov-report={{ report_type|default('html') }}
+    variables:
+      package:
+        description: Package to measure coverage for
+        required: false
+        type: string
+        default: "."
+      report_type:
+        description: Coverage report type
+        required: false
+        type: string
+        default: html
+        options: [html, term, xml, json]
+    aliases: [cov]
+    examples:
+      - "coverage"
+      - "coverage package='myapp' report_type='term'"
+      - "cov report_type='xml'"
+
+  benchmark:
+    description: Run performance benchmarks
+    command: pytest {% if path %}{{ path }}{% else %}tests/benchmarks{% endif %} --benchmark-only {% if compare %}--benchmark-compare{% endif %}
+    variables:
+      path:
+        description: Benchmark test path
+        required: false
+        type: string
+      compare:
+        description: Compare with previous benchmarks
+        required: false
+        type: boolean
+        default: false
+    aliases: [bench, perf]
+    examples:
+      - "benchmark"
+      - "benchmark path='tests/perf/' compare=true"
+
