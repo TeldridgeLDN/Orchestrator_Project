@@ -1,3 +1,9 @@
+---
+file_class: ephemeral
+expires_after_days: 30
+tags: [deployment, phase1, temporary]
+---
+
 # Phase 1 Core Infrastructure - Deployment Checklist
 
 **Date**: November 14, 2025  
