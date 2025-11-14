@@ -1,0 +1,22 @@
+{
+  "name": "@orchestrator/project-validator",
+  "version": "1.0.0",
+  "description": "Project identity validator for Orchestrator multi-project system",
+  "main": "validator.js",
+  "bin": {
+    "project-validate": "./cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Tests not yet implemented\" && exit 0"
+  },
+  "keywords": [
+    "orchestrator",
+    "project",
+    "validation",
+    "identity",
+    "taskmaster"
+  ],
+  "author": "Orchestrator Team",
+  "license": "MIT"
+}
+
