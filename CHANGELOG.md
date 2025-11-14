@@ -9,6 +9,101 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - TaskMaster Integration (Opt-in) ✅
+
+**New Feature**: Opt-in TaskMaster installation during `diet103 init`.
+
+#### What Changed
+- **New CLI Flag**: `--taskmaster` enables TaskMaster during project initialization
+- **Interactive Prompt**: Users can choose to include TaskMaster during setup
+- **Non-Interactive Support**: `--no-interactive` flag properly bypasses prompts
+
+#### Installation Process
+When TaskMaster is enabled during `diet103 init`:
+
+1. **Directory Structure** (`.taskmaster/`)
+   - `tasks/` - Task storage directory
+   - `docs/` - Documentation directory
+   - `reports/` - Analysis reports directory
+   - `templates/` - Template files directory
+
+2. **Initial Files**
+   - `tasks/tasks.json` - Empty task list with project metadata
+   - Project name automatically populated from init
+
+3. **MCP Configuration**
+   - Adds TaskMaster AI server to `.mcp.json`
+   - Configured with environment variable placeholders
+   - Disabled by default until API keys are added
+
+4. **Package Management**
+   - Installs `task-master-ai` as dev dependency (if `package.json` exists)
+   - Falls back to `npx` usage (no installation) if no package.json
+
+5. **API Key Guidance**
+   - Displays required API keys
+   - Shows `.env` file location
+   - References `.env.example` for format
+
+#### Usage Examples
+
+**Interactive Mode** (default):
+```bash
+diet103 init
+# Prompts:
+# - Project name
+# - Description
+# - Include TaskMaster? [y/N]
+```
+
+**Non-Interactive WITH TaskMaster**:
+```bash
+diet103 init --name="MyProject" --taskmaster --no-interactive
+```
+
+**Non-Interactive WITHOUT TaskMaster**:
+```bash
+diet103 init --name="MyProject" --no-interactive
+```
+
+#### Implementation Files
+- **New**: `lib/init/taskmaster_init.js` - TaskMaster installation module (383 lines)
+  - `initializeTaskMaster()` - Main installation function
+  - `validateTaskMasterInstallation()` - Validation helper
+  - Creates directories, tasks.json, updates .mcp.json
+  - Handles npm package installation (or npx fallback)
+  - Provides API key guidance
+
+- **Modified**: `lib/commands/init.js`
+  - Fixed Commander.js parameter handling (pathArg, cmdOptions)
+  - Added `initializeTaskMasterWrapper()` function
+  - Integrated TaskMaster installation step
+  - Fixed `--no-interactive` flag handling
+  - Fixed variable scope issue (`coreFilesCreated`)
+
+#### Testing
+✅ **Non-Interactive WITHOUT TaskMaster**:
+- Created diet103 project structure
+- Skipped TaskMaster installation
+- No `.taskmaster/` directory created
+
+✅ **Non-Interactive WITH TaskMaster**:
+- Created diet103 project structure
+- Created `.taskmaster/` directories
+- Created `tasks.json` with project metadata
+- Added TaskMaster to `.mcp.json` (disabled until keys added)
+- Displayed API key requirements
+- Used npx fallback (no package.json)
+
+#### Benefits
+- ✅ Optional TaskMaster adoption
+- ✅ Single-step initialization
+- ✅ Proper MCP integration
+- ✅ Clear API key guidance
+- ✅ Works with or without package.json
+
+---
+
 ### Added - Health Monitoring with File Lifecycle Metrics ✅
 
 **Enhanced Feature**: `diet103 health` command now includes File Lifecycle organization metrics.
