@@ -1,318 +1,238 @@
-# [Component/Feature Name] Architecture
+# Architecture
 
-**Version:** 1.0.0  
-**Date:** YYYY-MM-DD  
-**Status:** [Draft | Active | Deprecated]
+**Last Updated:** YYYY-MM-DD
 
 ---
 
 ## Overview
 
-Brief 2-3 sentence description of what this component/feature does and why it exists.
+[One paragraph system description. What does this system do? What problems does it solve?]
 
-**Key Capabilities:**
-- Capability 1
-- Capability 2
-- Capability 3
+Example:
+> This project is a [type] system that [primary function]. It uses [key technology] to [main benefit] for [target users].
 
 ---
 
-## Architecture Principles
+## System Diagram
 
-What design principles guide this architecture? (e.g., "Skills-as-Containers", "Progressive Disclosure", "Token Efficiency")
+```mermaid
+graph TD
+    A[User] --> B[Frontend]
+    B --> C[API Layer]
+    C --> D[Business Logic]
+    D --> E[Database]
+```
 
-1. **Principle 1**: Explanation
-2. **Principle 2**: Explanation
-3. **Principle 3**: Explanation
+Or ASCII art:
+```
+┌─────────┐     ┌─────────────┐     ┌──────────┐
+│  User   │────▶│  Frontend   │────▶│   API    │
+└─────────┘     └─────────────┘     └──────────┘
+                                          │
+                                          ▼
+                                    ┌──────────┐
+                                    │ Database │
+                                    └──────────┘
+```
 
 ---
 
-## System Context
+## Core Components
 
-Where does this fit in the larger system?
+### Component 1: [Name]
 
-```
-┌─────────────────────────────────────┐
-│  Higher-Level System                │
-└──────────────┬──────────────────────┘
-               │
-               ▼
-    ┌──────────────────────┐
-    │  THIS COMPONENT      │
-    └──────────┬───────────┘
-               │
-               ▼
-    ┌──────────────────────┐
-    │  Lower-Level Systems │
-    └──────────────────────┘
-```
+- **Purpose**: [One sentence about what this component does]
+- **Technology**: [Framework/library/language]
+- **Location**: `path/to/component`
+- **Key Files**: `main.js`, `config.js`, `utils.js`
+- **Dependencies**: Component 2, External Library X
 
-**Dependencies:**
-- Upstream: What depends on this?
-- Downstream: What does this depend on?
-
----
-
-## Component Architecture
-
-### High-Level Design
-
-```
-┌────────────────────────────────────────┐
-│          Component Name                │
-├────────────────────────────────────────┤
-│                                        │
-│  ┌──────────┐      ┌──────────┐      │
-│  │ Module A │─────▶│ Module B │      │
-│  └──────────┘      └──────────┘      │
-│                                        │
-│  ┌──────────┐      ┌──────────┐      │
-│  │ Module C │─────▶│ Module D │      │
-│  └──────────┘      └──────────┘      │
-│                                        │
-└────────────────────────────────────────┘
-```
-
-### Modules
-
-#### Module A: [Name]
-**Purpose:** What does this module do?
-
-**Responsibilities:**
+**Responsibilities**:
 - Responsibility 1
 - Responsibility 2
 
-**Interface:**
-```javascript
-// Public API
-export function primaryFunction(params) { }
-export function helperFunction(params) { }
-```
+### Component 2: [Name]
 
-**Dependencies:**
-- Module X
-- External library Y
+- **Purpose**: [One sentence]
+- **Technology**: [Framework/library]
+- **Location**: `path/to/component`
+- **Key Files**: `handler.js`, `validator.js`
+- **Dependencies**: None
 
----
-
-#### Module B: [Name]
-**Purpose:** What does this module do?
-
-**Responsibilities:**
+**Responsibilities**:
 - Responsibility 1
 - Responsibility 2
 
-**Interface:**
-```javascript
-// Public API
-export function primaryFunction(params) { }
-```
+### Component 3: [Name]
 
-**Dependencies:**
-- Module Z
+[Continue pattern for each major component]
 
 ---
 
 ## Data Flow
 
-How does data move through the system?
+### Request Flow
+
+1. **User Action** → User triggers action via UI
+2. **Frontend Processing** → Validates input, prepares request
+3. **API Call** → Sends request to backend API
+4. **Business Logic** → Processes request, applies rules
+5. **Database Query** → Retrieves or stores data
+6. **Response** → Returns result through layers back to user
+
+### Example: User Authentication Flow
 
 ```
-Input → Validation → Processing → Transformation → Output
-  │         │            │              │            │
-  ▼         ▼            ▼              ▼            ▼
-[Detail] [Detail]    [Detail]       [Detail]     [Detail]
+User Login Request
+  ↓
+Frontend validates credentials format
+  ↓
+API endpoint receives POST /auth/login
+  ↓
+Auth middleware checks rate limits
+  ↓
+Business logic verifies credentials
+  ↓
+Database query fetches user record
+  ↓
+JWT token generated
+  ↓
+Response with token sent to frontend
+  ↓
+Frontend stores token in secure storage
 ```
-
-**Step-by-Step:**
-
-1. **Input Reception**
-   - Format: JSON/YAML/etc
-   - Validation: What checks are performed?
-   - Example: `{ ... }`
-
-2. **Processing**
-   - Algorithm: Describe key algorithms
-   - Transformations: What changes to data?
-
-3. **Output Generation**
-   - Format: JSON/YAML/etc
-   - Validation: What guarantees are provided?
-   - Example: `{ ... }`
 
 ---
 
-## Key Design Decisions
+## Key Technologies
 
-### Decision 1: [Decision Name]
-
-**Context:** What problem were we solving?
-
-**Options Considered:**
-- Option A: Pros/Cons
-- Option B: Pros/Cons
-- Option C: Pros/Cons
-
-**Decision:** We chose Option B
-
-**Rationale:**
-- Reason 1
-- Reason 2
-- Reason 3
-
-**Trade-offs:**
-- ✅ Benefit 1
-- ✅ Benefit 2
-- ⚠️ Limitation 1
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| Node.js | Runtime | 18.x |
+| Express | Web framework | 4.x |
+| PostgreSQL | Database | 14.x |
+| React | Frontend | 18.x |
 
 ---
 
-### Decision 2: [Decision Name]
+## Key Decisions
 
-**Context:** What problem were we solving?
+See [ADR/](./ADR/) directory for detailed Architectural Decision Records.
 
-**Decision:** Summary of decision
-
-**Rationale:** Why this approach?
+**Major Decisions**:
+- [ADR-001](./ADR/001-database-choice.md) - Use PostgreSQL for primary database
+- [ADR-002](./ADR/002-authentication-strategy.md) - JWT-based authentication
+- [ADR-003](./ADR/003-api-design.md) - RESTful API design
 
 ---
 
-## Extension Points
+## Security
 
-How can this component be extended or customized?
+### Authentication
+- JWT tokens with 1-hour expiration
+- Refresh token rotation for extended sessions
+- bcrypt for password hashing (cost factor 12)
 
-### Extension Point 1: [Name]
+### Authorization
+- Role-based access control (RBAC)
+- Three roles: Admin, User, Guest
+- Permissions enforced at API layer
 
-**Purpose:** What can be extended?
+### Data Protection
+- All API calls over HTTPS
+- Environment variables for secrets
+- Database credentials never in code
+- Regular security audits
 
-**How to Extend:**
-```javascript
-// Example extension
-export class CustomExtension extends BaseClass {
-  // Implementation
-}
+---
+
+## Deployment
+
+### Architecture Diagram
+
+```
+┌─────────────────┐
+│   Load Balancer │
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    │         │
+┌───▼──┐  ┌──▼───┐
+│ App  │  │ App  │  (Multiple instances)
+│ Node │  │ Node │
+└───┬──┘  └──┬───┘
+    │         │
+    └────┬────┘
+         │
+    ┌────▼────┐
+    │ Database│
+    └─────────┘
 ```
 
-**Use Cases:**
-- Use case 1
-- Use case 2
+### Environment Stages
+- **Development**: Local development environment
+- **Staging**: Pre-production testing environment
+- **Production**: Live production environment
+
+### Scaling Strategy
+- Horizontal scaling: Add more app instances
+- Database: Read replicas for scaling reads
+- Caching: Redis for frequently accessed data
 
 ---
 
 ## Performance Considerations
 
-### Complexity Analysis
-
-| Operation | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
-| Operation 1 | O(n) | O(1) |
-| Operation 2 | O(log n) | O(n) |
-
-### Scalability
-
-- **Current Limits:** What are the practical limits?
-- **Bottlenecks:** Where will it slow down first?
-- **Optimization Opportunities:** How could it be improved?
-
----
-
-## Security Considerations
-
-- **Authentication:** How is access controlled?
-- **Data Validation:** What input validation is performed?
-- **Error Handling:** Are errors exposed safely?
-- **Dependencies:** Are external dependencies trusted?
-
----
-
-## Error Handling
-
-| Error Type | Handling Strategy | Recovery |
-|------------|------------------|----------|
-| Validation Error | Reject input, return error | User corrects input |
-| Network Error | Retry 3x, then fail | Graceful degradation |
-| System Error | Log and alert | Manual intervention |
-
----
-
-## Testing Strategy
-
-### Unit Tests
-- Module A: `tests/module-a.test.js`
-- Module B: `tests/module-b.test.js`
-
-### Integration Tests
-- End-to-end flow: `tests/integration/flow.test.js`
-
-### Test Coverage Goals
-- Target: 80% code coverage
-- Critical paths: 100% coverage
-
----
-
-## Deployment & Configuration
-
-### Configuration Options
-
-```javascript
-{
-  "option1": "default value",
-  "option2": 100,
-  "option3": true
-}
-```
-
-### Environment Variables
-
-- `ENV_VAR_1`: Description (required)
-- `ENV_VAR_2`: Description (optional, default: X)
+- **Database Indexing**: All foreign keys and commonly queried fields indexed
+- **Caching**: 15-minute cache for static content
+- **Lazy Loading**: Large datasets loaded on demand
+- **Connection Pooling**: Max 10 database connections per app instance
 
 ---
 
 ## Monitoring & Observability
 
-**Key Metrics:**
-- Metric 1: What it measures, why it matters
-- Metric 2: What it measures, why it matters
+- **Logging**: Structured JSON logs to stdout
+- **Metrics**: Request count, latency, error rate
+- **Health Checks**: `/health` endpoint for liveness/readiness
+- **Alerts**: Error rate > 5%, response time > 500ms
 
-**Logging:**
-- What is logged?
-- Log levels used?
-- Where are logs stored?
+---
+
+## Development Workflow
+
+1. Clone repository
+2. Install dependencies (`npm install`)
+3. Copy `.env.example` to `.env`
+4. Run migrations (`npm run migrate`)
+5. Start dev server (`npm run dev`)
+
+### Testing Strategy
+
+- **Unit Tests**: Jest for component testing
+- **Integration Tests**: Supertest for API testing
+- **E2E Tests**: Playwright for full workflow testing
 
 ---
 
 ## Future Enhancements
 
-### Planned (Short-term)
-- Enhancement 1: Brief description
-- Enhancement 2: Brief description
-
-### Considered (Long-term)
-- Enhancement 3: Brief description
-- Enhancement 4: Brief description
-
-### Explicitly Not Planned (YAGNI)
-- Feature X: Why we're not building it
-- Feature Y: Why we're not building it
+- [ ] GraphQL API layer
+- [ ] Real-time updates via WebSockets
+- [ ] Microservices architecture for scaling
+- [ ] Machine learning for personalization
 
 ---
 
 ## References
 
-- Related documentation: `link-to-doc.md`
-- External resources: https://example.com
-- ADRs: `Docs/decisions/ADR-001.md`
+- [System Requirements Document](./REQUIREMENTS.md)
+- [API Documentation](./API.md)
+- [Database Schema](./DATABASE.md)
+- [Deployment Guide](./DEPLOYMENT.md)
 
 ---
 
-## Changelog
-
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0.0 | YYYY-MM-DD | Initial architecture | Name |
-
----
-
-*This document should be updated when significant architectural changes occur.*
-
+**Document Version**: 1.0  
+**Last Reviewed**: YYYY-MM-DD  
+**Next Review**: YYYY-MM-DD

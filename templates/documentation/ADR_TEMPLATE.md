@@ -1,253 +1,203 @@
-# ADR-XXX: [Decision Title]
+# ADR-NNN: [Short Decision Title]
 
-**Status:** [Proposed | Accepted | Rejected | Deprecated | Superseded by ADR-YYY]  
+**Status:** [Proposed | Accepted | Deprecated | Superseded]  
 **Date:** YYYY-MM-DD  
-**Decision Makers:** [Names or roles]  
-**Tags:** [architecture | technical | process | etc.]
+**Deciders:** [Names of people involved in the decision]  
+**Tags:** [relevant, tags, here]
 
 ---
 
 ## Context
 
-What is the issue we're trying to address? What factors are driving this decision?
+**What is the issue or situation we're addressing?**
 
-**Background:**
-- Context factor 1
-- Context factor 2
-- Context factor 3
+[Describe the problem space, requirements, and constraints. Include:
+- What prompted this decision?
+- What are the current pain points?
+- What business or technical requirements drive this?
+- What are the key constraints (time, budget, technical, organizational)?]
 
-**Problem Statement:**
-Clear statement of the problem we're solving.
+Example:
+> We need to choose a primary database for our application. The system will handle 100K+ transactions per day with complex relational queries. We have experience with both SQL and NoSQL databases on the team.
 
 ---
 
 ## Decision
 
-What is the change that we're proposing and/or doing?
+**What is the change we're proposing or have agreed to?**
 
-**Summary:**
-One-sentence summary of the decision.
+[State the decision clearly and concisely. Be specific about what will be done.]
 
-**Details:**
-Detailed explanation of what we decided and how it will be implemented.
-
----
-
-## Options Considered
-
-### Option 1: [Option Name]
-
-**Description:** What is this option?
-
-**Pros:**
-- ✅ Benefit 1
-- ✅ Benefit 2
-- ✅ Benefit 3
-
-**Cons:**
-- ❌ Drawback 1
-- ❌ Drawback 2
-
-**Cost:** [Development time, maintenance burden, financial cost]
-
-**Risk:** [Low | Medium | High]
-
----
-
-### Option 2: [Option Name]
-
-**Description:** What is this option?
-
-**Pros:**
-- ✅ Benefit 1
-- ✅ Benefit 2
-
-**Cons:**
-- ❌ Drawback 1
-- ❌ Drawback 2
-- ❌ Drawback 3
-
-**Cost:** [Development time, maintenance burden, financial cost]
-
-**Risk:** [Low | Medium | High]
-
----
-
-### Option 3: [Option Name] ⭐ CHOSEN
-
-**Description:** What is this option?
-
-**Pros:**
-- ✅ Benefit 1
-- ✅ Benefit 2
-- ✅ Benefit 3
-- ✅ Benefit 4
-
-**Cons:**
-- ❌ Drawback 1
-
-**Cost:** [Development time, maintenance burden, financial cost]
-
-**Risk:** [Low | Medium | High]
-
-**Why Chosen:**
-Explanation of why this option was selected over others.
+Example:
+> We will use PostgreSQL as our primary database for all transactional data.
 
 ---
 
 ## Rationale
 
-Why did we choose this particular option?
+**Why are we making this decision?**
 
-**Key Factors:**
-1. **Factor 1:** Explanation of how this influenced decision
-2. **Factor 2:** Explanation of how this influenced decision
-3. **Factor 3:** Explanation of how this influenced decision
+[Explain the reasoning behind the decision. Connect requirements to the chosen solution.]
 
-**Trade-offs:**
-- We prioritized X over Y because...
-- We accepted limitation Z in exchange for...
+### Key Requirements & How Decision Addresses Them
+
+| Requirement | How This Decision Addresses It |
+|-------------|-------------------------------|
+| ACID compliance | PostgreSQL provides full ACID guarantees |
+| Complex queries | PostgreSQL has excellent JOIN and subquery support |
+| Team familiarity | Team has 5+ years PostgreSQL experience |
+| JSON support | PostgreSQL JSONB type provides flexible schema when needed |
+
+### Additional Considerations
+
+- **Performance**: PostgreSQL handles our expected load (tested up to 200K tps)
+- **Cost**: Open source, no licensing fees
+- **Ecosystem**: Rich tooling (pgAdmin, Flyway, pg_stat_statements)
+- **Community**: Large, active community for support
 
 ---
 
 ## Consequences
 
-What becomes easier or more difficult because of this change?
+**What becomes easier or harder as a result of this decision?**
 
 ### Positive Consequences ✅
 
-- Consequence 1: Explanation
-- Consequence 2: Explanation
-- Consequence 3: Explanation
+- **Data Integrity**: Strong ACID guarantees prevent data corruption
+- **Query Power**: Complex relational queries are efficient and maintainable
+- **Team Productivity**: Team already knows PostgreSQL well
+- **Ecosystem**: Excellent tooling and library support
+- **Flexibility**: JSONB allows schema flexibility where needed
 
-### Negative Consequences ⚠️
+### Negative Consequences ❌
 
-- Consequence 1: Explanation and mitigation strategy
-- Consequence 2: Explanation and mitigation strategy
+- **Operational Complexity**: Requires more DBA knowledge than MongoDB
+- **Horizontal Scaling**: More complex than some NoSQL solutions
+- **Schema Migrations**: Require careful planning and testing
+- **Learning Curve**: New team members need SQL knowledge
 
-### Neutral Consequences
+### Mitigation Strategies
 
-- Consequence 1: Explanation
+For each negative consequence, how do we mitigate:
 
----
+- **Operational Complexity**: 
+  - Use managed PostgreSQL service (AWS RDS, Google Cloud SQL)
+  - Document standard procedures in runbooks
+  
+- **Horizontal Scaling**:
+  - Use read replicas for scaling reads
+  - Partition large tables by date ranges
+  - Implement caching layer (Redis) for hot data
 
-## Implementation
-
-How will this decision be implemented?
-
-**Timeline:**
-- Phase 1 (Week 1-2): What happens
-- Phase 2 (Week 3-4): What happens
-- Phase 3 (Week 5+): What happens
-
-**Resources Required:**
-- Resource 1: Description
-- Resource 2: Description
-
-**Dependencies:**
-- Dependency 1: What needs to happen first
-- Dependency 2: External dependencies
-
----
-
-## Risks & Mitigation
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|-----------|--------|---------------------|
-| Risk 1 | Low/Med/High | Low/Med/High | How we'll handle it |
-| Risk 2 | Low/Med/High | Low/Med/High | How we'll handle it |
+- **Schema Migrations**:
+  - Use Flyway for version-controlled migrations
+  - Test all migrations in staging first
+  - Maintain rollback scripts for every migration
 
 ---
 
-## Success Criteria
+## Alternatives Considered
 
-How will we know if this decision was successful?
+**What other options did we evaluate?**
 
-**Metrics:**
-- Metric 1: Target value
-- Metric 2: Target value
-- Metric 3: Target value
+### Alternative 1: MongoDB
 
-**Milestones:**
-- [ ] Milestone 1: Description (Date)
-- [ ] Milestone 2: Description (Date)
-- [ ] Milestone 3: Description (Date)
+**Pros**:
+- Easier horizontal scaling
+- Flexible schema by default
+- Simpler operational model
+
+**Cons**:
+- Lacks ACID guarantees for multi-document transactions
+- JOIN operations are inefficient
+- Team has less experience
+
+**Why Rejected**: ACID compliance is a hard requirement. Our queries are highly relational.
+
+### Alternative 2: MySQL
+
+**Pros**:
+- Team has some experience
+- Well-known, stable database
+- Good performance
+
+**Cons**:
+- Weaker JSON support than PostgreSQL
+- Less advanced features (window functions, CTEs)
+- Licensing concerns for some editions
+
+**Why Rejected**: PostgreSQL's JSON support and advanced SQL features are better aligned with our needs.
+
+### Alternative 3: DynamoDB
+
+**Pros**:
+- Serverless, no ops burden
+- Excellent scaling
+- Pay per use
+
+**Cons**:
+- Vendor lock-in (AWS only)
+- Complex pricing model
+- Limited query flexibility
+- No ACID across items
+
+**Why Rejected**: Query flexibility is critical. We need complex JOINs and aggregations.
 
 ---
 
-## Review Date
+## Related Decisions
 
-When will we revisit this decision to evaluate its effectiveness?
-
-**Next Review:** YYYY-MM-DD (6 months)
-
-**Triggers for Earlier Review:**
-- Trigger 1: What would cause us to revisit
-- Trigger 2: What would cause us to revisit
+- [ADR-002](./002-authentication-strategy.md) - Depends on database choice
+- [ADR-005](./005-caching-strategy.md) - Complements database with caching layer
 
 ---
 
 ## References
 
-**Related ADRs:**
-- [ADR-XXX: Related Decision](link)
-- [ADR-YYY: Another Related Decision](link)
-
-**Documentation:**
-- [Architecture Doc](link)
-- [Implementation Guide](link)
-
-**External Resources:**
-- [Article/Blog Post](https://example.com)
-- [Research Paper](https://example.com)
-- [Best Practices Guide](https://example.com)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [PostgreSQL vs MongoDB Benchmark](https://example.com/benchmark)
+- [ACID Compliance Requirements Document](../REQUIREMENTS.md#acid-compliance)
 
 ---
 
-## Discussion Notes
+## Review & Updates
 
-Summary of key discussion points from the decision-making process.
-
-**Key Concerns Raised:**
-- Concern 1: How it was addressed
-- Concern 2: How it was addressed
-
-**Alternative Perspectives:**
-- Perspective 1: Why we considered but didn't choose
-- Perspective 2: Why we considered but didn't choose
+| Date | Reviewer | Notes |
+|------|----------|-------|
+| YYYY-MM-DD | [Name] | Initial decision |
+| | | |
 
 ---
 
-## Update History
+## Notes
 
-| Date | Author | Change |
-|------|--------|--------|
-| YYYY-MM-DD | Name | Initial decision |
-| YYYY-MM-DD | Name | Updated based on feedback |
+[Any additional notes, lessons learned, or implementation details]
 
 ---
 
-## Template Notes
-
-**When to Create an ADR:**
-- Significant architectural decisions
-- Technology stack choices
-- Process changes that affect the team
-- Trade-offs with long-term implications
-- Decisions that are difficult to reverse
-
-**When NOT to Create an ADR:**
-- Routine implementation decisions
-- Temporary workarounds
-- Minor bug fixes
-- Obvious choices with no alternatives
-
-**ADR Naming:**
-- `ADR-001.md`, `ADR-002.md`, etc.
-- Sequential numbering
-- Store in `Docs/decisions/`
+**Status**: Accepted  
+**Decision Date**: YYYY-MM-DD  
+**Implementation Status**: [Not Started | In Progress | Complete]  
+**Last Updated**: YYYY-MM-DD
 
 ---
 
-*ADRs are living documents and should be updated when circumstances change.*
+## ADR Naming Convention
 
+ADRs should be named: `NNN-short-title.md`
+
+Examples:
+- `001-database-choice.md`
+- `002-authentication-strategy.md`
+- `003-api-design-rest-vs-graphql.md`
+
+Store in `Docs/ADR/` directory.
+
+---
+
+## ADR Statuses
+
+- **Proposed**: Decision is being considered
+- **Accepted**: Decision has been approved and should be implemented
+- **Deprecated**: Decision is no longer relevant but kept for historical context
+- **Superseded**: Decision has been replaced by a newer ADR (link to replacement)

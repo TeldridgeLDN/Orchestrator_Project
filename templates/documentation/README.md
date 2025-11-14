@@ -1,368 +1,142 @@
-# Documentation Templates
+# [Project Name]
 
-This directory contains standardized templates for creating documentation across the Orchestrator project.
-
-## Philosophy
-
-**Document for readers, not for ritual.** Every document must serve a purpose.
-
-See `Docs/DOCUMENTATION_FRAMEWORK.md` for complete guidelines on when and how to document.
-
----
-
-## Available Templates
-
-| Template | Use When | Lifespan |
-|----------|----------|----------|
-| `ARCHITECTURE.md` | System design changes, new major components | Permanent |
-| `IMPLEMENTATION_GUIDE.md` | Complex features that others will maintain | Permanent |
-| `USER_GUIDE.md` | User-facing features, CLI commands | Permanent |
-| `API_REFERENCE.md` | Public APIs, reusable libraries, MCP tools | Permanent |
-| `QUICK_REFERENCE.md` | Cheat sheets, frequently used commands | Permanent |
-| `MILESTONE_SUMMARY.md` | Epic/phase completion | Archive after 30 days |
-| `ADR_TEMPLATE.md` | Architectural decisions, tech choices | Permanent |
-
----
+> Brief one-liner description of what this project does.
 
 ## Quick Start
 
-### 1. Choose the Right Template
+```bash
+# Install dependencies
+npm install
 
-Use the decision tree in `Docs/DOCUMENTATION_FRAMEWORK.md` to determine if documentation is needed and which template to use.
+# Start the application
+npm start
+```
 
-### 2. Copy the Template
+## Features
+
+- **Feature 1** - Brief description
+- **Feature 2** - Brief description
+- **Feature 3** - Brief description
+
+## Installation
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+
+### Setup
 
 ```bash
-# Example: Document new architecture
-cp templates/documentation/ARCHITECTURE.md Docs/MY_FEATURE_ARCHITECTURE.md
+# Clone the repository
+git clone [repository-url]
+cd [project-name]
+
+# Install dependencies
+npm install
+
+# Copy environment template
+cp .env.example .env
+# Edit .env with your actual API keys
+
+# Run the application
+npm start
 ```
 
-### 3. Fill In the Template
+## Usage
 
-Follow the structure provided. Delete sections that don't apply, but keep the core structure.
-
-### 4. Place in Correct Location
-
-**Permanent Documentation:**
-- `Docs/` - Main documentation directory
-
-**Ephemeral Documentation:**
-- Root directory (will be archived after 30 days)
-- `.claude/docs/sessions/YYYY-MM/` (session-based, 14 days)
-
----
-
-## Template Descriptions
-
-### ARCHITECTURE.md
-
-**Purpose:** Document system design, component structure, data flow
-
-**Use When:**
-- New major components added
-- Significant refactoring changes system structure
-- Integration patterns need explanation
-
-**Sections:**
-- System context and dependencies
-- Component architecture with diagrams
-- Data flow
-- Design decisions and trade-offs
-- Extension points
-
----
-
-### IMPLEMENTATION_GUIDE.md
-
-**Purpose:** Help maintainers understand complex implementations
-
-**Use When:**
-- Feature is complex and non-obvious
-- Critical code that others will maintain
-- Implementation has tricky parts or gotchas
-
-**Sections:**
-- Implementation details per component
-- Data flow with examples
-- Critical code sections (annotated)
-- Design patterns used
-- Testing strategy
-- Known issues and limitations
-
----
-
-### USER_GUIDE.md
-
-**Purpose:** Help users understand and use features
-
-**Use When:**
-- New user-facing features
-- CLI commands
-- Configuration changes users need to know
-
-**Sections:**
-- Getting started (quick start)
-- Basic usage with examples
-- Advanced features
-- Configuration options
-- Troubleshooting
-- FAQ
-
----
-
-### API_REFERENCE.md
-
-**Purpose:** Document public APIs for developers
-
-**Use When:**
-- Public APIs
-- Reusable libraries
-- MCP server tools
-- Functions/classes others will call
-
-**Sections:**
-- Classes and methods
-- Functions
-- Types/interfaces
-- Constants
-- Error handling
-- Examples
-
----
-
-### QUICK_REFERENCE.md
-
-**Purpose:** Fast lookup for common tasks
-
-**Use When:**
-- Frequently used commands need quick reference
-- Cheat sheets for complex workflows
-- Troubleshooting guides
-
-**Sections:**
-- Common commands
-- Code snippets
-- Configuration quick start
-- Troubleshooting
-- Cheat sheet tables
-
----
-
-### MILESTONE_SUMMARY.md
-
-**Purpose:** Summarize completion of major work
-
-**Use When:**
-- Epic completion (multiple related tasks)
-- Phase completion (major project phase)
-- Release milestones
-
-**Sections:**
-- Executive summary
-- What was delivered
-- Metrics and statistics
-- Technical accomplishments
-- Lessons learned
-- Next steps
-
-**⏰ Lifecycle:** Archive to `Docs/archive/milestones/` after 30 days
-
----
-
-### ADR_TEMPLATE.md
-
-**Purpose:** Record significant architectural decisions
-
-**Use When:**
-- Significant architectural decisions
-- Technology stack choices
-- Trade-offs with long-term implications
-- Decisions difficult to reverse
-
-**Sections:**
-- Context and problem statement
-- Options considered with pros/cons
-- Decision and rationale
-- Consequences
-- Implementation plan
-
-**📂 Location:** `Docs/decisions/ADR-XXX.md`
-
----
-
-## Anti-Patterns
-
-### ❌ Don't Document These
-
-1. **Individual task completions** (use git commits instead)
-2. **Obvious changes** (code is self-documenting)
-3. **Personal notes** (keep in personal notebook)
-4. **Duplicate information** (link to single source of truth)
-5. **Implementation details that change frequently**
-
----
-
-## Best Practices
-
-### ✅ Single Source of Truth
-
-Each concept documented in ONE place. Link to it from elsewhere.
-
-**Bad:**
-```
-README.md → "Feature works by doing X, Y, Z..."
-USER_GUIDE.md → "Feature works by doing X, Y, Z..." (duplicate)
-```
-
-**Good:**
-```
-README.md → "See USER_GUIDE.md for how Feature works"
-USER_GUIDE.md → Complete explanation
-```
-
----
-
-### ✅ Update Existing Docs > Create New Docs
-
-**Bad:**
-```
-TASK_7_COMPLETE.md
-TASK_8_COMPLETE.md
-TASK_9_COMPLETE.md
-```
-
-**Good:**
-```
-# Update existing docs
-Docs/ARCHITECTURE.md (updated with new changes)
-```
-
----
-
-### ✅ Write for Your Future Self
-
-Assume you'll forget everything in 6 months. Would this doc help you then?
-
----
-
-### ✅ Test Your Documentation
-
-- Can a new developer follow it?
-- Are steps missing?
-- Are examples clear?
-
----
-
-## Template Customization
-
-### Adding Sections
-
-Feel free to add sections specific to your needs, but maintain the core structure.
-
-### Removing Sections
-
-Delete sections that don't apply to your use case. Don't leave empty placeholders.
-
-### Maintaining Consistency
-
-Keep similar types of documentation consistent in structure and style.
-
----
-
-## Lifecycle Management
-
-### Permanent Docs
-
-**Location:** `Docs/`  
-**Maintenance:** Update when system changes  
-**Examples:** Architecture, User Guides, API References
-
-### Semi-Permanent Docs
-
-**Location:** Root or `Docs/`  
-**Lifecycle:** Archive after 30-90 days  
-**Examples:** Milestone summaries, implementation guides
-
-### Session-Based Docs
-
-**Location:** `.claude/docs/sessions/YYYY-MM/`  
-**Lifecycle:** Review after 7 days, delete after 14 days  
-**Examples:** Task completion summaries, session notes
-
----
-
-## Automation
-
-### Suggested Hook: DocumentationLifecycle.js
+### Basic Example
 
 ```javascript
-// .claude/hooks/DocumentationLifecycle.js
+// Example usage code
+import { YourModule } from './lib/your-module.js';
 
-// Archive milestone docs after 30 days
-if (doc.type === 'MILESTONE' && age > 30) {
-  moveTo('Docs/archive/milestones/');
-}
-
-// Delete session docs after 14 days
-if (doc.type === 'SESSION' && age > 14) {
-  delete();
-}
+const result = YourModule.doSomething();
+console.log(result);
 ```
 
----
+### Advanced Usage
 
-## Examples
+See [API Documentation](./Docs/API.md) for complete reference.
 
-### Example 1: Documenting a New Feature
+## Documentation
 
-**Situation:** Completed scaffold workflow feature
+- **[Architecture](./Docs/ARCHITECTURE.md)** - System design and component overview
+- **[API Reference](./Docs/API.md)** - Complete API documentation
+- **[Contributing](./CONTRIBUTING.md)** - How to contribute to this project
+- **[Changelog](./CHANGELOG.md)** - Version history and changes
 
-**Documents Created:**
-1. `Docs/SCAFFOLD_ARCHITECTURE.md` (how system works)
-2. `Docs/SCAFFOLD_IMPLEMENTATION.md` (maintenance guide)
-3. `Docs/SCENARIO_CLI.md` (updated with scaffold command)
-4. `SCAFFOLD_FEATURE_COMPLETE.md` (milestone, will archive)
+## Project Structure
 
----
+```
+project/
+├── lib/              # Source code
+├── tests/            # Test files
+├── Docs/             # Documentation
+├── templates/        # Project templates
+└── .claude/          # AI assistant configuration
+```
 
-### Example 2: Bug Fix
+## Development
 
-**Situation:** Fixed validation bug
+### Running Tests
 
-**Documents Created:**
-- None (just git commit message)
+```bash
+npm test
+```
 
----
+### Linting
 
-### Example 3: Architecture Decision
+```bash
+npm run lint
+```
 
-**Situation:** Decided to use hooks over sub-agents
+### Building
 
-**Documents Created:**
-1. `Docs/decisions/ADR-001-hooks-over-subagents.md`
+```bash
+npm run build
+```
 
----
+## Configuration
 
-## Getting Help
+Key configuration options in `.env`:
 
-For questions about which template to use or how to structure documentation, refer to:
+```bash
+# API Keys
+ANTHROPIC_API_KEY=your_key_here
+PERPLEXITY_API_KEY=your_key_here
 
-- **Main Guide:** `Docs/DOCUMENTATION_FRAMEWORK.md`
-- **Project Issues:** GitHub issues for documentation questions
+# Application Settings
+NODE_ENV=development
+PORT=3000
+```
 
----
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: Application won't start
+- **Solution**: Verify all dependencies installed with `npm install`
+
+**Issue**: API calls failing  
+- **Solution**: Check that API keys in `.env` are valid
 
 ## Contributing
 
-When adding new templates:
+Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) first.
 
-1. Follow existing template structure
-2. Include clear instructions in comments
-3. Provide examples throughout
-4. Update this README with template description
-5. Add to the decision tree in `DOCUMENTATION_FRAMEWORK.md`
+## License
+
+MIT License - see [LICENSE](./LICENSE) for details.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-org/your-repo/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/your-repo/discussions)
+- **Documentation**: [Project Wiki](https://github.com/your-org/your-repo/wiki)
 
 ---
 
-*Keep documentation purposeful, consistent, and maintainable.*
-
+**Created**: [Date]  
+**Last Updated**: [Date]  
+**Maintainers**: [Your Name]
