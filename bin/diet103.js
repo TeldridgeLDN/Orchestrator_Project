@@ -19,6 +19,7 @@ import { bulkRegisterCommand } from '../lib/commands/bulk-register.js';
 import { skillImportCommand, listSkillsCommand } from '../lib/commands/skill-import.js';
 import { skillLockCommand, skillUnlockCommand, skillOverrideCommand, skillStatusCommand } from '../lib/commands/skill-management.js';
 import { classifyCommand, organizeCommand, archiveCommand, cleanupCommand, statusCommand as fileStatusCommand, statsCommand as fileStatsCommand } from '../lib/commands/file-lifecycle.js';
+import { validateProjectCommand, checkPRDCommand, fixProjectCommand, generateBadgeCommand, injectBadgeCommand } from '../lib/commands/project-validator.js';
 
 const program = new Command();
 
@@ -123,6 +124,47 @@ project
   .option('--non-interactive', 'Skip interactive selection (auto-select all above threshold)')
   .option('-v, --verbose', 'Show detailed output')
   .action(bulkRegisterCommand);
+
+// Project identity validation commands (NEW in v1.3.0 - Phase 3)
+project
+  .command('validate [path]')
+  .description('Validate project identity consistency across all signals')
+  .option('-v, --verbose', 'Show detailed validation output')
+  .option('--json', 'Output as JSON')
+  .action(validateProjectCommand);
+
+project
+  .command('check-prd <file>')
+  .description('Validate PRD file against project identity')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(checkPRDCommand);
+
+project
+  .command('fix [path]')
+  .description('Auto-fix project identity mismatches')
+  .option('-y, --yes', 'Skip confirmation prompts')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(fixProjectCommand);
+
+// Badge generation commands
+const badges = project
+  .command('badges')
+  .description('Generate and manage project identity badges');
+
+badges
+  .command('generate')
+  .description('Generate a project identity badge')
+  .option('--style <style>', 'Badge style (simple, html, shields)', 'simple')
+  .option('--color <color>', 'Badge color')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(generateBadgeCommand);
+
+badges
+  .command('inject <file>')
+  .description('Inject project badge into a documentation file')
+  .option('--style <style>', 'Badge style (simple, html, shields)', 'simple')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(injectBadgeCommand);
 
 // Skill command group
 const skill = program
