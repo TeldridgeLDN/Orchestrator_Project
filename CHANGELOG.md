@@ -1,0 +1,186 @@
+# Changelog
+
+All notable changes to the Orchestrator Project (diet103) will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.1.1] - 2025-11-14
+
+### Added - Core Infrastructure Files ✅
+
+**New Standard Components**: Three core infrastructure files now automatically installed in all diet103 projects.
+
+#### Infrastructure Files
+- **`.mcp.json`** - MCP Server Configuration
+  - Pre-configured TaskMaster AI server
+  - API key placeholders for all major AI providers (Anthropic, Perplexity, OpenAI, Google, XAI, Mistral)
+  - Disabled by default for security
+  - Standard JSON format for Claude Code integration
+
+- **`.env.example`** - Environment Variable Template
+  - Documents required and optional API keys
+  - Clear instructions: "Copy to .env and never commit .env"
+  - Extensible for project-specific keys
+  - Security-first design with placeholder values
+
+- **`.gitignore`** - Git Ignore Configuration
+  - 6 comprehensive categories: Environment/Secrets, Dependencies, IDE/Editors, Build Outputs, Test Coverage, diet103-specific
+  - Multi-language support (Node.js, Python)
+  - File Lifecycle Management backup exclusions
+  - Optional TaskMaster task file exclusions
+
+#### Implementation
+- **Modified**: `lib/utils/diet103-repair.js` - Added core infrastructure installation (~110 lines)
+- **Modified**: `lib/commands/init.js` - Added core files to initialization (~40 lines)
+- **Behavior**: Non-blocking installation, only creates if files don't exist
+- **Triggers**: Automatically installed via `diet103 init` and `diet103 project register`
+
+#### Documentation
+- Created `CORE_INFRASTRUCTURE_IMPLEMENTATION_COMPLETE.md` (340 lines) - Complete technical details
+- Created `.claude/rules/core-infrastructure-standard.md` (222 lines) - Platform-agnostic AI agent guidelines
+- Created `PHASE1_CORE_INFRASTRUCTURE_COMPLETE.md` (244 lines) - Executive summary and quick reference
+- Created `PHASE1_DEPLOYMENT_CHECKLIST.md` - Deployment procedures and monitoring plan
+- Updated `CORE_INFRASTRUCTURE_ANALYSIS.md` - Added Phase 1 completion status
+
+### Changed
+- **Version Bump**: 1.1.0 → 1.1.1 (patch version for additive infrastructure)
+- **Installation Count**: Now reports 18 components (was 15) when creating fresh projects
+
+### Technical Details
+
+**Installation Behavior**:
+- Files created during `repairDiet103Infrastructure()` execution
+- Existence checks prevent overwrites of existing configurations
+- Failures logged as warnings, not errors (non-blocking)
+- Tracked separately in `result.installed.coreInfrastructure` array
+
+**Philosophy Alignment**:
+- ✅ PAI: Filesystem-based context management, progressive disclosure, skills-as-containers
+- ✅ diet103: Auto-activation, easy project creation, 500-line context rule, self-contained `.claude/` directories
+
+**Testing**:
+- ✅ Fresh project initialization verified
+- ✅ Existing project registration verified
+- ✅ File content validation completed
+- ✅ Edge cases handled (existing files, failures)
+
+### Security Improvements
+- **Git Safety**: `.env` files protected from accidental commits via `.gitignore`
+- **Secret Management**: Clear documentation via `.env.example` template
+- **Default Secure**: MCP servers disabled by default, user must explicitly enable
+- **No Hardcoded Secrets**: All API keys externalized to environment variables
+
+### Integration Readiness
+- **MCP Ready**: Claude Code integration pre-configured
+- **TaskMaster AI**: Pre-configured server, just add API keys
+- **Multi-Platform**: Works with Claude Code, Cursor, Windsurf, Cline, Roo Code
+- **Extensible**: Easy to add new MCP servers or environment variables
+
+### Migration
+**No Migration Required** - Changes are additive only:
+- Existing projects unaffected until next registration
+- Files only created if missing
+- No breaking changes to existing functionality
+- Safe to deploy immediately
+
+---
+
+## [1.1.0] - 2025-11-XX
+
+### Added - File Lifecycle Management System
+
+**New Standard Component**: Automatic document organization and classification system.
+
+#### Infrastructure Files
+- **`.file-manifest.json`** - Document classification and lifecycle tracking
+- **`.claude/archive/`** - Long-term storage for completed/obsolete documents
+- **`.claude/backups/`** - Automatic backups of important files
+
+#### Implementation
+- Added `lib/init/file_lifecycle_init.js` - Initialization logic
+- Modified `lib/utils/diet103-repair.js` - Integrated into repair system
+- Created platform-agnostic rule: `.claude/rules/file-lifecycle-standard.md`
+
+#### Documentation
+- Created `Docs/FILE_LIFECYCLE_STANDARD_INFRASTRUCTURE.md` - Complete technical guide
+- Created `FILE_LIFECYCLE_NOW_STANDARD_COMPLETE.md` - Implementation summary
+
+### Philosophy
+- **PAI Alignment**: Filesystem-based context, progressive disclosure
+- **diet103 Alignment**: Auto-activation, easy project creation, self-contained structure
+
+---
+
+## [1.0.0] - 2025-XX-XX
+
+### Added - Initial Release
+
+**Core Infrastructure**:
+- `.claude/` directory structure
+- `Claude.md` project context file
+- `metadata.json` project manifest
+- `skill-rules.json` auto-activation rules
+- `hooks/` directory with UserPromptSubmit.js and PostToolUse.js
+- `skills/`, `commands/`, `agents/`, `resources/` directories
+
+**Commands**:
+- `diet103 init` - Initialize new project
+- `diet103 validate` - Validate infrastructure
+- `diet103 health` - Check project health
+- `diet103 project register` - Register project in global registry
+- `diet103 project list` - List all registered projects
+
+**Infrastructure Detection & Repair**:
+- Automatic gap detection
+- Auto-repair functionality
+- Consistency validation
+- Health scoring system
+
+**Project Registry**:
+- Global project tracking at `~/.claude/projects-registry.json`
+- MCP validation and auto-fixing
+- Bulk registration support
+
+---
+
+## Version History Summary
+
+| Version | Date | Description |
+|---------|------|-------------|
+| **1.1.1** | **2025-11-14** | **Core Infrastructure Files** ✅ |
+| 1.1.0 | 2025-11-XX | File Lifecycle Management |
+| 1.0.0 | 2025-XX-XX | Initial Release |
+
+---
+
+## Semantic Versioning
+
+- **MAJOR** (X.0.0): Breaking changes requiring migration
+- **MINOR** (1.X.0): New features (backward compatible)
+- **PATCH** (1.0.X): Bug fixes and minor enhancements (backward compatible)
+
+---
+
+## How to Use This Changelog
+
+### For Users
+- **Added**: New features and capabilities
+- **Changed**: Modifications to existing functionality
+- **Fixed**: Bug fixes and corrections
+- **Deprecated**: Features being phased out
+- **Security**: Security-related changes
+
+### For Developers
+- Review **Technical Details** for implementation specifics
+- Check **Migration** sections when updating
+- Follow **Philosophy Alignment** for new contributions
+
+---
+
+**Current Version**: 1.1.1 - Production ✅  
+**Status**: Stable, actively maintained  
+**Next Planned**: Phase 2 features (based on user feedback)
+
