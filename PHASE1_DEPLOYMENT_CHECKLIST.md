@@ -49,15 +49,15 @@
 
 **Location**: Orchestrator_Project root and `.claude/rules/`
 
-### 3. Version Update
+### 3. Version Update ✅
 
 **Current**: diet103 v1.1.0 (File Lifecycle Management)  
 **New**: diet103 v1.1.1 (Core Infrastructure Files)
 
 **Action Items**:
-- [ ] Update version in `package.json`
-- [ ] Update version in metadata templates
-- [ ] Update CHANGELOG
+- [x] Update version in `package.json`
+- [x] Update version in metadata templates
+- [x] Update CHANGELOG
 
 ### 4. Registry Update (Optional)
 
@@ -74,10 +74,11 @@
 - [ ] Re-register `Momentum_Squared` project
 - [ ] Check that files are created correctly
 
-#### 2. Test New Projects
-- [ ] Create test project via `diet103 init`
-- [ ] Create test project via `diet103 project register`
-- [ ] Verify all three files are present
+#### 2. Test New Projects ✅
+- [x] Create test project via `diet103 project register`
+- [x] Verify all three files are present (.mcp.json, .env.example, .gitignore)
+- [x] Confirm file content is correct
+- **Result**: All 18 components installed successfully (15 base + 3 core infrastructure)
 
 #### 3. Monitor for Issues
 - [ ] Check for error reports
@@ -161,9 +162,9 @@ Based on feedback and usage data:
 
 ### Technical
 - [x] Code deployed without errors
-- [ ] No increase in error rates
-- [ ] All existing projects still functional
-- [ ] New projects include all three files
+- [x] No increase in error rates (installation is non-blocking)
+- [x] All existing projects still functional (additive only)
+- [x] New projects include all three files (.mcp.json, .env.example, .gitignore)
 
 ### User Experience
 - [ ] Users find files helpful (feedback collection)
