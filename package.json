@@ -1,6 +1,6 @@
 {
   "name": "orchestrator-project",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Multi-project AI orchestration system combining PAI global layer with diet103 local layer",
   "type": "module",
   "bin": {
