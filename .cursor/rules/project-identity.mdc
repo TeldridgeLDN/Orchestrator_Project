@@ -1,0 +1,193 @@
+---
+description: Validate project identity before implementations to prevent wrong-project work
+globs: **/*
+alwaysApply: true
+---
+
+# Project Identity Validation
+
+**CRITICAL RULE: Always validate project context before implementing tasks**
+
+## Current Project
+
+**Canonical Name:** `Orchestrator_Project`
+
+**Project Identifiers:**
+- Working Directory: `/Users/tomeldridge/Orchestrator_Project`
+- Config File: `.taskmaster/config.json` → `global.projectName`
+- Git Remote: Should contain "orchestrator" or "Orchestrator_Project"
+- Primary PRD: `Docs/Orchestrator_PRD.md`
+
+## Validation Protocol
+
+### Before ANY Implementation
+
+When starting work on a task, especially from a PRD:
+
+1. **Verify Working Directory**
+   ```bash
+   # Expected: /Users/tomeldridge/Orchestrator_Project
+   pwd
+   ```
+
+2. **Check Config Project Name**
+   ```json
+   // .taskmaster/config.json
+   {
+     "global": {
+       "projectName": "Orchestrator_Project"  // ← Must match
+     }
+   }
+   ```
+
+3. **If Reading a PRD, Validate Project Field**
+   ```markdown
+   **Project**: [Name Here]
+   
+   ✅ CORRECT: "Orchestrator Project" or "Orchestrator_Project" or "Orchestrator Multi-Project AI System"
+   ❌ WRONG: "Momentum Squared" or any other project name
+   ```
+
+### If Mismatch Detected
+
+**STOP IMMEDIATELY and alert user:**
+
+```
+⚠️ PROJECT IDENTITY MISMATCH DETECTED
+
+Current Working Directory: Orchestrator_Project
+PRD Project Field: [Different Project Name]
+
+This indicates one of:
+1. Wrong PRD being used in this project
+2. Copy-paste error in PRD header
+3. You're in the wrong project directory
+
+🛑 CONFIRM WITH USER:
+- Which project should this work be done in?
+- Should the PRD be updated?
+- Is this intentional cross-project work?
+
+DO NOT PROCEED until user clarifies.
+```
+
+## Verbalization Protocol
+
+When starting significant work, explicitly state project context:
+
+```
+"I'm working in Orchestrator_Project. Let me verify the task requirements 
+match this project before proceeding..."
+
+[After checking PRD]
+"✅ Confirmed: Task is for Orchestrator_Project. Proceeding with implementation."
+
+OR
+
+"⚠️ Warning: PRD indicates [Other Project] but we're in Orchestrator_Project. 
+Please clarify before I proceed."
+```
+
+## Cross-Project Work
+
+If user explicitly wants to implement features from ProjectA in ProjectB:
+
+1. **Require Explicit Confirmation**
+   - User must state: "Yes, implement ProjectA features in ProjectB"
+   
+2. **Document the Decision**
+   - Add note to task: "Cross-project implementation approved by user"
+   - Explain why this makes sense
+
+3. **Extra Caution**
+   - Double-check all file paths
+   - Verify dependencies are compatible
+   - Test thoroughly
+
+## Common Scenarios
+
+### ✅ CORRECT - Same Project
+```
+Working Dir: /Users/tomeldridge/Orchestrator_Project
+PRD Project: "Orchestrator Multi-Project AI System"
+→ MATCH: Proceed with confidence
+```
+
+### ❌ WRONG - Different Project
+```
+Working Dir: /Users/tomeldridge/Orchestrator_Project
+PRD Project: "Momentum Squared diet103 Enhancements"
+→ MISMATCH: Alert user immediately
+```
+
+### ⚠️ AMBIGUOUS - Needs Clarification
+```
+Working Dir: /Users/tomeldridge/Orchestrator_Project
+PRD Project: "diet103 Sprint 3"
+→ UNCLEAR: diet103 could be in multiple projects, verify with user
+```
+
+## Edge Cases
+
+**Monorepo:**
+- Include full path in validation
+- Example: "orchestrator/frontend" vs "orchestrator/backend"
+
+**Project Renamed:**
+- Update `.taskmaster/config.json` manually
+- Update all PRD headers
+- Update git remote if needed
+
+**Legitimate Cross-Project:**
+- User building shared library used by multiple projects
+- Explicitly implementing pattern from ProjectA in ProjectB
+- Always document justification
+
+## Validation Tools
+
+Use these to verify project identity:
+
+```bash
+# Quick project check
+echo "Directory: $(basename $(pwd))"
+jq -r '"Config: " + .global.projectName' .taskmaster/config.json
+git remote get-url origin | sed 's/.*\///' | sed 's/\.git$//' | xargs -I {} echo "Git: {}"
+
+# Expected output:
+# Directory: Orchestrator_Project
+# Config: Orchestrator_Project  
+# Git: orchestrator-project
+```
+
+## Critical Files to Check
+
+Before implementing, quickly scan these for project identity:
+
+1. `.taskmaster/config.json` → `global.projectName`
+2. `package.json` → `name` (if exists)
+3. `README.md` → Project title
+4. Main PRD in `Docs/` directory
+
+All should refer to the same project.
+
+## Consequences of Violation
+
+If project validation is skipped and wrong project is implemented:
+
+- ⚠️ **Minor:** Wasted time, need to delete and redo
+- 🔴 **Major:** Code incompatibility, merge conflicts
+- 💥 **Critical:** Production incidents, data corruption
+
+**Always validate. Always.**
+
+## Rule Updates
+
+This rule was created on 2025-11-14 in response to Sprint 3 project confusion incident.
+
+**Last Updated:** 2025-11-14  
+**Next Review:** 2025-12-14 (or after next project confusion incident)
+
+---
+
+*When in doubt about project identity, ask the user. 
+Better to ask once than implement in the wrong project.*
