@@ -9,6 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Health Monitoring with File Lifecycle Metrics ✅
+
+**Enhanced Feature**: `diet103 health` command now includes File Lifecycle organization metrics.
+
+#### What Changed
+- **New Component**: File Organization (10% weight) added to health scoring
+- **Weight Rebalancing**: 
+  - Structure: 40% → 35%
+  - Hooks: 30% → 25%
+  - Skills: 20% (unchanged)
+  - Config: 10% (unchanged)
+  - Files: 0% → 10% (NEW)
+
+#### File Organization Metrics
+The new Files component tracks:
+- **Classification Coverage (50%)**: Percentage of files classified into tiers
+- **Pending Archive (30%)**: Files waiting to be archived (fewer = better)
+- **Misplaced Files (20%)**: Files in wrong locations (fewer = better)
+
+#### Scoring Details
+- **100 points max**: Fully classified, no pending archives, no misplaced files
+- **0 points**: File Lifecycle not initialized (shows warning, not critical)
+- **Detailed breakdown**: Shows tier distribution (CRITICAL, PERMANENT, EPHEMERAL, ARCHIVED)
+
+#### Example Output
+```
+Files        ████████████████████ 100% (10% weight)
+  → Classified files: 150/150 (100%)
+  → By tier: CRITICAL(12), PERMANENT(45), EPHEMERAL(8), ARCHIVED(85)
+```
+
+#### Implementation
+- Modified `lib/utils/project-health.js`: Added `calculateFileOrganizationScore()`
+- Modified `lib/commands/health.js`: Added Files component to display
+- Reads `.file-manifest.json` for metrics
+- Non-blocking: Returns 0 if File Lifecycle not initialized
+
+#### Benefits
+- ✅ Visibility into file organization health
+- ✅ Encourages File Lifecycle adoption
+- ✅ Proactive alerts for pending archives/misplaced files
+- ✅ Integrated with existing health infrastructure
+
+---
+
 ### Added - Documentation Templates ✅
 
 **New Standard Component**: Five documentation templates added to `templates/documentation/`.
