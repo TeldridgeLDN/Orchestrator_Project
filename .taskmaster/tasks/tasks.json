@@ -5239,7 +5239,7 @@
         "id": 128,
         "title": "Set Up A/B Test for Example Pages (Variants A, B, C)",
         "description": "Implement A/B testing infrastructure to measure impact of different validation page structures on conversion. Test 3 variants: V1 (Simplified Professional), V2 (Simplified Problem-Focused), and V3 (Comprehensive with Authentic Story). Track key metrics via Plausible Analytics with 50/25/25 traffic split.",
-        "status": "pending",
+        "status": "in-progress",
         "dependencies": [
           127
         ],
@@ -5253,7 +5253,7 @@
             "description": "Create a system to assign users to one of the three variants (V1, V2, V3) with a 25/25/50 split, respecting URL parameters if present.",
             "dependencies": [],
             "details": "Build a utility function that checks for URL parameters first (?variant=v1/v2/v3), then checks localStorage for returning visitors, and finally assigns a random variant with the specified distribution (50% V3, 25% V1, 25% V2). Store the assigned variant in localStorage for consistency across visits.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test that URL parameters override random assignment, verify localStorage persistence works, and confirm the 50/25/25 distribution is approximately correct over multiple test runs."
           },
           {
@@ -5264,7 +5264,7 @@
               1
             ],
             "details": "Add event listeners for package click buttons that fire 'package_click' events with variant data. Create 'example_view' events when users interact with example sections. Implement scroll tracking that fires 'scroll_depth' events at 25%, 50%, 75%, and 100% scroll positions. For V3 only, add 'email_capture' event tracking.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Manually test each event by performing the actions on all three variants and verifying events appear in Plausible dashboard with correct properties and variant information."
           },
           {
@@ -5275,8 +5275,17 @@
               2
             ],
             "details": "Create a private dashboard page that pulls data from Plausible API to show real-time comparison of key metrics across variants. Include conversion rates, time on page, scroll depth, and email capture rates (V3). Add filtering by date range and ability to export data for further analysis.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify dashboard accurately displays test data, check that metrics match raw Plausible data, and ensure the dashboard is accessible only to team members."
+          },
+          {
+            "id": 4,
+            "title": "Enable Plausible Analytics tracking",
+            "description": "Uncomment Plausible event tracking code in variant-assignment.js and validation-tracking.js once Plausible is set up.",
+            "details": "**Prerequisites**: Plausible Analytics account set up with domain configured\n\n**Files to update**:\n1. `portfolio-redesign/public/js/variant-assignment.js` - Line ~114 (trackVariantAssignment function)\n2. `portfolio-redesign/public/js/validation-tracking.js` - Multiple locations for event tracking\n\n**Steps**:\n1. Set up Plausible account and add tracking script to pages\n2. Uncomment all `window.plausible()` calls in both JS files\n3. Test events are firing correctly in Plausible dashboard\n4. Verify custom properties are being captured\n\n**Events to verify**:\n- `Variant_Assigned` (with props: variant, source, name)\n- `Package_Click` (with props: package, variant, location)\n- `Example_View` (with props: example, variant)\n- `Scroll_Depth` (with props: depth, variant)\n- `Checklist_Download` (with props: variant) - V3 only\n\n**Testing**: Use browser console to manually trigger events and check Plausible real-time dashboard",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 128
           }
         ]
       }
@@ -5291,7 +5300,7 @@
       ],
       "created": "2025-11-18T08:14:07.580Z",
       "description": "Tasks for master context",
-      "updated": "2025-11-19T18:29:37.331Z"
+      "updated": "2025-11-19T19:32:01.239Z"
     }
   },
   "diet103-validation": {
