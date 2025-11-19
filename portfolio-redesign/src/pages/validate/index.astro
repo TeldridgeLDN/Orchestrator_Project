@@ -1,0 +1,396 @@
+---
+import ExamplesSection from '../../components/examples/ExamplesSection.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation Landing Pages | Tom Eldridge</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-primary: #2C5F2D;
+      --color-accent: #E07A5F;
+      --color-text: #1a1a1a;
+      --color-text-light: #666;
+      --color-bg: #ffffff;
+      --color-bg-subtle: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1e4620 100%);
+      color: white;
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border-color: white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--color-primary);
+    }
+
+    /* Services Section */
+    .services {
+      padding: 4rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .section-intro {
+      font-size: 1.125rem;
+      color: var(--color-text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card p {
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* Packages Section */
+    .packages {
+      padding: 4rem 0;
+      background: var(--color-bg-subtle);
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .package-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .package-card.featured {
+      border: 3px solid var(--color-primary);
+      transform: scale(1.05);
+    }
+
+    .package-badge {
+      position: absolute;
+      top: -12px;
+      right: 2rem;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .package-card h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .package-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .package-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .package-features li {
+      padding: 0.75rem 0;
+      color: var(--color-text-light);
+      border-bottom: 1px solid #eee;
+    }
+
+    .package-features li:last-child {
+      border-bottom: none;
+    }
+
+    .package-features li::before {
+      content: "✓ ";
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .services-grid,
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .package-card.featured {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Validation-First Landing Pages</h1>
+      <p>
+        I build landing pages that don't just look good—they convert. 
+        Through rapid A/B testing and data-driven optimization, I help founders turn traffic into customers.
+      </p>
+      <div class="hero-cta">
+        <a href="#packages" class="btn btn-primary">View Packages</a>
+        <a href="#examples" class="btn btn-secondary">See Examples</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Proposition -->
+  <section class="services">
+    <div class="container">
+      <div class="section-header">
+        <h2>What I Do Differently</h2>
+        <p class="section-intro">
+          Most landing pages are based on guesswork. Mine are validated with real user data.
+        </p>
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🎯</div>
+          <h3>Data-Driven</h3>
+          <p>
+            Every headline, CTA, and layout choice is A/B tested with real users before launch. No assumptions, just results.
+          </p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">⚡</div>
+          <h3>Fast Delivery</h3>
+          <p>
+            Get a professional, converting landing page in 24-48 hours. Perfect for founders who need to move fast.
+          </p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3>Transparent Process</h3>
+          <p>
+            See exactly how I test and optimize. Full access to A/B test results, conversion metrics, and methodology.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages -->
+  <section id="packages" class="packages">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose Your Package</h2>
+        <p class="section-intro">
+          From quick professional pages to fully validated conversion machines
+        </p>
+      </div>
+      
+      <div class="packages-grid">
+        <!-- Starter -->
+        <div class="package-card">
+          <h3>Starter</h3>
+          <div class="package-price">$497</div>
+          <ul class="package-features">
+            <li>Professional landing page</li>
+            <li>Clear value proposition</li>
+            <li>Single primary CTA</li>
+            <li>Trust badges & social proof</li>
+            <li>Mobile-optimized design</li>
+            <li>Delivered in 24 hours</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+        
+        <!-- Standard (Featured) -->
+        <div class="package-card featured">
+          <div class="package-badge">Most Popular</div>
+          <h3>Standard</h3>
+          <div class="package-price">$1,497</div>
+          <ul class="package-features">
+            <li>Everything in Starter, plus:</li>
+            <li>3 headline variants A/B tested</li>
+            <li>Interactive test showcase</li>
+            <li>Social proof & testimonials</li>
+            <li>Educational content section</li>
+            <li>Advanced animations</li>
+            <li>Delivered in 48 hours</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+        
+        <!-- Premium -->
+        <div class="package-card">
+          <h3>Premium</h3>
+          <div class="package-price">$2,997</div>
+          <ul class="package-features">
+            <li>Everything in Standard, plus:</li>
+            <li>Full-page A/B testing</li>
+            <li>Multiple layout variants</li>
+            <li>Conversion tracking setup</li>
+            <li>2 weeks of optimization</li>
+            <li>Dedicated Slack support</li>
+            <li>Custom timeline</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section id="examples">
+    <ExamplesSection />
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container">
+      <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Build Your Landing Page?</h2>
+      <p style="margin-bottom: 2rem;">
+        Join founders who've seen 2-3x conversion improvements through validation-first design.
+      </p>
+      <a href="#packages" class="btn btn-primary">View Packages</a>
+    </div>
+  </section>
+</body>
+</html>
+

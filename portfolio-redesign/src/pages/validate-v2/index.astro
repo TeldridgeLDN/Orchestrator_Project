@@ -1,0 +1,516 @@
+---
+import ExamplesSection from '../../components/examples/ExamplesSection.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stop Guessing. Start Converting. | Tom Eldridge</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-primary: #2C5F2D;
+      --color-accent: #E07A5F;
+      --color-text: #1a1a1a;
+      --color-text-light: #666;
+      --color-bg: #ffffff;
+      --color-bg-subtle: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Section - V2 Style: Problem-focused */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: white;
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero h1 span {
+      color: var(--color-accent);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #d06b52;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(224, 122, 95, 0.3);
+    }
+
+    /* Problem Section - V2 Style */
+    .problem {
+      padding: 4rem 0;
+      background: #fff;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .section-intro {
+      font-size: 1.125rem;
+      color: var(--color-text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .problem-card {
+      background: #fafafa;
+      padding: 2rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--color-accent);
+    }
+
+    .problem-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .problem-card p {
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* Solution Section */
+    .solution {
+      padding: 4rem 0;
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .solution .section-header h2,
+    .solution .section-intro {
+      color: white;
+    }
+
+    .solution .section-intro {
+      opacity: 0.9;
+    }
+
+    .solution-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .feature p {
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* Packages */
+    .packages {
+      padding: 4rem 0;
+      background: var(--color-bg-subtle);
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .package-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .package-card.featured {
+      border: 3px solid var(--color-primary);
+      transform: scale(1.05);
+    }
+
+    .package-badge {
+      position: absolute;
+      top: -12px;
+      right: 2rem;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .package-card h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .package-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .package-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .package-features li {
+      padding: 0.75rem 0;
+      color: var(--color-text-light);
+      border-bottom: 1px solid #eee;
+    }
+
+    .package-features li:last-child {
+      border-bottom: none;
+    }
+
+    .package-features li::before {
+      content: "✓ ";
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-stats {
+        gap: 2rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .problems-grid,
+      .solution-features,
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .package-card.featured {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero - Problem-focused -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-label">🧪 Validation-First Design</div>
+      <h1>
+        Your Landing Page <span>Should Convert.</span><br/>
+        Not Just Look Pretty.
+      </h1>
+      <p>
+        Most landing pages are built on assumptions. I build mine on data. 
+        A/B tested. Validated. Proven to convert.
+      </p>
+      <a href="#packages" class="btn btn-primary">See Packages →</a>
+      
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">2-3x</span>
+          <span class="stat-label">Average Conversion Lift</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">48hrs</span>
+          <span class="stat-label">Standard Delivery</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Data-Backed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problems -->
+  <section class="problem">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Landing Page Problem</h2>
+        <p class="section-intro">
+          Most founders waste time building pages that don't convert
+        </p>
+      </div>
+      
+      <div class="problems-grid">
+        <div class="problem-card">
+          <h3>❌ Guessing Game</h3>
+          <p>
+            You pick a headline because it "sounds good." Your competitor does the same. Neither of you know what actually works.
+          </p>
+        </div>
+        
+        <div class="problem-card">
+          <h3>❌ One-And-Done</h3>
+          <p>
+            You launch your page and hope for the best. No testing. No iteration. Just crossed fingers and prayers.
+          </p>
+        </div>
+        
+        <div class="problem-card">
+          <h3>❌ Pretty But Useless</h3>
+          <p>
+            Beautiful design that converts at 1.5%. You paid $5k for something that looks great but doesn't make money.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="solution">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Validation-First Approach</h2>
+        <p class="section-intro">
+          Every element tested. Every claim proven. Every dollar justified.
+        </p>
+      </div>
+      
+      <div class="solution-features">
+        <div class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Test Everything</h3>
+          <p>
+            3+ headline variants. Multiple CTA positions. Different value props. We find what actually converts.
+          </p>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>Real Data</h3>
+          <p>
+            500+ visitors per test. Statistical significance required. No guessing, just math.
+          </p>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Results</h3>
+          <p>
+            48-hour sprints. Launch with confidence knowing your page is proven to convert.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages -->
+  <section id="packages" class="packages">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose Your Package</h2>
+        <p class="section-intro">
+          From quick wins to fully validated conversion machines
+        </p>
+      </div>
+      
+      <div class="packages-grid">
+        <!-- Starter -->
+        <div class="package-card">
+          <h3>Starter</h3>
+          <div class="package-price">$497</div>
+          <ul class="package-features">
+            <li>Professional landing page</li>
+            <li>Clear value proposition</li>
+            <li>Single primary CTA</li>
+            <li>Trust badges & social proof</li>
+            <li>Mobile-optimized design</li>
+            <li>Delivered in 24 hours</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+        
+        <!-- Standard (Featured) -->
+        <div class="package-card featured">
+          <div class="package-badge">Recommended</div>
+          <h3>Standard</h3>
+          <div class="package-price">$1,497</div>
+          <ul class="package-features">
+            <li>Everything in Starter, plus:</li>
+            <li>3 headline variants A/B tested</li>
+            <li>Interactive test showcase</li>
+            <li>Social proof & testimonials</li>
+            <li>Educational content section</li>
+            <li>Advanced animations</li>
+            <li>Delivered in 48 hours</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+        
+        <!-- Premium -->
+        <div class="package-card">
+          <h3>Premium</h3>
+          <div class="package-price">$2,997</div>
+          <ul class="package-features">
+            <li>Everything in Standard, plus:</li>
+            <li>Full-page A/B testing</li>
+            <li>Multiple layout variants</li>
+            <li>Conversion tracking setup</li>
+            <li>2 weeks of optimization</li>
+            <li>Dedicated Slack support</li>
+            <li>Custom timeline</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section id="examples">
+    <ExamplesSection />
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="solution" style="padding: 3rem 0;">
+    <div class="container" style="text-align: center;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Stop Guessing. Start Converting.</h2>
+      <p style="font-size: 1.125rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Join founders who've ditched assumptions for data-backed landing pages that actually work.
+      </p>
+      <a href="#packages" class="btn btn-primary">View Packages →</a>
+    </div>
+  </section>
+</body>
+</html>
+
