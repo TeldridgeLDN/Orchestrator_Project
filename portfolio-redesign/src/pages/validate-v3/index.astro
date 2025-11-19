@@ -735,58 +735,79 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
     <ExamplesSection />
   </section>
 
-  <!-- Testimonials -->
-  <section class="testimonials">
+  <!-- Why I Built This -->
+  <section class="why-validate">
     <div class="container">
       <div class="section-header">
-        <h2>Trusted by Founders Who Ship Smart</h2>
-        <p class="section-intro">Real founders, real results, real feedback</p>
+        <h2>Why I Built This</h2>
+        <p class="section-intro">
+          After 15 years shaping products people actually want, I've seen too many founders waste months building the wrong thing
+        </p>
       </div>
       
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">👩‍💼</div>
-            <div class="testimonial-info">
-              <h4>Sarah Mitchell</h4>
-              <p class="testimonial-role">Founder, TaskFlow</p>
-            </div>
-          </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="testimonial-text">
-            "I was about to spend £30k building a project management tool. The validation sprint got me <strong>89 signups in 5 days</strong> and revealed users actually wanted something simpler. Pivoted and launched in half the time."
+      <!-- Personal Story -->
+      <div style="max-width: 900px; margin: 0 auto 3rem; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 2px solid var(--color-primary);">
+        <p style="color: var(--color-text-light); line-height: 1.8; margin-bottom: 1.5rem;">
+          I've spent 15 years designing and building products across fintech, healthcare, and SaaS. I've seen brilliant founders pour 6 months into building features nobody asked for. I've watched teams celebrate "perfect" launches that got zero traction.
+        </p>
+        <p style="color: var(--color-text-light); line-height: 1.8; margin-bottom: 1.5rem;">
+          The pattern was always the same: <strong style="color: var(--color-text);">they built first, validated second</strong>.
+        </p>
+        <p style="color: var(--color-text-light); line-height: 1.8; margin-bottom: 1.5rem;">
+          So I created this service to flip that script. Get real data in 48 hours. Know if people want what you're building <em>before</em> you write a single line of code. No more hope-driven development.
+        </p>
+        <p style="color: var(--color-text-light); line-height: 1.8;">
+          This isn't theory. It's the exact process I've used to validate ideas that turned into successful products. Now available to founders who want to ship smart, not just ship fast.
+        </p>
+      </div>
+      
+      <!-- Three Credential Cards -->
+      <div class="why-grid">
+        <div class="why-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
+          <h3>15 Years Building</h3>
+          <p style="font-weight: 600; color: var(--color-primary); margin-bottom: 1rem;">Fintech · Healthcare · SaaS</p>
+          <p>
+            From early-stage startups to scale-ups, I've designed and shipped products that serve millions of users. I know what works—and more importantly, what doesn't.
           </p>
-          <div class="testimonial-result">💰 Result: £30k saved, faster launch</div>
         </div>
         
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">👨‍💻</div>
-            <div class="testimonial-info">
-              <h4>Marcus Chen</h4>
-              <p class="testimonial-role">Founder, FitMetrics</p>
-            </div>
-          </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="testimonial-text">
-            "Best £497 I've spent. Got <strong>real user feedback</strong> before touching code. Discovered my target audience was completely different than I thought. Would've wasted months building for the wrong people."
+        <div class="why-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+          <h3>Battle-Tested Process</h3>
+          <p style="font-weight: 600; color: var(--color-primary); margin-bottom: 1rem;">Not Theory · Real Results</p>
+          <p>
+            This exact validation framework helped identify product-market fit before launch. It's not a template I downloaded—it's the system I refined over hundreds of product decisions.
           </p>
-          <div class="testimonial-result">🎯 Result: Found real target market</div>
         </div>
         
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">👩‍🔬</div>
-            <div class="testimonial-info">
-              <h4>Priya Sharma</h4>
-              <p class="testimonial-role">Founder, EduTrack</p>
-            </div>
-          </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="testimonial-text">
-            "The landing page framework was brilliant. Used it to test 3 different value propositions. <strong>One got 12% conversion</strong>, the others got 2%. Now I know exactly what messaging works."
+        <div class="why-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+          <h3>Honest Feedback</h3>
+          <p style="font-weight: 600; color: var(--color-primary); margin-bottom: 1rem;">Even If It Hurts</p>
+          <p>
+            I'm not here to tell you what you want to hear. If the data says pivot, I'll tell you to pivot. If the data says kill it, I'll tell you to kill it. You deserve the truth, not false hope.
           </p>
-          <div class="testimonial-result">📊 Result: 12% conversion rate validated</div>
+        </div>
+      </div>
+      
+      <!-- Stats Badges -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 4rem; text-align: center;">
+        <div>
+          <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">15yrs</div>
+          <div style="color: var(--color-text-light); font-weight: 600;">Product Design Experience</div>
+        </div>
+        <div>
+          <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">48hrs</div>
+          <div style="color: var(--color-text-light); font-weight: 600;">Page Delivery Guarantee</div>
+        </div>
+        <div>
+          <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">1-week</div>
+          <div style="color: var(--color-text-light); font-weight: 600;">Complete Validation Cycle</div>
+        </div>
+        <div>
+          <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">No Wrong</div>
+          <div style="color: var(--color-text-light); font-weight: 600;">Answers Guarantee</div>
         </div>
       </div>
     </div>
@@ -837,56 +858,6 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       <p style="text-align: center; margin-top: 3rem; color: var(--color-text-light);">
         <strong>Timeline:</strong> 48-hour page delivery + 5-7 day testing period = One-week validation cycle
       </p>
-    </div>
-  </section>
-
-  <!-- Case Study -->
-  <section class="case-study">
-    <div class="container">
-      <div class="section-header">
-        <h2>How James Saved 6 Months (And £50,000)</h2>
-        <p class="section-intro">Real validation, real results, real founder</p>
-      </div>
-      
-      <div class="case-study-content">
-        <div class="case-study-header">
-          <div class="case-study-avatar">👨‍💼</div>
-          <div>
-            <h3>James K.</h3>
-            <p style="color: var(--color-text-light);">SaaS Founder, London</p>
-          </div>
-        </div>
-        
-        <p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 2rem;">
-          "I had this idea for a B2B SaaS tool to help small agencies manage client projects. Before building it, I used Strategy × Design's validation sprint."
-        </p>
-        
-        <div class="case-study-results">
-          <h4>📊 Results in 7 Days:</h4>
-          <div class="results-grid">
-            <div class="result-item">
-              <span class="result-value">150</span>
-              <span>email signups</span>
-            </div>
-            <div class="result-item">
-              <span class="result-value">8%</span>
-              <span>conversion rate</span>
-            </div>
-            <div class="result-item">
-              <span class="result-value">6 mos</span>
-              <span>dev avoided</span>
-            </div>
-            <div class="result-item">
-              <span class="result-value">£50k</span>
-              <span>saved</span>
-            </div>
-          </div>
-        </div>
-        
-        <p style="color: var(--color-text-light); line-height: 1.7; margin-top: 2rem; font-style: italic;">
-          "The sprint saved me months of building the wrong thing. Now I'm building what people actually want, with confidence backed by real data."
-        </p>
-      </div>
     </div>
   </section>
 
