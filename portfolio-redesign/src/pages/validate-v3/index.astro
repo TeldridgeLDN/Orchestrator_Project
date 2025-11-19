@@ -1,0 +1,1064 @@
+---
+import ExamplesSection from '../../components/examples/ExamplesSection.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Don't Waste 6 Months Building What Nobody Wants | Tom Eldridge</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-primary: #2C5F2D;
+      --color-accent: #E07A5F;
+      --color-text: #1a1a1a;
+      --color-text-light: #666;
+      --color-bg: #ffffff;
+      --color-bg-subtle: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1e4620 100%);
+      color: white;
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      opacity: 0.95;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border-color: white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--color-primary);
+    }
+
+    /* Trust Indicators */
+    .trust-indicators {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.95rem;
+    }
+
+    .trust-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Why Validate Section */
+    .why-validate {
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .section-intro {
+      font-size: 1.125rem;
+      color: var(--color-text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+    }
+
+    .why-card {
+      text-align: center;
+    }
+
+    .why-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .why-result {
+      display: inline-block;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    /* Quote Section */
+    .quote-section {
+      background: var(--color-bg-subtle);
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .quote {
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--color-text);
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.8;
+    }
+
+    .quote-author {
+      font-weight: 600;
+      color: var(--color-text-light);
+    }
+
+    /* Packages */
+    .packages {
+      padding: 5rem 0;
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .package-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .package-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .package-card.featured {
+      border: 3px solid var(--color-primary);
+    }
+
+    .package-badge {
+      position: absolute;
+      top: -12px;
+      right: 2rem;
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .package-card h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .package-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .package-timeline {
+      color: var(--color-text-light);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .package-description {
+      color: var(--color-text-light);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .package-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .package-features li {
+      padding: 0.75rem 0;
+      color: var(--color-text-light);
+    }
+
+    .package-features li::before {
+      content: "✓ ";
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 5rem 0;
+      background: var(--color-bg-subtle);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .testimonial-info h4 {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .testimonial-role {
+      font-size: 0.875rem;
+      color: var(--color-text-light);
+    }
+
+    .stars {
+      color: #fbbf24;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+      color: var(--color-text-light);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-result {
+      background: #f0fdf4;
+      color: #16a34a;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 5rem 0;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .step h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .step p {
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* Case Study */
+    .case-study {
+      padding: 5rem 0;
+      background: var(--color-bg-subtle);
+    }
+
+    .case-study-content {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .case-study-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .case-study-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .case-study-results {
+      background: #f0fdf4;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+
+    .case-study-results h4 {
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .result-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #16a34a;
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 5rem 0;
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 3rem auto 0;
+    }
+
+    .faq-item {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .faq-question {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+
+    .faq-answer {
+      color: var(--color-text-light);
+      line-height: 1.7;
+    }
+
+    /* Free Resource CTA */
+    .free-resource {
+      padding: 5rem 0;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1e4620 100%);
+      color: white;
+    }
+
+    .resource-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .resource-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .checklist-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      text-align: left;
+    }
+
+    .checklist-feature h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--color-text);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .trust-indicators {
+        gap: 1rem;
+      }
+
+      .why-grid,
+      .packages-grid,
+      .testimonials-grid,
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .package-card.featured {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-label">15 years shaping products people want—now for founders</p>
+      <h1>Don't Waste 6 Months Building What Nobody Wants</h1>
+      <p>
+        Test your startup idea in 48 hours. Get decision confidence, not false certainty. Real data.
+      </p>
+      <div class="hero-cta">
+        <a href="#free-resource" class="btn btn-primary">Get Free Checklist →</a>
+        <a href="#packages" class="btn btn-secondary">View Packages</a>
+      </div>
+      <div class="trust-indicators">
+        <div class="trust-indicator">✓ No credit card required</div>
+        <div class="trust-indicator">•</div>
+        <div class="trust-indicator">✓ 48-hour page delivery</div>
+        <div class="trust-indicator">•</div>
+        <div class="trust-indicator">✓ No wrong answers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Validate -->
+  <section class="why-validate">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why Smart Founders Validate First</h2>
+        <p class="section-intro">
+          Every successful founder asks these three questions <em>before</em> writing code
+        </p>
+      </div>
+      
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>1. Will This Save Me Time?</h3>
+          <p>
+            Most founders spend 3-6 months building before getting real feedback. With validation, you get clarity in <strong>one week</strong>.
+          </p>
+          <div class="why-result">⏱️ Result: 6 months saved</div>
+        </div>
+        
+        <div class="why-card">
+          <h3>2. Will This Save Me Money?</h3>
+          <p>
+            Because you saved 6 months, you also saved <strong>£50,000+</strong> in development costs. Think of validation as decision insurance.
+          </p>
+          <div class="why-result">💰 Result: £50k+ saved</div>
+        </div>
+        
+        <div class="why-card">
+          <h3>3. Will This Give Me Confidence?</h3>
+          <p>
+            Because you have <strong>real data</strong> from real users, you launch knowing people want what you're building. No more hoping.
+          </p>
+          <div class="why-result">✓ Result: Data-driven confidence</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote-section">
+    <div class="container">
+      <p class="quote">
+        "I've spent 15 years helping organisations shape products and services that people actually want. Now I'm bringing that clarity to founders before they build."
+      </p>
+      <p class="quote-author">— Tom Eldridge, Strategy × Design</p>
+    </div>
+  </section>
+
+  <!-- Packages -->
+  <section id="packages" class="packages">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose your validation path</h2>
+        <p class="section-intro">
+          Pick the package that matches where you are right now
+        </p>
+      </div>
+      
+      <div class="packages-grid">
+        <!-- Core -->
+        <div class="package-card">
+          <h3>Core</h3>
+          <div class="package-price">£497</div>
+          <p class="package-timeline">one-time</p>
+          <p class="package-description">Perfect for testing a single idea quickly</p>
+          <ul class="package-features">
+            <li>Single-page validation landing page</li>
+            <li>Email capture form & analytics</li>
+            <li>48-hour delivery</li>
+            <li>Mobile-optimised design</li>
+            <li>Basic analytics dashboard</li>
+            <li>1 revision round</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Choose Core</a>
+        </div>
+        
+        <!-- Premium (Featured) -->
+        <div class="package-card featured">
+          <div class="package-badge">Most Popular</div>
+          <h3>Premium</h3>
+          <div class="package-price">£997</div>
+          <p class="package-timeline">one-time</p>
+          <p class="package-description">Comprehensive validation with user insights</p>
+          <ul class="package-features">
+            <li><strong>Everything in Core, plus:</strong></li>
+            <li>Multi-page landing experience</li>
+            <li>User testing sessions (5 participants)</li>
+            <li>Advanced analytics, heatmaps & email automation</li>
+            <li>Competitive analysis report</li>
+            <li>2-week post-launch support</li>
+            <li>3 revision rounds</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Choose Premium</a>
+        </div>
+        
+        <!-- Add-ons -->
+        <div class="package-card">
+          <h3>Add-ons</h3>
+          <p class="package-timeline">Enhance any package</p>
+          <p class="package-description">Additional services for deeper validation</p>
+          <ul class="package-features">
+            <li><strong>Paid Ad Campaign</strong> £300 + ad spend<br><small>Google/Meta ads to drive traffic</small></li>
+            <li><strong>User Interviews</strong> £250 (5 sessions)<br><small>In-depth 1-on-1 interviews</small></li>
+            <li><strong>SEO Optimisation</strong> £200<br><small>Technical SEO setup</small></li>
+            <li><strong>Extended Support</strong> £400/month<br><small>Ongoing iteration</small></li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Discuss Add-ons</a>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 2rem; color: var(--color-text-light);">
+        <strong>No wrong answers:</strong> Whether the data says "build it" or "pivot," you'll have the clarity to decide with confidence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section id="examples">
+    <ExamplesSection />
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>Trusted by Founders Who Ship Smart</h2>
+        <p class="section-intro">Real founders, real results, real feedback</p>
+      </div>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">👩‍💼</div>
+            <div class="testimonial-info">
+              <h4>Sarah Mitchell</h4>
+              <p class="testimonial-role">Founder, TaskFlow</p>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">
+            "I was about to spend £30k building a project management tool. The validation sprint got me <strong>89 signups in 5 days</strong> and revealed users actually wanted something simpler. Pivoted and launched in half the time."
+          </p>
+          <div class="testimonial-result">💰 Result: £30k saved, faster launch</div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">👨‍💻</div>
+            <div class="testimonial-info">
+              <h4>Marcus Chen</h4>
+              <p class="testimonial-role">Founder, FitMetrics</p>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">
+            "Best £497 I've spent. Got <strong>real user feedback</strong> before touching code. Discovered my target audience was completely different than I thought. Would've wasted months building for the wrong people."
+          </p>
+          <div class="testimonial-result">🎯 Result: Found real target market</div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">👩‍🔬</div>
+            <div class="testimonial-info">
+              <h4>Priya Sharma</h4>
+              <p class="testimonial-role">Founder, EduTrack</p>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">
+            "The landing page framework was brilliant. Used it to test 3 different value propositions. <strong>One got 12% conversion</strong>, the others got 2%. Now I know exactly what messaging works."
+          </p>
+          <div class="testimonial-result">📊 Result: 12% conversion rate validated</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p class="section-intro">Your validation journey in four simple stages</p>
+      </div>
+      
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Discovery</h3>
+          <p>
+            We kick off with a focused session to understand your idea, target audience, and key assumptions to test.
+          </p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Build</h3>
+          <p>
+            Within 48 hours, we design and develop your validation landing page with analytics and email capture ready to go.
+          </p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Launch</h3>
+          <p>
+            Your validation page goes live. Drive traffic through your networks, communities, or optional paid campaigns.
+          </p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Learn</h3>
+          <p>
+            Review the data together: signups, feedback, and behaviour patterns. Decide whether to build, pivot, or refine.
+          </p>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 3rem; color: var(--color-text-light);">
+        <strong>Timeline:</strong> 48-hour page delivery + 5-7 day testing period = One-week validation cycle
+      </p>
+    </div>
+  </section>
+
+  <!-- Case Study -->
+  <section class="case-study">
+    <div class="container">
+      <div class="section-header">
+        <h2>How James Saved 6 Months (And £50,000)</h2>
+        <p class="section-intro">Real validation, real results, real founder</p>
+      </div>
+      
+      <div class="case-study-content">
+        <div class="case-study-header">
+          <div class="case-study-avatar">👨‍💼</div>
+          <div>
+            <h3>James K.</h3>
+            <p style="color: var(--color-text-light);">SaaS Founder, London</p>
+          </div>
+        </div>
+        
+        <p style="color: var(--color-text-light); line-height: 1.7; margin-bottom: 2rem;">
+          "I had this idea for a B2B SaaS tool to help small agencies manage client projects. Before building it, I used Strategy × Design's validation sprint."
+        </p>
+        
+        <div class="case-study-results">
+          <h4>📊 Results in 7 Days:</h4>
+          <div class="results-grid">
+            <div class="result-item">
+              <span class="result-value">150</span>
+              <span>email signups</span>
+            </div>
+            <div class="result-item">
+              <span class="result-value">8%</span>
+              <span>conversion rate</span>
+            </div>
+            <div class="result-item">
+              <span class="result-value">6 mos</span>
+              <span>dev avoided</span>
+            </div>
+            <div class="result-item">
+              <span class="result-value">£50k</span>
+              <span>saved</span>
+            </div>
+          </div>
+        </div>
+        
+        <p style="color: var(--color-text-light); line-height: 1.7; margin-top: 2rem; font-style: italic;">
+          "The sprint saved me months of building the wrong thing. Now I'm building what people actually want, with confidence backed by real data."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2>Common Questions</h2>
+        <p class="section-intro">Everything you need to know about validation sprints</p>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3 class="faq-question">What if nobody signs up or shows interest?</h3>
+          <p class="faq-answer">
+            That's valuable data! It means you've discovered a problem before investing months in development. We'll help you interpret the results: Was it the messaging? The audience? The channel? The idea itself? Many successful founders pivot based on validation insights—it's far better to know now than after building.
+          </p>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">What makes this different from just building an MVP?</h3>
+          <p class="faq-answer">
+            Speed and cost. An MVP takes weeks or months and costs thousands of pounds. A validation landing page takes 48 hours and costs hundreds. You test demand before building features. It's "decision insurance"— validate the problem exists before investing in the solution.
+          </p>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">How long does the validation sprint take?</h3>
+          <p class="faq-answer">
+            The entire process takes one week from kickoff to insights. We deliver your landing page in 48 hours, you drive traffic for 5-7 days, then we review results together. Most founders have actionable insights within 10 days of starting.
+          </p>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">What's included in the Core (£497) package?</h3>
+          <div class="faq-answer">
+            <p>You get a complete, done-for-you validation setup:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+              <li>✓ Custom landing page designed for your idea (48-hour delivery)</li>
+              <li>✓ Email capture form with automated confirmations</li>
+              <li>✓ Analytics dashboard (Plausible or Google Analytics)</li>
+              <li>✓ Traffic strategy guide (where and how to promote)</li>
+              <li>✓ 1 revision round to refine messaging</li>
+              <li>✓ Results review call (30 minutes)</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">Do I need technical skills to launch the validation page?</h3>
+          <p class="faq-answer">
+            Not at all! With the Core or Premium packages, we build everything for you—landing page, email capture, analytics setup. You just need to drive traffic (we'll show you how). If you prefer DIY, use our free checklist to build your validation page with no-code tools.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Free Resource CTA -->
+  <section id="free-resource" class="free-resource">
+    <div class="container">
+      <div class="resource-content">
+        <p style="font-weight: 600; margin-bottom: 0.5rem; opacity: 0.9;">Free Resource</p>
+        <h2>Get Your Pre-Launch Landing Page Checklist</h2>
+        <p style="opacity: 0.95; margin-bottom: 2rem;">
+          Everything you need to validate your startup idea before writing a single line of code
+        </p>
+        
+        <div class="checklist-features">
+          <div class="checklist-feature">
+            <h4>7 Essential Questions</h4>
+            <p style="opacity: 0.9;">To ask before building your landing page</p>
+          </div>
+          <div class="checklist-feature">
+            <h4>Key Metrics to Track</h4>
+            <p style="opacity: 0.9;">The numbers that actually matter for validation</p>
+          </div>
+          <div class="checklist-feature">
+            <h4>Copy Templates</h4>
+            <p style="opacity: 0.9;">Proven headline and CTA formulas</p>
+          </div>
+          <div class="checklist-feature">
+            <h4>Technical Setup Guide</h4>
+            <p style="opacity: 0.9;">Analytics, forms, and hosting checklist</p>
+          </div>
+          <div class="checklist-feature">
+            <h4>Traffic Sources Ranked</h4>
+            <p style="opacity: 0.9;">Best channels for early-stage validation</p>
+          </div>
+          <div class="checklist-feature">
+            <h4>Decision Framework</h4>
+            <p style="opacity: 0.9;">How to interpret results and next steps</p>
+          </div>
+        </div>
+        
+        <div class="form-container">
+          <form>
+            <div class="form-group">
+              <label for="name">First Name *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group" style="font-size: 0.875rem; color: var(--color-text-light);">
+              <input type="checkbox" id="consent" name="consent" required style="width: auto; margin-right: 0.5rem;">
+              <label for="consent" style="display: inline; font-weight: normal;">
+                I agree to receive the checklist and occasional emails with validation tips. You can unsubscribe anytime.
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--color-primary); color: white; border: none;">
+              Download Your Free Checklist
+            </button>
+          </form>
+          <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-light);">
+            🔒 Your information is secure. We never share your email.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="quote-section" style="padding: 3rem 0;">
+    <div class="container" style="text-align: center;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Validate Your Idea?</h2>
+      <p style="font-size: 1.125rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Choose data over hope. Start your validation journey today.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#packages" class="btn btn-primary" style="background: var(--color-primary); color: white;">View Packages & Get Started</a>
+        <a href="#" class="btn btn-secondary">Have Questions? Let's Talk</a>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.95rem; opacity: 0.8;">
+        ✓ 48-hour page delivery • ✓ No wrong answers • ✓ No credit card needed
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #1a1a1a; color: white; padding: 3rem 0 2rem;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
+        <div>
+          <h4 style="margin-bottom: 1rem;">Strategy × Design</h4>
+          <p style="opacity: 0.8; font-size: 0.95rem;">
+            Helping people build what works — through service design and rapid validation testing.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem;">Quick Links</h4>
+          <ul style="list-style: none;">
+            <li style="margin-bottom: 0.5rem;"><a href="/" style="color: white; text-decoration: none; opacity: 0.8;">Main Site</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/portfolio" style="color: white; text-decoration: none; opacity: 0.8;">Portfolio</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/about" style="color: white; text-decoration: none; opacity: 0.8;">About</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/contact" style="color: white; text-decoration: none; opacity: 0.8;">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem;">Get in Touch</h4>
+          <ul style="list-style: none;">
+            <li style="margin-bottom: 0.5rem;"><a href="https://linkedin.com" style="color: white; text-decoration: none; opacity: 0.8;">LinkedIn</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="mailto:hello@strategyxdesign.com" style="color: white; text-decoration: none; opacity: 0.8;">hello@strategyxdesign.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); opacity: 0.7;">
+        <p>© 2025 Strategy × Design. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
