@@ -1,0 +1,277 @@
+{
+  "name": "frontend-design-system",
+  "version": "1.0.0",
+  "title": "Frontend Design System & Layout Patterns",
+  "description": "Comprehensive design system specifications for React component generation. Provides spacing, typography, color palettes, component specs, and layout patterns for consistent UI development.",
+  "author": "Orchestrator Core Team",
+  "license": "MIT",
+  "type": "reference",
+  "scope": "global",
+  "status": "stable",
+  "created": "2025-11-15",
+  "updated": "2025-11-15",
+  
+  "requirements": {
+    "frameworks": ["react"],
+    "minVersions": {
+      "react": "16.8.0"
+    },
+    "languages": ["typescript", "javascript"],
+    "cssFrameworks": ["tailwind", "css-modules", "styled-components", "sass", "emotion", "vanilla-css"],
+    "recommended": {
+      "cssFramework": "tailwind",
+      "language": "typescript"
+    }
+  },
+  
+  "applies_to": {
+    "projectTypes": ["frontend", "web", "mobile-web", "full-stack"],
+    "projects": [
+      "multi-layer-cal",
+      "portfolio-redesign", 
+      "any-react-ui-project"
+    ],
+    "filePatterns": [
+      "src/components/**",
+      "components/**",
+      "src/ui/**",
+      "src/layouts/**",
+      "src/pages/**"
+    ],
+    "extensions": [".tsx", ".jsx", ".ts", ".js", ".css", ".scss", ".module.css"]
+  },
+  
+  "capabilities": {
+    "v1.0": [
+      "8-point spacing system specification",
+      "Typography scale with roles and use cases",
+      "Color palette (primary, semantic, neutrals, text)",
+      "Component specifications (Button, Input, Card, Badge)",
+      "Layout pattern templates (Two-Column Blog, Calendar Grid, Card Grid, Form, Navigation, Hero)",
+      "Responsive breakpoint definitions",
+      "Accessibility guidelines",
+      "Dark mode considerations",
+      "Visual effects (shadows, borders, opacity)",
+      "Implementation notes for consistency"
+    ]
+  },
+  
+  "trigger_phrases": [
+    "design system",
+    "spacing system",
+    "typography scale",
+    "color palette",
+    "component specs",
+    "layout pattern",
+    "two column layout",
+    "calendar grid",
+    "card grid",
+    "form layout",
+    "hero section",
+    "button variants",
+    "consistent spacing",
+    "design tokens"
+  ],
+  
+  "usage_modes": {
+    "full_system": {
+      "description": "Load complete design system (all specs)",
+      "use_when": "Starting new project or comprehensive refactor",
+      "token_cost": "high"
+    },
+    "component_specs": {
+      "description": "Load specific component specifications",
+      "use_when": "Building individual components",
+      "token_cost": "low"
+    },
+    "layout_pattern": {
+      "description": "Load specific layout pattern template",
+      "use_when": "Implementing specific page layouts",
+      "token_cost": "low"
+    },
+    "tokens_only": {
+      "description": "Load just design tokens (spacing, colors, typography)",
+      "use_when": "Setting up CSS variables or Tailwind config",
+      "token_cost": "medium"
+    }
+  },
+  
+  "structure": {
+    "format": "diet103-progressive-disclosure",
+    "version": "1.0",
+    "mainFile": "skill.md",
+    "resources": {
+      "quick-ref": {
+        "file": "resources/quick-ref.md",
+        "description": "Quick reference for spacing, colors, typography",
+        "maxLines": 200,
+        "use_when": "Need quick lookup during component creation"
+      },
+      "component-specs": {
+        "file": "resources/component-specs.md",
+        "description": "Detailed specifications for UI components",
+        "maxLines": 500,
+        "use_when": "Implementing buttons, inputs, cards, badges"
+      },
+      "layout-patterns": {
+        "file": "resources/layout-patterns.md",
+        "description": "Page layout pattern templates with spacing keys",
+        "maxLines": 500,
+        "use_when": "Building page layouts, responsive designs"
+      },
+      "implementation-guide": {
+        "file": "resources/implementation-guide.md",
+        "description": "How to implement with CSS-in-JS, Tailwind, etc.",
+        "maxLines": 300,
+        "use_when": "Translating specs to code"
+      }
+    }
+  },
+  
+  "design_tokens": {
+    "spacing": {
+      "system": "base-8",
+      "values": ["4px", "8px", "16px", "24px", "32px", "48px", "64px"]
+    },
+    "typography": {
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "weights": [400, 500, 600, 700],
+      "scale": ["48px", "36px", "28px", "24px", "18px", "16px", "14px", "12px", "11px"]
+    },
+    "colors": {
+      "primary": "#0066CC",
+      "success": "#10B981",
+      "warning": "#F59E0B",
+      "error": "#EF4444",
+      "info": "#3B82F6"
+    },
+    "breakpoints": {
+      "mobile": "< 640px",
+      "tablet": "640px - 1024px",
+      "desktop": "> 1024px"
+    }
+  },
+  
+  "integration": {
+    "taskmaster": {
+      "enabled": true,
+      "description": "Create implementation tasks following design system"
+    },
+    "react_component_analyzer": {
+      "enabled": true,
+      "relationship": "complementary",
+      "description": "Analyzer extracts from designs, this skill provides the standard"
+    },
+    "rules": {
+      "enabled": true,
+      "respects": [
+        ".claude/rules/react.mdc",
+        ".claude/rules/typescript.mdc",
+        ".claude/rules/ui-components.mdc",
+        ".claude/rules/css.mdc"
+      ]
+    }
+  },
+  
+  "philosophy": {
+    "consistency_over_perfection": "Use specs as guidelines, adjust for context",
+    "whitespace_intentional": "Don't reduce spacing 'to fit'—adjust layout instead",
+    "accessibility_first": "44px touch targets, WCAG AA color contrast minimum",
+    "responsive_by_default": "Consider mobile, tablet, desktop from the start",
+    "design_tokens": "Configure once, reference throughout"
+  },
+  
+  "output_formats": {
+    "css_variables": "Convert to CSS custom properties",
+    "tailwind_config": "Generate Tailwind configuration",
+    "styled_components": "Theme object for styled-components",
+    "sass_variables": "SCSS variable definitions",
+    "typescript_types": "TypeScript type definitions for theme"
+  },
+  
+  "files": {
+    "main": "skill.md",
+    "readme": "README.md",
+    "quickref": "resources/quick-ref.md",
+    "components": "resources/component-specs.md",
+    "layouts": "resources/layout-patterns.md",
+    "implementation": "resources/implementation-guide.md"
+  },
+  
+  "auto_activation": {
+    "enabled": true,
+    "priority": "high",
+    "rules_file": ".claude/skill-rules.json",
+    "rule_id": "frontend_design_system"
+  },
+  
+  "tags": [
+    "react",
+    "frontend",
+    "design-system",
+    "ui",
+    "components",
+    "layout",
+    "spacing",
+    "typography",
+    "colors",
+    "css",
+    "tailwind",
+    "styled-components"
+  ],
+  
+  "related_skills": [
+    "react-component-analyzer",
+    "doc-generator",
+    "code-reviewer"
+  ],
+  
+  "use_cases": [
+    {
+      "scenario": "Starting new React project",
+      "request": "Load full design system",
+      "outcome": "Complete specs for consistent UI development"
+    },
+    {
+      "scenario": "Building button component",
+      "request": "Show button component specs",
+      "outcome": "Sizes, variants, states specifications"
+    },
+    {
+      "scenario": "Creating calendar page",
+      "request": "Show calendar grid layout pattern",
+      "outcome": "Complete layout with spacing keys"
+    },
+    {
+      "scenario": "Setting up Tailwind config",
+      "request": "Export design tokens as Tailwind config",
+      "outcome": "theme.extend configuration"
+    }
+  ],
+  
+  "documentation": {
+    "full": ".claude/skills/frontend-design-system/skill.md",
+    "quick_start": ".claude/skills/frontend-design-system/README.md",
+    "quick_ref": ".claude/skills/frontend-design-system/resources/quick-ref.md",
+    "components": ".claude/skills/frontend-design-system/resources/component-specs.md",
+    "layouts": ".claude/skills/frontend-design-system/resources/layout-patterns.md",
+    "implementation": ".claude/skills/frontend-design-system/resources/implementation-guide.md"
+  },
+  
+  "changelog": {
+    "1.0.0": {
+      "date": "2025-11-15",
+      "changes": [
+        "Initial release",
+        "8-point spacing system",
+        "Complete typography scale",
+        "Color palette specifications",
+        "Component specs (Button, Input, Card, Badge)",
+        "6 layout patterns",
+        "Responsive breakpoint definitions",
+        "Progressive disclosure structure"
+      ]
+    }
+  }
+}
+

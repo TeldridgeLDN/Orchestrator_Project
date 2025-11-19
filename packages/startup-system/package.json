@@ -1,0 +1,41 @@
+{
+  "name": "@diet103/startup-system",
+  "version": "1.0.0",
+  "description": "Shared startup verification system for diet103 projects",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./primacy-rules": "./src/primacy-rules.js",
+    "./file-lifecycle": "./src/file-lifecycle.js",
+    "./taskmaster": "./src/taskmaster.js",
+    "./skills": "./src/skills.js",
+    "./summary": "./src/summary.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "diet103",
+    "startup",
+    "verification",
+    "orchestrator",
+    "primacy-rules"
+  ],
+  "author": "diet103",
+  "license": "MIT",
+  "peerDependencies": {
+    "chalk": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/Orchestrator_Project.git",
+    "directory": "packages/startup-system"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
+}
+

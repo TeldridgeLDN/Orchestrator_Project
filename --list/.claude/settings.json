@@ -1,0 +1,20 @@
+{
+  "mcpServers": {},
+  "allowedTools": [
+    "Edit",
+    "Bash",
+    "Read",
+    "List",
+    "Write",
+    "Delete",
+    "Grep",
+    "MCP"
+  ],
+  "skills": {
+    "autoLoad": true,
+    "paths": [
+      "/Users/tomeldridge/.claude/skills",
+      ".claude/skills"
+    ]
+  }
+}

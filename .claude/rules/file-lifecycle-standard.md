@@ -1,3 +1,9 @@
+---
+rule_version: 1.0.0
+last_updated: 2025-11-18
+authoritative_source: Orchestrator_Project
+---
+
 # File Lifecycle Management - Standard Infrastructure Rule
 
 **Priority:** High  

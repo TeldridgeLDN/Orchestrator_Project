@@ -1,0 +1,31 @@
+{
+  "$schema": "https://claude.ai/schemas/skill-rules-v1.json",
+  "version": "1.0.0",
+  "description": "Auto-activation rules for project skills (diet103 pattern)",
+  "rules": [
+    {
+      "id": "scenario_creation",
+      "trigger_phrases": [
+        "create scenario",
+        "new scenario",
+        "scaffold scenario",
+        "generate from scenario"
+      ],
+      "skill": "scenario_manager",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when user wants to create or scaffold a scenario"
+    }
+  ],
+  "global_settings": {
+    "case_sensitive": false,
+    "partial_match": true,
+    "require_exact_phrase": false
+  },
+  "notes": [
+    "Add more trigger rules as you add skills to your project",
+    "Customize trigger phrases to match your workflow",
+    "Priority determines activation order if multiple rules match"
+  ]
+}
+

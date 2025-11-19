@@ -1,0 +1,147 @@
+#!/usr/bin/env node
+
+/**
+ * Quick Orchestrator Helper
+ * Simplified interface for daily commands
+ */
+
+import { spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const command = process.argv[2];
+const args = process.argv.slice(3);
+
+function run(cmd, cmdArgs = []) {
+  const proc = spawn(cmd, cmdArgs, { stdio: 'inherit', shell: true });
+  proc.on('exit', code => process.exit(code || 0));
+}
+
+switch (command) {
+  case 'where':
+  case 'current':
+    run('orchestrator', ['current']);
+    break;
+
+  case 'next':
+    run('task-master', ['next', ...args]);
+    break;
+
+  case 'show':
+    run('task-master', ['show', ...args]);
+    break;
+
+  case 'done':
+    if (!args[0]) {
+      console.error('❌ Usage: orch done <task-id>');
+      console.error('Example: orch done 2.1');
+      process.exit(1);
+    }
+    run('task-master', ['set-status', `--id=${args[0]}`, '--status=done']);
+    break;
+
+  case 'log':
+    if (!args[0]) {
+      console.error('❌ Usage: orch log <task-id> <message>');
+      console.error('Example: orch log 2.1 "Completed template loader"');
+      process.exit(1);
+    }
+    const taskId = args[0];
+    const message = args.slice(1).join(' ');
+    run('task-master', ['update-subtask', `--id=${taskId}`, `--prompt=${message}`]);
+    break;
+
+  case 'switch':
+    run('orchestrator', ['switch', ...args]);
+    break;
+
+  case 'list':
+    run('task-master', ['list', ...args]);
+    break;
+
+  case 'stats':
+    run('orchestrator', ['stats']);
+    break;
+
+  case 'save-session':
+    run('node', [path.join(__dirname, '..', 'lib', 'commands', 'session.js'), 'save', ...args]);
+    break;
+
+  case 'restore-session':
+    run('node', [path.join(__dirname, '..', 'lib', 'commands', 'session.js'), 'restore', ...args]);
+    break;
+
+  case 'list-sessions':
+    run('node', [path.join(__dirname, '..', 'lib', 'commands', 'session.js'), 'list']);
+    break;
+
+  case 'delete-session':
+    run('node', [path.join(__dirname, '..', 'lib', 'commands', 'session.js'), 'delete', ...args]);
+    break;
+
+  case 'help':
+  case '--help':
+  case '-h':
+  case undefined:
+    console.log(`
+🎼 Orchestrator Quick Helper
+
+DAILY COMMANDS (Use these 90% of the time):
+
+  orch where              Show current project
+  orch next               Get next task to work on
+  orch show <id>          View task details
+  orch log <id> <msg>     Log progress to subtask
+  orch done <id>          Mark task as complete
+  orch switch <project>   Switch to another project
+  orch list               List all tasks
+
+WEEKLY COMMANDS:
+
+  orch stats              View project statistics
+
+SESSION MANAGEMENT (For context resets):
+
+  orch save-session <name> [notes]     Save current work state
+  orch restore-session <name>          Restore saved session
+  orch list-sessions                   List all sessions
+  orch delete-session <name>           Delete session
+
+EXAMPLES:
+
+  # Start your day
+  orch where              # See where you are
+  orch next               # See what to work on
+  orch show 2.1           # View task details
+
+  # During work
+  orch log 2.1 "Implemented template loader"
+  orch done 2.1
+
+  # Switch projects
+  orch switch MyProject
+
+  # Before context reset
+  orch save-session auth-feature "Working on JWT implementation"
+  
+  # After context reset
+  orch restore-session auth-feature
+
+FULL COMMANDS AVAILABLE:
+
+  orchestrator <cmd>      Full Orchestrator CLI
+  task-master <cmd>       Full Taskmaster CLI
+
+For more details, see: DAILY_WORKFLOW.md
+    `);
+    break;
+
+  default:
+    console.error(`❌ Unknown command: ${command}`);
+    console.error('Run: orch help');
+    process.exit(1);
+}
+

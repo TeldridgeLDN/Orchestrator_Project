@@ -7,10 +7,11 @@ Complete command reference for the Project Orchestrator CLI tool.
 1. [Installation](#installation)
 2. [Global Commands](#global-commands)
 3. [Project Commands](#project-commands)
-4. [Command Options](#command-options)
-5. [Exit Codes](#exit-codes)
-6. [Environment Variables](#environment-variables)
-7. [Configuration Files](#configuration-files)
+4. [Rule Management Commands](#rule-management-commands)
+5. [Command Options](#command-options)
+6. [Exit Codes](#exit-codes)
+7. [Environment Variables](#environment-variables)
+8. [Configuration Files](#configuration-files)
 
 ---
 
@@ -801,6 +802,261 @@ When using `--update`, the health score is stored in `metadata.json`:
 **Related Commands:**
 - `claude project validate` - Basic structure validation
 - `claude project list` - View health scores for all projects (when available)
+
+---
+
+## Rule Management Commands
+
+### `diet103 rules sync`
+Sync rules with central registry from source project.
+
+**Syntax:**
+```bash
+diet103 rules sync [options]
+```
+
+**Options:**
+- `-f, --force` - Force re-sync even if up to date
+- `--dry-run` - Preview changes without applying
+- `--only <filter>` - Only sync matching rules (comma-separated)
+- `--exclude <filter>` - Exclude matching rules (comma-separated)
+- `-v, --verbose` - Show detailed sync output
+
+**Examples:**
+```bash
+# Sync all rules
+diet103 rules sync
+
+# Preview changes without applying
+diet103 rules sync --dry-run
+
+# Sync only primacy rules
+diet103 rules sync --only=primacy
+
+# Sync all except validation rules
+diet103 rules sync --exclude=validation
+
+# Force sync with verbose output
+diet103 rules sync --force --verbose
+```
+
+**What it does:**
+1. Compares current rules with source project
+2. Identifies new, updated, and modified rules
+3. Creates backups of existing rules
+4. Applies rule updates
+5. Updates rule manifest
+6. Updates project registry
+
+**Exit codes:**
+- `0` - Success or no updates needed
+- `1` - Sync failed or rules not registered
+
+---
+
+### `diet103 rules list`
+List installed rule profiles.
+
+**Syntax:**
+```bash
+diet103 rules list [options]
+```
+
+**Options:**
+- `-v, --verbose` - Show descriptions and priority levels
+
+**Examples:**
+```bash
+# List all rules
+diet103 rules list
+
+# List with descriptions
+diet103 rules list --verbose
+```
+
+**Output:**
+- Rules version number
+- Last update timestamp
+- Rules grouped by category (Primacy, Infrastructure, Validation, Meta)
+- Scope indicators: 🔒 (universal/locked) or 📝 (customizable)
+- Rule versions
+- Total rule count
+
+**Exit codes:**
+- `0` - Success
+
+---
+
+### `diet103 rules add <profile>`
+Add a new rule profile to the project.
+
+**Syntax:**
+```bash
+diet103 rules add <profile> [options]
+```
+
+**Arguments:**
+- `profile` - Rule profile name (cursor, windsurf, roo, claude, etc.)
+
+**Options:**
+- `-v, --verbose` - Show detailed output
+
+**Examples:**
+```bash
+# Add cursor rules
+diet103 rules add cursor
+
+# Add windsurf rules with verbose output
+diet103 rules add windsurf --verbose
+```
+
+**Available Profiles:**
+- `cursor` - Cursor IDE rules
+- `windsurf` - Windsurf rules  
+- `roo` - Roo Code rules
+- `claude` - Claude Code rules
+
+**Exit codes:**
+- `0` - Success
+
+---
+
+### `diet103 rules remove <profile>`
+Remove a rule profile from the project.
+
+**Syntax:**
+```bash
+diet103 rules remove <profile> [options]
+```
+
+**Arguments:**
+- `profile` - Rule profile name or pattern to match
+
+**Options:**
+- `-f, --force` - Force removal without confirmation
+- `-v, --verbose` - Show detailed output
+
+**Examples:**
+```bash
+# List rules matching profile (dry run)
+diet103 rules remove cursor
+
+# Remove with confirmation
+diet103 rules remove cursor --force
+
+# Remove with verbose output
+diet103 rules remove cursor --force --verbose
+```
+
+**What it does:**
+1. Searches for rules matching profile name
+2. Lists matching rules
+3. Removes rule files (if --force)
+4. Updates rule manifest
+
+**Exit codes:**
+- `0` - Success
+- `1` - No matching rules or manifest not found
+
+---
+
+### `diet103 rules check`
+Check for rule updates from source project.
+
+**Syntax:**
+```bash
+diet103 rules check [options]
+```
+
+**Options:**
+- `-v, --verbose` - Show detailed check output
+
+**Examples:**
+```bash
+# Check for updates
+diet103 rules check
+
+# Check with detailed report
+diet103 rules check --verbose
+```
+
+**Output:**
+- Current rules version
+- Source rules version  
+- Number of available updates
+- List of rules to update
+- Update types (new, update, modified)
+
+**Exit codes:**
+- `0` - Up to date
+- `1` - Updates available or not registered
+
+---
+
+### `diet103 rules register`
+Register current project with rule sync system.
+
+**Syntax:**
+```bash
+diet103 rules register [options]
+```
+
+**Options:**
+- `-f, --force` - Force re-registration
+- `-v, --verbose` - Show detailed output
+
+**Examples:**
+```bash
+# Register current project
+diet103 rules register
+
+# Force re-registration
+diet103 rules register --force
+```
+
+**What it does:**
+1. Detects project path and name
+2. Reads rule manifest if exists
+3. Determines rules version
+4. Registers project in global registry
+5. Sets project role (source or consumer)
+
+**Exit codes:**
+- `0` - Success or already registered
+- `1` - Registration failed
+
+---
+
+### `diet103 rules status`
+Show rule sync status for current project.
+
+**Syntax:**
+```bash
+diet103 rules status [options]
+```
+
+**Options:**
+- `-v, --verbose` - Show detailed status
+
+**Examples:**
+```bash
+# Show status
+diet103 rules status
+
+# Show detailed status
+diet103 rules status --verbose
+```
+
+**Output:**
+- Project name
+- Current rules version
+- Project role (source/consumer)
+- Last sync timestamp
+- Update availability
+
+**Exit codes:**
+- `0` - Success
+- `1` - Not registered
 
 ---
 

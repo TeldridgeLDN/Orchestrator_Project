@@ -1,0 +1,44 @@
+#!/usr/bin/env -S node --no-warnings
+
+/**
+ * Orchestrator CLI Entry Point
+ * Routes commands to appropriate modules
+ */
+
+const path = require('path');
+const { spawn } = require('child_process');
+
+const command = process.argv[2];
+const args = process.argv.slice(3);
+
+// Route to appropriate module
+switch (command) {
+  case 'rule-sync':
+    // Route to rule-sync CLI
+    const ruleSyncPath = path.join(__dirname, '..', 'lib', 'rule-sync', 'cli.js');
+    const proc = spawn('node', [ruleSyncPath, ...args], { stdio: 'inherit' });
+    proc.on('exit', code => process.exit(code || 0));
+    break;
+
+  case 'help':
+  case '--help':
+  case '-h':
+    console.log(`
+🎼 Orchestrator CLI
+
+USAGE:
+  orchestrator <command> [options]
+
+COMMANDS:
+  rule-sync    Manage rule synchronization across projects
+
+Run 'orchestrator <command> help' for more info on a command.
+    `);
+    break;
+
+  default:
+    console.error(`Unknown command: ${command}`);
+    console.error('Run: orchestrator help');
+    process.exit(1);
+}
+

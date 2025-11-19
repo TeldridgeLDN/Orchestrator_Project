@@ -1,117 +1,21 @@
 {
 	"meta": {
-		"generatedAt": "2025-11-11T21:23:05.223Z",
-		"tasksAnalyzed": 13,
-		"totalTasks": 84,
-		"analysisCount": 13,
+		"generatedAt": "2025-11-15T19:59:10.957Z",
+		"tasksAnalyzed": 1,
+		"totalTasks": 85,
+		"analysisCount": 1,
 		"thresholdScore": 5,
 		"projectName": "Taskmaster",
 		"usedResearch": true
 	},
 	"complexityAnalysis": [
 		{
-			"taskId": 79,
-			"taskTitle": "Add Design Decisions and Potential Improvements Tracking to Scenario YAML",
-			"complexityScore": 5,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; subtasks already defined and granular.",
-			"reasoning": "This task involves enhancing CLI and workflow support for YAML fields that already exist in the schema and validator, focusing on CLI commands, documentation, and templates. The technical complexity is moderate: the schema and validation logic are in place, so the main effort is in CLI UX, documentation, and ensuring smooth workflow integration. Testing is straightforward, as it involves CLI command validation and documentation review. The task is already broken down into well-scoped subtasks, so no further expansion is needed."
-		},
-		{
-			"taskId": 87,
-			"taskTitle": "Implement UFC-Based Project Metadata Cache for Persistent State Management",
-			"complexityScore": 8,
-			"recommendedSubtasks": 5,
-			"expansionPrompt": "Break down the implementation into: (1) Directory and registry.json creation, (2) Hierarchical loading logic, (3) Symlink management for active project, (4) Integration with project switching, (5) Compliance and testing against UFC pattern.",
-			"reasoning": "This task requires implementing a persistent, hierarchical cache system following the Unified Filesystem Context (UFC) pattern, including atomic symlink updates and integration with project switching. It involves non-trivial filesystem operations, concurrency considerations (atomic updates), and ensuring consistency with UFC principles. Testing must cover concurrency, atomicity, and integration with other commands. The scope is broad and touches multiple system layers, warranting decomposition into at least five subtasks."
-		},
-		{
-			"taskId": 88,
-			"taskTitle": "Create /switch-project Slash Command",
-			"complexityScore": 4,
-			"recommendedSubtasks": 3,
-			"expansionPrompt": "Expand into: (1) Command file and documentation creation, (2) Command logic and validation implementation, (3) Integration with help documentation and project orchestrator.",
-			"reasoning": "This task is a focused CLI enhancement that wraps existing project switching logic with additional validation and user feedback. The technical challenge is moderate, mainly involving input validation, error handling, and integration with existing logic. Testing is straightforward. While not highly complex, it benefits from being split into documentation, implementation, and integration subtasks for clarity and maintainability."
-		},
-		{
-			"taskId": 89,
-			"taskTitle": "Create /list-projects Slash Command",
-			"complexityScore": 4,
-			"recommendedSubtasks": 3,
-			"expansionPrompt": "Expand into: (1) Command file and documentation creation, (2) Command logic for reading and formatting project data, (3) Integration with help documentation and output formatting validation.",
-			"reasoning": "This task involves implementing a CLI command to list projects in a tabular format, reading from config files and formatting output. The complexity is moderate due to the need for robust output formatting, edge case handling, and integration with existing project management logic. Splitting into documentation, implementation, and integration/output validation subtasks is recommended."
-		},
-		{
-			"taskId": 90,
-			"taskTitle": "Add Project Health Metrics to metadata.json",
-			"complexityScore": 6,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand into: (1) Schema extension and validator updates, (2) Utility function implementation, (3) Command integration for metrics update, (4) Documentation and CLI output updates.",
-			"reasoning": "This task requires extending the project metadata schema, updating validation logic, implementing utility functions, and integrating with project commands. It also involves updating documentation and CLI output. The complexity is above average due to schema evolution, backward compatibility, and the need for robust validation and error handling. Four subtasks are appropriate to cover schema, utilities, integration, and documentation."
-		},
-		{
-			"taskId": 91,
-			"taskTitle": "Implement Epic Tag Structure and Dashboard for Orchestrator Project",
-			"complexityScore": 8,
-			"recommendedSubtasks": 6,
-			"expansionPrompt": "Expand into: (1) Epic tag creation, (2) Task migration, (3) Dashboard HTML/CSS implementation, (4) Dashboard JS logic, (5) Documentation (EPIC_WORKFLOW_GUIDE.md), (6) Testing and validation.",
-			"reasoning": "This task is complex due to the need to restructure task organization, migrate a large number of tasks, and build a dynamic dashboard with both frontend and backend integration. It also requires comprehensive documentation and testing. The breadth of the task, cross-cutting concerns, and the need for robust migration and visualization logic justify a high complexity score and at least six subtasks."
-		},
-		{
-			"taskId": 95,
-			"taskTitle": "Implement Composable Project Templates System",
-			"complexityScore": 7,
-			"recommendedSubtasks": 5,
-			"expansionPrompt": "Expand into: (1) Template architecture refactor, (2) Merge logic implementation, (3) CLI integration and validation, (4) Conflict resolution strategy, (5) Documentation and examples.",
-			"reasoning": "This task involves significant refactoring of the template system, implementing merge logic with conflict resolution, and updating CLI commands. It requires careful handling of file operations, compatibility, and user experience. Testing must cover various composition scenarios and error cases. The complexity is high due to the architectural changes and the need for robust, user-friendly error handling. Five subtasks are recommended."
-		},
-		{
-			"taskId": 96,
-			"taskTitle": "Implement Metrics Tracking System for Skills and Hooks",
-			"complexityScore": 8,
-			"recommendedSubtasks": 6,
-			"expansionPrompt": "Expand into: (1) Metrics schema and storage, (2) Hook system integration, (3) Skills system integration, (4) Aggregation and archiving logic, (5) CLI stats command, (6) Configuration and privacy options.",
-			"reasoning": "This task requires designing a metrics schema, integrating tracking into multiple subsystems (skills and hooks), implementing aggregation and archiving, and exposing data via CLI. It also involves performance and privacy considerations. The breadth, cross-cutting nature, and need for robust, non-blocking integration make this a high-complexity task, best split into at least six subtasks."
-		},
-		{
-			"taskId": 98,
-			"taskTitle": "Design Static HTML Dashboard Prototype",
-			"complexityScore": 2,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; subtasks already defined and granular.",
-			"reasoning": "This is a minimal, well-scoped task focused on setting up a basic React dashboard shell with minimal styling. The technical complexity is low, with clear, granular subtasks already defined. No further expansion is needed."
-		},
-		{
-			"taskId": 99,
-			"taskTitle": "Implement Orchestrator Data Loader (Filesystem Integration)",
-			"complexityScore": 3,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; subtasks already defined and granular.",
-			"reasoning": "This task involves implementing simple synchronous file readers with basic error handling and TypeScript interfaces. The technical complexity is low, and the subtasks already provide sufficient granularity for implementation and testing."
-		},
-		{
-			"taskId": 100,
-			"taskTitle": "Integrate Layer Switching and Component State Management",
-			"complexityScore": 4,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; subtasks already defined and granular.",
-			"reasoning": "This task involves adding a dropdown for layer selection and updating state and data loading logic in a React dashboard. The complexity is moderate, focusing on UI state management and data refresh. The subtasks are already well-defined and granular."
-		},
-		{
-			"taskId": 102,
-			"taskTitle": "Develop Modular React UI Components for Dashboard Panels",
-			"complexityScore": 4,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; subtasks already defined and granular.",
-			"reasoning": "This task is focused on building a single React dashboard panel with TypeScript and Tailwind CSS, including type definitions, styling, and documentation. The complexity is moderate, and the subtasks already provide sufficient detail for implementation."
-		},
-		{
-			"taskId": 104,
-			"taskTitle": "Add Dashboard Refresh Button",
-			"complexityScore": 2,
-			"recommendedSubtasks": 0,
-			"expansionPrompt": "No further expansion needed; implementation is simple and well-scoped.",
-			"reasoning": "This is a simple UI enhancement to add a refresh button that reloads dashboard data. The implementation is straightforward, with minimal technical complexity and no need for further decomposition."
+			"taskId": 105,
+			"taskTitle": "Implement Project Context Detection and Validation System",
+			"complexityScore": 9,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Break down the implementation of the Project Context Detection and Validation System into subtasks covering: project registry design, alias and metadata support, fuzzy matching logic, directory traversal, validation functions, user interaction workflows, integration with agent tools, safeguard mechanisms, audit logging, template updates, and comprehensive testing (unit, integration, scenario, edge cases, user acceptance).",
+			"reasoning": "This task involves designing and implementing a multi-layered system that must reliably detect, validate, and manage project context across a variety of scenarios. The requirements span several technical domains: file system operations, fuzzy string matching, configuration management, user interaction design, integration with existing agent workflows, and robust error handling. The system must prevent context confusion, support aliases, handle ambiguous references, and provide auditability. Testing requirements are extensive, covering unit, integration, scenario, edge case, and user acceptance tests. Dependencies on existing configuration and project management modules increase integration complexity. The breadth of functionality, need for reliability, and high risk of subtle bugs (e.g., context confusion, incorrect project switching) make this a highly complex task, justifying a score of 9. Industry best practices recommend modularization, clear separation of concerns, and comprehensive automated testing for such systems[1][2][3][4][5][8]."
 		}
 	]
 }

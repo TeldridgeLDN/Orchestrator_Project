@@ -1,0 +1,182 @@
+{
+  "name": "user-scenario-generator",
+  "version": "1.0.0",
+  "title": "User Scenario Generator",
+  "description": "Transform design inspiration into actionable user scenarios using 3 Whys methodology, with detailed user journeys and emotional context for frontend implementation",
+  "author": "Orchestrator Core Team",
+  "license": "MIT",
+  "type": "analysis",
+  "scope": "global",
+  "status": "stable",
+  "created": "2025-11-16",
+  "updated": "2025-11-16",
+  
+  "requirements": {
+    "frameworks": [],
+    "minVersions": {},
+    "languages": ["markdown"],
+    "optional": {
+      "integrations": ["frontend-design-system", "react-component-analyzer", "taskmaster"]
+    }
+  },
+  
+  "applies_to": {
+    "projectTypes": ["frontend", "web", "mobile-web", "full-stack", "product-design"],
+    "filePatterns": [],
+    "extensions": []
+  },
+  
+  "capabilities": {
+    "v1.0": [
+      "3 Whys methodology application",
+      "User journey mapping with emotional context",
+      "Multi-scenario generation from single source",
+      "Integration with frontend-design-system skill",
+      "Persona-based scenario variants",
+      "Error state and unhappy path scenarios",
+      "Cross-device scenario mapping",
+      "Frontend-ready UI requirement specifications"
+    ],
+    "planned": {
+      "v1.1": [
+        "Interactive scenario workshop mode",
+        "User interview analysis",
+        "Automated persona generation",
+        "Video transcript parsing"
+      ],
+      "v1.2": [
+        "Collaborative scenario refinement",
+        "A/B scenario testing recommendations",
+        "Analytics integration for validation"
+      ],
+      "v2.0": [
+        "Real-time user feedback integration",
+        "ML-powered pattern detection",
+        "Automated usability testing recommendations"
+      ]
+    }
+  },
+  
+  "trigger_phrases": [
+    "generate user scenarios",
+    "create scenarios from",
+    "user perspective",
+    "3 whys",
+    "user intent",
+    "user journey",
+    "analyze from user perspective",
+    "why does user need",
+    "user motivation",
+    "scenario generation",
+    "convert to scenarios"
+  ],
+  
+  "integration": {
+    "handoff_skills": [
+      {
+        "name": "frontend-design-system",
+        "relationship": "consumer",
+        "description": "Scenarios provide high-level UI requirements; design system provides exact implementation specs"
+      },
+      {
+        "name": "react-component-analyzer",
+        "relationship": "complementary",
+        "description": "Analyzer extracts WHAT from designs; scenario generator explains WHY users need it"
+      },
+      {
+        "name": "taskmaster",
+        "relationship": "producer",
+        "description": "Scenarios can be converted into implementation tasks"
+      }
+    ]
+  },
+  
+  "input_types": [
+    "url",
+    "article",
+    "blog_post",
+    "design_concept",
+    "video_transcript",
+    "user_interview",
+    "feature_description",
+    "competitor_analysis",
+    "text_content"
+  ],
+  
+  "output_formats": [
+    "user_goal_statement",
+    "3_whys_analysis",
+    "user_journey_flow",
+    "emotional_context_map",
+    "ui_requirements_spec",
+    "persona_scenarios",
+    "error_state_scenarios"
+  ],
+  
+  "methodology": {
+    "framework": "3 Whys Technique",
+    "origin": "Toyota Production System (5 Whys adapted to 3 for UX)",
+    "focus": "Root cause analysis of user needs",
+    "depth_levels": {
+      "why_1": "Surface reason - immediate motivation",
+      "why_2": "Underlying reason - deeper driver",
+      "why_3": "Core need - fundamental human motivation"
+    }
+  },
+  
+  "differentiation": {
+    "vs_frontend_design_system": "Scenario generator provides WHY (user needs); design system provides HOW (implementation specs)",
+    "vs_react_component_analyzer": "Scenario generator creates context and journeys; analyzer extracts visual specs from designs",
+    "unique_value": "Only skill that applies 3 Whys methodology to understand deep user motivation"
+  },
+  
+  "example_workflow": {
+    "step_1": {
+      "skill": "user-scenario-generator",
+      "input": "Article about calendar app design",
+      "output": "4 user scenarios with 3 Whys analysis and journeys"
+    },
+    "step_2": {
+      "skill": "frontend-design-system",
+      "input": "UI requirements from scenarios",
+      "output": "Calendar Grid component with exact specs"
+    },
+    "step_3": {
+      "skill": "developer",
+      "input": "Scenarios + design specs",
+      "output": "Implemented feature with user context understanding"
+    }
+  },
+  
+  "auto_activation": {
+    "enabled": true,
+    "priority": "high",
+    "rules_file": ".claude/skill-rules.json",
+    "rule_id": "user_scenario_generator"
+  },
+  
+  "tags": [
+    "ux-research",
+    "user-scenarios",
+    "user-journeys",
+    "3-whys",
+    "product-design",
+    "user-intent",
+    "emotional-design",
+    "frontend-planning"
+  ],
+  
+  "files": {
+    "main": "skill.md",
+    "readme": "README.md",
+    "relationships": "SKILL_RELATIONSHIPS.md",
+    "comparison": "QUICK_COMPARISON.md",
+    "workflow": "AUTO_ACTIVATION_WORKFLOW.md"
+  },
+  
+  "related_skills": [
+    "frontend-design-system",
+    "react-component-analyzer"
+  ]
+}
+

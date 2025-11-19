@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "description": "Documentation and specification for Project Orchestrator - A CLI tool for managing multiple Claude development projects with isolated contexts",
   "skills": [
-    "diet103_validator",
-    "diet103_repair",
-    "project_orchestration"
+    "shell-integration",
+    "doc-generator",
+    "test-runner",
+    "rule-management"
   ],
   "project_type": "documentation",
   "diet103_version": "1.2.0",
   "created": "2025-11-07T17:00:00Z",
-  "last_updated": "2025-11-07T17:00:00Z",
+  "last_updated": "2025-11-18T08:11:54.708Z",
   "repository": "https://github.com/diet103/claude-code-infrastructure-showcase",
   "tags": [
     "documentation",
@@ -37,5 +38,9 @@
   ],
   "maintainers": [
     "Project Orchestrator Team"
-  ]
+  ],
+  "alerts": [],
+  "timestamps": {
+    "lastHealthCheckAt": "2025-11-14T16:50:45.526Z"
+  }
 }

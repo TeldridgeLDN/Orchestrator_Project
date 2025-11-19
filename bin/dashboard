@@ -1,0 +1,175 @@
+#!/usr/bin/env node
+
+/**
+ * Orchestrator Dashboard Launcher
+ * 
+ * Starts the multi-project Taskmaster dashboard server and opens it in the default browser.
+ * Can be run from anywhere with the 'dashboard' command.
+ */
+
+import { spawn } from 'child_process';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { readFile, access } from 'fs/promises';
+import { constants } from 'fs';
+import os from 'os';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const PORT = 3737;
+const DASHBOARD_URL = `http://localhost:${PORT}`;
+
+// ANSI color codes
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  cyan: '\x1b[36m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  red: '\x1b[31m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+};
+
+/**
+ * Print colored output
+ */
+function print(message, color = 'reset') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
+
+/**
+ * Print banner
+ */
+function printBanner() {
+  console.log('');
+  print('╔════════════════════════════════════════════════════════════╗', 'cyan');
+  print('║   🎯 Orchestrator Multi-Project Dashboard                ║', 'cyan');
+  print('╠════════════════════════════════════════════════════════════╣', 'cyan');
+  print('║   Starting dashboard server...                            ║', 'bright');
+  print('╚════════════════════════════════════════════════════════════╝', 'cyan');
+  console.log('');
+}
+
+/**
+ * Check if port is already in use
+ */
+async function isPortInUse(port) {
+  return new Promise((resolve) => {
+    const net = require('net');
+    const tester = net.createServer()
+      .once('error', () => resolve(true))
+      .once('listening', () => {
+        tester.once('close', () => resolve(false)).close();
+      })
+      .listen(port, '127.0.0.1');
+  });
+}
+
+/**
+ * Get count of registered projects
+ */
+async function getProjectCount() {
+  try {
+    const registryPath = join(os.homedir(), '.orchestrator', 'projects.json');
+    await access(registryPath, constants.R_OK);
+    const content = await readFile(registryPath, 'utf-8');
+    const registry = JSON.parse(content);
+    return Object.keys(registry.projects || {}).length;
+  } catch (error) {
+    return 0;
+  }
+}
+
+/**
+ * Open URL in default browser
+ */
+function openBrowser(url) {
+  const platform = process.platform;
+  let command;
+
+  if (platform === 'darwin') {
+    command = 'open';
+  } else if (platform === 'win32') {
+    command = 'start';
+  } else {
+    command = 'xdg-open';
+  }
+
+  spawn(command, [url], { detached: true, stdio: 'ignore' });
+}
+
+/**
+ * Start the dashboard server
+ */
+async function startDashboard() {
+  printBanner();
+
+  // Check if port is already in use
+  const portInUse = await isPortInUse(PORT);
+  if (portInUse) {
+    print(`⚠️  Port ${PORT} is already in use!`, 'yellow');
+    print(`   Dashboard might already be running at ${DASHBOARD_URL}`, 'yellow');
+    print('');
+    print('Opening browser...', 'green');
+    openBrowser(DASHBOARD_URL);
+    print('');
+    print('✨ Done! If the dashboard doesn\'t load, stop the other process first.', 'green');
+    return;
+  }
+
+  // Get project count
+  const projectCount = await getProjectCount();
+  
+  print(`📂 Found ${projectCount} registered project${projectCount !== 1 ? 's' : ''}`, 'blue');
+  print('🚀 Starting server on port ' + PORT + '...', 'blue');
+  console.log('');
+
+  // Start the server
+  const serverPath = join(__dirname, '..', 'dashboard', 'server.js');
+  const server = spawn('node', [serverPath], {
+    detached: false,
+    stdio: 'inherit',
+  });
+
+  // Give server time to start
+  await new Promise(resolve => setTimeout(resolve, 1500));
+
+  // Open browser
+  print('🌐 Opening browser...', 'green');
+  openBrowser(DASHBOARD_URL);
+
+  console.log('');
+  print('╔════════════════════════════════════════════════════════════╗', 'green');
+  print('║   ✅ Dashboard is running!                                ║', 'green');
+  print('╠════════════════════════════════════════════════════════════╣', 'green');
+  print(`║   📍 URL: ${DASHBOARD_URL}                          ║`, 'bright');
+  print('║   🔄 Auto-refreshes every 30 seconds                      ║', 'bright');
+  print('║   📊 Switch projects using the dropdown                   ║', 'bright');
+  print('║                                                            ║', 'bright');
+  print('║   Press Ctrl+C to stop the server                         ║', 'yellow');
+  print('╚════════════════════════════════════════════════════════════╝', 'green');
+  console.log('');
+
+  // Handle graceful shutdown
+  process.on('SIGINT', () => {
+    console.log('');
+    print('⏹️  Shutting down dashboard server...', 'yellow');
+    server.kill();
+    process.exit(0);
+  });
+
+  process.on('SIGTERM', () => {
+    server.kill();
+    process.exit(0);
+  });
+}
+
+// Run the dashboard
+startDashboard().catch((error) => {
+  print('❌ Error starting dashboard:', 'red');
+  console.error(error);
+  process.exit(1);
+});
+

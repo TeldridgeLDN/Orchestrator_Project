@@ -1,0 +1,140 @@
+{
+  "manifestVersion": "1.0.0",
+  "rulesVersion": "2.1.0",
+  "lastUpdated": "2025-11-14T12:00:00Z",
+  "sourceProject": "Orchestrator_Project",
+  "rules": {
+    ".claude/rules/rule-integrity.md": {
+      "version": "1.0.0",
+      "lines": 530,
+      "checksum": "a8e337eaa544bff4aae9f3cbccec63561d0f308adb1fb897638a6a992cfa672b",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Meta-rules for rule governance and conflict resolution"
+    },
+    ".claude/rules/platform-primacy.md": {
+      "version": "1.0.0",
+      "lines": 311,
+      "checksum": "8b3df7a761d9e0ff90ef45146a21752a4c3ffcb90783ff8a5f2dfed724f804d3",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Defines .claude/rules precedence over assistant-specific rules"
+    },
+    ".claude/rules/context-efficiency.md": {
+      "version": "2.1.0",
+      "lines": 663,
+      "checksum": "6173b6fc2f700d9c058115e900fa3648ba87724e69180034fd50b3cc1cf7228e",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Token economy and 500-line file limit enforcement"
+    },
+    ".claude/rules/context-isolation.md": {
+      "version": "1.0.0",
+      "lines": 644,
+      "checksum": "f696bafaa30ba35bcba187a661cc2f5c3ced52b94cef8c1c37f4e559d1d8ea3b",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Single active context principle and isolation protocols"
+    },
+    ".claude/rules/autonomy-boundaries.md": {
+      "version": "2.1.0",
+      "lines": 666,
+      "checksum": "8640f21c2d98afd1dd56a7bc0e7aef4f79a382a3bdd77e83d7db95c69d6370f5",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Defines when AI acts automatically vs requires confirmation"
+    },
+    ".claude/rules/non-interactive-execution.md": {
+      "version": "2.1.0",
+      "lines": 771,
+      "checksum": "a3bef291a082db8bf2662d53cef276007f8fcd89bd870949efb8857f9ebe4a52",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Prevents commands from blocking on interactive input"
+    },
+    ".claude/rules/documentation-economy.md": {
+      "version": "2.0.0",
+      "lines": 860,
+      "checksum": "012091cdea4bd4b9ce7fe5daa57dedd2060bfbfd35a83e65c4bbe32fe4644a75",
+      "scope": "universal",
+      "priority": "critical",
+      "allowLocalOverride": false,
+      "description": "Combat documentation bloat with tiered system"
+    },
+    ".claude/rules/file-lifecycle-standard.md": {
+      "version": "1.0.0",
+      "lines": 347,
+      "checksum": "eace7c3cc5a4f3ec3180028407bfeabb9de6b8319e223fde93107e1e7cbee753",
+      "scope": "universal",
+      "priority": "high",
+      "allowLocalOverride": false,
+      "description": "Auto-archiving of ephemeral files"
+    },
+    ".claude/rules/core-infrastructure-standard.md": {
+      "version": "1.0.0",
+      "lines": 222,
+      "checksum": "4b2f4237e382ba6fc581a9d5eaac4639e4069909245324728f1196f0aca9a6b2",
+      "scope": "universal",
+      "priority": "high",
+      "allowLocalOverride": false,
+      "description": "Core infrastructure patterns and standards"
+    },
+    ".cursor/rules/project-identity.mdc": {
+      "version": "1.0.0",
+      "lines": 193,
+      "checksum": "baacd458eaa23161999e235eee72bb6861244701af4182872599ccfc5684df06",
+      "scope": "customizable",
+      "priority": "critical",
+      "allowLocalOverride": true,
+      "templateVariables": ["projectName", "projectPath", "gitRemote"],
+      "description": "Project identity validation to prevent wrong-project implementations"
+    },
+    ".cursor/rules/cursor_rules.mdc": {
+      "version": "1.0.0",
+      "lines": 52,
+      "checksum": "60e89f6f58949c8c4e00b0db86d7c4156a4d63ae05cf44e7bf17002408d5935f",
+      "scope": "universal",
+      "priority": "medium",
+      "allowLocalOverride": false,
+      "description": "Cursor-specific rule formatting and structure guidelines"
+    },
+    ".cursor/rules/self_improve.mdc": {
+      "version": "1.0.0",
+      "lines": 72,
+      "checksum": "b1ad380d15ccb1c4bc1aa9adda8b12d6ebe70245675a4b30a3ad120d46fcffa4",
+      "scope": "universal",
+      "priority": "medium",
+      "allowLocalOverride": false,
+      "description": "Continuous rule improvement and pattern recognition"
+    }
+  },
+  "categories": {
+    "primacy": [
+      ".claude/rules/rule-integrity.md",
+      ".claude/rules/platform-primacy.md",
+      ".claude/rules/context-efficiency.md",
+      ".claude/rules/context-isolation.md",
+      ".claude/rules/autonomy-boundaries.md",
+      ".claude/rules/non-interactive-execution.md",
+      ".claude/rules/documentation-economy.md",
+      ".claude/rules/file-lifecycle-standard.md"
+    ],
+    "infrastructure": [
+      ".claude/rules/core-infrastructure-standard.md"
+    ],
+    "validation": [
+      ".cursor/rules/project-identity.mdc"
+    ],
+    "meta": [
+      ".cursor/rules/cursor_rules.mdc",
+      ".cursor/rules/self_improve.mdc"
+    ]
+  }
+}
+

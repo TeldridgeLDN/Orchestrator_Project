@@ -7,9 +7,9 @@
       "temperature": 0.2
     },
     "research": {
-      "provider": "perplexity",
-      "modelId": "sonar-pro",
-      "maxTokens": 8700,
+      "provider": "anthropic",
+      "modelId": "claude-3-7-sonnet-20250219",
+      "maxTokens": 120000,
       "temperature": 0.1
     },
     "fallback": {
@@ -17,13 +17,6 @@
       "modelId": "haiku",
       "maxTokens": 200000,
       "temperature": 0.2
-    },
-    "critic": {
-      "provider": "anthropic",
-      "modelId": "claude-3-7-sonnet-20250219",
-      "maxTokens": 64000,
-      "temperature": 0.1,
-      "enabled": true
     }
   },
   "global": {
@@ -37,47 +30,11 @@
     "bedrockBaseURL": "https://bedrock.us-east-1.amazonaws.com",
     "responseLanguage": "English",
     "enableCodebaseAnalysis": true,
+    "enableProxy": false,
     "defaultTag": "master",
     "azureOpenaiBaseURL": "https://your-endpoint.openai.azure.com/",
     "userId": "1234567890",
     "enableCriticalReview": true
-  },
-  "criticalReview": {
-    "enabled": true,
-    "autoApply": true,
-    "generateReport": true,
-    "criteria": {
-      "complexity": {
-        "enabled": true,
-        "weight": 8,
-        "guideline": "Favor simplicity. Question if tasks are over-engineered. Prefer hooks over frameworks, files over databases."
-      },
-      "value": {
-        "enabled": true,
-        "weight": 10,
-        "guideline": "Prioritize high-impact work. Challenge low-value tasks. Build for 1 user first, scale later."
-      },
-      "philosophy": {
-        "enabled": true,
-        "weight": 9,
-        "guideline": "Ensure alignment with PAI+diet103 philosophy: Skills-as-Containers, token efficiency, progressive disclosure, simplicity first."
-      },
-      "yagni": {
-        "enabled": true,
-        "weight": 9,
-        "guideline": "You Ain't Gonna Need It. Avoid premature abstraction, optimization, and infrastructure before proven need."
-      },
-      "risk": {
-        "enabled": true,
-        "weight": 6,
-        "guideline": "Identify potential failure points and dependencies. Keep solutions maintainable."
-      },
-      "tokenEfficiency": {
-        "enabled": true,
-        "weight": 7,
-        "guideline": "Minimal overhead, lazy loading, load only what's needed when needed."
-      }
-    }
   },
   "claudeCode": {},
   "codexCli": {},

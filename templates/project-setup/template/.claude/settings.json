@@ -1,0 +1,25 @@
+{
+  "mcpServers": {},
+  "allowedTools": [
+    "Edit",
+    "Bash",
+    "Read",
+    "List",
+    "Write",
+    "Delete",
+    "Grep",
+    "MCP"
+  ],
+  "hooks": {
+    "UserPromptSubmit": [
+      ".claude/hooks/skill-activation.js"
+    ]
+  },
+  "rules": {
+    "autoLoad": true,
+    "paths": [
+      ".cursor/rules"
+    ]
+  }
+}
+

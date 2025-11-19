@@ -1,0 +1,49 @@
+# Orchestrator & Taskmaster
+.taskmaster/state.json
+.taskmaster/reports/
+
+# Dependencies
+node_modules/
+*.egg-info/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.js.map
+
+# Test coverage
+coverage/
+.nyc_output/
+htmlcov/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+

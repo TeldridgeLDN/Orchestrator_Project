@@ -1,0 +1,247 @@
+{
+  "name": "react-component-analyzer",
+  "version": "1.0.0",
+  "title": "React Component Analyzer",
+  "description": "Transform UI design mockups into structured React component specifications and implementation guides",
+  "author": "Orchestrator Core Team",
+  "license": "MIT",
+  "type": "analysis",
+  "scope": "global",
+  "status": "stable",
+  "created": "2025-11-15",
+  "updated": "2025-11-15",
+  
+  "requirements": {
+    "frameworks": ["react"],
+    "minVersions": {
+      "react": "16.8.0"
+    },
+    "languages": ["typescript", "javascript"],
+    "optional": {
+      "cssFrameworks": ["tailwind", "css-modules", "styled-components", "sass", "emotion"],
+      "componentLibraries": ["mui", "chakra", "antd", "shadcn", "custom"]
+    }
+  },
+  
+  "applies_to": {
+    "projectTypes": ["frontend", "web", "mobile-web", "full-stack"],
+    "filePatterns": [
+      "design/**",
+      "mockups/**",
+      "figma/**",
+      "src/components/**",
+      "components/**"
+    ],
+    "extensions": [".png", ".jpg", ".jpeg", ".svg"]
+  },
+  
+  "capabilities": {
+    "v1.0": [
+      "Component inventory and hierarchy mapping",
+      "Design system extraction (colors, typography, spacing, effects)",
+      "Interactive state documentation with confidence levels",
+      "Structured design specification output",
+      "Implementation recommendations",
+      "Accessibility requirements",
+      "Responsive design considerations",
+      "Developer checklists"
+    ],
+    "planned": {
+      "v1.1": [
+        "React component code generation",
+        "TypeScript interface generation",
+        "Design token export (CSS variables, Tailwind config)"
+      ],
+      "v1.2": [
+        "Design diff detection",
+        "Storybook story generation",
+        "Automated test scaffolding"
+      ],
+      "v2.0": [
+        "Multi-framework support (Vue, Svelte, Angular)",
+        "Figma plugin integration",
+        "Real-time collaboration features"
+      ]
+    }
+  },
+  
+  "trigger_phrases": [
+    "analyze design",
+    "convert mockup",
+    "design to code",
+    "extract design system",
+    "component from design",
+    "mockup analysis",
+    "ui analysis",
+    "figma to react"
+  ],
+  
+  "execution_modes": {
+    "quick": {
+      "time": "2-3 minutes",
+      "output": "Component inventory + basic design system"
+    },
+    "full": {
+      "time": "5-8 minutes",
+      "output": "Complete design specification (all 4 steps)",
+      "recommended": true
+    },
+    "component-focus": {
+      "time": "3-5 minutes",
+      "output": "Deep dive on specific component"
+    },
+    "tokens-only": {
+      "time": "2-3 minutes",
+      "output": "Colors, typography, spacing, effects only"
+    }
+  },
+  
+  "output_locations": {
+    "specs": ".claude/knowledge/design-specs/",
+    "tasks": ".taskmaster/tasks/tasks.json",
+    "tokens": "src/styles/design-tokens.ts"
+  },
+  
+  "integrations": {
+    "taskmaster": {
+      "enabled": true,
+      "description": "Auto-creates implementation tasks from specs"
+    },
+    "knowledge_base": {
+      "enabled": true,
+      "description": "Saves specs to .claude/knowledge/design-specs/"
+    },
+    "rules": {
+      "enabled": true,
+      "respects": [
+        ".claude/rules/react.mdc",
+        ".claude/rules/typescript.mdc",
+        ".claude/rules/ui-components.mdc"
+      ]
+    }
+  },
+  
+  "accuracy": {
+    "visual_elements": "85-90%",
+    "typography": "60-70%",
+    "spacing": "70-80%",
+    "interactions": "40-60%",
+    "note": "All extractions include confidence levels (HIGH/MEDIUM/LOW)"
+  },
+  
+  "limitations": {
+    "cannot": [
+      "Read Figma files directly (export to PNG/JPG first)",
+      "Generate pixel-perfect measurements (estimates only)",
+      "Determine exact font families from images",
+      "Show animations/transitions from static images",
+      "Access design system documentation (unless provided)",
+      "Generate production-ready code (v1.0 limitation)"
+    ],
+    "requires_manual": [
+      "Validate specs with design team",
+      "Confirm colors with brand guidelines",
+      "Verify spacing with design files",
+      "Implement business logic",
+      "Test thoroughly (cross-browser, responsive, a11y)"
+    ]
+  },
+  
+  "files": {
+    "main": "skill.md",
+    "readme": "README.md",
+    "quickref": "resources/quick-ref.md",
+    "template": "resources/design-spec-template.md"
+  },
+  
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "optional": []
+  },
+  
+  "auto_activation": {
+    "enabled": true,
+    "priority": "medium",
+    "rules_file": ".claude/skill-rules.json",
+    "rule_id": "ui_design_analysis"
+  },
+  
+  "tags": [
+    "react",
+    "frontend",
+    "ui",
+    "design",
+    "components",
+    "analysis",
+    "design-system",
+    "figma",
+    "mockup"
+  ],
+  
+  "related_skills": [
+    "doc-generator",
+    "shell-integration",
+    "code-reviewer"
+  ],
+  
+  "documentation": {
+    "full": ".claude/skills/react-component-analyzer/skill.md",
+    "quick_start": ".claude/skills/react-component-analyzer/README.md",
+    "quick_ref": ".claude/skills/react-component-analyzer/resources/quick-ref.md",
+    "implementation": "REACT_COMPONENT_ANALYZER_SKILL_COMPLETE.md",
+    "distribution": "SKILL_DISTRIBUTION_STRATEGY.md"
+  },
+  
+  "examples": [
+    {
+      "scenario": "Dashboard analysis",
+      "input": "Dashboard mockup with activity cards",
+      "context": "React 18 + TypeScript + Tailwind CSS",
+      "output": "Complete component specification with TypeScript interfaces"
+    },
+    {
+      "scenario": "Design system extraction",
+      "input": "Brand mockup",
+      "context": "CSS variables for theming",
+      "output": "Color palette, typography, spacing as CSS variables"
+    },
+    {
+      "scenario": "Component focus",
+      "input": "Button component designs",
+      "context": "styled-components project",
+      "output": "Detailed button states with styled-components implementation"
+    }
+  ],
+  
+  "testing": {
+    "manual": [
+      "Test with high-fidelity design mockups",
+      "Verify color extraction accuracy",
+      "Check typography estimation quality",
+      "Validate spacing measurements",
+      "Confirm state inference logic"
+    ],
+    "automated": [],
+    "integration": [
+      "Verify auto-activation works",
+      "Confirm Taskmaster integration",
+      "Test knowledge base saving",
+      "Validate rule respect"
+    ]
+  },
+  
+  "changelog": {
+    "1.0.0": {
+      "date": "2025-11-15",
+      "changes": [
+        "Initial release",
+        "4-step workflow implementation",
+        "Confidence level indicators",
+        "Multiple execution modes",
+        "Orchestrator integration"
+      ]
+    }
+  }
+}
+

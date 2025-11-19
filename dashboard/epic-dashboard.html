@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Orchestrator Project - Epic Dashboard</title>
+  <title>Orchestrator Multi-Project Dashboard</title>
   <style>
     * {
       margin: 0;
@@ -29,6 +29,34 @@
       border-radius: 16px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
       margin-bottom: 30px;
+    }
+
+    .project-selector {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .project-selector label {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .project-selector select {
+      padding: 10px 15px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+      min-width: 250px;
+    }
+
+    .project-selector select:focus {
+      outline: none;
+      border-color: #764ba2;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
     h1 {
@@ -205,6 +233,229 @@
       margin: 20px 0;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 0;
+      max-width: 900px;
+      width: 90%;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .modal-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .modal-body {
+      padding: 30px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #ecf0f1;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #ecf0f1;
+      color: #7f8c8d;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: none;
+      font-size: 0.9rem;
+    }
+
+    .filter-tab:hover {
+      background: #d5dbdd;
+    }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task-item {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+      transition: all 0.2s;
+    }
+
+    .task-item:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+
+    .task-item.done {
+      border-left-color: #2ecc71;
+      opacity: 0.8;
+    }
+
+    .task-item.in-progress {
+      border-left-color: #f39c12;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+
+    .task-id {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 0.85rem;
+      margin-right: 10px;
+    }
+
+    .task-title {
+      font-weight: 600;
+      color: #2c3e50;
+      flex: 1;
+    }
+
+    .task-status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .task-status-badge.done {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .task-status-badge.in-progress {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .task-status-badge.pending {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .task-description {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #95a5a6;
+    }
+
+    .task-priority {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .priority-high { color: #e74c3c; }
+    .priority-medium { color: #f39c12; }
+    .priority-low { color: #3498db; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #95a5a6;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 1.8rem;
@@ -216,6 +467,20 @@
 
       .summary-stats {
         grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        width: 95%;
+        max-height: 90vh;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .filter-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
       }
     }
 
@@ -255,6 +520,13 @@
           Refresh
         </button>
       </div>
+
+      <div class="project-selector">
+        <label for="project-select">📂 Project:</label>
+        <select id="project-select" onchange="handleProjectChange()">
+          <option value="">Loading projects...</option>
+        </select>
+      </div>
       
       <div class="summary-stats">
         <div class="stat">
@@ -288,17 +560,105 @@
     </div>
   </div>
 
+  <!-- Task Details Modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header" id="modalHeader">
+        <button class="modal-close" onclick="closeTaskModal()">&times;</button>
+        <div class="modal-title" id="modalTitle">Tasks</div>
+        <div class="modal-subtitle" id="modalSubtitle"></div>
+      </div>
+      <div class="modal-body">
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" onclick="filterTasks('all')">All</button>
+          <button class="filter-tab" onclick="filterTasks('done')">✓ Completed</button>
+          <button class="filter-tab" onclick="filterTasks('in-progress')">⏳ In Progress</button>
+          <button class="filter-tab" onclick="filterTasks('pending')">📋 Pending</button>
+        </div>
+        <div class="task-list" id="taskList">
+          <!-- Tasks will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Epic definitions
+    // State management
     let epicsConfig = null;
     let tasksData = null;
+    let availableProjects = {};
+    let currentProject = null;
 
     // Load dashboard on page load
     document.addEventListener('DOMContentLoaded', () => {
-      loadDashboard();
+      initializeDashboard();
     });
 
+    /**
+     * Initialize dashboard by loading projects first
+     */
+    async function initializeDashboard() {
+      try {
+        // Load available projects from Orchestrator registry
+        const projectsResponse = await fetch('/api/projects');
+        availableProjects = await projectsResponse.json();
+
+        // Populate project selector
+        const projectSelect = document.getElementById('project-select');
+        projectSelect.innerHTML = '';
+
+        const projectNames = Object.keys(availableProjects);
+        
+        if (projectNames.length === 0) {
+          projectSelect.innerHTML = '<option value="">No projects found</option>';
+          return;
+        }
+
+        // Add projects to dropdown
+        projectNames.forEach(projectName => {
+          const option = document.createElement('option');
+          option.value = projectName;
+          option.textContent = projectName;
+          projectSelect.appendChild(option);
+        });
+
+        // Load the first project by default
+        currentProject = projectNames[0];
+        projectSelect.value = currentProject;
+        await loadDashboard();
+
+      } catch (error) {
+        console.error('Error initializing dashboard:', error);
+        const errorContainer = document.getElementById('error-container');
+        errorContainer.innerHTML = `
+          <div class="error">
+            <strong>Error initializing dashboard:</strong> ${error.message}
+            <br><small>Make sure the server is running on port 3737</small>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * Handle project selection change
+     */
+    async function handleProjectChange() {
+      const projectSelect = document.getElementById('project-select');
+      currentProject = projectSelect.value;
+      
+      if (currentProject) {
+        await loadDashboard();
+      }
+    }
+
+    /**
+     * Load dashboard data for the current project
+     */
     async function loadDashboard() {
+      if (!currentProject) {
+        return;
+      }
+
       const loading = document.getElementById('loading');
       const errorContainer = document.getElementById('error-container');
       
@@ -306,16 +666,59 @@
       errorContainer.innerHTML = '';
 
       try {
-        // Load epics configuration
-        const epicsResponse = await fetch('../.taskmaster/epics.json');
-        epicsConfig = await epicsResponse.json();
+        // Load epics configuration (optional)
+        try {
+          const epicsResponse = await fetch(`/api/epics?project=${encodeURIComponent(currentProject)}`);
+          epicsConfig = await epicsResponse.json();
+        } catch (epicsError) {
+          console.log('No epics.json found, will use tags instead');
+          epicsConfig = null;
+        }
 
         // Load tasks data from TaskMaster
-        const tasksResponse = await fetch('../.taskmaster/tasks/tasks.json');
+        const tasksResponse = await fetch(`/api/tasks?project=${encodeURIComponent(currentProject)}`);
         const tasksFile = await tasksResponse.json();
         
-        // Extract tasks from the master tag
-        tasksData = tasksFile.tags?.master?.tasks || [];
+        console.log('Loaded tasks file:', tasksFile);
+        
+        // Extract tasks - handle both old (tags wrapper) and new (direct) formats
+        tasksData = [];
+        
+        if (tasksFile.tags) {
+          // Old format: { "tags": { "master": { "tasks": [...] } } }
+          console.log('Using old format with tags wrapper');
+          Object.entries(tasksFile.tags).forEach(([tagName, tagData]) => {
+            if (tagData && tagData.tasks && Array.isArray(tagData.tasks)) {
+              console.log(`Loading ${tagData.tasks.length} tasks from tag: ${tagName}`);
+              tagData.tasks.forEach(task => {
+                tasksData.push({
+                  ...task,
+                  _tag: tagName, // Store tag name with task
+                });
+              });
+            }
+          });
+        } else if (typeof tasksFile === 'object') {
+          // New format: { "master": { "tasks": [...] }, "feature-x": { "tasks": [...] } }
+          console.log('Using new format without tags wrapper');
+          Object.entries(tasksFile).forEach(([tagName, tagData]) => {
+            if (tagData && typeof tagData === 'object' && tagData.tasks && Array.isArray(tagData.tasks)) {
+              console.log(`Loading ${tagData.tasks.length} tasks from tag: ${tagName}`);
+              tagData.tasks.forEach(task => {
+                tasksData.push({
+                  ...task,
+                  _tag: tagName, // Store tag name with task
+                });
+              });
+            } else {
+              console.warn(`Skipping tag ${tagName} - no valid tasks array found`);
+            }
+          });
+        } else {
+          console.error('Unknown tasks file format:', tasksFile);
+        }
+        
+        console.log(`Total tasks loaded: ${tasksData.length}`);
 
         // Render the dashboard
         renderDashboard();
@@ -349,11 +752,42 @@
       const epicContainer = document.getElementById('epic-container');
       epicContainer.innerHTML = '';
 
-      epicsConfig.epics.forEach(epic => {
-        const epicTasks = getEpicTasks(epic);
-        const epicCard = createEpicCard(epic, epicTasks);
-        epicContainer.appendChild(epicCard);
-      });
+      if (epicsConfig && epicsConfig.epics && Array.isArray(epicsConfig.epics)) {
+        // Use epics.json configuration if available
+        epicsConfig.epics.forEach(epic => {
+          const epicTasks = getEpicTasks(epic);
+          const epicCard = createEpicCard(epic, epicTasks);
+          epicContainer.appendChild(epicCard);
+        });
+      } else {
+        // Group tasks by tag when no epics.json exists
+        const tasksByTag = {};
+        tasksData.forEach(task => {
+          const tag = task._tag || 'master';
+          if (!tasksByTag[tag]) {
+            tasksByTag[tag] = [];
+          }
+          tasksByTag[tag].push(task);
+        });
+
+        // Create epic-style cards for each tag
+        const colors = ['linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                       'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                       'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                       'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                       'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'];
+        
+        Object.entries(tasksByTag).forEach(([tagName, tasks], index) => {
+          const epic = {
+            name: tagName.charAt(0).toUpperCase() + tagName.slice(1),
+            description: `Tasks for ${tagName} context`,
+            color: colors[index % colors.length],
+            icon: '🏷️'
+          };
+          const epicCard = createEpicCard(epic, tasks);
+          epicContainer.appendChild(epicCard);
+        });
+      }
     }
 
     function getEpicTasks(epic) {
@@ -415,14 +849,148 @@
         </div>
       `;
 
-      // Optional: Add click handler to show task details
+      // Add click handler to show task details
       card.addEventListener('click', () => {
-        console.log(`Epic: ${epic.name}`, tasks);
-        // Could expand to show detailed task list
+        openTaskModal(epic, tasks);
       });
+      card.style.cursor = 'pointer';
 
       return card;
     }
+
+    // Modal state
+    let currentModalTasks = [];
+    let currentModalFilter = 'all';
+
+    /**
+     * Open task modal with details
+     */
+    function openTaskModal(epic, tasks) {
+      currentModalTasks = tasks;
+      currentModalFilter = 'all';
+
+      // Update modal header
+      const modalTitle = document.getElementById('modalTitle');
+      const modalSubtitle = document.getElementById('modalSubtitle');
+      const modalHeader = document.getElementById('modalHeader');
+      
+      modalTitle.textContent = epic.name;
+      modalSubtitle.textContent = `${tasks.length} total tasks • ${tasks.filter(t => t.status === 'done').length} completed`;
+      modalHeader.style.background = epic.color;
+
+      // Reset filter tabs
+      document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.filter-tab')[0].classList.add('active');
+
+      // Render tasks
+      renderModalTasks();
+
+      // Show modal
+      document.getElementById('taskModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    /**
+     * Close task modal
+     */
+    function closeTaskModal() {
+      document.getElementById('taskModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    /**
+     * Filter tasks in modal
+     */
+    function filterTasks(filter) {
+      currentModalFilter = filter;
+      
+      // Update active tab
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      renderModalTasks();
+    }
+
+    /**
+     * Render tasks in modal based on current filter
+     */
+    function renderModalTasks() {
+      const taskList = document.getElementById('taskList');
+      
+      // Filter tasks
+      let filteredTasks = currentModalTasks;
+      if (currentModalFilter !== 'all') {
+        filteredTasks = currentModalTasks.filter(t => t.status === currentModalFilter);
+      }
+
+      // Sort tasks by ID
+      filteredTasks.sort((a, b) => {
+        const aId = typeof a.id === 'string' ? parseFloat(a.id) : a.id;
+        const bId = typeof b.id === 'string' ? parseFloat(b.id) : b.id;
+        return aId - bId;
+      });
+
+      if (filteredTasks.length === 0) {
+        taskList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div>No tasks found with this filter</div>
+          </div>
+        `;
+        return;
+      }
+
+      // Render tasks
+      taskList.innerHTML = filteredTasks.map(task => {
+        const priorityClass = task.priority ? `priority-${task.priority}` : '';
+        const priorityIcon = task.priority === 'high' ? '🔥' : task.priority === 'medium' ? '📌' : '📋';
+        
+        return `
+          <div class="task-item ${task.status}">
+            <div class="task-header">
+              <div style="display: flex; align-items: center; flex: 1;">
+                <span class="task-id">#${task.id}</span>
+                <span class="task-title">${task.title || 'Untitled Task'}</span>
+              </div>
+              <span class="task-status-badge ${task.status}">${task.status || 'pending'}</span>
+            </div>
+            ${task.description ? `
+              <div class="task-description">${task.description}</div>
+            ` : ''}
+            <div class="task-meta">
+              ${task.priority ? `
+                <div class="task-priority ${priorityClass}">
+                  <span>${priorityIcon}</span>
+                  <span>${task.priority.toUpperCase()}</span>
+                </div>
+              ` : ''}
+              ${task.dependencies && task.dependencies.length > 0 ? `
+                <div>📎 Depends on: ${task.dependencies.join(', ')}</div>
+              ` : ''}
+              ${task.subtasks && task.subtasks.length > 0 ? `
+                <div>📝 ${task.subtasks.length} subtask${task.subtasks.length !== 1 ? 's' : ''}</div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('taskModal').addEventListener('click', (e) => {
+      if (e.target.id === 'taskModal') {
+        closeTaskModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeTaskModal();
+      }
+    });
   </script>
 </body>
 </html>

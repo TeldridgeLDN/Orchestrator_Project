@@ -1,0 +1,318 @@
+{
+  "name": "marketing-site",
+  "version": "1.0.0",
+  "description": "Marketing site validation template optimized for conversion, trust, and user experience",
+  "extends": ["base"],
+  "author": "Orchestrator Design Review System",
+  "created": "2025-11-19",
+  
+  "checks": {
+    "accessibility": {
+      "enabled": true,
+      "wcagLevel": "AA",
+      "rules": [
+        "color-contrast",
+        "alt-text",
+        "aria-attributes",
+        "keyboard-navigation",
+        "form-labels"
+      ]
+    },
+    
+    "visualRegression": {
+      "enabled": true,
+      "threshold": 0.1,
+      "captureViewports": [
+        { "width": 375, "height": 667, "name": "mobile" },
+        { "width": 1280, "height": 720, "name": "desktop" }
+      ]
+    },
+    
+    "designConsistency": {
+      "enabled": true,
+      "rules": [
+        "naming-conventions",
+        "file-organization",
+        "design-token-usage"
+      ]
+    },
+    
+    "conversionOptimization": {
+      "enabled": true,
+      "description": "Validates elements that impact conversion rates",
+      "rules": [
+        "cta-above-fold",
+        "form-field-count",
+        "loading-time",
+        "mobile-cta-accessibility"
+      ],
+      "thresholds": {
+        "loadTime": 3000,
+        "maxFormFields": 3,
+        "minCtaSize": { "width": 120, "height": 44 },
+        "ctaMinContrast": 4.5
+      },
+      "severity": {
+        "cta-below-fold": "critical",
+        "slow-loading": "serious",
+        "too-many-fields": "warning"
+      }
+    },
+    
+    "copyQuality": {
+      "enabled": true,
+      "description": "Analyzes marketing copy for clarity and effectiveness",
+      "rules": [
+        "readability-score",
+        "jargon-detection",
+        "action-oriented-ctas",
+        "headline-clarity"
+      ],
+      "thresholds": {
+        "fleschKincaid": 60,
+        "maxJargonWords": 5,
+        "minHeadlineWords": 4,
+        "maxHeadlineWords": 12
+      },
+      "jargonList": [
+        "leverage",
+        "synergy",
+        "paradigm",
+        "optimize",
+        "utilize",
+        "implement",
+        "facilitate",
+        "revolutionary",
+        "cutting-edge",
+        "next-generation"
+      ],
+      "severity": {
+        "low-readability": "warning",
+        "excessive-jargon": "warning",
+        "weak-cta": "suggestion"
+      }
+    },
+    
+    "trustSignals": {
+      "enabled": true,
+      "description": "Validates trust-building elements (Monzo principle: Consistency = Trust)",
+      "rules": [
+        "testimonials-have-names",
+        "testimonials-have-photos",
+        "privacy-policy-linked",
+        "no-fake-urgency",
+        "social-proof-present",
+        "secure-badges"
+      ],
+      "requirements": {
+        "minTestimonials": 2,
+        "testimonialMustHave": ["name", "company"],
+        "requiredLinks": ["privacy-policy", "terms-of-service"]
+      },
+      "fakeUrgencyPatterns": [
+        "only \\d+ spots? left",
+        "expires in \\d+ (minutes?|hours?)",
+        "limited time",
+        "almost sold out",
+        "\\d+ people watching"
+      ],
+      "severity": {
+        "no-privacy-policy": "critical",
+        "fake-urgency": "critical",
+        "missing-testimonials": "warning"
+      }
+    },
+    
+    "emailTemplates": {
+      "enabled": true,
+      "description": "Validates email template quality and compliance",
+      "rules": [
+        "plain-text-fallback",
+        "unsubscribe-link",
+        "personalization-tokens-valid",
+        "mobile-responsive",
+        "no-spam-triggers"
+      ],
+      "requirements": {
+        "requiredLinks": ["unsubscribe", "privacy-policy"],
+        "maxWidth": 600,
+        "validTokens": ["{{NAME}}", "{{EMAIL}}", "{{COMPANY}}"]
+      },
+      "spamTriggers": [
+        "FREE!!!",
+        "ACT NOW",
+        "CLICK HERE",
+        "100% guaranteed",
+        "No credit card required!!!"
+      ],
+      "severity": {
+        "no-unsubscribe": "critical",
+        "spam-triggers": "serious",
+        "invalid-tokens": "warning"
+      }
+    }
+  },
+  
+  "designSystem": {
+    "description": "Monzo-inspired design system for portfolio-redesign",
+    "colorPalette": {
+      "primary": "#0EBAC5",
+      "primaryName": "Monzo Teal",
+      "secondary": "#FF5454",
+      "secondaryName": "Warm Coral",
+      "accent": "#FFC700",
+      "accentName": "Sunny Yellow",
+      "neutrals": {
+        "white": "#FFFFFF",
+        "lightGray": "#F5F5F5",
+        "charcoal": "#333333",
+        "mediumGray": "#666666"
+      },
+      "validation": {
+        "tolerance": 5,
+        "mode": "strict"
+      }
+    },
+    
+    "typography": {
+      "fontFamilies": {
+        "headings": "Inter Bold",
+        "body": "Inter Regular",
+        "code": "JetBrains Mono"
+      },
+      "sizes": {
+        "h1": "48px",
+        "h2": "36px",
+        "h3": "24px",
+        "body": "18px",
+        "small": "14px"
+      },
+      "lineHeights": {
+        "headings": 1.2,
+        "body": 1.6
+      },
+      "validation": {
+        "enforceHierarchy": true,
+        "maxSizeVariance": "4px"
+      }
+    },
+    
+    "components": {
+      "button": {
+        "primary": {
+          "background": "#FF5454",
+          "color": "#FFFFFF",
+          "borderRadius": "8px",
+          "padding": "16px 32px",
+          "fontWeight": "600",
+          "hoverEffect": "lift-shadow"
+        },
+        "secondary": {
+          "background": "#FFFFFF",
+          "color": "#0EBAC5",
+          "border": "2px solid #0EBAC5",
+          "borderRadius": "8px",
+          "padding": "14px 30px"
+        },
+        "validation": {
+          "minTouchTarget": "44px",
+          "maxPerPage": 3
+        }
+      },
+      
+      "input": {
+        "border": "2px solid #E0E0E0",
+        "focusBorder": "2px solid #0EBAC5",
+        "borderRadius": "8px",
+        "padding": "16px",
+        "validation": {
+          "showValidationAnimation": true,
+          "focusColorRequired": "#0EBAC5"
+        }
+      },
+      
+      "card": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E0E0E0",
+        "borderRadius": "12px",
+        "padding": "24px",
+        "shadow": "subtle",
+        "hoverEffect": "lift-shadow"
+      }
+    },
+    
+    "spacing": {
+      "baseUnit": 8,
+      "scale": [8, 16, 24, 32, 40, 48, 64, 80],
+      "validation": {
+        "enforceScale": true,
+        "tolerance": 2
+      }
+    },
+    
+    "breakpoints": {
+      "mobile": 375,
+      "tablet": 768,
+      "desktop": 1024,
+      "wide": 1440
+    }
+  },
+  
+  "devServer": {
+    "autoDetect": true,
+    "defaultUrl": "http://localhost:3000",
+    "startupTimeout": 30000,
+    "healthCheckPath": "/"
+  },
+  
+  "reporting": {
+    "format": "markdown",
+    "mode": "warn",
+    "includeScreenshots": true,
+    "includeRecommendations": true,
+    "groupByCategory": true,
+    "severity": {
+      "critical": {
+        "action": "block",
+        "color": "red"
+      },
+      "serious": {
+        "action": "warn",
+        "color": "orange"
+      },
+      "warning": {
+        "action": "warn",
+        "color": "yellow"
+      },
+      "suggestion": {
+        "action": "info",
+        "color": "blue"
+      }
+    }
+  },
+  
+  "performance": {
+    "parallel": true,
+    "maxConcurrency": 3,
+    "timeout": 30000,
+    "retries": 2
+  },
+  
+  "metadata": {
+    "targetAudience": "Early-stage founders, SMBs testing ideas via landing pages",
+    "useCases": [
+      "Pre-launch landing pages",
+      "Lead magnet funnels",
+      "Email capture pages",
+      "Consultation booking pages"
+    ],
+    "monzoPrinciples": [
+      "Magic Moments - Delightful micro-interactions",
+      "Thoughtful Friction - Intentionally slow down at key decisions",
+      "Straightforward Kindness - Clear, jargon-free communication",
+      "Consistency = Trust - Predictable patterns",
+      "Agile & Scalable - Modular, domain-driven design"
+    ]
+  }
+}
+

@@ -20,13 +20,41 @@ import { skillImportCommand, listSkillsCommand } from '../lib/commands/skill-imp
 import { skillLockCommand, skillUnlockCommand, skillOverrideCommand, skillStatusCommand } from '../lib/commands/skill-management.js';
 import { classifyCommand, organizeCommand, archiveCommand, cleanupCommand, statusCommand as fileStatusCommand, statsCommand as fileStatsCommand } from '../lib/commands/file-lifecycle.js';
 import { validateProjectCommand, checkPRDCommand, fixProjectCommand, generateBadgeCommand, injectBadgeCommand } from '../lib/commands/project-validator.js';
+import { syncRulesCommand, listRulesCommand, addRuleCommand, removeRuleCommand, checkRulesCommand, registerRulesCommand, rulesStatusCommand } from '../lib/commands/rules.js';
+import { shellCommand, installCommand as shellInstallCommand, removeCommand as shellRemoveCommand, statusCommand as shellStatusCommand } from '../lib/commands/shell.js';
+import { guideCommand } from '../lib/commands/guide.js';
+import { quickstartCommand } from '../lib/commands/quickstart.js';
+import chalk from 'chalk';
 
 const program = new Command();
 
+// Custom help configuration with categorized output
+program.configureHelp({
+  sortSubcommands: true,
+  subcommandTerm: (cmd) => cmd.name() + ' ' + cmd.usage()
+});
+
 program
   .name('diet103')
-  .description('diet103 infrastructure validation and repair tool')
-  .version('1.0.0');
+  .description(`${chalk.bold('diet103')} - AI-assisted project infrastructure management
+
+${chalk.bold('QUICK START')}
+  ${chalk.cyan('diet103 quickstart')}        Interactive setup wizard (recommended)
+  ${chalk.cyan('diet103 guide')}             Learn common workflows step-by-step
+  ${chalk.cyan('diet103 init')}              Initialize a new Claude-enabled project
+
+${chalk.bold('COMMON WORKFLOWS')}
+  ${chalk.dim('Validate & Health:')}    diet103 validate --repair
+  ${chalk.dim('Project Management:')}   diet103 project register
+  ${chalk.dim('Rule Management:')}      diet103 rules sync
+  ${chalk.dim('File Organization:')}    diet103 file-lifecycle classify
+  ${chalk.dim('Scenario Testing:')}     diet103 scenario create
+
+${chalk.bold('DOCUMENTATION')}
+  • Full CLI reference:  Docs/CLI_REFERENCE.md
+  • Getting started:     Docs/GETTING_STARTED.md
+  • Troubleshooting:     Docs/TROUBLESHOOTING.md`)
+  .version('1.3.0');
 
 // Init command
 program
@@ -35,9 +63,20 @@ program
   .option('-n, --name <name>', 'Project name')
   .option('-d, --description <desc>', 'Project description')
   .option('--taskmaster', 'Include TaskMaster initialization')
+  .option('--shell', 'Enable shell integration')
   .option('--no-interactive', 'Skip interactive prompts')
   .option('-f, --force', 'Force initialization even if project exists')
   .option('-v, --verbose', 'Show detailed output')
+  .addHelpText('after', `
+${chalk.bold('Examples:')}
+  ${chalk.dim('# Initialize current directory')}
+  $ diet103 init
+
+  ${chalk.dim('# Initialize specific directory with name')}
+  $ diet103 init ./my-project --name "My Project"
+  
+  ${chalk.dim('# Initialize with TaskMaster included')}
+  $ diet103 init --taskmaster`)
   .action(initCommand);
 
 // Validate command
@@ -48,6 +87,16 @@ program
   .option('-v, --verbose', 'Show detailed validation output')
   .option('-t, --threshold <score>', 'Minimum confidence score required (0-100)', '70')
   .option('--no-important', 'Do not install important directories during repair')
+  .addHelpText('after', `
+${chalk.bold('Examples:')}
+  ${chalk.dim('# Validate current project')}
+  $ diet103 validate
+
+  ${chalk.dim('# Validate and auto-repair issues')}
+  $ diet103 validate --repair
+  
+  ${chalk.dim('# Require minimum 80/100 score')}
+  $ diet103 validate --threshold 80`)
   .action(validateCommand);
 
 // Health command
@@ -57,6 +106,16 @@ program
   .option('-u, --update', 'Update health score in project metadata')
   .option('-v, --verbose', 'Show detailed component information')
   .option('--json', 'Output as JSON')
+  .addHelpText('after', `
+${chalk.bold('Examples:')}
+  ${chalk.dim('# Check project health')}
+  $ diet103 health
+
+  ${chalk.dim('# Update health score in metadata')}
+  $ diet103 health --update
+  
+  ${chalk.dim('# Get detailed component breakdown')}
+  $ diet103 health --verbose`)
   .action(healthCommand);
 
 // Scenario command group
@@ -268,6 +327,98 @@ fileLifecycle
   .option('--json', 'Output as JSON')
   .option('-v, --verbose', 'Show detailed statistics')
   .action(fileStatsCommand);
+
+// Shell Integration commands (NEW in v1.3.0 - Phase 3 Feature 2)
+const shell = program
+  .command('shell')
+  .description('Manage terminal prompt integration');
+
+shell
+  .command('install')
+  .description('Install shell integration to show project name in prompt')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(shellInstallCommand);
+
+shell
+  .command('remove')
+  .description('Remove shell integration')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(shellRemoveCommand);
+
+shell
+  .command('status')
+  .description('Show shell integration status')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(shellStatusCommand);
+
+// Rules command group (NEW in v1.3.0 - Phase 3 Feature 3)
+const rules = program
+  .command('rules')
+  .description('Manage project rule profiles and synchronization');
+
+rules
+  .command('sync')
+  .description('Sync rules with central registry')
+  .option('-f, --force', 'Force re-sync even if up to date')
+  .option('--dry-run', 'Preview changes without applying')
+  .option('--only <filter>', 'Only sync matching rules (comma-separated)')
+  .option('--exclude <filter>', 'Exclude matching rules (comma-separated)')
+  .option('-v, --verbose', 'Show detailed sync output')
+  .action(syncRulesCommand);
+
+rules
+  .command('list')
+  .description('List installed rule profiles')
+  .option('-v, --verbose', 'Show detailed rule information')
+  .action(listRulesCommand);
+
+rules
+  .command('add <profile>')
+  .description('Add a new rule profile (cursor, windsurf, etc.)')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(addRuleCommand);
+
+rules
+  .command('remove <profile>')
+  .description('Remove a rule profile')
+  .option('-f, --force', 'Force removal without confirmation')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(removeRuleCommand);
+
+rules
+  .command('check')
+  .description('Check for rule updates')
+  .option('-v, --verbose', 'Show detailed check output')
+  .action(checkRulesCommand);
+
+rules
+  .command('register')
+  .description('Register current project with rule sync system')
+  .option('-f, --force', 'Force re-registration')
+  .option('-v, --verbose', 'Show detailed output')
+  .action(registerRulesCommand);
+
+rules
+  .command('status')
+  .description('Show rule sync status')
+  .option('-v, --verbose', 'Show detailed status')
+  .action(rulesStatusCommand);
+
+// Help & Guidance commands (NEW in v1.3.0 - Phase 3 Feature 4)
+program
+  .command('guide')
+  .description('Interactive tutorial for common diet103 workflows')
+  .option('-t, --topic <topic>', 'Jump to specific topic (validation, health, skills, files, scenarios)')
+  .option('--list', 'List all available topics')
+  .action(guideCommand);
+
+program
+  .command('quickstart')
+  .description('Interactive setup wizard with recommended settings')
+  .option('--skip-validation', 'Skip project validation step')
+  .option('--skip-health', 'Skip health check step')
+  .option('-y, --yes', 'Accept all recommended settings')
+  .action(quickstartCommand);
 
 // Parse arguments
 program.parse(process.argv);

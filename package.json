@@ -4,16 +4,22 @@
   "description": "Multi-project AI orchestration system combining PAI global layer with diet103 local layer",
   "type": "module",
   "bin": {
-    "diet103": "./bin/diet103.js"
+    "diet103": "./bin/diet103.js",
+    "orch": "./bin/orch",
+    "orchestrator": "./bin/orchestrator.cjs"
   },
   "scripts": {
     "postinstall": "node lib/init/startup_hooks.js",
     "init": "node lib/init/startup_hooks.js",
     "init:silent": "node lib/init/startup_hooks.js --silent",
+    "init:compact": "node lib/init/startup_hooks.js --compact",
+    "sync-rules-global": "node scripts/sync-rules-global.js",
+    "validate-rules": "node scripts/validate-rule-versions.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "validate:ufc": "node bin/validate-ufc.js"
+    "validate:ufc": "node bin/validate-ufc.js",
+    "dashboard": "node dashboard/server.js"
   },
   "dependencies": {
     "ajv": "^8.17.1",
@@ -31,7 +37,9 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@vitest/coverage-v8": "^1.6.1",
+    "playwright": "^1.56.1",
     "vitest": "^1.0.0"
   },
   "engines": {

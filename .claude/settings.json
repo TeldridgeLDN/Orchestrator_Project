@@ -12,14 +12,25 @@
   ],
   "hooks": {
     "UserPromptSubmit": [
+      ".claude/hooks/skill-activation.js",
       ".claude/hooks/taskmaster-session-tracker.js"
+    ],
+    "PostToolUse": [
+      ".claude/hooks/PostToolUse.js"
     ]
   },
   "rules": {
     "autoLoad": true,
     "paths": [
-      ".cursor/rules"
+      ".cursor/rules",
+      "/Users/tomeldridge/.orchestrator/rules"
+    ]
+  },
+  "skills": {
+    "autoLoad": true,
+    "paths": [
+      "/Users/tomeldridge/.claude/skills",
+      ".claude/skills"
     ]
   }
 }
-

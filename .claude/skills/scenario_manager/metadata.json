@@ -3,6 +3,7 @@
   "name": "Scenario Manager",
   "type": "meta-skill",
   "version": "2.0.0",
+  "scope": "global",
   "description": "Intelligent guidance and context-aware assistance for working with scenario definitions. Provides discovery, creation guidance, validation, and metadata tracking without auto-scaffolding.",
   "structure": {
     "format": "diet103-progressive-disclosure",

@@ -13,10 +13,16 @@
         "make a scenario",
         "build scenario"
       ],
+      "file_patterns": [
+        ".orchestrator/scenarios/",
+        "scenarios/",
+        "*.scenario.yaml",
+        "*.scenario.yml"
+      ],
       "skill": "scenario_manager",
       "auto_activate": true,
       "priority": "high",
-      "description": "Activates when user wants to create or scaffold a scenario"
+      "description": "Activates when user wants to create or scaffold a scenario, or when working with scenario files"
     },
     {
       "id": "scenario_discovery",
@@ -73,6 +79,129 @@
       "auto_activate": true,
       "priority": "medium",
       "description": "Activates when user needs help with scenarios"
+    },
+    {
+      "id": "taskmaster_work",
+      "trigger_phrases": [
+        "task management",
+        "manage tasks",
+        "taskmaster",
+        "work on task",
+        "next task"
+      ],
+      "file_patterns": [
+        ".taskmaster/",
+        "tasks.json",
+        "task-*.md"
+      ],
+      "skill": "taskmaster",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when working with Taskmaster or task files"
+    },
+    {
+      "id": "shell_scripting",
+      "trigger_phrases": [
+        "shell script",
+        "bash script",
+        "zsh script",
+        "write script",
+        "shell integration"
+      ],
+      "file_patterns": [
+        "bin/",
+        "scripts/",
+        "*.sh",
+        "*.bash",
+        "*.zsh"
+      ],
+      "skill": "shell-integration",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when working with shell scripts"
+    },
+    {
+      "id": "rule_management",
+      "trigger_phrases": [
+        "update rules",
+        "create rule",
+        "modify rules",
+        "rule management"
+      ],
+      "file_patterns": [
+        ".cursor/rules/",
+        ".claude/rules/",
+        "*.mdc",
+        "*rules*.md"
+      ],
+      "skill": "rule-management",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Activates when working with rules"
+    },
+    {
+      "id": "git_operations",
+      "trigger_phrases": [
+        "git workflow",
+        "commit changes",
+        "git operations",
+        "merge conflicts",
+        "rebase",
+        "cherry-pick"
+      ],
+      "file_patterns": [
+        ".git/",
+        ".gitignore",
+        ".gitattributes"
+      ],
+      "skill": "git-workflow",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Activates for complex git operations"
+    },
+    {
+      "id": "documentation_work",
+      "trigger_phrases": [
+        "write documentation",
+        "update docs",
+        "create docs",
+        "document this"
+      ],
+      "file_patterns": [
+        "docs/",
+        "Docs/",
+        "README.md",
+        "*.md"
+      ],
+      "skill": "doc-generator",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Activates when working with documentation"
+    },
+    {
+      "id": "ui_design_analysis",
+      "trigger_phrases": [
+        "analyze design",
+        "convert mockup",
+        "design to code",
+        "extract design system",
+        "component from design",
+        "mockup analysis",
+        "ui analysis",
+        "figma to react"
+      ],
+      "file_patterns": [
+        "design/",
+        "mockups/",
+        "figma/",
+        "*.png",
+        "*.jpg",
+        "*.jpeg"
+      ],
+      "skill": "react-component-analyzer",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Activates when analyzing UI designs or converting mockups to React components"
     }
   ],
   "global_settings": {
@@ -84,6 +213,7 @@
     "Trigger phrases use case-insensitive matching",
     "Partial matches are allowed (e.g., 'create scenario' matches 'I want to create scenario')",
     "Skills only activate if trigger phrases match, avoiding false positives",
-    "Priority determines activation order if multiple rules match"
+    "Priority determines activation order if multiple rules match",
+    "File patterns enable context-aware activation when opening relevant files"
   ]
 }

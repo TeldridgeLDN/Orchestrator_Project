@@ -1,0 +1,256 @@
+{
+  "$schema": "https://claude.ai/schemas/skill-rules-v1.json",
+  "version": "1.1.0",
+  "description": "Auto-activation rules for frontend development skills + image generation (diet103 pattern)",
+  "project_type": "frontend",
+  "rules": [
+    {
+      "id": "user_scenario_generator",
+      "trigger_phrases": [
+        "generate user scenarios",
+        "create user scenarios",
+        "user scenarios",
+        "3 whys",
+        "three whys",
+        "user perspective",
+        "user point of view",
+        "why does user",
+        "user journey",
+        "user intent",
+        "user motivation",
+        "scenario generation",
+        "user needs",
+        "apply 3 whys"
+      ],
+      "file_patterns": [
+        "docs/**/*.md",
+        "requirements/**",
+        "prd/**",
+        "*.prd.txt"
+      ],
+      "context_patterns": [
+        "writing user stories",
+        "planning features",
+        "user research"
+      ],
+      "skill": "user-scenario-generator",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Transforms inspiration into user scenarios with 3 Whys analysis and emotional context"
+    },
+    {
+      "id": "react_component_analyzer",
+      "trigger_phrases": [
+        "analyze design",
+        "analyze this design",
+        "extract components",
+        "mockup analysis",
+        "design to code",
+        "figma to react",
+        "convert mockup",
+        "analyze mockup",
+        "component from design",
+        "ui analysis",
+        "extract design system"
+      ],
+      "file_patterns": [
+        "design/**",
+        "mockups/**",
+        "figma/**",
+        "*.png",
+        "*.jpg",
+        "*.jpeg",
+        "*.svg"
+      ],
+      "context_patterns": [
+        "analyzing designs",
+        "extracting from mockup",
+        "design handoff"
+      ],
+      "skill": "react-component-analyzer",
+      "auto_activate": true,
+      "priority": "medium",
+      "description": "Analyzes design mockups to extract component inventory and visual specifications"
+    },
+    {
+      "id": "frontend_design_system",
+      "trigger_phrases": [
+        "design system",
+        "button specs",
+        "button specifications",
+        "calendar grid",
+        "card grid",
+        "form layout",
+        "spacing system",
+        "component specs",
+        "component specifications",
+        "typography scale",
+        "color palette",
+        "layout pattern",
+        "design tokens",
+        "hero section",
+        "navigation header",
+        "two column layout",
+        "build component",
+        "create component"
+      ],
+      "file_patterns": [
+        "src/components/**",
+        "components/**",
+        "src/ui/**",
+        "src/layouts/**",
+        "*.tsx",
+        "*.jsx"
+      ],
+      "context_patterns": [
+        "building components",
+        "implementing ui",
+        "creating layouts"
+      ],
+      "skill": "frontend-design-system",
+      "auto_activate": true,
+      "priority": "high",
+      "description": "Provides design system specifications for consistent React component development"
+    },
+    {
+      "id": "nano_banana_prompts",
+      "trigger_phrases": [
+        "generate image",
+        "create hero image",
+        "gemini image",
+        "nano banana",
+        "photorealistic",
+        "illustration of",
+        "product photo",
+        "mockup image",
+        "background image",
+        "feature illustration",
+        "abstract background",
+        "team photo",
+        "landscape photo",
+        "generate hero",
+        "create illustration",
+        "ai image"
+      ],
+      "file_patterns": [
+        "src/assets/images/**",
+        "public/images/**",
+        "assets/**",
+        "*.jpg",
+        "*.png",
+        "*.webp"
+      ],
+      "context_patterns": [
+        "need visual assets",
+        "creating hero section",
+        "generating images",
+        "visual design"
+      ],
+      "skill": "nano-banana-prompts",
+      "auto_activate": true,
+      "priority": "low",
+      "description": "Generates optimized prompts for Gemini 2.5 Flash Image to create web assets",
+      "notes": [
+        "Requires Gemini API access",
+        "Does not generate images directly, only prompts",
+        "Best for hero images, illustrations, backgrounds",
+        "Use with frontend-design-system for implementation"
+      ]
+    }
+  ],
+  "global_settings": {
+    "case_sensitive": false,
+    "partial_match": true,
+    "require_exact_phrase": false
+  },
+  "activation_notes": [
+    "Skills activate automatically based on trigger phrases and file context",
+    "Multiple skills can be active simultaneously without conflict",
+    "Priority determines activation order when multiple rules match",
+    "Skills are designed to work together in complementary workflows",
+    "nano-banana-prompts has LOW priority as it's for specialized use cases"
+  ],
+  "workflow_patterns": [
+    {
+      "name": "Article to Implementation",
+      "steps": [
+        "user-scenario-generator (from article URL)",
+        "frontend-design-system (implement scenarios)"
+      ]
+    },
+    {
+      "name": "Mockup to Code",
+      "steps": [
+        "react-component-analyzer (extract from design)",
+        "user-scenario-generator (add user context)",
+        "frontend-design-system (standardized implementation)"
+      ]
+    },
+    {
+      "name": "Concept to Feature",
+      "steps": [
+        "user-scenario-generator (create scenarios)",
+        "frontend-design-system (build components)"
+      ]
+    },
+    {
+      "name": "Image Generation to Implementation (NEW)",
+      "steps": [
+        "nano-banana-prompts (generate Gemini prompt)",
+        "User gets image from Gemini",
+        "frontend-design-system (implement component with image)"
+      ],
+      "description": "Generate custom hero images, illustrations, or backgrounds for web projects"
+    },
+    {
+      "name": "Complete Hero Section (NEW)",
+      "steps": [
+        "nano-banana-prompts (generate background image)",
+        "frontend-design-system (create hero component)",
+        "Optimize and integrate image assets"
+      ]
+    }
+  ],
+  "troubleshooting": {
+    "skill_not_activating": [
+      "Check trigger phrase matches exactly",
+      "Verify .claude/hooks/skill-activation.js exists",
+      "Ensure hooks are enabled in .claude/settings.json",
+      "Try manual activation: 'Load [skill-name] skill'"
+    ],
+    "wrong_skill_activates": [
+      "Adjust priority levels (high > medium > low)",
+      "Make trigger phrases more specific",
+      "Use manual activation for precision"
+    ],
+    "nano_banana_not_generating_images": [
+      "This skill only generates PROMPTS, not images",
+      "Use generated prompt with Gemini 2.5 Flash Image API",
+      "Requires separate Gemini API access"
+    ]
+  },
+  "examples": {
+    "user_scenario_generator": [
+      "Generate user scenarios from this article: https://...",
+      "Apply 3 whys to our calendar feature",
+      "Create user scenarios for habit tracking"
+    ],
+    "react_component_analyzer": [
+      "[Upload mockup] Analyze this design",
+      "Extract components from the dashboard mockup",
+      "What design system elements are in this image?"
+    ],
+    "frontend_design_system": [
+      "Build a calendar grid component",
+      "Show button component specifications",
+      "Create a card grid layout"
+    ],
+    "nano_banana_prompts": [
+      "Generate hero image for portfolio website",
+      "Create minimalist illustration for blog post",
+      "Generate product photo for e-commerce",
+      "Create abstract background for feature section"
+    ]
+  }
+}
+
