@@ -1,0 +1,283 @@
+{
+  "url": "http://localhost:4321/validate/",
+  "timestamp": "2025-11-19T13:57:59.191Z",
+  "checks": {
+    "accessibility": {
+      "error": "Cannot read properties of undefined (reading 'isRunning')"
+    },
+    "conversion": {
+      "passed": false,
+      "issues": [
+        {
+          "severity": "critical",
+          "category": "conversion",
+          "rule": "cta-above-fold",
+          "message": "Primary CTA \"\nDownload Your Free Checklist\n\" is 7493px below the fold",
+          "recommendation": "Move CTA button above fold (within first viewport height) for better visibility and conversion",
+          "impact": "High - 70% of users never scroll below fold",
+          "location": {
+            "x": 492.9375,
+            "y": 8213.046875
+          }
+        },
+        {
+          "severity": "warning",
+          "category": "conversion",
+          "rule": "form-field-count",
+          "message": "Form has 3 fields (recommended max: 1 for lead capture)",
+          "recommendation": "Reduce form friction by minimizing fields. Ask only for essential information (e.g., email only for lead magnet)",
+          "impact": "Medium - Each additional field reduces conversion by ~11%",
+          "formIndex": 1
+        }
+      ],
+      "measurements": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "cta1": {
+          "position": {
+            "x": 492.9375,
+            "y": 8213.046875
+          },
+          "size": {
+            "width": 294.125,
+            "height": 57.59375
+          },
+          "belowFold": true
+        },
+        "form1": {
+          "fieldCount": 3,
+          "fields": []
+        },
+        "performance": {
+          "loadTime": 287,
+          "domContentLoaded": 201,
+          "firstPaint": 196,
+          "firstContentfulPaint": 196
+        }
+      },
+      "summary": {
+        "total": 2,
+        "critical": 1,
+        "serious": 0,
+        "warnings": 1,
+        "suggestions": 0
+      },
+      "recommendations": [
+        {
+          "priority": "critical",
+          "title": "Fix Critical Conversion Issues",
+          "items": [
+            "Move CTA button above fold (within first viewport height) for better visibility and conversion"
+          ],
+          "impact": "Immediate action required - these issues significantly harm conversion"
+        },
+        {
+          "priority": "medium",
+          "title": "Reduce Form Friction",
+          "items": [
+            "Reduce form friction by minimizing fields. Ask only for essential information (e.g., email only for lead magnet)"
+          ],
+          "impact": "Medium - Simpler forms convert better"
+        }
+      ]
+    },
+    "copyQuality": {
+      "passed": true,
+      "issues": [
+        {
+          "severity": "warning",
+          "category": "copy-quality",
+          "rule": "readability-score",
+          "message": "Readability score: 50.8 (target: 65+, reading level: 10th-12th grade (fairly difficult))",
+          "recommendation": "Simplify language:\n  - Use shorter sentences (avg 15-20 words)\n  - Choose common words over complex ones\n  - Break up long paragraphs\n  - Use active voice instead of passive",
+          "impact": "Medium - Complex copy reduces comprehension and conversion",
+          "score": 50.78104402515723
+        },
+        {
+          "severity": "suggestion",
+          "category": "copy-quality",
+          "rule": "headline-clarity",
+          "message": "Headline lacks benefit-focused language: \"\nDon't Waste 6 Months Building What Nobody Wants\n\"",
+          "recommendation": "Frame headline around user benefit (Get, Learn, Discover, Achieve)",
+          "impact": "Low - Benefit-driven headlines attract attention"
+        },
+        {
+          "severity": "suggestion",
+          "category": "copy-quality",
+          "rule": "headline-clarity",
+          "message": "Headline too short (1 words): \"Audit\"",
+          "recommendation": "Expand headline to 5-10 words for clarity and SEO",
+          "impact": "Low - Short headlines may lack clarity"
+        },
+        {
+          "severity": "suggestion",
+          "category": "copy-quality",
+          "rule": "headline-clarity",
+          "message": "Headline lacks benefit-focused language: \"No accessibility or performance issues detected.\"",
+          "recommendation": "Frame headline around user benefit (Get, Learn, Discover, Achieve)",
+          "impact": "Low - Benefit-driven headlines attract attention"
+        },
+        {
+          "severity": "suggestion",
+          "category": "copy-quality",
+          "rule": "headline-clarity",
+          "message": "Headline too short (1 words): \" Settings\"",
+          "recommendation": "Expand headline to 5-10 words for clarity and SEO",
+          "impact": "Low - Short headlines may lack clarity"
+        }
+      ],
+      "measurements": {
+        "textLength": 10556,
+        "wordCount": 1325,
+        "readabilityScore": 50.78104402515723,
+        "jargonWords": [
+          {
+            "word": "framework",
+            "count": 2
+          }
+        ],
+        "ctaTexts": [],
+        "headlines": [
+          "\nDon't Waste 6 Months Building What Nobody Wants\n",
+          "Audit",
+          "No accessibility or performance issues detected.",
+          " Settings"
+        ],
+        "sentences": {
+          "count": 87,
+          "avgLength": 15.333333333333334,
+          "longest": 164
+        }
+      },
+      "summary": {
+        "total": 5,
+        "warnings": 1,
+        "suggestions": 4
+      }
+    },
+    "trustSignals": {
+      "passed": false,
+      "issues": [
+        {
+          "severity": "warning",
+          "category": "trust-signals",
+          "rule": "testimonials-have-names",
+          "message": "No testimonials found on page",
+          "recommendation": "Add 2-3 authentic testimonials with real names and companies to build trust",
+          "impact": "Medium - Social proof increases conversion by 15-34%"
+        },
+        {
+          "severity": "critical",
+          "category": "trust-signals",
+          "rule": "privacy-policy-linked",
+          "message": "No privacy policy link found",
+          "recommendation": "Add privacy policy link in footer (legal requirement + trust signal)",
+          "impact": "High - Required by GDPR/CCPA, absence reduces trust significantly"
+        },
+        {
+          "severity": "critical",
+          "category": "trust-signals",
+          "rule": "no-fake-urgency",
+          "message": "Potential fake urgency detected: \"\", \"\", \"\", \"\", \"\"",
+          "recommendation": "Use genuine scarcity only (Monzo principle: trust over tricks):\n  - Add data-countdown attribute to countdown timers\n  - Add data-spots-remaining attribute for limited availability\n  - Remove vague urgency language if not backed by real data",
+          "impact": "High - Fake urgency destroys trust when discovered",
+          "urgencyTactics": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            }
+          ]
+        },
+        {
+          "severity": "suggestion",
+          "category": "trust-signals",
+          "rule": "social-proof-present",
+          "message": "Only 1 type of social proof found",
+          "recommendation": "Add additional social proof types for stronger credibility",
+          "impact": "Low - Multiple proof types compound trust"
+        },
+        {
+          "severity": "critical",
+          "category": "trust-signals",
+          "rule": "secure-badges",
+          "message": "Site not using HTTPS protocol",
+          "recommendation": "Enable HTTPS/SSL certificate (required for collecting user data)",
+          "impact": "Critical - Browsers warn users, destroys trust"
+        },
+        {
+          "severity": "suggestion",
+          "category": "trust-signals",
+          "rule": "secure-badges",
+          "message": "No security badges found near form",
+          "recommendation": "Add security badges near data collection forms to build trust",
+          "impact": "Low - Security indicators reduce form abandonment"
+        }
+      ],
+      "measurements": {
+        "testimonialsFound": 0,
+        "testimonialDetails": [],
+        "requiredLinks": {
+          "privacy-policy": false
+        },
+        "urgencyTactics": {
+          "found": 5,
+          "genuine": false,
+          "details": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            }
+          ]
+        },
+        "socialProof": {
+          "customerCount": false,
+          "trustBadges": true,
+          "logoStrip": false,
+          "ratings": false
+        },
+        "security": {
+          "https": false,
+          "securityBadges": false,
+          "paymentIcons": false
+        },
+        "guarantee": {
+          "moneyBack": false,
+          "guarantee": true,
+          "refund": false,
+          "noRisk": false
+        }
+      },
+      "summary": {
+        "total": 6,
+        "critical": 3,
+        "warnings": 1,
+        "suggestions": 2
+      }
+    }
+  },
+  "screenshot": "/Users/tomeldridge/Orchestrator_Project/portfolio-redesign/.claude/reports/design-review/screenshots/validate-page-1763560679283.png"
+}

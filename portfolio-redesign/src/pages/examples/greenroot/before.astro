@@ -1,0 +1,169 @@
+---
+import ExampleLayout from '../../../components/examples/ExampleLayout.astro';
+---
+
+<ExampleLayout 
+  title="GreenRoot Plant Co. - Premium Soil"
+  version="before"
+  conversionRate="2.7%"
+  buildTime="Typical DIY attempt"
+>
+  <!-- Intentionally basic/flawed DIY version -->
+  
+  <!-- Simple Header -->
+  <header style="background: #2C5F2D; color: white; padding: 1rem; text-align: center;">
+    <h1 style="font-size: 1.5rem; margin: 0;">GreenRoot Plant Co.</h1>
+    <nav style="margin-top: 0.5rem;">
+      <a href="#" style="color: white; margin: 0 1rem; font-size: 0.9rem;">Home</a>
+      <a href="#" style="color: white; margin: 0 1rem; font-size: 0.9rem;">Products</a>
+      <a href="#" style="color: white; margin: 0 1rem; font-size: 0.9rem;">About</a>
+      <a href="#" style="color: white; margin: 0 1rem; font-size: 0.9rem;">Contact</a>
+      <a href="#" style="color: white; margin: 0 1rem; font-size: 0.9rem;">Blog</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section - Too much text, unclear value prop -->
+  <section style="padding: 2rem 1rem; max-width: 900px; margin: 0 auto; text-align: center;">
+    <h2 style="font-size: 2rem; color: #333; margin-bottom: 1rem;">
+      GreenRoot Plant Co. - Premium Soil for Your Houseplants
+    </h2>
+    
+    <!-- Way too much text in hero -->
+    <p style="color: #666; line-height: 1.6; margin-bottom: 1rem;">
+      Welcome to GreenRoot Plant Co.! We are a company dedicated to providing the best soil for your houseplants. Our soil is made from premium ingredients and is perfect for all types of indoor plants. We believe that healthy soil makes healthy plants, and we want to help you grow the most beautiful plants possible.
+    </p>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 1rem;">
+      Our soil blends are carefully crafted using sustainable, peat-free materials. Peat is harmful to the environment, so we've developed alternatives that work just as well (or better!) while being better for the planet. Each blend is specifically formulated for different types of plants.
+    </p>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem;">
+      Whether you're growing succulents, tropical plants, or anything in between, we have a soil blend that's perfect for you. All of our products are available for purchase online with fast shipping to your door.
+    </p>
+    
+    <!-- Confusing multiple CTAs -->
+    <div style="margin-bottom: 2rem;">
+      <a href="#" style="display: inline-block; background: #2C5F2D; color: white; padding: 0.75rem 1.5rem; margin: 0.5rem; text-decoration: none; border-radius: 4px;">
+        Learn More
+      </a>
+      <a href="#" style="display: inline-block; background: #E07A5F; color: white; padding: 0.75rem 1.5rem; margin: 0.5rem; text-decoration: none; border-radius: 4px;">
+        Shop Now
+      </a>
+      <a href="#" style="display: inline-block; background: #87A96B; color: white; padding: 0.75rem 1.5rem; margin: 0.5rem; text-decoration: none; border-radius: 4px;">
+        Subscribe
+      </a>
+    </div>
+    
+    <!-- Generic placeholder for image -->
+    <div style="border-radius: 8px; overflow: hidden;">
+      <img src="/images/examples/greenroot-before-hero.jpg" 
+           alt="Simple potted plant" 
+           style="width: 100%; height: auto; display: block;" />
+    </div>
+  </section>
+
+  <!-- Benefits Section - Wall of text, no visual hierarchy -->
+  <section style="padding: 2rem 1rem; max-width: 900px; margin: 0 auto; background: #f5f5f5;">
+    <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Why Choose Our Soil?</h2>
+    
+    <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+      Our soil blends are made with only the highest quality ingredients. We source our materials from sustainable suppliers who share our commitment to environmental responsibility. Each ingredient is carefully selected for its specific properties and benefits to plant health.
+    </p>
+    
+    <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+      Traditional potting soil often contains peat moss, which is harvested from sensitive bog ecosystems. This process destroys habitat and releases carbon into the atmosphere. Our peat-free alternatives use coconut coir, composted bark, and other sustainable materials that provide excellent drainage and aeration without the environmental impact.
+    </p>
+    
+    <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+      We also add beneficial microorganisms to our soil blends. These helpful bacteria and fungi form symbiotic relationships with plant roots, helping them absorb nutrients more efficiently and resist disease. This means your plants will grow faster, stronger, and healthier.
+    </p>
+    
+    <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+      Fast delivery is important to us. We know you want to start using your new soil right away, so we ship all orders within 24-48 hours. Most customers receive their order within 3-5 business days, depending on location.
+    </p>
+  </section>
+
+  <!-- Product Section - Buried, text-only -->
+  <section style="padding: 2rem 1rem; max-width: 900px; margin: 0 auto;">
+    <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Our Products</h2>
+    
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: #2C5F2D; margin-bottom: 0.5rem;">Aroid Mix</h3>
+      <p style="color: #666; line-height: 1.6;">
+        Perfect for Monsteras, Philodendrons, and Pothos. Contains chunky bark, perlite, and charcoal for excellent drainage. Available in 5L bags.
+      </p>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: #2C5F2D; margin-bottom: 0.5rem;">Cactus & Succulent Mix</h3>
+      <p style="color: #666; line-height: 1.6;">
+        Specially formulated for cacti and succulents. Extra gritty with pumice and sand for fast drainage. Prevents root rot. Available in 3L bags.
+      </p>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: #2C5F2D; margin-bottom: 0.5rem;">Tropical Blend</h3>
+      <p style="color: #666; line-height: 1.6;">
+        Our most popular mix! Works for most tropical houseplants. Retains moisture while still draining well. Contains organic compost for nutrition. Available in 5L and 10L bags.
+      </p>
+    </div>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+      <p style="color: #666;">Contact us for pricing and availability</p>
+    </div>
+  </section>
+
+  <!-- Overcomplicated Footer -->
+  <footer style="background: #2C5F2D; color: white; padding: 2rem 1rem; margin-top: 2rem;">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Shop</h4>
+          <ul style="list-style: none; padding: 0; font-size: 0.8rem;">
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">All Products</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Best Sellers</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">New Arrivals</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Sale</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Learn</h4>
+          <ul style="list-style: none; padding: 0; font-size: 0.8rem;">
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Blog</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Plant Care Guides</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Videos</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Company</h4>
+          <ul style="list-style: none; padding: 0; font-size: 0.8rem;">
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">About Us</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Our Story</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Careers</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Contact</h4>
+          <ul style="list-style: none; padding: 0; font-size: 0.8rem;">
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Email Us</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Live Chat</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Phone</a></li>
+            <li style="margin-bottom: 0.25rem;"><a href="#" style="color: #ddd;">Returns</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem;">
+        <p>© 2024 GreenRoot Plant Co. All rights reserved. | Privacy Policy | Terms of Service | Shipping Policy | Return Policy</p>
+      </div>
+    </div>
+  </footer>
+
+</ExampleLayout>
+
+<style>
+  /* Minimal inline styles to emphasize DIY/basic approach */
+  * {
+    box-sizing: border-box;
+  }
+</style>
+

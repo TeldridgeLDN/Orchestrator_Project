@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  version: 'before' | 'starter' | 'standard';
+  conversionRate?: string;
+  buildTime?: string;
+  additionalBadge?: string;
+}
+
+const { title, version, conversionRate, buildTime, additionalBadge } = Astro.props;
+
+const versionLabels = {
+  before: 'Before: DIY Version',
+  starter: 'Starter Package ($497)',
+  standard: 'Standard Package ($1,497)'
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} | GreenRoot Plant Co.</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/greenroot.css">
+  
+  <meta name="description" content="GreenRoot Plant Co. - Premium peat-free soil blends for healthy houseplants">
+</head>
+<body>
+  <!-- Validation Badge -->
+  <div class="validation-badge">
+    <span class="label">{versionLabels[version]}</span>
+    {conversionRate && <span class="metric">{conversionRate} conversion</span>}
+    {buildTime && <span class="label">{buildTime}</span>}
+    {additionalBadge && <span class="label">🧪 {additionalBadge}</span>}
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- Back to Portfolio Button (for demonstration) -->
+  <div style="position: fixed; bottom: 1rem; left: 1rem; z-index: 999;">
+    <a href="/" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+      ← Back to Portfolio
+    </a>
+  </div>
+
+  <style>
+    main {
+      min-height: 100vh;
+    }
+  </style>
+</body>
+</html>
+

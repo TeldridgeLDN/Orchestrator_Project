@@ -1,0 +1,423 @@
+---
+import ExampleLayout from '../../../components/examples/ExampleLayout.astro';
+---
+
+<ExampleLayout 
+  title="Thriving Plants Start With Better Soil"
+  version="starter"
+  conversionRate="6.8%"
+  buildTime="Built in 24 hours"
+>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Stop Killing Your Plants.<br/>Start With Better Soil.</h1>
+        <p class="hero-subtext">
+          Peat-free soil blends that prevent root rot and boost growth. Delivered to your door in 48 hours.
+        </p>
+        <div class="hero-cta">
+          <a href="#products" class="btn btn-primary">Shop Soil Blends</a>
+        </div>
+        <div class="trust-badge">
+          <span>✓ 100% Peat-Free</span>
+          <span>•</span>
+          <span>✓ Fast Delivery</span>
+          <span>•</span>
+          <span>✓ 2,000+ Happy Plants</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="/images/examples/greenroot-starter-hero.webp" 
+             alt="Beautiful Monstera deliciosa plant in modern setting" 
+             style="width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);" 
+             loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem/Solution Grid -->
+  <section class="section problems">
+    <div class="container">
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">🪴</div>
+          <h3>Tired of Root Rot?</h3>
+          <p>
+            Traditional soil holds too much water. Our chunky, airy blends provide perfect drainage so roots can breathe.
+          </p>
+        </div>
+        <div class="card">
+          <div class="icon">🌱</div>
+          <h3>Want Faster Growth?</h3>
+          <p>
+            Premium ingredients like coconut coir and pine bark create ideal conditions for explosive root development.
+          </p>
+        </div>
+        <div class="card">
+          <div class="icon">🌍</div>
+          <h3>Care About Sustainability?</h3>
+          <p>
+            100% peat-free. We use renewable coconut coir instead of peat harvested from endangered bog ecosystems.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section id="products" class="section products">
+    <div class="container">
+      <h2>Our Soil Blends</h2>
+      <p class="section-intro">
+        Each blend is specially formulated for specific plant types. No guesswork, just healthy plants.
+      </p>
+      
+      <div class="grid-3">
+        <!-- Aroid Mix -->
+        <div class="product-card card">
+          <div class="product-image">
+            <img src="/images/examples/soil-aroid-mix.png" 
+                 alt="Aroid Mix soil blend product" 
+                 style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md);" 
+                 loading="lazy" />
+          </div>
+          <div class="product-info">
+            <h3>Aroid Mix</h3>
+            <p class="price">£12.99</p>
+            <ul class="features">
+              <li>✓ For Monstera, Pothos, Philodendron</li>
+              <li>✓ Extra chunky for air flow</li>
+              <li>✓ Contains charcoal & perlite</li>
+            </ul>
+            <button class="btn btn-primary btn-block">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Cactus Mix -->
+        <div class="product-card card">
+          <div class="product-image">
+            <img src="/images/examples/soil-cactus-mix.jpg" 
+                 alt="Cactus Mix soil blend product" 
+                 style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md);" 
+                 loading="lazy" />
+          </div>
+          <div class="product-info">
+            <h3>Cactus Mix</h3>
+            <p class="price">£10.99</p>
+            <ul class="features">
+              <li>✓ For cacti & succulents</li>
+              <li>✓ Super gritty & fast-draining</li>
+              <li>✓ Prevents root rot</li>
+            </ul>
+            <button class="btn btn-primary btn-block">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Tropical Blend -->
+        <div class="product-card card">
+          <div class="product-image">
+            <img src="/images/examples/soil-tropical-blend.jpg" 
+                 alt="Tropical Blend soil product" 
+                 style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md);" 
+                 loading="lazy" />
+          </div>
+          <div class="product-info">
+            <h3>Tropical Blend</h3>
+            <p class="price">£14.99</p>
+            <ul class="features">
+              <li>✓ Our most popular mix</li>
+              <li>✓ Works for most houseplants</li>
+              <li>✓ Balanced moisture retention</li>
+            </ul>
+            <button class="btn btn-primary btn-block">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Simple CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to Give Your Plants Better Soil?</h2>
+        <p>Free delivery on orders over £30</p>
+        <a href="#products" class="btn btn-primary btn-large">Shop Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-newsletter">
+          <h3>Join 10,000+ Plant Lovers</h3>
+          <p>Get care tips, exclusive deals, and new product alerts</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit" class="btn btn-secondary">Subscribe</button>
+          </form>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Shop</h4>
+            <a href="#">All Products</a>
+            <a href="#">Best Sellers</a>
+          </div>
+          <div class="footer-column">
+            <h4>Learn</h4>
+            <a href="#">FAQ</a>
+            <a href="#">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 GreenRoot Plant Co. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</ExampleLayout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, var(--color-off-white) 0%, #e8f5e9 100%);
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .hero .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--spacing-md);
+    color: var(--color-forest-green);
+  }
+
+  .hero-subtext {
+    font-size: 1.125rem;
+    color: var(--color-light-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .hero-cta {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-image .image-placeholder {
+    background: #ddd;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    text-align: center;
+    padding: var(--spacing-md);
+  }
+
+  /* Problems Section */
+  .problems {
+    background: white;
+  }
+
+  .icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Products Section */
+  .products {
+    background: var(--color-off-white);
+  }
+
+  .section-intro {
+    text-align: center;
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-xl);
+    color: var(--color-light-text);
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-image {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-info h3 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-forest-green);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .features {
+    list-style: none;
+    margin-bottom: var(--spacing-md);
+    flex: 1;
+  }
+
+  .features li {
+    padding: var(--spacing-xs) 0;
+    color: var(--color-light-text);
+    font-size: 0.9rem;
+  }
+
+  .btn-block {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--color-forest-green);
+    color: white;
+  }
+
+  .cta-box {
+    text-align: center;
+    padding: var(--spacing-xl);
+  }
+
+  .cta-box h2 {
+    color: white;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cta-box p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .btn-large {
+    padding: var(--spacing-md) var(--spacing-2xl);
+    font-size: 1.125rem;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--color-dark-text);
+    color: white;
+    padding: var(--spacing-2xl) 0 var(--spacing-lg);
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .footer-newsletter h3 {
+    color: white;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-newsletter p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--spacing-xl);
+  }
+
+  .footer-column h4 {
+    color: white;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-column a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: var(--spacing-xs) 0;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-column a:hover {
+    color: white;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: var(--spacing-md);
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero .container {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-image {
+      order: -1;
+    }
+
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+  }
+</style>
+

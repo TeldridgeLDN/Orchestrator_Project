@@ -1,0 +1,364 @@
+---
+// ExamplesSection Component for Validation Landing Pages
+// Integrates into V1 and V2 after Packages section
+---
+
+<section class="examples-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>See What You'll Get</h2>
+      <p class="section-intro">
+        Real examples from our validation sprints. See the transformation from DIY to data-driven.
+      </p>
+    </div>
+
+    <div class="examples-grid">
+      <!-- GreenRoot Starter Example -->
+      <div class="example-card">
+        <div class="example-image">
+          <div class="image-placeholder">
+            [Screenshot: GreenRoot Starter version]
+          </div>
+          <div class="example-badges">
+            <span class="package-badge">Starter Package</span>
+            <span class="conversion-badge">6.8% conversion</span>
+          </div>
+        </div>
+        <div class="example-content">
+          <h3>GreenRoot Plant Co.</h3>
+          <p class="example-description">
+            Sustainable soil blends for houseplants. Transformed a DIY page into a professional landing page with clear value proposition and trust signals.
+          </p>
+          <div class="example-stats">
+            <div class="stat">
+              <span class="stat-value">24 hours</span>
+              <span class="stat-label">Build time</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">+152%</span>
+              <span class="stat-label">vs DIY</span>
+            </div>
+          </div>
+          <a href="/examples/greenroot/starter" class="btn btn-outline">View Full Example →</a>
+        </div>
+      </div>
+
+      <!-- GreenRoot Standard Example -->
+      <div class="example-card featured">
+        <div class="featured-badge">🧪 A/B Tested</div>
+        <div class="example-image">
+          <div class="image-placeholder featured-placeholder">
+            [Screenshot: GreenRoot Standard version]
+          </div>
+          <div class="example-badges">
+            <span class="package-badge premium">Standard Package</span>
+            <span class="conversion-badge premium">11.2% conversion</span>
+          </div>
+        </div>
+        <div class="example-content">
+          <h3>GreenRoot Plant Co. <span class="premium-indicator">Premium</span></h3>
+          <p class="example-description">
+            Same brand, elevated with A/B tested headlines, social proof, and interactive validation showcase. Includes transparent methodology demonstration.
+          </p>
+          <div class="example-stats">
+            <div class="stat">
+              <span class="stat-value">48 hours</span>
+              <span class="stat-label">Build + test</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">+315%</span>
+              <span class="stat-label">vs DIY</span>
+            </div>
+          </div>
+          <a href="/examples/greenroot/standard" class="btn btn-primary">View Full Example →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison CTA -->
+    <div class="comparison-cta">
+      <p>Want to see the full transformation story?</p>
+      <a href="/examples/greenroot" class="btn btn-secondary">Compare All 3 Versions</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .examples-section {
+    padding: 4rem 0;
+    background: linear-gradient(180deg, #f9f9f9 0%, #ffffff 100%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+  }
+
+  .section-intro {
+    font-size: 1.125rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .example-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .example-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .example-card.featured {
+    border: 2px solid #2C5F2D;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #E07A5F;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3);
+  }
+
+  .example-image {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .featured-placeholder {
+    background: linear-gradient(135deg, #2C5F2D 0%, #1e4620 100%);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .example-badges {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .package-badge,
+  .conversion-badge {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .package-badge {
+    color: #87A96B;
+  }
+
+  .package-badge.premium {
+    background: #2C5F2D;
+    color: white;
+  }
+
+  .conversion-badge {
+    color: #666;
+  }
+
+  .conversion-badge.premium {
+    background: rgba(44, 95, 45, 0.95);
+    color: white;
+  }
+
+  .example-content {
+    padding: 1.5rem;
+  }
+
+  .example-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+  }
+
+  .premium-indicator {
+    display: inline-block;
+    background: linear-gradient(135deg, #2C5F2D, #1e4620);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+  }
+
+  .example-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .example-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+
+  .stat {
+    flex: 1;
+    text-align: center;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2C5F2D;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #2C5F2D;
+    border: 2px solid #2C5F2D;
+  }
+
+  .btn-outline:hover {
+    background: #2C5F2D;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: #2C5F2D;
+    color: white;
+    border: 2px solid #2C5F2D;
+  }
+
+  .btn-primary:hover {
+    background: #1e4620;
+    border-color: #1e4620;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 95, 45, 0.3);
+  }
+
+  .btn-secondary {
+    background: #E07A5F;
+    color: white;
+    border: 2px solid #E07A5F;
+  }
+
+  .btn-secondary:hover {
+    background: #d06b52;
+    border-color: #d06b52;
+    transform: translateY(-2px);
+  }
+
+  .comparison-cta {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #2C5F2D 0%, #1e4620 100%);
+    border-radius: 12px;
+    color: white;
+  }
+
+  .comparison-cta p {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+  }
+
+  .comparison-cta .btn {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .examples-section {
+      padding: 3rem 0;
+    }
+
+    .examples-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .example-stats {
+      gap: 1rem;
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
