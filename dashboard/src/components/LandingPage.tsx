@@ -362,3 +362,4 @@ export const LandingPage: React.FC = () => {
 
 export default LandingPage;
 
+// Design review integration test - 2025-11-19
