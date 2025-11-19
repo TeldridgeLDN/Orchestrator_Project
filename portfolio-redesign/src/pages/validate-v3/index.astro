@@ -166,12 +166,25 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
 
     .why-card {
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .why-card h3 {
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--color-text);
+      margin-bottom: 1rem;
+      min-height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.3;
+    }
+
+    .why-card p {
+      flex: 1;
       margin-bottom: 1rem;
     }
 
@@ -182,7 +195,7 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       padding: 0.5rem 1rem;
       border-radius: 8px;
       font-weight: 600;
-      margin-top: 1rem;
+      margin-top: auto;
     }
 
     /* Quote Section */
@@ -716,7 +729,6 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
           <p class="package-description">Additional services for deeper validation</p>
           <ul class="package-features">
             <li><strong>Paid Ad Campaign</strong> £300 + ad spend<br><small>Google/Meta ads to drive traffic</small></li>
-            <li><strong>User Interviews</strong> £250 (5 sessions)<br><small>In-depth 1-on-1 interviews</small></li>
             <li><strong>SEO Optimisation</strong> £200<br><small>Technical SEO setup</small></li>
             <li><strong>Extended Support</strong> £400/month<br><small>Ongoing iteration</small></li>
           </ul>
@@ -990,7 +1002,7 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       </p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <a href="#packages" class="btn btn-primary" style="background: var(--color-primary); color: white;">View Packages & Get Started</a>
-        <a href="#" class="btn btn-secondary">Have Questions? Let's Talk</a>
+        <a href="#" class="btn btn-secondary" style="background: transparent; color: var(--color-primary); border-color: var(--color-primary);">Have Questions? Let's Talk</a>
       </div>
       <p style="margin-top: 2rem; font-size: 0.95rem; opacity: 0.8;">
         ✓ 48-hour page delivery • ✓ No wrong answers • ✓ No credit card needed
@@ -1000,29 +1012,17 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
 
   <!-- Footer -->
   <footer style="background: #1a1a1a; color: white; padding: 3rem 0 2rem;">
-    <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
-        <div>
+    <div class="container" style="text-align: center;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-bottom: 3rem;">
+        <div style="max-width: 700px;">
           <h4 style="margin-bottom: 1rem;">Strategy × Design</h4>
           <p style="opacity: 0.8; font-size: 0.95rem;">
             Helping people build what works — through service design and rapid validation testing.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 1rem;">Quick Links</h4>
-          <ul style="list-style: none;">
-            <li style="margin-bottom: 0.5rem;"><a href="/" style="color: white; text-decoration: none; opacity: 0.8;">Main Site</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="/portfolio" style="color: white; text-decoration: none; opacity: 0.8;">Portfolio</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="/about" style="color: white; text-decoration: none; opacity: 0.8;">About</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="/contact" style="color: white; text-decoration: none; opacity: 0.8;">Contact</a></li>
-          </ul>
-        </div>
-        <div>
           <h4 style="margin-bottom: 1rem;">Get in Touch</h4>
-          <ul style="list-style: none;">
-            <li style="margin-bottom: 0.5rem;"><a href="https://linkedin.com" style="color: white; text-decoration: none; opacity: 0.8;">LinkedIn</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="mailto:hello@strategyxdesign.com" style="color: white; text-decoration: none; opacity: 0.8;">hello@strategyxdesign.com</a></li>
-          </ul>
+          <a href="mailto:hello@strategyxdesign.com" style="color: white; text-decoration: none; opacity: 0.8;">hello@strategyxdesign.com</a>
         </div>
       </div>
       <div style="text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); opacity: 0.7;">

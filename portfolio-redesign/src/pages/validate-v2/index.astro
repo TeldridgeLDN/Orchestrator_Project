@@ -114,6 +114,7 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       padding: 1rem 2rem;
       font-weight: 600;
       font-size: 1rem;
+      text-align: center;
       text-decoration: none;
       border-radius: 8px;
       transition: all 0.3s ease;
@@ -275,7 +276,20 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       font-size: 2.5rem;
       font-weight: 700;
       color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .package-timeline {
+      color: var(--color-text-light);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .package-description {
+      color: var(--color-text-light);
+      font-size: 1rem;
       margin-bottom: 1.5rem;
+      font-weight: 500;
     }
 
     .package-features {
@@ -298,6 +312,14 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
       color: var(--color-primary);
       font-weight: 700;
       margin-right: 0.5rem;
+    }
+
+    .package-features small {
+      display: block;
+      color: var(--color-text-light);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      font-weight: 400;
     }
 
     @media (max-width: 768px) {
@@ -438,61 +460,66 @@ import ExamplesSection from '../../components/examples/ExamplesSection.astro';
   <section id="packages" class="packages">
     <div class="container">
       <div class="section-header">
-        <h2>Choose Your Package</h2>
+        <h2>Choose your validation path</h2>
         <p class="section-intro">
-          From quick wins to fully validated conversion machines
+          Pick the package that matches where you are right now
         </p>
       </div>
       
       <div class="packages-grid">
-        <!-- Starter -->
+        <!-- Core -->
         <div class="package-card">
-          <h3>Starter</h3>
-          <div class="package-price">$497</div>
+          <h3>Core</h3>
+          <div class="package-price">£497</div>
+          <p class="package-timeline">one-time</p>
+          <p class="package-description">Perfect for testing a single idea quickly</p>
           <ul class="package-features">
-            <li>Professional landing page</li>
-            <li>Clear value proposition</li>
-            <li>Single primary CTA</li>
-            <li>Trust badges & social proof</li>
-            <li>Mobile-optimized design</li>
-            <li>Delivered in 24 hours</li>
+            <li>Single-page validation landing page</li>
+            <li>Email capture form & analytics</li>
+            <li>48-hour delivery</li>
+            <li>Mobile-optimised design</li>
+            <li>Basic analytics dashboard</li>
+            <li>1 revision round</li>
           </ul>
-          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Choose Core</a>
         </div>
         
-        <!-- Standard (Featured) -->
+        <!-- Premium (Featured) -->
         <div class="package-card featured">
-          <div class="package-badge">Recommended</div>
-          <h3>Standard</h3>
-          <div class="package-price">$1,497</div>
+          <div class="package-badge">Most Popular</div>
+          <h3>Premium</h3>
+          <div class="package-price">£997</div>
+          <p class="package-timeline">one-time</p>
+          <p class="package-description">Comprehensive validation with user insights</p>
           <ul class="package-features">
-            <li>Everything in Starter, plus:</li>
-            <li>3 headline variants A/B tested</li>
-            <li>Interactive test showcase</li>
-            <li>Social proof & testimonials</li>
-            <li>Educational content section</li>
-            <li>Advanced animations</li>
-            <li>Delivered in 48 hours</li>
+            <li><strong>Everything in Core, plus:</strong></li>
+            <li>Multi-page landing experience</li>
+            <li>User testing sessions (5 participants)</li>
+            <li>Advanced analytics, heatmaps & email automation</li>
+            <li>Competitive analysis report</li>
+            <li>2-week post-launch support</li>
+            <li>3 revision rounds</li>
           </ul>
-          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Choose Premium</a>
         </div>
         
-        <!-- Premium -->
+        <!-- Add-ons -->
         <div class="package-card">
-          <h3>Premium</h3>
-          <div class="package-price">$2,997</div>
+          <h3>Add-ons</h3>
+          <p class="package-timeline">Enhance any package</p>
+          <p class="package-description">Additional services for deeper validation</p>
           <ul class="package-features">
-            <li>Everything in Standard, plus:</li>
-            <li>Full-page A/B testing</li>
-            <li>Multiple layout variants</li>
-            <li>Conversion tracking setup</li>
-            <li>2 weeks of optimization</li>
-            <li>Dedicated Slack support</li>
-            <li>Custom timeline</li>
+            <li><strong>Paid Ad Campaign</strong> £300 + ad spend<br><small>Google/Meta ads to drive traffic</small></li>
+            <li><strong>SEO Optimisation</strong> £200<br><small>Technical SEO setup</small></li>
+            <li><strong>Extended Support</strong> £400/month<br><small>Ongoing iteration</small></li>
           </ul>
-          <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Discuss Add-ons</a>
         </div>
       </div>
+      
+      <p style="text-align: center; margin-top: 2rem; color: var(--color-text-light);">
+        <strong>No wrong answers:</strong> Whether the data says "build it" or "pivot," you'll have the clarity to decide with confidence.
+      </p>
     </div>
   </section>
 
