@@ -1,0 +1,128 @@
+---
+// A/B Test Entry Page
+// Redirects to V1, V2, or V3 based on variant assignment
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation Landing Pages - A/B Test</title>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #2C5F2D 0%, #1e4620 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .loader-container {
+      text-align: center;
+      max-width: 500px;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 2rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      opacity: 0.9;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .debug-info {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+
+    .debug-info code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    noscript {
+      display: block;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+
+    noscript a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-container">
+    <div class="spinner"></div>
+    <h1>Assigning your validation page variant...</h1>
+    <p>
+      You're being assigned to one of three page variants for our A/B test. 
+      This helps us understand which approach works best for founders like you.
+    </p>
+    
+    <div class="debug-info">
+      <strong>A/B Test Setup:</strong><br>
+      • 50% → V3 (Comprehensive + Authentic)<br>
+      • 25% → V1 (Simplified Professional)<br>
+      • 25% → V2 (Simplified Problem-Focused)<br><br>
+      
+      <strong>Debug:</strong> Open console to see assignment details<br>
+      <code>window.variantTest.info()</code> - View current variant<br>
+      <code>window.variantTest.clearVariant()</code> - Reset variant<br>
+      <code>window.variantTest.setVariant('v1')</code> - Force variant
+    </div>
+
+    <noscript>
+      <p>
+        <strong>JavaScript is disabled.</strong><br>
+        Please enable JavaScript or visit directly:<br><br>
+        <a href="/validate/">V1 - Simplified Professional</a><br>
+        <a href="/validate-v2/">V2 - Simplified Problem-Focused</a><br>
+        <a href="/validate-v3/">V3 - Comprehensive</a>
+      </p>
+    </noscript>
+  </div>
+
+  <!-- Load variant assignment script -->
+  <script src="/js/variant-assignment.js"></script>
+</body>
+</html>
+
