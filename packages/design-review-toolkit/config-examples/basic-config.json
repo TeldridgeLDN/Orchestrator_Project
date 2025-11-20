@@ -1,0 +1,60 @@
+{
+  "$schema": "https://orchestrator.ai/schemas/design-review-v1.json",
+  "version": "1.0.0",
+  "template": "basic",
+  "enabled": true,
+  "description": "Minimal design review configuration",
+  
+  "project": {
+    "name": "my-project",
+    "type": "web-app",
+    "framework": "react"
+  },
+  
+  "checks": {
+    "accessibility": {
+      "enabled": true,
+      "wcagLevel": "AA",
+      "blockOnCritical": false,
+      "rules": [
+        "color-contrast",
+        "alt-text",
+        "aria-attributes",
+        "keyboard-navigation"
+      ]
+    },
+    
+    "visualRegression": {
+      "enabled": false,
+      "threshold": 0.1
+    },
+    
+    "designConsistency": {
+      "enabled": false
+    }
+  },
+  
+  "devServer": {
+    "autoDetect": true,
+    "defaultUrl": "http://localhost:3000",
+    "startupTimeout": 30000,
+    "healthCheckPath": "/",
+    "retries": 3
+  },
+  
+  "reporting": {
+    "format": "markdown",
+    "mode": "warn",
+    "includeScreenshots": true,
+    "includeRecommendations": true,
+    "outputPath": ".claude/reports/design-review"
+  },
+  
+  "performance": {
+    "parallel": true,
+    "maxConcurrency": 3,
+    "timeout": 30000,
+    "retries": 2
+  }
+}
+

@@ -1,0 +1,75 @@
+{
+  "name": "design-review",
+  "version": "1.0.0",
+  "description": "Automated design review workflow using Playwright MCP",
+  "trigger": "pre-commit",
+  "steps": [
+    {
+      "id": "detect-components",
+      "name": "Detect Changed Components",
+      "module": "./detect-components.js",
+      "description": "Identify affected components from staged files",
+      "input": ["stagedFiles"],
+      "output": "affectedComponents"
+    },
+    {
+      "id": "check-dev-server",
+      "name": "Check Development Server",
+      "module": "./check-dev-server.js",
+      "description": "Verify if development server is running",
+      "input": ["config"],
+      "output": "serverStatus"
+    },
+    {
+      "id": "capture-screenshots",
+      "name": "Capture Screenshots",
+      "module": "./capture-screenshots.js",
+      "description": "Capture screenshots of affected components using Playwright",
+      "input": ["affectedComponents", "serverStatus", "config"],
+      "output": "screenshots",
+      "dependencies": ["detect-components", "check-dev-server"]
+    },
+    {
+      "id": "accessibility-audit",
+      "name": "Run Accessibility Audit",
+      "module": "./accessibility-audit.js",
+      "description": "Run axe-core accessibility audit on components",
+      "input": ["affectedComponents", "serverStatus", "config"],
+      "output": "accessibilityResults",
+      "dependencies": ["detect-components", "check-dev-server"]
+    },
+    {
+      "id": "visual-diff",
+      "name": "Compare Visual Changes",
+      "module": "./visual-diff.js",
+      "description": "Compare screenshots with baseline (if available)",
+      "input": ["screenshots", "config"],
+      "output": "visualDiffs",
+      "dependencies": ["capture-screenshots"]
+    },
+    {
+      "id": "design-consistency",
+      "name": "Check Design Consistency",
+      "module": "./design-consistency.js",
+      "description": "Validate against design system principles",
+      "input": ["screenshots", "config"],
+      "output": "designIssues",
+      "dependencies": ["capture-screenshots"]
+    },
+    {
+      "id": "generate-report",
+      "name": "Generate Report",
+      "module": "./generate-report.js",
+      "description": "Create markdown report with all findings",
+      "input": ["affectedComponents", "screenshots", "accessibilityResults", "visualDiffs", "designIssues"],
+      "output": "reportPath",
+      "dependencies": ["capture-screenshots", "accessibility-audit", "visual-diff", "design-consistency"]
+    }
+  ],
+  "configuration": {
+    "parallel": true,
+    "timeout": 60000,
+    "errorHandling": "continue"
+  }
+}
+

@@ -1,0 +1,434 @@
+---
+description: Protocol for ending sessions and capturing context for next session
+globs: **/*
+alwaysApply: true
+---
+
+# Wrap-Up Protocol
+
+**CRITICAL: This protocol MUST execute when the user ends a session with any of these phrases:**
+- "wrap up"
+- "end session"
+- "goodnight" / "goodbye"
+- "that's all for today"
+- "let's stop here"
+- Or any closing statement indicating session end
+
+## The Wrap-Up Sequence
+
+Execute these steps IN ORDER when triggered:
+
+### 1. Git Status Check (15 seconds)
+
+```bash
+# Check for uncommitted changes
+git status --short
+
+# Show what's staged
+git diff --cached --stat
+
+# Show what's modified
+git diff --stat
+```
+
+**Report:**
+- Uncommitted changes count
+- Staged files ready to commit
+- Modified but unstaged files
+- Untracked new files
+- Current branch
+- Unpushed commits
+
+**Prompt User:**
+```
+📊 UNCOMMITTED CHANGES DETECTED
+
+Staged: [count] files
+Modified: [count] files
+Untracked: [count] files
+
+Would you like me to:
+1. Commit staged changes now
+2. Review changes before committing
+3. Stage remaining changes and commit all
+4. Skip committing (you'll handle later)
+```
+
+### 2. Primacy Rules Verification (10 seconds)
+
+```javascript
+// Verify all 9 critical primacy rules
+verifyPrimacyRules({
+  projectRoot: process.cwd(),
+  silent: true
+})
+```
+
+**Report:**
+- All rules intact (9/9)
+- Missing rules count
+- Warnings count
+- Errors count
+
+**Prompt User if Issues:**
+```
+📋 PRIMACY RULES CHECK
+
+⚠️  2 missing rule(s)
+⚠️  1 warning(s)
+
+Primacy rules ensure proper AI behavior and system integrity.
+
+Would you like to:
+1. Sync missing rules now (npm run sync-rules)
+2. Review issues manually
+3. Skip (I'll handle later)
+```
+
+### 3. Taskmaster Status Update (30 seconds)
+
+```javascript
+// Get current task status
+mcp_task-master-ai_get_tasks({
+  projectRoot: "/Users/tomeldridge/Orchestrator_Project",
+  status: "in-progress,review"
+})
+
+// Get next task for reference
+mcp_task-master-ai_next_task({
+  projectRoot: "/Users/tomeldridge/Orchestrator_Project"
+})
+```
+
+**Capture:**
+- Tasks marked as in-progress (should any be marked done?)
+- Tasks in review status
+- Next pending task for tomorrow's session
+- Any blocked tasks
+
+**Prompt User if Applicable:**
+```
+🎯 TASK STATUS CHECK
+
+Currently In-Progress:
+- [Task ID] - [Title]
+
+Did you complete any of these today?
+Would you like to update their status before wrapping up?
+```
+
+### 4. Session Summary Generation (20 seconds)
+
+**Analyze session activity:**
+- Files modified during session (from git diff)
+- Tasks worked on (from chat history)
+- Key decisions made
+- Blockers encountered
+- Questions that arose
+
+**Generate Summary:**
+```
+📝 SESSION SUMMARY
+═══════════════════════════════════════════
+
+📅 SESSION INFO
+  • Date: [date]
+  • Duration: [approximate time based on chat history]
+  • Project: [project name]
+  • Git Branch: [current branch]
+
+💻 FILES MODIFIED
+  • [count] files changed
+  • [count] files added
+  • [count] files deleted
+  • Key areas: [list primary directories touched]
+
+🎯 TASKS WORKED ON
+  • [Task ID]: [Status Change] - [Brief description]
+  • [Task ID]: [Status Change] - [Brief description]
+
+🧩 WHAT WAS ACCOMPLISHED
+  • [Key achievement 1]
+  • [Key achievement 2]
+  • [Key achievement 3]
+
+🚧 BLOCKERS / OPEN QUESTIONS
+  • [Blocker/question 1]
+  • [Blocker/question 2]
+
+📍 NEXT SESSION STARTING POINT
+  • Next Task: [Task ID] - [Title]
+  • Context: [Brief description of what to do next]
+  • Files to Review: [Key files for next session]
+
+🧠 MEMORIES TO CREATE/UPDATE
+  • [Suggest memory 1]
+  • [Suggest memory 2]
+```
+
+### 5. Memory Management (10 seconds)
+
+**Review and suggest:**
+- Key decisions that should be remembered
+- Implementation patterns discovered
+- User preferences expressed
+- Cross-project context that's relevant
+
+**Prompt User:**
+```
+🧠 MEMORY SUGGESTIONS
+
+Based on this session, I recommend creating/updating these memories:
+
+1. [Suggested memory title]
+   Content: [Brief description]
+   
+2. [Suggested memory title]
+   Content: [Brief description]
+
+Would you like me to create these memories?
+```
+
+### 6. Documentation Check (10 seconds)
+
+```bash
+# Check for undocumented changes
+git diff --name-only | grep -E "(README|CHANGELOG|\.md$)"
+
+# Check if changelog needs updating
+git diff --cached --name-only | grep -v CHANGELOG
+```
+
+**Prompt if Needed:**
+```
+📚 DOCUMENTATION CHECK
+
+⚠️  Code changes detected without corresponding documentation updates.
+
+Modified files:
+- [file 1]
+- [file 2]
+
+Would you like to:
+1. Update CHANGELOG.md now
+2. Create/update relevant README sections
+3. Skip (I'll handle later)
+```
+
+### 7. Branch & Sync Status (10 seconds)
+
+```bash
+# Check branch status
+git status -sb
+
+# Check if branch is pushed
+git rev-list @{u}.. 2>/dev/null | wc -l
+
+# Check for remote changes
+git fetch --dry-run 2>&1
+```
+
+**Report:**
+```
+🌿 BRANCH STATUS
+
+Current Branch: [branch name]
+Unpushed Commits: [count]
+Branch Up to Date: [yes/no]
+Remote Changes Available: [yes/no]
+
+Recommendation: [push/pull/sync suggestion]
+```
+
+### 8. Environment Cleanup (5 seconds)
+
+**Check for:**
+- Running dev servers (check terminals)
+- Background processes started during session
+- Large temporary files created
+- Dangling Docker containers (if applicable)
+
+**Prompt if Needed:**
+```
+🧹 CLEANUP SUGGESTIONS
+
+Active Processes:
+- Dev server on port 3000 (Terminal 1)
+- Background watch task (Terminal 2)
+
+Would you like me to:
+1. Stop all running processes
+2. Keep running (you'll stop manually)
+```
+
+### 9. Final Wrap-Up Report (10 seconds)
+
+**Present comprehensive closing summary:**
+
+```
+🌙 SESSION WRAP-UP COMPLETE
+═══════════════════════════════════════════
+
+✅ READY FOR NEXT SESSION
+  • All changes committed (or intentionally left)
+  • Tasks updated in Taskmaster
+  • Session summary saved
+  • Memories created/updated
+  • Documentation current
+
+📋 TOMORROW'S FOCUS
+  • Start with: [Next task or starting point]
+  • Context: [Brief reminder of where we left off]
+
+💾 SESSION SAVED
+  • Summary: [path to session summary file]
+  • Memories: [count] created/updated
+  • Commits: [count] made
+
+🔄 STATUS AT SESSION END
+  • Project: [project name]
+  • Branch: [branch name]
+  • Git Status: [clean / N uncommitted changes]
+  • Taskmaster: [X pending, Y in-progress, Z done]
+
+Have a great rest of your day! 👋
+
+When you return, just say "wake up" to restore context.
+```
+
+## Execution Rules
+
+### DO:
+✅ Execute sequence automatically when triggered
+✅ Save session summary to `.cursor/session-summaries/YYYY-MM-DD-HH-MM.md`
+✅ Prompt for commits if uncommitted changes exist
+✅ Suggest memory creation/updates
+✅ Offer to update documentation if code changed
+✅ Provide clear "next session" starting point
+
+### DON'T:
+❌ Force commits without user approval
+❌ Skip the summary even if session was short
+❌ Lose context about what was accomplished
+❌ Close without offering to update Taskmaster
+❌ Create memories without user consent
+
+## Session Summary File Format
+
+Save to: `.cursor/session-summaries/YYYY-MM-DD-HH-MM.md`
+
+```markdown
+# Session Summary - [Date] [Time]
+
+## Project Context
+- **Project:** [name]
+- **Branch:** [branch]
+- **Starting Task:** [task that started session]
+
+## Accomplishments
+- [What was completed]
+- [Key implementations]
+- [Problems solved]
+
+## Files Modified
+- `path/to/file1.ts` - [What changed]
+- `path/to/file2.tsx` - [What changed]
+
+## Tasks Updated
+- **[Task ID]:** [Old Status] → [New Status]
+- **[Task ID]:** [Old Status] → [New Status]
+
+## Decisions Made
+- [Key decision 1 and rationale]
+- [Key decision 2 and rationale]
+
+## Blockers / Open Questions
+- [Blocker 1]
+- [Question 1]
+
+## Next Session
+- **Start With:** [Task ID] - [Title]
+- **Context:** [What to focus on]
+- **Files to Review:** [Key files]
+
+## Memories Created/Updated
+- [Memory 1]
+- [Memory 2]
+
+## Commits Made
+- `[hash]` - [commit message]
+- `[hash]` - [commit message]
+
+---
+*Next wake-up command will restore this context*
+```
+
+## Integration with Wake-Up
+
+**Wake-Up Protocol Enhancement:**
+
+When user says "wake up", also check for latest session summary:
+
+```bash
+# Find latest session summary
+LATEST_SUMMARY=$(ls -t .cursor/session-summaries/*.md | head -1)
+
+# Include in wake-up report
+echo "📄 Last Session: $(basename $LATEST_SUMMARY)"
+echo "   Focus: [extracted next session starting point]"
+```
+
+## Performance Optimization
+
+- **Target Time:** Complete sequence in < 2 minutes
+- Run git checks in parallel where possible
+- Skip cleanup suggestions if no active processes
+- Auto-skip documentation check if no code changes
+
+## Failure Handling
+
+If any step fails:
+1. Continue with remaining steps
+2. Note the failure in wrap-up report
+3. Don't block session end
+
+## Why This Exists
+
+**Problem:** Sessions end abruptly without capturing:
+- What was accomplished
+- What needs to happen next
+- Uncommitted work status
+- Session learnings for memory
+
+**Solution:** Structured wrap-up that ensures continuity between sessions and nothing is lost.
+
+**Benefits:**
+- Smooth handoff between sessions
+- No lost context or decisions
+- Better git commit hygiene
+- Taskmaster stays current
+- Memories stay relevant
+
+## Example Usage
+
+**User says:** "Let's wrap up for today"
+
+**Agent responds:**
+1. Checks git status → prompts for commits
+2. Checks Taskmaster → suggests status updates
+3. Generates session summary
+4. Suggests memories to create
+5. Checks documentation needs
+6. Reviews branch status
+7. Suggests cleanup
+8. Presents final wrap-up report with clear next steps
+
+**User says "wake up" next session:**
+Agent loads the session summary and presents focused context for continuing work.
+
+---
+
+**Last Updated:** 2025-11-20  
+**Next Review:** After first real-world usage to refine based on feedback
+
+*When the user says "wrap up," they mean "help me close this session properly and set up for next time."*

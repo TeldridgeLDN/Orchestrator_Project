@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+
+# Test outputs (projects will generate these locally)
+.claude/reports/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+.temp/
+

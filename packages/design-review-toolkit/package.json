@@ -1,0 +1,45 @@
+{
+  "name": "@orchestrator/design-review-toolkit",
+  "version": "1.0.0",
+  "description": "Comprehensive design review system with accessibility audits, visual regression, and template-specific validators",
+  "type": "module",
+  "main": ".claude/workflows/design-review/index.js",
+  "exports": {
+    ".": "./.claude/workflows/design-review/index.js",
+    "./workflows/*": "./.claude/workflows/design-review/*.js",
+    "./extensions/marketing/*": "./.claude/design-review/extensions/marketing/*.js",
+    "./templates/*": "./.claude/design-review/templates/*.json",
+    "./test-runners/*": "./test-runners/*.js",
+    "./config-examples/*": "./config-examples/*.json"
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "design-review",
+    "accessibility",
+    "a11y",
+    "visual-regression",
+    "playwright",
+    "axe-core",
+    "wcag",
+    "design-system",
+    "marketing-site",
+    "conversion-optimization"
+  ],
+  "author": "Orchestrator Project",
+  "license": "MIT",
+  "peerDependencies": {
+    "playwright": "^1.40.0",
+    "axe-core": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/orchestrator-project",
+    "directory": "packages/design-review-toolkit"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

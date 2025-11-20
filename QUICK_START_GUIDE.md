@@ -1,3 +1,66 @@
+# ⚡ Quick Start Guide - Orchestrator Project
+
+**Get productive in 2 minutes!**
+
+This guide shows you how to quickly start working with the Orchestrator AI system.
+
+---
+
+## 🌅 **Starting a Session (30 seconds)**
+
+### Wake-Up Protocol
+
+**Just say one of these phrases:**
+```
+"wake up"
+"good morning"
+"let's start"
+"ready"
+"begin"
+```
+
+**What happens automatically:**
+1. ✅ Project identity verified (Orchestrator_Project)
+2. ✅ AI configuration loaded (Claude 3.7 Sonnet)
+3. ✅ Taskmaster context loaded (current tasks, next task)
+4. ✅ Git status checked (current branch, changes)
+5. ✅ Active memories reviewed (recent decisions)
+6. ✅ Complete wake-up report presented
+
+**Result:** AI is fully oriented and ready to help effectively
+
+**Time:** < 2 minutes for complete context load
+
+---
+
+## 📋 **Working with Tasks**
+
+### See What's Next
+```bash
+# Get your next task
+task-master next
+
+# List all pending tasks
+task-master list --status=pending
+```
+
+### Start Working on a Task
+```bash
+# View task details
+task-master show 128.4
+
+# Mark task as in-progress
+task-master set-status --id=128.4 --status=in-progress
+```
+
+### Complete a Task
+```bash
+# Mark task as done
+task-master set-status --id=128.4 --status=done
+```
+
+---
+
 # ⚡ Quick Start Guide - diet103 Enhancements
 
 **Get started in 5 minutes!**
