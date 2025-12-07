@@ -1,0 +1,313 @@
+{
+  "name": "architecture-docs",
+  "version": "1.0.0",
+  "title": "Architecture Documentation for AI-Assisted Development",
+  "description": "Create architecture.md and CLAUDE.md documentation to transform Claude into a specialized collaborator who understands your codebase. Provides templates for system design, coding standards, TDD workflows, and language-specific patterns.",
+  "author": "Orchestrator Core Team",
+  "license": "MIT",
+  "type": "generator",
+  "scope": "global",
+  "status": "stable",
+  "created": "2025-12-07",
+  "updated": "2025-12-07",
+
+  "requirements": {
+    "frameworks": [],
+    "languages": ["typescript", "javascript", "python", "rust", "go", "any"],
+    "recommended": {
+      "language": "any"
+    }
+  },
+
+  "applies_to": {
+    "projectTypes": ["any", "frontend", "backend", "full-stack", "cli", "library"],
+    "projects": ["any"],
+    "filePatterns": [
+      "architecture.md",
+      "CLAUDE.md",
+      ".claude/architecture.md",
+      ".claude/CLAUDE.md"
+    ],
+    "extensions": [".md"]
+  },
+
+  "capabilities": {
+    "v1.0": [
+      "Generate architecture.md with system design documentation",
+      "Generate CLAUDE.md with development guidelines",
+      "Language-specific templates (TypeScript, React, Python, Rust, Go)",
+      "Architecture patterns catalog (Hexagonal, Clean, Layered, CQRS, etc.)",
+      "Anti-patterns catalog with DO/DON'T examples",
+      "TDD workflow documentation",
+      "Code templates (Entity, Value Object, Port/Adapter)",
+      "Domain-specific rules customization",
+      "Gotchas documentation",
+      "Progressive disclosure structure"
+    ]
+  },
+
+  "trigger_phrases": [
+    "document the architecture",
+    "create architecture docs",
+    "set up AI documentation",
+    "create development guidelines",
+    "document for Claude",
+    "onboard AI to this project",
+    "create CLAUDE.md",
+    "TDD workflow documentation",
+    "coding standards document",
+    "architecture.md",
+    "create Python guidelines",
+    "create TypeScript guidelines",
+    "create React guidelines",
+    "create Rust guidelines",
+    "create Go guidelines"
+  ],
+
+  "usage_modes": {
+    "full_suite": {
+      "description": "Generate both architecture.md and CLAUDE.md",
+      "use_when": "Starting new project or comprehensive documentation",
+      "token_cost": "high"
+    },
+    "architecture_only": {
+      "description": "Generate architecture.md only",
+      "use_when": "Documenting system design",
+      "token_cost": "medium"
+    },
+    "guidelines_only": {
+      "description": "Generate CLAUDE.md only",
+      "use_when": "Establishing coding standards",
+      "token_cost": "medium"
+    },
+    "language_specific": {
+      "description": "Generate language-specific CLAUDE.md",
+      "use_when": "Need patterns for specific language",
+      "token_cost": "medium"
+    },
+    "pattern_reference": {
+      "description": "Load patterns or anti-patterns catalog",
+      "use_when": "Quick reference during development",
+      "token_cost": "low"
+    }
+  },
+
+  "structure": {
+    "format": "diet103-progressive-disclosure",
+    "version": "1.0",
+    "mainFile": "skill.md",
+    "resources": {
+      "discovery-questions": {
+        "file": "resources/discovery-questions.md",
+        "description": "Interview questions for architecture discovery",
+        "maxLines": 100,
+        "use_when": "Starting documentation for new project"
+      },
+      "language-detection": {
+        "file": "resources/language-detection.md",
+        "description": "How to detect project language and select template",
+        "maxLines": 50,
+        "use_when": "Need to auto-select language template"
+      }
+    },
+    "templates": {
+      "architecture": {
+        "file": "../templates/architecture.md",
+        "description": "Base architecture template",
+        "use_when": "Creating architecture.md"
+      },
+      "claude-base": {
+        "file": "../templates/claude-base.md",
+        "description": "Base CLAUDE.md template (TypeScript-focused)",
+        "use_when": "Creating CLAUDE.md for TypeScript projects"
+      },
+      "patterns-catalog": {
+        "file": "../templates/patterns-catalog.md",
+        "description": "Architecture patterns reference",
+        "use_when": "Need pattern reference or explanation"
+      },
+      "anti-patterns-catalog": {
+        "file": "../templates/anti-patterns-catalog.md",
+        "description": "Anti-patterns catalog",
+        "use_when": "Need anti-pattern examples"
+      },
+      "typescript": {
+        "file": "../templates/claude/typescript.md",
+        "description": "TypeScript development guidelines",
+        "use_when": "TypeScript project detected"
+      },
+      "react": {
+        "file": "../templates/claude/react.md",
+        "description": "React development guidelines",
+        "use_when": "React project detected"
+      },
+      "python": {
+        "file": "../templates/claude/python.md",
+        "description": "Python development guidelines",
+        "use_when": "Python project detected"
+      },
+      "rust": {
+        "file": "../templates/claude/rust.md",
+        "description": "Rust development guidelines",
+        "use_when": "Rust project detected"
+      },
+      "go": {
+        "file": "../templates/claude/go.md",
+        "description": "Go development guidelines",
+        "use_when": "Go project detected"
+      }
+    }
+  },
+
+  "language_detection": {
+    "typescript": {
+      "indicators": ["tsconfig.json", "*.ts", "*.tsx"],
+      "template": "claude/typescript.md"
+    },
+    "react": {
+      "indicators": ["package.json with react", "*.tsx", "*.jsx", "vite.config.ts"],
+      "template": "claude/react.md"
+    },
+    "python": {
+      "indicators": ["requirements.txt", "pyproject.toml", "setup.py", "*.py"],
+      "template": "claude/python.md"
+    },
+    "rust": {
+      "indicators": ["Cargo.toml", "*.rs"],
+      "template": "claude/rust.md"
+    },
+    "go": {
+      "indicators": ["go.mod", "go.sum", "*.go"],
+      "template": "claude/go.md"
+    }
+  },
+
+  "integration": {
+    "taskmaster": {
+      "enabled": true,
+      "description": "Create tasks for implementing documented patterns"
+    },
+    "diet103": {
+      "enabled": true,
+      "description": "Architecture docs included in health checks",
+      "validation": {
+        "checks": ["architecture.md exists", "CLAUDE.md exists", "minimum content length"],
+        "score_weight": 0.1
+      }
+    },
+    "doc-generator": {
+      "enabled": true,
+      "relationship": "complementary",
+      "description": "doc-generator for API docs, architecture-docs for system docs"
+    },
+    "rules": {
+      "enabled": true,
+      "respects": [
+        ".claude/rules/project-identity.mdc",
+        ".claude/rules/cursor_rules.mdc"
+      ]
+    }
+  },
+
+  "philosophy": {
+    "context_window_aware": "Respect AI context limits, use progressive disclosure",
+    "examples_over_explanations": "Claude learns from patterns, not prose",
+    "living_documents": "Update as architecture evolves",
+    "language_idiomatic": "Use patterns natural to each language",
+    "explicit_over_implicit": "Tell Claude exactly what to do"
+  },
+
+  "output_formats": {
+    "markdown": "Standard markdown for architecture.md and CLAUDE.md",
+    "ascii_diagrams": "ASCII art for component diagrams",
+    "code_blocks": "Language-specific code examples"
+  },
+
+  "files": {
+    "main": "skill.md",
+    "discovery": "resources/discovery-questions.md",
+    "detection": "resources/language-detection.md"
+  },
+
+  "auto_activation": {
+    "enabled": true,
+    "priority": "high",
+    "rules_file": ".claude/skill-rules.json",
+    "rule_id": "architecture_docs"
+  },
+
+  "tags": [
+    "documentation",
+    "architecture",
+    "claude",
+    "ai-assisted",
+    "tdd",
+    "patterns",
+    "anti-patterns",
+    "typescript",
+    "react",
+    "python",
+    "rust",
+    "go",
+    "onboarding",
+    "coding-standards"
+  ],
+
+  "related_skills": [
+    "doc-generator",
+    "doc-validator",
+    "frontend-design-system",
+    "react-component-analyzer"
+  ],
+
+  "use_cases": [
+    {
+      "scenario": "Starting new TypeScript project",
+      "request": "Create architecture documentation for this TypeScript project",
+      "outcome": "architecture.md + TypeScript-specific CLAUDE.md"
+    },
+    {
+      "scenario": "Onboarding AI to existing Python codebase",
+      "request": "Document this Python project for Claude",
+      "outcome": "Architecture analysis + Python CLAUDE.md with existing patterns"
+    },
+    {
+      "scenario": "Establishing TDD workflow",
+      "request": "Create TDD development guidelines",
+      "outcome": "CLAUDE.md with RED-GREEN-REFACTOR workflow"
+    },
+    {
+      "scenario": "Quick pattern reference",
+      "request": "Show hexagonal architecture pattern",
+      "outcome": "Pattern explanation with ASCII diagram"
+    },
+    {
+      "scenario": "Migrating Python to Rust",
+      "request": "Create Rust development guidelines for migration",
+      "outcome": "Rust CLAUDE.md with patterns matching Python concepts"
+    }
+  ],
+
+  "documentation": {
+    "full": ".claude/skills/architecture-docs/skill.md",
+    "templates": ".claude/templates/README.md",
+    "patterns": ".claude/templates/patterns-catalog.md",
+    "anti_patterns": ".claude/templates/anti-patterns-catalog.md"
+  },
+
+  "changelog": {
+    "1.0.0": {
+      "date": "2025-12-07",
+      "changes": [
+        "Initial release",
+        "Base architecture.md template",
+        "Base CLAUDE.md template",
+        "Language-specific templates (TypeScript, React, Python, Rust, Go)",
+        "Architecture patterns catalog",
+        "Anti-patterns catalog",
+        "diet103 integration",
+        "Progressive disclosure structure"
+      ]
+    }
+  }
+}

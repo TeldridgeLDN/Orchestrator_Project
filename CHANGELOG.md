@@ -9,6 +9,69 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Architecture Documentation Templates (December 7, 2025)
+
+**Feature**: Comprehensive template system for creating `architecture.md` and `claude.md` documentation for AI-assisted development.
+
+#### Base Templates
+- **architecture.md** — System design template with component diagrams, layer responsibilities, ADRs
+- **claude-base.md** — Development guidelines template (TypeScript-focused)
+- **patterns-catalog.md** — Architecture patterns reference (Hexagonal, Clean, CQRS, etc.)
+- **anti-patterns-catalog.md** — Common anti-patterns with DO/DON'T examples
+
+#### Language-Specific Templates (5)
+- **typescript.md** — TypeScript development guidelines with strict mode, Zod schemas, Result types
+- **react.md** — React guidelines with hooks, React Query, Testing Library patterns
+- **python.md** — Python guidelines with dataclasses, Protocol types, asyncio patterns
+- **rust.md** — Rust guidelines with ownership patterns, Result<T,E>, thiserror
+- **go.md** — Go guidelines with interfaces, error handling, table-driven tests
+
+#### Template Structure
+```
+.claude/templates/
+├── README.md                 # Usage guide and customization instructions
+├── architecture.md           # Base architecture template
+├── claude-base.md           # Base claude.md template
+├── patterns-catalog.md      # Architecture patterns reference
+├── anti-patterns-catalog.md # Anti-patterns catalog
+└── claude/                  # Language-specific templates
+    ├── typescript.md
+    ├── react.md
+    ├── python.md
+    ├── rust.md
+    └── go.md
+```
+
+#### Integration with PAI/diet103
+- Templates designed for cross-project consistency
+- Compatible with diet103 validation system
+- Can be used by auto-repair to scaffold documentation
+- Supports project health scoring for documentation completeness
+
+#### diet103 Validator Integration
+- **Enhanced** `lib/utils/diet103-validator.js` - Architecture documentation validation
+  - New checks: `hasArchitectureMd`, `hasProjectClaudeMd`, `hasTemplatesDir`
+  - New function: `validateArchitectureDocs()` - Deep validation of architecture docs
+  - Gap analysis includes optional architecture docs with bonus scoring
+  - Consistency check provides recommendations for missing docs
+  - Supports multiple file locations (root, .claude/, case variations)
+  
+#### New architecture-docs Skill
+- **Created** `.claude/skills/architecture-docs/`
+  - `skill.md` - Comprehensive skill documentation
+  - `metadata.json` - Full skill metadata with language detection
+  - `resources/discovery-questions.md` - Interview questions for documentation
+  - `resources/language-detection.md` - Auto-detection logic for templates
+
+#### Key Features
+- TDD workflow (RED-GREEN-REFACTOR) across all languages
+- Entity, Value Object, Port/Adapter patterns for each language
+- Language-idiomatic error handling (Result types, error returns, etc.)
+- Recommended libraries table per language
+- Testing patterns and factories
+
+---
+
 ### Enhanced - Wind-Down Primacy Compliance Check (November 18, 2025) ✅
 
 **Feature**: Comprehensive automated primacy rules compliance checking during session wind-down.
